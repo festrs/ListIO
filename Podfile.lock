@@ -1,0 +1,71 @@
+PODS:
+  - Alamofire (3.4.0)
+  - Bugsnag (5.1.0):
+    - KSCrash/RecordingAdvanced (~> 1.0.3)
+  - CryptoSwift (0.4.1)
+  - DATAFilter (0.10.0):
+    - DATAObjectIDs (~> 0.5.1)
+  - DATAObjectIDs (0.5.1)
+  - DATAStack (5.2.1)
+  - JSONWebToken (1.5.0):
+    - CryptoSwift (~> 0.4.0)
+  - KSCrash/no-arc (1.0.3)
+  - KSCrash/Recording (1.0.3):
+    - KSCrash/no-arc
+  - KSCrash/RecordingAdvanced (1.0.3):
+    - KSCrash/Recording
+  - MBProgressHUD (0.9.2)
+  - NSDictionary-ANDYSafeValue (0.3.1)
+  - NSEntityDescription-SYNCPrimaryKey (1.2.3):
+    - NSString-HYPNetworking (~> 1.0.2)
+  - NSManagedObject-HYPPropertyMapper (3.6.9):
+    - NSEntityDescription-SYNCPrimaryKey (~> 1.2.3)
+    - NSString-HYPNetworking (~> 1.0.2)
+  - NSString-HYPNetworking (1.0.2)
+  - QRCodeReader.swift (5.3.1)
+  - RSBarcodes_Swift (0.1.9)
+  - Sync (1.9.0):
+    - DATAFilter (~> 0.10.0)
+    - DATAStack (~> 5.2.1)
+    - NSDictionary-ANDYSafeValue (~> 0.3.1)
+    - NSEntityDescription-SYNCPrimaryKey (~> 1.2.3)
+    - NSManagedObject-HYPPropertyMapper (~> 3.6.9)
+
+DEPENDENCIES:
+  - Alamofire (~> 3.0)
+  - Bugsnag (from `https://github.com/bugsnag/bugsnag-cocoa.git`)
+  - DATAStack
+  - JSONWebToken
+  - MBProgressHUD (~> 0.9.2)
+  - QRCodeReader.swift (~> 5.3.1)
+  - RSBarcodes_Swift (~> 0.1.5)
+  - Sync
+
+EXTERNAL SOURCES:
+  Bugsnag:
+    :git: https://github.com/bugsnag/bugsnag-cocoa.git
+
+CHECKOUT OPTIONS:
+  Bugsnag:
+    :commit: 9df620a605e947cf028d267f4ed7d330fecac9b2
+    :git: https://github.com/bugsnag/bugsnag-cocoa.git
+
+SPEC CHECKSUMS:
+  Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
+  Bugsnag: f766e45078ebdcf621e26739d41a1d26228d3988
+  CryptoSwift: 25b5aff3f260967391f8fff2e9abe4254d2c6fd5
+  DATAFilter: b6662b05dd0dcf658d526aa0f9095bb202d7b10e
+  DATAObjectIDs: 33db74dd1c858c2d22a45a4013c95f1082182e4e
+  DATAStack: c6432c89d0bd2b1d2a17c947ca8a2c81f389f06d
+  JSONWebToken: 6c8968ace6b60b2e6156a7bbe5019fd9b5ff9b5a
+  KSCrash: e8f1367230da7e33f37deb7329c299079202b07e
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  NSDictionary-ANDYSafeValue: 2d7adf339b6e302d71fec5f1d71ae00aacda993e
+  NSEntityDescription-SYNCPrimaryKey: 9dbb89d7cbc1bea196dd935725bfcf3c0ff4249c
+  NSManagedObject-HYPPropertyMapper: 1a34418531715f01520eb32abcd2c183952ea630
+  NSString-HYPNetworking: 7c18e44ca9529d2f74a30a1c2a7a787da76198c1
+  QRCodeReader.swift: 6aa05e4b9123f5bbbe1e7f1d5df28d590cc56775
+  RSBarcodes_Swift: 3c37a05faa0c8742739e1b47eec2f0d3d786330f
+  Sync: f39edb4e3b931fdc387e836200c235a54750e072
+
+COCOAPODS: 0.39.0
