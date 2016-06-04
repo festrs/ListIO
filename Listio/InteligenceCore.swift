@@ -8,54 +8,143 @@
 
 import Foundation
 import CoreData
+import StringScore_Swift
+
+//Conjunto de items comuns entre as compras porém diferentes entre si
+
+// comparar a lista com as 16 ultimas compras, normalizar as listas de compras (caso tenha o mesmo item duas vezes na lista)
+// com a lista normalizada pegar todos os itens comprados das listas, rankear pela quantidade que ele aparece nas listas (listcount)
+// montar a lista baseado na media de preços das listas pegando os itens que mais aparecem 
+
+struct MapItem :Equatable{
+    var countDocument = 0
+    var qtde = 0
+    var name = ""
+    var vlUnit:Double = 0
+    var vlTotal:Double = 0
+    
+    mutating func addCountQte(value: Int){
+        qtde += value
+    }
+}
+
+func ==(lhs: MapItem, rhs: MapItem) -> Bool {
+    let fuzzy1 = lhs.name.trim().score(rhs.name.trim(), fuzziness:1.0)
+    return fuzzy1 > 0.45
+}
+
 
 class InteligenceCore {
     
-    func calculate(MOC : NSManagedObjectContext){
+    func calculate(MOC : NSManagedObjectContext) -> [MapItem]?{
         let fetchRequest = NSFetchRequest(entityName: "Document")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+        fetchRequest.fetchLimit = 16
         do{
             let results = try MOC.executeFetchRequest(fetchRequest) as! [Document]
-            for document:Document in results{
-                print(NSDate().daysFrom(document.createdAt!))
+            
+            let values: [Double] = results.map {
+                let payment = NSKeyedUnarchiver.unarchiveObjectWithData($0.payments!) as! NSDictionary
+                return Double(payment["vl_total"] as! String)!
             }
+            
+            let mapped: [MapItem] = getAllItens(results)
+            
+            // mapped
+            let newMapped = removeRedudancyAndSortForCountDoc(mapped)
+            
+            let mediumPriceLists = values.reduce(0, combine: +)/Double(values.count)
+            
+            let finalList = getFinalListCutForMediumPrice(newMapped, price: mediumPriceLists)
+
+            return finalList
+
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }
+        return nil
+    }
+}
+
+func getAllItens(documentList : [Document])->[MapItem]{
+    
+    // put all itens in a single array
+    let allItems = documentList.flatMap({ d in d.items!}) as! [Item]
+    
+    //check if the item is present in more them 1 document, return list of MapItem
+    return allItems.map {
+        item in
+        var countDoc = 0
+        for document in documentList{
+            for itemDoc:Item in document.items?.allObjects as! [Item]{
+                if itemDoc == item{
+                    countDoc += 1
+                    break;
+                }
+            }
+        }
+        return MapItem(countDocument: countDoc, qtde: (item.qtde?.integerValue)!, name: item.descricao!, vlUnit: (item.vlUnit?.doubleValue)!, vlTotal: item.vlTotal!.doubleValue)
     }
 }
 
 
-extension NSDate {
-    func yearsFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Year, fromDate: date, toDate: self, options: []).year
+func removeRedudancyAndSortForCountDoc(mappedList: [MapItem])->[MapItem]{
+    var newMapped = mappedList.reduce([MapItem]()) {
+        a, item in
+        var b = [MapItem]()
+        var aux = a
+        if !a.contains({$0 == item}){
+            b.append(item)
+        }else{
+            let index = a.indexOf({$0 == item})!
+            var item2 = a[index]
+            item2.addCountQte(item.qtde)
+            aux.removeAtIndex(index)
+            aux.insert(item2, atIndex: index)
+        }
+        b.appendContentsOf(aux)
+        return b
     }
-    func monthsFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Month, fromDate: date, toDate: self, options: []).month
-    }
-    func weeksFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.WeekOfYear, fromDate: date, toDate: self, options: []).weekOfYear
-    }
-    func daysFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Day, fromDate: date, toDate: self, options: []).day
-    }
-    func hoursFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Hour, fromDate: date, toDate: self, options: []).hour
-    }
-    func minutesFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Minute, fromDate: date, toDate: self, options: []).minute
-    }
-    func secondsFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Second, fromDate: date, toDate: self, options: []).second
-    }
-    func offsetFrom(date:NSDate) -> String {
-        if yearsFrom(date)   > 0 { return "\(yearsFrom(date))y"   }
-        if monthsFrom(date)  > 0 { return "\(monthsFrom(date))M"  }
-        if weeksFrom(date)   > 0 { return "\(weeksFrom(date))w"   }
-        if daysFrom(date)    > 0 { return "\(daysFrom(date))d"    }
-        if hoursFrom(date)   > 0 { return "\(hoursFrom(date))h"   }
-        if minutesFrom(date) > 0 { return "\(minutesFrom(date))m" }
-        if secondsFrom(date) > 0 { return "\(secondsFrom(date))s" }
-        return ""
-    }
+    newMapped = newMapped.sort({ (a, b) -> Bool in
+        a.countDocument < b.countDocument
+    })
+    return newMapped
 }
+
+
+
+func getFinalListCutForMediumPrice(mappedList:[MapItem], price:Double) -> [MapItem]{
+    var totalPrice = 0.0
+    var finalList = [MapItem]()
+    var listCopy = mappedList
+    while totalPrice < price {
+        if (listCopy.last?.countDocument >= 2){
+            var item = listCopy.popLast()!
+            if item.qtde >= item.countDocument{
+                item.qtde = item.qtde / item.countDocument
+            }
+            
+            
+            if item.qtde != 0{
+                item.vlTotal = Double((item.qtde)) * (item.vlUnit)
+            }
+            totalPrice += item.vlTotal
+            finalList.append(item)
+        }else{
+            // sort itens that not appear in more then 1 Document
+            var item = listCopy.removeAtIndex(Int.random(0 ... listCopy.count-1)) // TODO escolha do item tem que levar em conta o preço
+            if item.qtde >= item.countDocument{
+                item.qtde = item.qtde / item.countDocument
+            }
+            // testar se a quantidade for zero. soma o valor total
+            if item.qtde != 0{
+                item.vlTotal = Double((item.qtde)) * (item.vlUnit)
+            }
+            totalPrice += item.vlTotal
+            finalList.append(item)
+        }
+    }
+    return finalList
+}
+
+

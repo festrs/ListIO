@@ -15,12 +15,12 @@
         <attribute name="qtde" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="remoteID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="un" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="vlTotal" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="vlUnit" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vlTotal" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="vlUnit" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="document" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Document" inverseName="items" inverseEntity="Document" syncable="YES"/>
     </entity>
     <elements>
         <element name="Document" positionX="331" positionY="-48" width="128" height="163"/>
-        <element name="Item" positionX="-63" positionY="-18" width="128" height="148"/>
+        <element name="Item" positionX="-63" positionY="-18" width="128" height="150"/>
     </elements>
 </model>

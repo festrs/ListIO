@@ -12,6 +12,7 @@ target 'Listio' do
     pod 'Sync'   
     pod 'Bugsnag', :git => "https://github.com/bugsnag/bugsnag-cocoa.git"
     pod 'RSBarcodes_Swift', '~> 0.1.5'
+    pod 'StringScore_Swift'
 end
 
 target 'ListioTests' do
@@ -23,5 +24,6 @@ target 'ListioTests' do
     pod 'Sync'   
     pod 'Bugsnag', :git => "https://github.com/bugsnag/bugsnag-cocoa.git"
     pod 'RSBarcodes_Swift', '~> 0.1.5'
+    pod 'StringScore_Swift'
 end
 

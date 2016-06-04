@@ -12,7 +12,7 @@
 import Foundation
 import CoreData
 
-extension Document {
+extension Document{
 
     @NSManaged var createdAt: NSDate?
     @NSManaged var expDate: NSDate?

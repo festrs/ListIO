@@ -8,10 +8,14 @@
 
 import Foundation
 import CoreData
+import StringScore_Swift
 
 
 class Item: NSManagedObject {
 
-// Insert code here to add functionality to your managed object subclass
+}
 
+func ==(lhs: Item, rhs: Item) -> Bool {
+    let fuzzy1 = lhs.descricao!.trim().score(rhs.descricao!.trim(), fuzziness:1.0)
+    return fuzzy1 > 0.45
 }

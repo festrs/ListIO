@@ -99,6 +99,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-ListioTests/NSString_HYPNetworking.framework"
   install_framework "Pods-ListioTests/QRCodeReader.framework"
   install_framework "Pods-ListioTests/RSBarcodes_Swift.framework"
+  install_framework "Pods-ListioTests/StringScore_Swift.framework"
   install_framework "Pods-ListioTests/Sync.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -117,5 +118,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-ListioTests/NSString_HYPNetworking.framework"
   install_framework "Pods-ListioTests/QRCodeReader.framework"
   install_framework "Pods-ListioTests/RSBarcodes_Swift.framework"
+  install_framework "Pods-ListioTests/StringScore_Swift.framework"
   install_framework "Pods-ListioTests/Sync.framework"
 fi

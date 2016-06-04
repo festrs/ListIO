@@ -104,7 +104,7 @@ class DetailViewController: UIViewController,UITableViewDataSource,UITableViewDe
             let notaItem = items[indexPath.row]
             
             cell.textLabel!.text = notaItem.descricao
-            cell.detailTextLabel?.text = notaItem.vlTotal
+            cell.detailTextLabel?.text = notaItem.vlTotal?.description
             
             return cell
     }

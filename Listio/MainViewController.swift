@@ -44,13 +44,6 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    @IBAction func createShopList(sender: AnyObject) {
-        
-        let core = InteligenceCore()
-        
-        core.calculate(self.dataStack.mainContext)
-    }
 
     func configTableView(){
         let fetchRequest = NSFetchRequest(entityName: "Document")
@@ -77,7 +70,7 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         self.dataStack = incomingDataStack
     }
     
-    // MARK: - PageMenu Delegate
+    // MARK: - Actions
     @IBAction func addButtonAction(sender: AnyObject) {
         if QRCodeReader.supportsMetadataObjectTypes() {
             reader.modalPresentationStyle = .FormSheet

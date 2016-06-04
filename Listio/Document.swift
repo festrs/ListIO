@@ -10,8 +10,24 @@ import Foundation
 import CoreData
 
 
-class Document: NSManagedObject {
+class Document: NSManagedObject{
 
-// Insert code here to add functionality to your managed object subclass
+}
 
+func ==(lhs: Document, rhs: Document) -> Bool {
+
+    let arrayA = lhs.items?.allObjects as! [Item]
+    let arrayB = rhs.items?.allObjects as! [Item]
+    
+    var count = 0;
+    for item in arrayB{
+        for otherItem in arrayA{
+            if item == otherItem{
+                count += 1
+            }
+        }
+    }
+    let porcentage = (count*100/arrayA.count)
+    
+    return porcentage > 65
 }

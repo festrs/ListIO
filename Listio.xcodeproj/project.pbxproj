@@ -13,6 +13,8 @@
 		3A975D591CFCC42200E400B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D581CFCC42200E400B3 /* Assets.xcassets */; };
 		3A975D5C1CFCC42200E400B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D5A1CFCC42200E400B3 /* LaunchScreen.storyboard */; };
 		3A975D671CFCC42200E400B3 /* ListioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D661CFCC42200E400B3 /* ListioTests.swift */; };
+		3A9D646F1D026839002369A4 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9D646E1D026839002369A4 /* FirstViewController.swift */; };
+		3A9D64711D027082002369A4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9D64701D027082002369A4 /* Extensions.swift */; };
 		3AE233311CFE112E00656969 /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE2332F1CFE112E00656969 /* CoreDataTableViewController.swift */; };
 		3AE233321CFE112E00656969 /* ProtocolCoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233301CFE112E00656969 /* ProtocolCoreDataTableViewController.swift */; };
 		3AE233341CFE11B000656969 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233331CFE11B000656969 /* MainViewController.swift */; };
@@ -50,6 +52,8 @@
 		3A975D621CFCC42200E400B3 /* ListioTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ListioTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A975D661CFCC42200E400B3 /* ListioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListioTests.swift; sourceTree = "<group>"; };
 		3A975D681CFCC42200E400B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3A9D646E1D026839002369A4 /* FirstViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		3A9D64701D027082002369A4 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3AE2332F1CFE112E00656969 /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTableViewController.swift; sourceTree = "<group>"; };
 		3AE233301CFE112E00656969 /* ProtocolCoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProtocolCoreDataTableViewController.swift; sourceTree = "<group>"; };
 		3AE233331CFE11B000656969 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -140,7 +144,7 @@
 				3A975D5A1CFCC42200E400B3 /* LaunchScreen.storyboard */,
 				3A975D5D1CFCC42200E400B3 /* Info.plist */,
 				3A975D551CFCC42200E400B3 /* Listio.xcdatamodeld */,
-				3AE233431CFE8B5100656969 /* InteligenceCore.swift */,
+				3A9D64701D027082002369A4 /* Extensions.swift */,
 			);
 			path = Listio;
 			sourceTree = "<group>";
@@ -157,6 +161,7 @@
 		3AE233451CFE9EBA00656969 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3AE233431CFE8B5100656969 /* InteligenceCore.swift */,
 				3AE233371CFE1A5C00656969 /* Document+CoreDataProperties.swift */,
 				3AE233381CFE1A5C00656969 /* Document.swift */,
 				3AE233391CFE1A5C00656969 /* Item+CoreDataProperties.swift */,
@@ -173,6 +178,7 @@
 				3AE233411CFE830E00656969 /* DetailViewController.swift */,
 				3AE233331CFE11B000656969 /* MainViewController.swift */,
 				3AE2333F1CFE21D400656969 /* NavigationViewController.swift */,
+				3A9D646E1D026839002369A4 /* FirstViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -387,9 +393,11 @@
 				3AE2333E1CFE1A5C00656969 /* Item.swift in Sources */,
 				3AE2333C1CFE1A5C00656969 /* Document.swift in Sources */,
 				3AE233441CFE8B5100656969 /* InteligenceCore.swift in Sources */,
+				3A9D64711D027082002369A4 /* Extensions.swift in Sources */,
 				3AE233341CFE11B000656969 /* MainViewController.swift in Sources */,
 				3AE233311CFE112E00656969 /* CoreDataTableViewController.swift in Sources */,
 				3A975D571CFCC42200E400B3 /* Listio.xcdatamodeld in Sources */,
+				3A9D646F1D026839002369A4 /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
