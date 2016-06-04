@@ -25,6 +25,7 @@ struct MapItem :Equatable{
     
     mutating func addCountQte(value: Int){
         qtde += value
+        
     }
 }
 
