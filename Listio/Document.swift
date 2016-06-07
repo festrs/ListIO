@@ -8,7 +8,6 @@
 
 import Foundation
 import CoreData
-import ObjectMapper
 
 class Document: NSManagedObject{
     
