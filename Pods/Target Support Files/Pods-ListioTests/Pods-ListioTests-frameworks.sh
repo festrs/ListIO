@@ -90,6 +90,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-ListioTests/DATAFilter.framework"
   install_framework "Pods-ListioTests/DATAObjectIDs.framework"
   install_framework "Pods-ListioTests/DATAStack.framework"
+  install_framework "Pods-ListioTests/GoogleMaterialIconFont.framework"
   install_framework "Pods-ListioTests/JWT.framework"
   install_framework "Pods-ListioTests/KSCrash.framework"
   install_framework "Pods-ListioTests/MBProgressHUD.framework"
@@ -98,9 +99,9 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-ListioTests/NSManagedObject_HYPPropertyMapper.framework"
   install_framework "Pods-ListioTests/NSString_HYPNetworking.framework"
   install_framework "Pods-ListioTests/QRCodeReader.framework"
-  install_framework "Pods-ListioTests/RSBarcodes_Swift.framework"
   install_framework "Pods-ListioTests/StringScore_Swift.framework"
   install_framework "Pods-ListioTests/Sync.framework"
+  install_framework "Pods-ListioTests/TransitionTreasury.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-ListioTests/Alamofire.framework"
@@ -109,6 +110,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-ListioTests/DATAFilter.framework"
   install_framework "Pods-ListioTests/DATAObjectIDs.framework"
   install_framework "Pods-ListioTests/DATAStack.framework"
+  install_framework "Pods-ListioTests/GoogleMaterialIconFont.framework"
   install_framework "Pods-ListioTests/JWT.framework"
   install_framework "Pods-ListioTests/KSCrash.framework"
   install_framework "Pods-ListioTests/MBProgressHUD.framework"
@@ -117,7 +119,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-ListioTests/NSManagedObject_HYPPropertyMapper.framework"
   install_framework "Pods-ListioTests/NSString_HYPNetworking.framework"
   install_framework "Pods-ListioTests/QRCodeReader.framework"
-  install_framework "Pods-ListioTests/RSBarcodes_Swift.framework"
   install_framework "Pods-ListioTests/StringScore_Swift.framework"
   install_framework "Pods-ListioTests/Sync.framework"
+  install_framework "Pods-ListioTests/TransitionTreasury.framework"
 fi

@@ -15,6 +15,12 @@
 		3A975D671CFCC42200E400B3 /* ListioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D661CFCC42200E400B3 /* ListioTests.swift */; };
 		3A9D646F1D026839002369A4 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9D646E1D026839002369A4 /* FirstViewController.swift */; };
 		3A9D64711D027082002369A4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9D64701D027082002369A4 /* Extensions.swift */; };
+		3AC80ADB1D0517CD00066489 /* Group+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC80AD91D0517CD00066489 /* Group+CoreDataProperties.swift */; };
+		3AC80ADC1D0517CD00066489 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC80ADA1D0517CD00066489 /* Group.swift */; };
+		3AC80AE01D052BE700066489 /* GroupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AC80ADF1D052BE700066489 /* GroupView.xib */; };
+		3AE1FB231D076878001A6914 /* ItemList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB211D076878001A6914 /* ItemList+CoreDataProperties.swift */; };
+		3AE1FB241D076878001A6914 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB221D076878001A6914 /* ItemList.swift */; };
+		3AE1FB271D07710B001A6914 /* CoreDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB261D07710B001A6914 /* CoreDataHandler.swift */; };
 		3AE233311CFE112E00656969 /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE2332F1CFE112E00656969 /* CoreDataTableViewController.swift */; };
 		3AE233321CFE112E00656969 /* ProtocolCoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233301CFE112E00656969 /* ProtocolCoreDataTableViewController.swift */; };
 		3AE233341CFE11B000656969 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233331CFE11B000656969 /* MainViewController.swift */; };
@@ -54,6 +60,12 @@
 		3A975D681CFCC42200E400B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A9D646E1D026839002369A4 /* FirstViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		3A9D64701D027082002369A4 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		3AC80AD91D0517CD00066489 /* Group+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Group+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3AC80ADA1D0517CD00066489 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		3AC80ADF1D052BE700066489 /* GroupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GroupView.xib; sourceTree = "<group>"; };
+		3AE1FB211D076878001A6914 /* ItemList+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ItemList+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3AE1FB221D076878001A6914 /* ItemList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
+		3AE1FB261D07710B001A6914 /* CoreDataHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataHandler.swift; sourceTree = "<group>"; };
 		3AE2332F1CFE112E00656969 /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTableViewController.swift; sourceTree = "<group>"; };
 		3AE233301CFE112E00656969 /* ProtocolCoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProtocolCoreDataTableViewController.swift; sourceTree = "<group>"; };
 		3AE233331CFE11B000656969 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -140,6 +152,7 @@
 				3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */,
 				3AE233351CFE179300656969 /* FPHandlesMOC.swift */,
 				3A975D521CFCC42200E400B3 /* Main.storyboard */,
+				3AC80ADF1D052BE700066489 /* GroupView.xib */,
 				3A975D581CFCC42200E400B3 /* Assets.xcassets */,
 				3A975D5A1CFCC42200E400B3 /* LaunchScreen.storyboard */,
 				3A975D5D1CFCC42200E400B3 /* Info.plist */,
@@ -158,14 +171,27 @@
 			path = ListioTests;
 			sourceTree = "<group>";
 		};
-		3AE233451CFE9EBA00656969 /* Model */ = {
+		3AE1FB251D0770D3001A6914 /* Core Data Objects */ = {
 			isa = PBXGroup;
 			children = (
-				3AE233431CFE8B5100656969 /* InteligenceCore.swift */,
+				3AE1FB211D076878001A6914 /* ItemList+CoreDataProperties.swift */,
+				3AE1FB221D076878001A6914 /* ItemList.swift */,
+				3AC80AD91D0517CD00066489 /* Group+CoreDataProperties.swift */,
+				3AC80ADA1D0517CD00066489 /* Group.swift */,
 				3AE233371CFE1A5C00656969 /* Document+CoreDataProperties.swift */,
 				3AE233381CFE1A5C00656969 /* Document.swift */,
 				3AE233391CFE1A5C00656969 /* Item+CoreDataProperties.swift */,
 				3AE2333A1CFE1A5C00656969 /* Item.swift */,
+			);
+			name = "Core Data Objects";
+			sourceTree = "<group>";
+		};
+		3AE233451CFE9EBA00656969 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3AE1FB251D0770D3001A6914 /* Core Data Objects */,
+				3AE233431CFE8B5100656969 /* InteligenceCore.swift */,
+				3AE1FB261D07710B001A6914 /* CoreDataHandler.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -175,9 +201,9 @@
 			children = (
 				3AE2332F1CFE112E00656969 /* CoreDataTableViewController.swift */,
 				3AE233301CFE112E00656969 /* ProtocolCoreDataTableViewController.swift */,
+				3AE2333F1CFE21D400656969 /* NavigationViewController.swift */,
 				3AE233411CFE830E00656969 /* DetailViewController.swift */,
 				3AE233331CFE11B000656969 /* MainViewController.swift */,
-				3AE2333F1CFE21D400656969 /* NavigationViewController.swift */,
 				3A9D646E1D026839002369A4 /* FirstViewController.swift */,
 			);
 			name = Controller;
@@ -272,6 +298,7 @@
 			files = (
 				3A975D5C1CFCC42200E400B3 /* LaunchScreen.storyboard in Resources */,
 				3A975D591CFCC42200E400B3 /* Assets.xcassets in Resources */,
+				3AC80AE01D052BE700066489 /* GroupView.xib in Resources */,
 				3A975D541CFCC42200E400B3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -384,6 +411,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AE233421CFE830E00656969 /* DetailViewController.swift in Sources */,
+				3AE1FB271D07710B001A6914 /* CoreDataHandler.swift in Sources */,
+				3AC80ADC1D0517CD00066489 /* Group.swift in Sources */,
+				3AC80ADB1D0517CD00066489 /* Group+CoreDataProperties.swift in Sources */,
 				3AE233401CFE21D400656969 /* NavigationViewController.swift in Sources */,
 				3A975D4F1CFCC42200E400B3 /* AppDelegate.swift in Sources */,
 				3AE2333B1CFE1A5C00656969 /* Document+CoreDataProperties.swift in Sources */,
@@ -394,9 +424,11 @@
 				3AE2333C1CFE1A5C00656969 /* Document.swift in Sources */,
 				3AE233441CFE8B5100656969 /* InteligenceCore.swift in Sources */,
 				3A9D64711D027082002369A4 /* Extensions.swift in Sources */,
+				3AE1FB231D076878001A6914 /* ItemList+CoreDataProperties.swift in Sources */,
 				3AE233341CFE11B000656969 /* MainViewController.swift in Sources */,
 				3AE233311CFE112E00656969 /* CoreDataTableViewController.swift in Sources */,
 				3A975D571CFCC42200E400B3 /* Listio.xcdatamodeld in Sources */,
+				3AE1FB241D076878001A6914 /* ItemList.swift in Sources */,
 				3A9D646F1D026839002369A4 /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

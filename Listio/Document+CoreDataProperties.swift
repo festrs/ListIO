@@ -2,7 +2,7 @@
 //  Document+CoreDataProperties.swift
 //  Listio
 //
-//  Created by Felipe Dias Pereira on 2016-05-31.
+//  Created by Felipe Dias Pereira on 2016-06-07.
 //  Copyright © 2016 Felipe Dias Pereira. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -12,15 +12,16 @@
 import Foundation
 import CoreData
 
-extension Document{
+extension Document {
 
     @NSManaged var createdAt: NSDate?
     @NSManaged var expDate: NSDate?
+    @NSManaged var remoteID: String?
     @NSManaged var link: String?
     @NSManaged var mes: String?
     @NSManaged var payments: NSData?
-    @NSManaged var remoteID: String?
     @NSManaged var value: String?
+    @NSManaged var groupType: Group?
     @NSManaged var items: NSSet?
 
 }

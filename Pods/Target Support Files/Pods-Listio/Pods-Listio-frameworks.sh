@@ -90,6 +90,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Listio/DATAFilter.framework"
   install_framework "Pods-Listio/DATAObjectIDs.framework"
   install_framework "Pods-Listio/DATAStack.framework"
+  install_framework "Pods-Listio/GoogleMaterialIconFont.framework"
   install_framework "Pods-Listio/JWT.framework"
   install_framework "Pods-Listio/KSCrash.framework"
   install_framework "Pods-Listio/MBProgressHUD.framework"
@@ -98,9 +99,9 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Listio/NSManagedObject_HYPPropertyMapper.framework"
   install_framework "Pods-Listio/NSString_HYPNetworking.framework"
   install_framework "Pods-Listio/QRCodeReader.framework"
-  install_framework "Pods-Listio/RSBarcodes_Swift.framework"
   install_framework "Pods-Listio/StringScore_Swift.framework"
   install_framework "Pods-Listio/Sync.framework"
+  install_framework "Pods-Listio/TransitionTreasury.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Listio/Alamofire.framework"
@@ -109,6 +110,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Listio/DATAFilter.framework"
   install_framework "Pods-Listio/DATAObjectIDs.framework"
   install_framework "Pods-Listio/DATAStack.framework"
+  install_framework "Pods-Listio/GoogleMaterialIconFont.framework"
   install_framework "Pods-Listio/JWT.framework"
   install_framework "Pods-Listio/KSCrash.framework"
   install_framework "Pods-Listio/MBProgressHUD.framework"
@@ -117,7 +119,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Listio/NSManagedObject_HYPPropertyMapper.framework"
   install_framework "Pods-Listio/NSString_HYPNetworking.framework"
   install_framework "Pods-Listio/QRCodeReader.framework"
-  install_framework "Pods-Listio/RSBarcodes_Swift.framework"
   install_framework "Pods-Listio/StringScore_Swift.framework"
   install_framework "Pods-Listio/Sync.framework"
+  install_framework "Pods-Listio/TransitionTreasury.framework"
 fi

@@ -14,16 +14,10 @@ import Alamofire
 import MBProgressHUD
 import Sync
 import DATAStack
+import Sync
+import ObjectMapper
 
-// MARK: URL Base
-let urlBase:String = "http://nfc-e-server.herokuapp.com"
-
-// MARK: EndPoints
-let endPointAllProducts:String = "/api/v1/qrdata"
-
-let monthsName: [Int:String] = [1:"JAN",2:"FEV",3:"MAR",4:"ABR",5:"MAIO",6:"JUN",7:"JUL",8:"AGO",9:"SET",10:"OUT",11:"NOV",12:"DEZ"]
-
-class MainViewController: CoreDataTableViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
+class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
     
     @IBOutlet weak var tableView: UITableView!
     lazy var reader: QRCodeReaderViewController = {
@@ -34,7 +28,10 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         return QRCodeReaderViewController(builder: builder)
     }()
     private var dataStack:DATAStack!
-    
+    var groupObj:Group!
+    var array = [MapItem]()
+    var key:String!
+    let core = InteligenceCore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,15 +41,31 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     func configTableView(){
-        let fetchRequest = NSFetchRequest(entityName: "Document")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
-        let fecthController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataStack.mainContext, sectionNameKeyPath: nil , cacheName: nil)
-        self.fetchedResultsController = fecthController
-        self.coreDataTableView = self.tableView
+        array = core.calculate(self.dataStack.mainContext, documentGroup: self.groupObj)!
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-        self.performFetch()
+    }
+    
+    func saveDocumentToGroup(){
+        let fetchRequest = NSFetchRequest(entityName: "Document")
+        fetchRequest.predicate = NSPredicate(format: "remoteID = %@",key)
+        do{
+            let result = try self.dataStack.mainContext.executeFetchRequest(fetchRequest).first as! Document
+            groupObj.mutableSetValueForKey("documents").addObject(result)
+            result.groupType = groupObj
+            
+            array = core.calculate(self.dataStack.mainContext, documentGroup: self.groupObj)!
+            self.tableView.reloadData()
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        
+        do {
+            try self.dataStack.mainContext.save()
+        } catch {
+            fatalError("Failure to save context: \(error)")
+        }
     }
     
     // MARK: - HUD
@@ -86,10 +99,81 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         }
     }
     
-    // MARK: - QRCodeReader Delegate Methods
+    func saveingData(json:[String: AnyObject]){
+        
+        guard verifyNewObject(json["id"] as! String) == false else{
+            hideLoadingHUD()
+            return
+        }
+        
+        let docObj = NSEntityDescription.insertNewObjectForEntityForName("Document", inManagedObjectContext: self.dataStack.mainContext) as! Document
+        
+        docObj.hyp_fillWithDictionary(json)
+        
+        for item in json["items"] as! [AnyObject] {
+            let itemObj = NSEntityDescription.insertNewObjectForEntityForName("Item", inManagedObjectContext: self.dataStack.mainContext) as! Item
+            if let itemT = item as? [String:AnyObject]{
+                itemObj.hyp_fillWithDictionary(itemT)
+            }
+            itemObj.document = docObj
+            docObj.mutableSetValueForKey("items").addObject(itemObj)
+        }
+        
+        groupObj.mutableSetValueForKey("documents").addObject(docObj)
+        docObj.groupType = groupObj
+        
+        do {
+            try self.dataStack.mainContext.save()
+        } catch {
+            fatalError("Failure to save context: \(error)")
+        }
+        
+        array = core.calculate(self.dataStack.mainContext, documentGroup: self.groupObj)!
+        saveObj()
+        self.tableView.reloadData()
+        hideLoadingHUD()
+    }
+    
+    func saveObj(){
+        
+        func inner(){
+            groupObj.mutableSetValueForKey("itemList").removeAllObjects()
+            for item in array{
+                let listObj = NSEntityDescription.insertNewObjectForEntityForName("ItemList", inManagedObjectContext: self.dataStack.mainContext) as! ItemList
+                listObj.hyp_dictionary()
+                listObj.hyp_fillWithDictionary(item.toJson())
+                groupObj.mutableSetValueForKey("itemList").addObject(listObj)
+            }
+            do {
+                try self.dataStack.mainContext.save()
+            } catch {
+                fatalError("Failure to save context: \(error)")
+            }
+        }
+        
+        //dispatch_async(dispatch_get_main_queue(), inner)
+    }
+    
+    func verifyNewObject(key:String) -> Bool{
+        let fetchRequest = NSFetchRequest(entityName: "Document")
+        fetchRequest.predicate = NSPredicate(format: "remoteID = %@",key)
+        do{
+            let result = try self.dataStack.mainContext.executeFetchRequest(fetchRequest)
+            if result.count > 0{
+                return true
+            }
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        return false
+    }
+    
+    //MARK: - QRCodeReader Delegate Methods
     func reader(reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
         self.dismissViewControllerAnimated(true, completion: {
-            if result.metadataType == AVMetadataObjectTypeQRCode{
+            self.showLoadingHUD()
+            guard result.metadataType == AVMetadataObjectTypeQRCode else { return }
+
                 let url = urlBase + endPointAllProducts
                 let headers = [
                     "x-access-token": JWT.encode(.HS256("SupperDupperSecret")) { builder in
@@ -98,33 +182,23 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
                 ]
                 let parameters = [
                     "linkurl": result.value
-                ]
-                Alamofire.request(.POST, url, parameters: parameters, headers: headers)
-                    .responseJSON { response in
-                        switch response.result {
-                        case .Success:
-                            var json = [String:AnyObject]()
-                            do {
-                                json = try NSJSONSerialization.JSONObjectWithData(response.data!, options: []) as! [String:AnyObject]
-                            } catch let error as NSError {
-                                print(error)
-                            }
-                            let key = json["id"] as! String
-                            let predicate = NSPredicate(format: "remoteID = %@",key)
-                            Sync.changes([json], inEntityNamed: "Document", predicate: predicate, dataStack: self.dataStack, completion: { (error) -> Void in
-                                if error != nil {
-                                    print(error)
-                                    self.hideLoadingHUD();
-                                }else{
-                                    self.performFetch()
-                                }
-                            })
-                        case .Failure(let error):
-                            print(error)
-                            self.hideLoadingHUD();
-                        }
-                }
-            }
+                    ] as [String : AnyObject]
+
+                Alamofire.request(.POST, url, parameters: parameters, headers: headers).responseJSON(completionHandler: { response in
+                    guard response.result.isSuccess else {
+                        print("Error while fetching tags: \(response.result.error)")
+                        self.hideLoadingHUD()
+                        return
+                    }
+                    
+                    guard let responseJSON = response.result.value as? [String: AnyObject] else {
+                        print("Invalid tag information received from service")
+                        self.hideLoadingHUD()
+                        return
+                    }
+                    self.saveingData(responseJSON)
+                    
+                })
         })
     }
     
@@ -132,34 +206,35 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    // MARK: UITableViewDataSource
-    override func tableView(tableView: UITableView,
-                            cellForRowAtIndexPath
+    //MARK: UITableViewDataSource
+    func tableView(tableView: UITableView,
+                   cellForRowAtIndexPath
         indexPath: NSIndexPath) -> UITableViewCell {
-        let document = self.fetchedResultsController!.objectAtIndexPath(indexPath) as! Document
+        let mapType = array[indexPath.row]
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("DocumentCell")
-        let payments = NSKeyedUnarchiver.unarchiveObjectWithData(document.payments!) as! NSDictionary
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        cell!.detailTextLabel!.text = dateFormatter.stringFromDate(document.createdAt!)
+        let cell = tableView.dequeueReusableCellWithIdentifier("documentCell")
         
-        let total:String = (payments["vl_total"] as! String).stringByReplacingOccurrencesOfString(".", withString: ",")
-        cell!.textLabel!.text = "R$\(total)"
+        cell!.textLabel!.text = mapType.name
         
         return cell!
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let document = self.fetchedResultsController!.objectAtIndexPath(indexPath) as! Document
-        self.performSegueWithIdentifier("toDetailDocument", sender: document)
+        
     }
     
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return array.count
+    }
     
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "toDetailDocument"{
             if segue.destinationViewController.isKindOfClass(DetailViewController){
                 let vc = segue.destinationViewController as! DetailViewController
@@ -169,7 +244,7 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
                 }
             }
         }
-     }
- 
+    }
+    
     
 }

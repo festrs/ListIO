@@ -1,5 +1,5 @@
 //
-//  Item+CoreDataProperties.swift
+//  Group+CoreDataProperties.swift
 //  Listio
 //
 //  Created by Felipe Dias Pereira on 2016-06-07.
@@ -12,14 +12,10 @@
 import Foundation
 import CoreData
 
-extension Item {
+extension Group {
 
-    @NSManaged var descricao: String?
-    @NSManaged var remoteID: String?
-    @NSManaged var qtde: NSDecimalNumber?
-    @NSManaged var un: String?
-    @NSManaged var vlTotal: NSNumber?
-    @NSManaged var vlUnit: NSNumber?
-    @NSManaged var document: Document?
+    @NSManaged var name: String?
+    @NSManaged var documents: NSSet?
+    @NSManaged var itemList: NSSet?
 
 }

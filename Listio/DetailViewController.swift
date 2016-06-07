@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
+class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     //MARK: - Variables
     @IBOutlet weak var qtdTotalLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
@@ -55,10 +55,10 @@ class DetailViewController: UIViewController,UITableViewDataSource,UITableViewDe
 //        let splitedHour = (splitedString![1]).componentsSeparatedByString(":")
 //        self.titleLabel.text = "\(splitedData[0])/\(monthName) \(splitedHour[0]):\(splitedHour[1])"
         
-        let payment = NSKeyedUnarchiver.unarchiveObjectWithData(document.payments!) as! NSDictionary
-        self.payments = payment["pagmetodos"] as! [AnyObject]
-        let total:String = (payment["vl_total"] as! String).stringByReplacingOccurrencesOfString(".", withString: ",")
-        self.totalLabel.text = "R$\(total)"
+//        let payment = NSKeyedUnarchiver.unarchiveObjectWithData(document.payments!) as! NSDictionary
+//        self.payments = payment["pagmetodos"] as! [AnyObject]
+//        let total:String = (payment["vl_total"] as! String).stringByReplacingOccurrencesOfString(".", withString: ",")
+//        self.totalLabel.text = "R$\(total)"
         
         self.qtdTotalLabel.text = "Qtd. Total Itens \(self.items.count.description)"
     }

@@ -1,26 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15F34" minimumToolsVersion="Automatic">
     <entity name="Document" representedClassName=".Document" syncable="YES">
-        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="expDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES">
+            <userInfo>
+                <entry key="JSONKeyPath" value="created_at"/>
+            </userInfo>
+        </attribute>
         <attribute name="link" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mes" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="payments" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="remoteID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="remoteID" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="groupType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="documents" inverseEntity="Group" syncable="YES"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Item" inverseName="document" inverseEntity="Item" syncable="YES"/>
     </entity>
+    <entity name="Group" representedClassName=".Group" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="documents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Document" inverseName="groupType" inverseEntity="Document" syncable="YES"/>
+        <relationship name="itemList" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ItemList" inverseName="group" inverseEntity="ItemList" syncable="YES"/>
+    </entity>
     <entity name="Item" representedClassName=".Item" syncable="YES">
-        <attribute name="descricao" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="qtde" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="remoteID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="descricao" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="JSONKeyPath" value="descricao"/>
+            </userInfo>
+        </attribute>
+        <attribute name="qtde" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES">
+            <userInfo>
+                <entry key="JSONKeyPath" value="qtde"/>
+            </userInfo>
+        </attribute>
+        <attribute name="remoteID" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="un" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="vlTotal" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="vlUnit" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="document" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Document" inverseName="items" inverseEntity="Document" syncable="YES"/>
     </entity>
+    <entity name="ItemList" representedClassName=".List" syncable="YES">
+        <attribute name="countDocument" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="qtde" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="vlTotal" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="vlUnit" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="itemList" inverseEntity="Group" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="Document" positionX="331" positionY="-48" width="128" height="163"/>
+        <element name="Document" positionX="331" positionY="-48" width="128" height="165"/>
+        <element name="Group" positionX="135" positionY="27" width="128" height="90"/>
         <element name="Item" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="ItemList" positionX="135" positionY="27" width="128" height="135"/>
     </elements>
 </model>

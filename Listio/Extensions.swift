@@ -6,7 +6,15 @@
 //  Copyright © 2016 Felipe Dias Pereira. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+// MARK: URL Base
+let urlBase:String = "http://nfc-e-server.herokuapp.com"
+
+// MARK: EndPoints
+let endPointAllProducts:String = "/api/v1/qrdata"
+
+let monthsName: [Int:String] = [1:"JAN",2:"FEV",3:"MAR",4:"ABR",5:"MAIO",6:"JUN",7:"JUL",8:"AGO",9:"SET",10:"OUT",11:"NOV",12:"DEZ"]
 
 extension Int
 {
@@ -179,5 +187,14 @@ extension NSDate {
         if minutesFrom(date) > 0 { return "\(minutesFrom(date))m" }
         if secondsFrom(date) > 0 { return "\(secondsFrom(date))s" }
         return ""
+    }
+}
+
+extension UIView {
+    class func loadFromNibNamed(nibNamed: String, bundle : NSBundle? = nil) -> UIView? {
+        return UINib(
+            nibName: nibNamed,
+            bundle: bundle
+            ).instantiateWithOwner(nil, options: nil)[0] as? UIView
     }
 }

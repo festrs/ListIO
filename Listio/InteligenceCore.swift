@@ -25,7 +25,10 @@ struct MapItem :Equatable{
     
     mutating func addCountQte(value: Int){
         qtde += value
-        
+    }
+    
+    func toJson() ->[String : AnyObject]{
+        return ["countDocument":countDocument,"qtde":qtde,"name":name,"vlUnit":vlUnit,"vlTotal":vlTotal]
     }
 }
 
@@ -36,6 +39,42 @@ func ==(lhs: MapItem, rhs: MapItem) -> Bool {
 
 
 class InteligenceCore {
+    
+    func calculate(MOC : NSManagedObjectContext, documentGroup: Group) -> [MapItem]?{
+        let fetchRequest = NSFetchRequest(entityName: "Document")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "groupType.name == %@", documentGroup.name!)
+        fetchRequest.fetchLimit = 16
+        do{
+            let results = try MOC.executeFetchRequest(fetchRequest) as! [Document]
+            
+            if results.count == 1{
+                let items = results.first?.items?.allObjects as! [Item]
+                return removeRedudancyAndSortForCountDoc(items.map({
+                    return MapItem(countDocument: 1, qtde: ($0.qtde?.integerValue)!, name: $0.descricao!, vlUnit: ($0.vlUnit?.doubleValue)!, vlTotal: $0.vlTotal!.doubleValue)
+                }))
+            }
+            
+            let values: [Double] = results.map {
+                let payment = NSKeyedUnarchiver.unarchiveObjectWithData($0.payments!) as! NSDictionary
+                return Double(payment["vl_total"] as! String)!
+            }
+            let mapped: [MapItem] = getAllItens(results)
+            
+            // mapped
+            let newMapped = removeRedudancyAndSortForCountDoc(mapped)
+            
+            let mediumPriceLists = values.reduce(0, combine: +)/Double(values.count)
+            
+            let finalList = getFinalListCutForMediumPrice(newMapped, price: mediumPriceLists)
+
+            return finalList
+
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        return nil
+    }
     
     func calculate(MOC : NSManagedObjectContext) -> [MapItem]?{
         let fetchRequest = NSFetchRequest(entityName: "Document")
@@ -48,7 +87,6 @@ class InteligenceCore {
                 let payment = NSKeyedUnarchiver.unarchiveObjectWithData($0.payments!) as! NSDictionary
                 return Double(payment["vl_total"] as! String)!
             }
-            
             let mapped: [MapItem] = getAllItens(results)
             
             // mapped
@@ -57,9 +95,9 @@ class InteligenceCore {
             let mediumPriceLists = values.reduce(0, combine: +)/Double(values.count)
             
             let finalList = getFinalListCutForMediumPrice(newMapped, price: mediumPriceLists)
-
+            
             return finalList
-
+            
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }
@@ -124,8 +162,6 @@ func getFinalListCutForMediumPrice(mappedList:[MapItem], price:Double) -> [MapIt
             if item.qtde >= item.countDocument{
                 item.qtde = item.qtde / item.countDocument
             }
-            
-            
             if item.qtde != 0{
                 item.vlTotal = Double((item.qtde)) * (item.vlUnit)
             }
