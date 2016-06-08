@@ -32,7 +32,7 @@ class CoreDataHandler {
     }
     
     func savingData(json:[String: AnyObject], groupObj: Group){
-        guard verifyNewObject(json["id"] as! String) == false else{
+        guard verifyNewObject(json["id"] as! String, groupObj: groupObj) == false else{
             return
         }
         
@@ -55,9 +55,9 @@ class CoreDataHandler {
         saveContex()
     }
     
-    func verifyNewObject(key:String) -> Bool{
+    func verifyNewObject(key:String, groupObj:Group) -> Bool{
         let fetchRequest = NSFetchRequest(entityName: "Document")
-        fetchRequest.predicate = NSPredicate(format: "remoteID = %@",key)
+        fetchRequest.predicate = NSPredicate(format: "remoteID = %@ AND groupType.name = %@",key,groupObj.name!)
         do{
             let result = try self.mainContext.executeFetchRequest(fetchRequest)
             if result.count > 0{
@@ -71,12 +71,15 @@ class CoreDataHandler {
     
     func saveItemListObj(array:[MapItem],groupObj:Group){
         groupObj.mutableSetValueForKey("itemList").removeAllObjects()
+        var totalValue = 0.0
         for item in array{
             let listObj = NSEntityDescription.insertNewObjectForEntityForName("ItemList", inManagedObjectContext: self.mainContext) as! ItemList
             listObj.hyp_dictionary()
             listObj.hyp_fillWithDictionary(item.toJson())
             groupObj.mutableSetValueForKey("itemList").addObject(listObj)
+            totalValue += item.vlUnit * Double(item.qtde)
         }
+        groupObj.totalValue = totalValue
         saveContex()
     }
     

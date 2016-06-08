@@ -15,9 +15,12 @@ import MBProgressHUD
 import Sync
 import DATAStack
 import Sync
+import GoogleMaterialIconFont
 
 class MainViewController: CoreDataTableViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
     
+    @IBOutlet weak var buttonLabel: UILabel!
+    @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     lazy var reader: QRCodeReaderViewController = {
         let builder = QRCodeViewControllerBuilder { builder in
@@ -38,11 +41,21 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         // init objects
         coreDataHandler = CoreDataHandler(mainContext: self.dataStack.mainContext)
         core = InteligenceCore(coreDataHandler:coreDataHandler)
+
+        buttonLabel.text = String.materialIcon(.Receipt)
+        buttonLabel.font = UIFont.materialIconOfSize(32)
+        
+        self.loadTotal()
+        
         self.configTableView()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func loadTotal(){
+        totalLabel.text = "R$\(groupObj.totalValue!)"
     }
     
     func configTableView(){
@@ -121,6 +134,7 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
                     self.core.calculate(self.groupObj)
                     // reload data
                     self.performFetch()
+                    self.loadTotal()
                     self.hideLoadingHUD()
                 })
         })
@@ -136,11 +150,13 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         indexPath: NSIndexPath) -> UITableViewCell {
         let mapType = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! ItemList
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("documentCell")
+        let cell = tableView.dequeueReusableCellWithIdentifier("documentCell") as! DocumentUiTableViewCell
         
-        cell!.textLabel!.text = mapType.name
+        cell.nameLabel.text = mapType.name!
+        cell.unLabel.text = mapType.qtde?.description
+        cell.valueLabel.text = mapType.vlUnit?.description
         
-        return cell!
+        return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

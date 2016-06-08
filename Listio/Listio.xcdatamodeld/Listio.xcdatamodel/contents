@@ -16,7 +16,7 @@
     </entity>
     <entity name="Group" representedClassName=".Group" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="totalValue" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="totalValue" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <relationship name="documents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Document" inverseName="groupType" inverseEntity="Document" syncable="YES"/>
         <relationship name="itemList" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ItemList" inverseName="group" inverseEntity="ItemList" syncable="YES"/>
     </entity>

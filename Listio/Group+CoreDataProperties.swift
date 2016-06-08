@@ -15,6 +15,7 @@ import CoreData
 extension Group {
 
     @NSManaged var name: String?
+    @NSManaged var totalValue: NSNumber?
     @NSManaged var documents: NSSet?
     @NSManaged var itemList: NSSet?
 

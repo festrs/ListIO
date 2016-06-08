@@ -100,6 +100,7 @@ class FirstViewController: UIViewController, FPHandlesMOC, UITableViewDelegate, 
         let group = array[indexPath.row] as Group
    
         cell.textLabel!.text = group.name
+        cell.detailTextLabel?.text = "R$\(group.totalValue!)"
 
         return cell
     }

@@ -21,6 +21,7 @@
 		3AE1FB231D076878001A6914 /* ItemList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB211D076878001A6914 /* ItemList+CoreDataProperties.swift */; };
 		3AE1FB241D076878001A6914 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB221D076878001A6914 /* ItemList.swift */; };
 		3AE1FB271D07710B001A6914 /* CoreDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB261D07710B001A6914 /* CoreDataHandler.swift */; };
+		3AE1FB2A1D07B71E001A6914 /* DocumentUiTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB291D07B71E001A6914 /* DocumentUiTableViewCell.swift */; };
 		3AE233311CFE112E00656969 /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE2332F1CFE112E00656969 /* CoreDataTableViewController.swift */; };
 		3AE233321CFE112E00656969 /* ProtocolCoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233301CFE112E00656969 /* ProtocolCoreDataTableViewController.swift */; };
 		3AE233341CFE11B000656969 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233331CFE11B000656969 /* MainViewController.swift */; };
@@ -66,6 +67,7 @@
 		3AE1FB211D076878001A6914 /* ItemList+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ItemList+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3AE1FB221D076878001A6914 /* ItemList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		3AE1FB261D07710B001A6914 /* CoreDataHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataHandler.swift; sourceTree = "<group>"; };
+		3AE1FB291D07B71E001A6914 /* DocumentUiTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentUiTableViewCell.swift; sourceTree = "<group>"; };
 		3AE2332F1CFE112E00656969 /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTableViewController.swift; sourceTree = "<group>"; };
 		3AE233301CFE112E00656969 /* ProtocolCoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProtocolCoreDataTableViewController.swift; sourceTree = "<group>"; };
 		3AE233331CFE11B000656969 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +188,14 @@
 			name = "Core Data Objects";
 			sourceTree = "<group>";
 		};
+		3AE1FB281D07B6F4001A6914 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				3AE1FB291D07B71E001A6914 /* DocumentUiTableViewCell.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		3AE233451CFE9EBA00656969 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +209,7 @@
 		3AE233461CFE9EC800656969 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3AE1FB281D07B6F4001A6914 /* Cells */,
 				3AE2332F1CFE112E00656969 /* CoreDataTableViewController.swift */,
 				3AE233301CFE112E00656969 /* ProtocolCoreDataTableViewController.swift */,
 				3AE2333F1CFE21D400656969 /* NavigationViewController.swift */,
@@ -430,6 +441,7 @@
 				3A975D571CFCC42200E400B3 /* Listio.xcdatamodeld in Sources */,
 				3AE1FB241D076878001A6914 /* ItemList.swift in Sources */,
 				3A9D646F1D026839002369A4 /* FirstViewController.swift in Sources */,
+				3AE1FB2A1D07B71E001A6914 /* DocumentUiTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

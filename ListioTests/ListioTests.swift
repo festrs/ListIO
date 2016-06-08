@@ -14,7 +14,6 @@ class ListioTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        core =  InteligenceCore()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
@@ -28,8 +27,7 @@ class ListioTests: XCTestCase {
         // This is an example of a performance test case.
         self.measureBlock {
             
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            (self.core.calculate(appDelegate.dataStack.mainContext))
+            
         }
     }
     
