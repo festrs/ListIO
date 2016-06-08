@@ -9,40 +9,33 @@
 import UIKit
 import DATAStack
 
-class FirstViewController: UIViewController, FPHandlesMOC, UITableViewDelegate, UITableViewDataSource {
+class FirstViewController: CoreDataTableViewController, FPHandlesMOC {
     
     @IBOutlet weak var tableView: UITableView!
     var textField:UITextField!
     private var dataStack:DATAStack!
-    var array = [Group]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.configTableView()
-        self.loadData()
+        self.configTableView()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    func configTableView(){
+        self.coreDataTableView = self.tableView
+        let request = NSFetchRequest(entityName: "Group")
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.dataStack.mainContext, sectionNameKeyPath: nil, cacheName: "rootCache")
+        self.performFetch()
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+    }
+    
 //    let range = NSMakeRange(0, self.tableView.numberOfSections)
 //    let sections = NSIndexSet(indexesInRange: range)
 //    self.tableView.reloadSections(sections, withRowAnimation: .Automatic)
-    
-    func loadData(){
-        let fetchRequest = NSFetchRequest(entityName: "Group")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        do{
-            let results = try self.dataStack.mainContext.executeFetchRequest(fetchRequest) as! [Group]
-
-            array = results
-            
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
-        }
-        self.tableView?.reloadData()
-    }
     
     func addNewGroup(){
         let groupObj = NSEntityDescription.insertNewObjectForEntityForName("Group", inManagedObjectContext: self.dataStack.mainContext) as! Group
@@ -52,8 +45,7 @@ class FirstViewController: UIViewController, FPHandlesMOC, UITableViewDelegate, 
         } catch {
             fatalError("Failure to save context: \(error)")
         }
-        loadData()
-        
+        self.performFetch()
     }
     
     //MARK: - UIALert handle
@@ -86,18 +78,10 @@ class FirstViewController: UIViewController, FPHandlesMOC, UITableViewDelegate, 
         self.textField.resignFirstResponder()
     }
     
-    //MARK: - TableViewDataSource
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return array.count
-    }
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    //MARK: - TableView Data Source
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("groupCell", forIndexPath: indexPath)
-        let group = array[indexPath.row] as Group
+        let group = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! Group
    
         cell.textLabel!.text = group.name
         cell.detailTextLabel?.text = "R$\(group.totalValue!)"
@@ -107,7 +91,7 @@ class FirstViewController: UIViewController, FPHandlesMOC, UITableViewDelegate, 
     
     func colorForIndex(index: NSInteger) -> UIColor {
         
-        let itemCount:Int = array.count
+        let itemCount:Int = 5
         let a = Float(index)
         let b = Float(itemCount)
         let val = (a/b) * 0.5
@@ -132,7 +116,7 @@ class FirstViewController: UIViewController, FPHandlesMOC, UITableViewDelegate, 
         if let vc = segue.destinationViewController as? MainViewController,
             let cell = sender as? UITableViewCell {
             let indexPath = self.tableView.indexPathForCell(cell)
-            vc.groupObj = array[(indexPath?.row)!]
+            vc.groupObj = self.fetchedResultsController?.objectAtIndexPath(indexPath!) as! Group
         }
     }
 }

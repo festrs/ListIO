@@ -31,8 +31,6 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     }()
     private var dataStack:DATAStack!
     var groupObj:Group!
-    var array = [MapItem]()
-    var key:String!
     var core:InteligenceCore!
     var coreDataHandler:CoreDataHandler!
     
