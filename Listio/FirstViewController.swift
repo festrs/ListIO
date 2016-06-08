@@ -15,7 +15,6 @@ class FirstViewController: UIViewController, FPHandlesMOC, UITableViewDelegate, 
     var textField:UITextField!
     private var dataStack:DATAStack!
     var array = [Group]()
-    let core = InteligenceCore()
     
     override func viewDidLoad() {
         super.viewDidLoad()

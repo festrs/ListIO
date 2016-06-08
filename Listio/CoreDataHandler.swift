@@ -7,3 +7,84 @@
 //
 
 import UIKit
+import CoreData
+import Sync
+
+class CoreDataHandler {
+    
+    let mainContext:NSManagedObjectContext!
+    
+    init(mainContext:NSManagedObjectContext){
+        self.mainContext = mainContext
+    }
+    
+    func getAllDocumentsByGroup(groupObj: Group) -> [Document]?{
+        let fetchRequest = NSFetchRequest(entityName: "Document")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "groupType.name == %@", groupObj.name!)
+        fetchRequest.fetchLimit = 16
+        do{
+            return try self.mainContext.executeFetchRequest(fetchRequest) as? [Document]
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        return nil
+    }
+    
+    func savingData(json:[String: AnyObject], groupObj: Group){
+        guard verifyNewObject(json["id"] as! String) == false else{
+            return
+        }
+        
+        let docObj = NSEntityDescription.insertNewObjectForEntityForName("Document", inManagedObjectContext: self.mainContext) as! Document
+        
+        docObj.hyp_fillWithDictionary(json)
+        
+        for item in json["items"] as! [AnyObject] {
+            let itemObj = NSEntityDescription.insertNewObjectForEntityForName("Item", inManagedObjectContext: self.mainContext) as! Item
+            if let itemT = item as? [String:AnyObject]{
+                itemObj.hyp_fillWithDictionary(itemT)
+            }
+            itemObj.document = docObj
+            docObj.mutableSetValueForKey("items").addObject(itemObj)
+        }
+        
+        groupObj.mutableSetValueForKey("documents").addObject(docObj)
+        docObj.groupType = groupObj
+        
+        saveContex()
+    }
+    
+    func verifyNewObject(key:String) -> Bool{
+        let fetchRequest = NSFetchRequest(entityName: "Document")
+        fetchRequest.predicate = NSPredicate(format: "remoteID = %@",key)
+        do{
+            let result = try self.mainContext.executeFetchRequest(fetchRequest)
+            if result.count > 0{
+                return true
+            }
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        return false
+    }
+    
+    func saveItemListObj(array:[MapItem],groupObj:Group){
+        groupObj.mutableSetValueForKey("itemList").removeAllObjects()
+        for item in array{
+            let listObj = NSEntityDescription.insertNewObjectForEntityForName("ItemList", inManagedObjectContext: self.mainContext) as! ItemList
+            listObj.hyp_dictionary()
+            listObj.hyp_fillWithDictionary(item.toJson())
+            groupObj.mutableSetValueForKey("itemList").addObject(listObj)
+        }
+        saveContex()
+    }
+    
+    func saveContex() {
+        do {
+            try self.mainContext.save()
+        } catch {
+            fatalError("Failure to save context: \(error)")
+        }
+    }
+}

@@ -15,9 +15,8 @@ import MBProgressHUD
 import Sync
 import DATAStack
 import Sync
-import ObjectMapper
 
-class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
+class MainViewController: CoreDataTableViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
     
     @IBOutlet weak var tableView: UITableView!
     lazy var reader: QRCodeReaderViewController = {
@@ -31,10 +30,14 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
     var groupObj:Group!
     var array = [MapItem]()
     var key:String!
-    let core = InteligenceCore()
+    var core:InteligenceCore!
+    var coreDataHandler:CoreDataHandler!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // init objects
+        coreDataHandler = CoreDataHandler(mainContext: self.dataStack.mainContext)
+        core = InteligenceCore(coreDataHandler:coreDataHandler)
         self.configTableView()
     }
     
@@ -43,29 +46,14 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
     }
     
     func configTableView(){
-        array = core.calculate(self.dataStack.mainContext, documentGroup: self.groupObj)!
+        self.coreDataTableView = self.tableView
+        let request = NSFetchRequest(entityName: "ItemList")
+        let countDocumentSort = NSSortDescriptor(key: "countDocument", ascending: false)
+        request.sortDescriptors = [countDocumentSort]
+        request.predicate = NSPredicate(format: "group.name = %@",groupObj.name!)
+        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.dataStack.mainContext, sectionNameKeyPath: nil, cacheName: "rootCache")
+        self.performFetch()
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-    }
-    
-    func saveDocumentToGroup(){
-        let fetchRequest = NSFetchRequest(entityName: "Document")
-        fetchRequest.predicate = NSPredicate(format: "remoteID = %@",key)
-        do{
-            let result = try self.dataStack.mainContext.executeFetchRequest(fetchRequest).first as! Document
-            groupObj.mutableSetValueForKey("documents").addObject(result)
-            result.groupType = groupObj
-            
-            array = core.calculate(self.dataStack.mainContext, documentGroup: self.groupObj)!
-            self.tableView.reloadData()
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
-        }
-        
-        do {
-            try self.dataStack.mainContext.save()
-        } catch {
-            fatalError("Failure to save context: \(error)")
-        }
     }
     
     // MARK: - HUD
@@ -99,75 +87,6 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
         }
     }
     
-    func saveingData(json:[String: AnyObject]){
-        
-        guard verifyNewObject(json["id"] as! String) == false else{
-            hideLoadingHUD()
-            return
-        }
-        
-        let docObj = NSEntityDescription.insertNewObjectForEntityForName("Document", inManagedObjectContext: self.dataStack.mainContext) as! Document
-        
-        docObj.hyp_fillWithDictionary(json)
-        
-        for item in json["items"] as! [AnyObject] {
-            let itemObj = NSEntityDescription.insertNewObjectForEntityForName("Item", inManagedObjectContext: self.dataStack.mainContext) as! Item
-            if let itemT = item as? [String:AnyObject]{
-                itemObj.hyp_fillWithDictionary(itemT)
-            }
-            itemObj.document = docObj
-            docObj.mutableSetValueForKey("items").addObject(itemObj)
-        }
-        
-        groupObj.mutableSetValueForKey("documents").addObject(docObj)
-        docObj.groupType = groupObj
-        
-        do {
-            try self.dataStack.mainContext.save()
-        } catch {
-            fatalError("Failure to save context: \(error)")
-        }
-        
-        array = core.calculate(self.dataStack.mainContext, documentGroup: self.groupObj)!
-        saveObj()
-        self.tableView.reloadData()
-        hideLoadingHUD()
-    }
-    
-    func saveObj(){
-        
-        func inner(){
-            groupObj.mutableSetValueForKey("itemList").removeAllObjects()
-            for item in array{
-                let listObj = NSEntityDescription.insertNewObjectForEntityForName("ItemList", inManagedObjectContext: self.dataStack.mainContext) as! ItemList
-                listObj.hyp_dictionary()
-                listObj.hyp_fillWithDictionary(item.toJson())
-                groupObj.mutableSetValueForKey("itemList").addObject(listObj)
-            }
-            do {
-                try self.dataStack.mainContext.save()
-            } catch {
-                fatalError("Failure to save context: \(error)")
-            }
-        }
-        
-        //dispatch_async(dispatch_get_main_queue(), inner)
-    }
-    
-    func verifyNewObject(key:String) -> Bool{
-        let fetchRequest = NSFetchRequest(entityName: "Document")
-        fetchRequest.predicate = NSPredicate(format: "remoteID = %@",key)
-        do{
-            let result = try self.dataStack.mainContext.executeFetchRequest(fetchRequest)
-            if result.count > 0{
-                return true
-            }
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
-        }
-        return false
-    }
-    
     //MARK: - QRCodeReader Delegate Methods
     func reader(reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
         self.dismissViewControllerAnimated(true, completion: {
@@ -196,8 +115,13 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
                         self.hideLoadingHUD()
                         return
                     }
-                    self.saveingData(responseJSON)
-                    
+                    // add new item
+                    self.coreDataHandler.savingData(responseJSON, groupObj: self.groupObj)
+                    //calculate list
+                    self.core.calculate(self.groupObj)
+                    // reload data
+                    self.performFetch()
+                    self.hideLoadingHUD()
                 })
         })
     }
@@ -206,11 +130,11 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    //MARK: UITableViewDataSource
-    func tableView(tableView: UITableView,
+    //MARK: UITableView Delegate
+    override func tableView(tableView: UITableView,
                    cellForRowAtIndexPath
         indexPath: NSIndexPath) -> UITableViewCell {
-        let mapType = array[indexPath.row]
+        let mapType = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! ItemList
         
         let cell = tableView.dequeueReusableCellWithIdentifier("documentCell")
         
@@ -221,14 +145,6 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return array.count
-    }
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
     }
     
     // MARK: - Navigation
