@@ -22,7 +22,6 @@ class CoreDataHandler {
         let fetchRequest = NSFetchRequest(entityName: "Document")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
         fetchRequest.predicate = NSPredicate(format: "groupType.name == %@", groupObj.name!)
-        fetchRequest.fetchLimit = 16
         do{
             return try self.mainContext.executeFetchRequest(fetchRequest) as? [Document]
         } catch let error as NSError {

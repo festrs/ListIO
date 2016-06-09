@@ -8,6 +8,7 @@
 
 import UIKit
 import DATAStack
+import GoogleMaterialIconFont
 
 class FirstViewController: CoreDataTableViewController, FPHandlesMOC {
     
@@ -65,6 +66,15 @@ class FirstViewController: CoreDataTableViewController, FPHandlesMOC {
         })
     }
     
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            //objects.removeAtIndex(indexPath.row)
+            //tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        } else if editingStyle == .Insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+        }
+    }
+    
     func configurationTextField(textField: UITextField!)
     {
         if textField != nil {
@@ -80,21 +90,25 @@ class FirstViewController: CoreDataTableViewController, FPHandlesMOC {
     
     //MARK: - TableView Data Source
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("groupCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("groupCell", forIndexPath: indexPath) as! GroupUiTableViewCell
         let group = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! Group
    
-        cell.textLabel!.text = group.name
-        cell.detailTextLabel?.text = "R$\(group.totalValue!)"
-
+        cell.titleLabel!.text = group.name
+        cell.detailLabel?.text = "R$\(group.totalValue!)"
+        
+//        cell.markLabel.text = String.materialIcon(.TurnedIn)
+//        cell.markLabel.textColor = UIColor.randomColor()
+//        cell.markLabel.font = UIFont.materialIconOfSize(22)
+        
         return cell
     }
     
     func colorForIndex(index: NSInteger) -> UIColor {
         
-        let itemCount:Int = 5
+        let itemCount:Int = (self.fetchedResultsController?.fetchedObjects?.count)!
         let a = Float(index)
         let b = Float(itemCount)
-        let val = (a/b) * 0.5
+        let val = (a/b) * 0.9
         
         let sender:UIColor = UIColor(red: CGFloat(0.25), green: CGFloat(val), blue: CGFloat(0.9), alpha: CGFloat(1.0))
         

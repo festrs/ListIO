@@ -47,9 +47,7 @@ class InteligenceCore {
     }
     
     func calculate(documentGroup: Group){
-
         if let results = coreDataHandler.getAllDocumentsByGroup(documentGroup) {
-            
             if results.count == 1{
                 let items = results.first?.items?.allObjects as! [Item]
                 let finalList = removeRedudancyAndSortForCountDoc(items.map({

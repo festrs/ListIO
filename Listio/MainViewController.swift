@@ -16,10 +16,10 @@ import Sync
 import DATAStack
 import Sync
 import GoogleMaterialIconFont
+import MGSwipeTableCell
 
 class MainViewController: CoreDataTableViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
     
-    @IBOutlet weak var buttonLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     lazy var reader: QRCodeReaderViewController = {
@@ -39,9 +39,8 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         // init objects
         coreDataHandler = CoreDataHandler(mainContext: self.dataStack.mainContext)
         core = InteligenceCore(coreDataHandler:coreDataHandler)
-
-        buttonLabel.text = String.materialIcon(.Receipt)
-        buttonLabel.font = UIFont.materialIconOfSize(32)
+        
+        self.title = groupObj.name!
         
         self.loadTotal()
         
@@ -103,38 +102,38 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         self.dismissViewControllerAnimated(true, completion: {
             self.showLoadingHUD()
             guard result.metadataType == AVMetadataObjectTypeQRCode else { return }
-
-                let url = urlBase + endPointAllProducts
-                let headers = [
-                    "x-access-token": JWT.encode(.HS256("SupperDupperSecret")) { builder in
-                        builder.expiration = NSDate().dateByAddingTimeInterval(30*60)
-                    }
-                ]
-                let parameters = [
-                    "linkurl": result.value
-                    ] as [String : AnyObject]
-
-                Alamofire.request(.POST, url, parameters: parameters, headers: headers).responseJSON(completionHandler: { response in
-                    guard response.result.isSuccess else {
-                        print("Error while fetching tags: \(response.result.error)")
-                        self.hideLoadingHUD()
-                        return
-                    }
-                    
-                    guard let responseJSON = response.result.value as? [String: AnyObject] else {
-                        print("Invalid tag information received from service")
-                        self.hideLoadingHUD()
-                        return
-                    }
-                    // add new item
-                    self.coreDataHandler.savingData(responseJSON, groupObj: self.groupObj)
-                    //calculate list
-                    self.core.calculate(self.groupObj)
-                    // reload data
-                    self.performFetch()
-                    self.loadTotal()
+            
+            let url = urlBase + endPointAllProducts
+            let headers = [
+                "x-access-token": JWT.encode(.HS256("SupperDupperSecret")) { builder in
+                    builder.expiration = NSDate().dateByAddingTimeInterval(30*60)
+                }
+            ]
+            let parameters = [
+                "linkurl": result.value
+                ] as [String : AnyObject]
+            
+            Alamofire.request(.POST, url, parameters: parameters, headers: headers).responseJSON(completionHandler: { response in
+                guard response.result.isSuccess else {
+                    print("Error while fetching tags: \(response.result.error)")
                     self.hideLoadingHUD()
-                })
+                    return
+                }
+                
+                guard let responseJSON = response.result.value as? [String: AnyObject] else {
+                    print("Invalid tag information received from service")
+                    self.hideLoadingHUD()
+                    return
+                }
+                // add new item
+                self.coreDataHandler.savingData(responseJSON, groupObj: self.groupObj)
+                //calculate list
+                self.core.calculate(self.groupObj)
+                // reload data
+                self.performFetch()
+                self.loadTotal()
+                self.hideLoadingHUD()
+            })
         })
     }
     
@@ -144,7 +143,7 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     
     //MARK: UITableView Delegate
     override func tableView(tableView: UITableView,
-                   cellForRowAtIndexPath
+                            cellForRowAtIndexPath
         indexPath: NSIndexPath) -> UITableViewCell {
         let mapType = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! ItemList
         
@@ -154,11 +153,23 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         cell.unLabel.text = mapType.qtde?.description
         cell.valueLabel.text = mapType.vlUnit?.description
         
+        //configure right buttons
+        //configure right buttons
+        
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            //objects.removeAtIndex(indexPath.row)
+            //tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        } else if editingStyle == .Insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+        }
     }
     
     // MARK: - Navigation
