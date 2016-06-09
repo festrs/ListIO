@@ -16,7 +16,6 @@ import Sync
 import DATAStack
 import Sync
 import GoogleMaterialIconFont
-import MGSwipeTableCell
 
 class MainViewController: CoreDataTableViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
     
