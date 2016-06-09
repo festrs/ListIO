@@ -14,7 +14,6 @@ target 'Listio' do
     pod 'GoogleMaterialIconFont'
     pod 'TransitionTreasury', '~> 3.0.4'
     pod 'Sync'
-    pod 'MGSwipeTableCell'
 end
 
 target 'ListioTests' do
@@ -28,6 +27,5 @@ target 'ListioTests' do
     pod 'GoogleMaterialIconFont'
     pod 'TransitionTreasury', '~> 3.0.4'
     pod 'Sync'
-    pod 'MGSwipeTableCell'
 end
 

@@ -16,7 +16,6 @@ PODS:
   - KSCrash/RecordingAdvanced (1.0.3):
     - KSCrash/Recording
   - MBProgressHUD (0.9.2)
-  - MGSwipeTableCell (1.5.5)
   - NSDictionary-ANDYSafeValue (0.3.1)
   - NSEntityDescription-SYNCPrimaryKey (1.2.3):
     - NSString-HYPNetworking (~> 1.0.2)
@@ -41,7 +40,6 @@ DEPENDENCIES:
   - GoogleMaterialIconFont
   - JSONWebToken
   - MBProgressHUD (~> 0.9.2)
-  - MGSwipeTableCell
   - QRCodeReader.swift (~> 5.3.1)
   - StringScore_Swift
   - Sync
@@ -67,7 +65,6 @@ SPEC CHECKSUMS:
   JSONWebToken: 6c8968ace6b60b2e6156a7bbe5019fd9b5ff9b5a
   KSCrash: e8f1367230da7e33f37deb7329c299079202b07e
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  MGSwipeTableCell: bafeb5f351124544c9364ecbdf24c7b06a37d340
   NSDictionary-ANDYSafeValue: 2d7adf339b6e302d71fec5f1d71ae00aacda993e
   NSEntityDescription-SYNCPrimaryKey: 9dbb89d7cbc1bea196dd935725bfcf3c0ff4249c
   NSManagedObject-HYPPropertyMapper: 1a34418531715f01520eb32abcd2c183952ea630

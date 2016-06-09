@@ -32,7 +32,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="groupCell" rowHeight="44" id="2U0-fL-Uov" customClass="GroupUiTableViewCell" customModule="Listio" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="groupCell" id="2U0-fL-Uov" customClass="GroupUiTableViewCell" customModule="Listio" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2U0-fL-Uov" id="JVl-au-Bnk">
                                             <rect key="frame" x="0.0" y="0.0" width="207" height="44"/>
@@ -181,7 +181,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="documentCell" rowHeight="61" id="n2T-lg-vgT" customClass="DocumentUiTableViewCell" customModule="Listio" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="documentCell" rowHeight="61" id="n2T-lg-vgT" customClass="DocumentUiTableViewCell" customModule="Listio" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n2T-lg-vgT" id="OsE-2F-41k">
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="60"/>
@@ -490,12 +490,12 @@
                             <constraint firstAttribute="trailingMargin" secondItem="4VZ-c2-FqQ" secondAttribute="trailing" constant="21" id="iQt-sZ-WZ1"/>
                             <constraint firstItem="rfi-dS-gWU" firstAttribute="baseline" secondItem="4VZ-c2-FqQ" secondAttribute="baseline" id="maa-hv-afk"/>
                             <constraint firstItem="4VZ-c2-FqQ" firstAttribute="leading" secondItem="rfi-dS-gWU" secondAttribute="trailing" constant="31" id="mcM-TQ-OvP">
-                                <variation key="widthClass=compact" constant="34"/>
+                                <variation key="widthClass=compact" constant="36"/>
                             </constraint>
                             <constraint firstItem="cAT-1i-ad6" firstAttribute="top" secondItem="XVt-4F-fie" secondAttribute="bottom" constant="2" id="mzV-D2-VtB"/>
                             <constraint firstItem="LYD-19-DVT" firstAttribute="leading" secondItem="cAT-1i-ad6" secondAttribute="leading" id="rdR-SH-ocB"/>
                             <constraint firstItem="rfi-dS-gWU" firstAttribute="leading" secondItem="XVt-4F-fie" secondAttribute="trailing" constant="11" id="sUP-6H-VcL">
-                                <variation key="widthClass=compact" constant="8"/>
+                                <variation key="widthClass=compact" constant="6"/>
                             </constraint>
                             <constraint firstItem="XVt-4F-fie" firstAttribute="baseline" secondItem="rfi-dS-gWU" secondAttribute="baseline" id="tY9-BJ-ydF"/>
                             <constraint firstItem="XVt-4F-fie" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="xMd-Ie-T5G"/>
