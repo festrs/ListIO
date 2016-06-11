@@ -16,9 +16,9 @@
 		3A9D646F1D026839002369A4 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9D646E1D026839002369A4 /* FirstViewController.swift */; };
 		3A9D64711D027082002369A4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9D64701D027082002369A4 /* Extensions.swift */; };
 		3AC1AD7C1D09093100097926 /* GroupUiTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC1AD7B1D09093000097926 /* GroupUiTableViewCell.swift */; };
+		3AC1AD7E1D0B897A00097926 /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC1AD7D1D0B897A00097926 /* DetailTableViewCell.swift */; };
 		3AC80ADB1D0517CD00066489 /* Group+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC80AD91D0517CD00066489 /* Group+CoreDataProperties.swift */; };
 		3AC80ADC1D0517CD00066489 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC80ADA1D0517CD00066489 /* Group.swift */; };
-		3AC80AE01D052BE700066489 /* GroupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AC80ADF1D052BE700066489 /* GroupView.xib */; };
 		3AE1FB231D076878001A6914 /* ItemList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB211D076878001A6914 /* ItemList+CoreDataProperties.swift */; };
 		3AE1FB241D076878001A6914 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB221D076878001A6914 /* ItemList.swift */; };
 		3AE1FB271D07710B001A6914 /* CoreDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB261D07710B001A6914 /* CoreDataHandler.swift */; };
@@ -63,9 +63,9 @@
 		3A9D646E1D026839002369A4 /* FirstViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		3A9D64701D027082002369A4 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3AC1AD7B1D09093000097926 /* GroupUiTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupUiTableViewCell.swift; sourceTree = "<group>"; };
+		3AC1AD7D1D0B897A00097926 /* DetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		3AC80AD91D0517CD00066489 /* Group+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Group+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3AC80ADA1D0517CD00066489 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
-		3AC80ADF1D052BE700066489 /* GroupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GroupView.xib; sourceTree = "<group>"; };
 		3AE1FB211D076878001A6914 /* ItemList+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ItemList+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3AE1FB221D076878001A6914 /* ItemList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		3AE1FB261D07710B001A6914 /* CoreDataHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataHandler.swift; sourceTree = "<group>"; };
@@ -156,7 +156,6 @@
 				3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */,
 				3AE233351CFE179300656969 /* FPHandlesMOC.swift */,
 				3A975D521CFCC42200E400B3 /* Main.storyboard */,
-				3AC80ADF1D052BE700066489 /* GroupView.xib */,
 				3A975D581CFCC42200E400B3 /* Assets.xcassets */,
 				3A975D5A1CFCC42200E400B3 /* LaunchScreen.storyboard */,
 				3A975D5D1CFCC42200E400B3 /* Info.plist */,
@@ -195,6 +194,7 @@
 			children = (
 				3AE1FB291D07B71E001A6914 /* DocumentUiTableViewCell.swift */,
 				3AC1AD7B1D09093000097926 /* GroupUiTableViewCell.swift */,
+				3AC1AD7D1D0B897A00097926 /* DetailTableViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -312,7 +312,6 @@
 			files = (
 				3A975D5C1CFCC42200E400B3 /* LaunchScreen.storyboard in Resources */,
 				3A975D591CFCC42200E400B3 /* Assets.xcassets in Resources */,
-				3AC80AE01D052BE700066489 /* GroupView.xib in Resources */,
 				3A975D541CFCC42200E400B3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,6 +430,7 @@
 				3AE233401CFE21D400656969 /* NavigationViewController.swift in Sources */,
 				3A975D4F1CFCC42200E400B3 /* AppDelegate.swift in Sources */,
 				3AE2333B1CFE1A5C00656969 /* Document+CoreDataProperties.swift in Sources */,
+				3AC1AD7E1D0B897A00097926 /* DetailTableViewCell.swift in Sources */,
 				3AE233361CFE179300656969 /* FPHandlesMOC.swift in Sources */,
 				3AE2333D1CFE1A5C00656969 /* Item+CoreDataProperties.swift in Sources */,
 				3AE233321CFE112E00656969 /* ProtocolCoreDataTableViewController.swift in Sources */,
@@ -576,6 +576,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Listio/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = felipep.com.Listio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -588,6 +589,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Listio/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = felipep.com.Listio;
 				PRODUCT_NAME = "$(TARGET_NAME)";

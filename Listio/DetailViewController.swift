@@ -7,22 +7,21 @@
 //
 
 import UIKit
+import CoreData
+import DATAStack
 
-class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class DetailViewController: CoreDataTableViewController,FPHandlesMOC {
     //MARK: - Variables
-    @IBOutlet weak var qtdTotalLabel: UILabel!
-    @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var itemsTableView: UITableView!
-    @IBOutlet weak var titleLabel: UILabel!
-    var items: [Item]!
-    var payments: [AnyObject]!
-    var document: Document!
-    
+    var itemName:String!
+    var groupObj:Group!
+    var dataStack:DATAStack!
     
     //MARK: - App life
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.setUp()
+        self.title = "Histórico"
         // not show empty tableviewcell
         self.itemsTableView.tableFooterView = UIView(frame: CGRect.zero)
         self.itemsTableView.alwaysBounceVertical = false
@@ -33,92 +32,67 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         // Dispose of any resources that can be recreated.
     }
     
-    override func shouldAutorotate() -> Bool {
-        let orientation = UIApplication.sharedApplication().statusBarOrientation
-        switch (orientation){
-        case .Portrait:
-            return false
-        case .PortraitUpsideDown:
-            return false
-        default:
-            return true
-        }
+    //MARK: - FPHandlesMOC Delegate
+    func receiveDataStack(incomingDataStack: DATAStack) {
+        self.dataStack = incomingDataStack
     }
     
     //MARK: - Setup Labels
     func setUp(){
-        self.items = document.items?.allObjects as! [Item]
+        self.coreDataTableView = self.itemsTableView
         
-//        let monthName = monthsName[Int(document.mes!.substringWithRange(0, end: 2))!]! as String
-//        let splitedString = document.createdAt?.componentsSeparatedByString(" ")
-//        let splitedData = (splitedString![0]).componentsSeparatedByString("/")
-//        let splitedHour = (splitedString![1]).componentsSeparatedByString(":")
-//        self.titleLabel.text = "\(splitedData[0])/\(monthName) \(splitedHour[0]):\(splitedHour[1])"
+        let request = NSFetchRequest(entityName: "Item")
+        var expressionDescriptions = [AnyObject]()
         
-//        let payment = NSKeyedUnarchiver.unarchiveObjectWithData(document.payments!) as! NSDictionary
-//        self.payments = payment["pagmetodos"] as! [AnyObject]
-//        let total:String = (payment["vl_total"] as! String).stringByReplacingOccurrencesOfString(".", withString: ",")
-//        self.totalLabel.text = "R$\(total)"
+        expressionDescriptions.append("descricao")
         
-        self.qtdTotalLabel.text = "Qtd. Total Itens \(self.items.count.description)"
+        //Count qtde collum on data base
+        var expressionDescription = NSExpressionDescription()
+        expressionDescription.name = "QtdeCount"
+        expressionDescription.expression = NSExpression(format: "@sum.qtde")
+        expressionDescription.expressionResultType = .Integer32AttributeType
+        expressionDescriptions.append(expressionDescription)
+        
+        //Get createdAt collum on documents
+        expressionDescription = NSExpressionDescription()
+        expressionDescription.name = "createdAt"
+        expressionDescription.expression = NSExpression(format: "document.createdAt")
+        expressionDescription.expressionResultType = .DateAttributeType
+        expressionDescriptions.append(expressionDescription)
+        
+        //GroupBy for descricao and document.creadteAt
+        request.propertiesToGroupBy = ["descricao","document.createdAt"]
+        request.resultType = .DictionaryResultType
+        request.sortDescriptors = [NSSortDescriptor(key: "descricao", ascending: true)]
+        request.propertiesToFetch = expressionDescriptions
+        
+        request.predicate = NSPredicate(format: "document.groupType.name = %@ AND descricao = %@",self.groupObj.name!,self.itemName)
+        
+        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.dataStack.mainContext, sectionNameKeyPath: nil, cacheName: "rootCache")
+        self.performFetch()
+        self.itemsTableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
-    @IBAction func goToLink(sender: AnyObject) {
-        UIApplication.sharedApplication().openURL(NSURL(string: self.document.link!)!)
-    }
-    
-    //MARK: - Back Button Pressed
-    @IBAction func backButtonPressed(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
     
     //MARK: - UITableViewDataSource
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    func tableView(tableView: UITableView,
-        numberOfRowsInSection section: Int) -> Int {
-            if section == 1{
-                return payments.count
-            }
-            return items.count
-    }
-    
-    func tableView(tableView: UITableView,
-        cellForRowAtIndexPath
+    override func tableView(tableView: UITableView,
+                            cellForRowAtIndexPath
         indexPath: NSIndexPath) -> UITableViewCell {
-            
-            if indexPath.section == 1 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("ItemCell", forIndexPath: indexPath)
-                
-                let payment = payments[indexPath.row]
-                
-                cell.textLabel!.text = payment["forma_pag"] as? String
-                cell.detailTextLabel?.text = payment["valor"] as? String
-                
-                return cell
-            }
-            let cell = tableView.dequeueReusableCellWithIdentifier("ItemCell", forIndexPath: indexPath)
-            
-            let notaItem = items[indexPath.row]
-            
-            cell.textLabel!.text = notaItem.descricao
-            cell.detailTextLabel?.text = notaItem.vlTotal?.description
-            
-            return cell
-    }
-    
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 1{
-            let cell = tableView.dequeueReusableCellWithIdentifier("HeaderPaymentCell")
-            (cell?.viewWithTag(1) as! UILabel).text = "Formas de Pagamento"
-            (cell?.viewWithTag(2) as! UILabel).text = "Valor Pago"
-            return cell
-        }
-        let cell = tableView.dequeueReusableCellWithIdentifier("HeaderItemCell")
-        (cell?.viewWithTag(1) as! UILabel).text = "Descrição"
-        (cell?.viewWithTag(2) as! UILabel).text = "VL. Total R$"
+        let cell = tableView.dequeueReusableCellWithIdentifier("ItemCell", forIndexPath: indexPath) as! DetailTableViewCell
+        
+        let item = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! [String:AnyObject]
+
+        cell.nameLabel?.text = item["descricao"] as? String
+        
+        let formatter = NSNumberFormatter()
+        formatter.minimumIntegerDigits = 2
+        let date = item["createdAt"] as! NSDate
+        let mes = "\(formatter.stringFromNumber((date.getComponent(.Month))!)!)/\((date.getComponent(.Year))!)"
+        
+        cell.dateLabel?.text = mes
+        
+        cell.qtdeLabel.text = (item["QtdeCount"] as? Int)?.description
+        
         return cell
     }
     

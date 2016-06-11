@@ -35,6 +35,31 @@ extension UIColor {
     }
 }
 
+extension NSDate {
+    func getComponent(component:NSCalendarUnit) -> Int?{
+        if
+            let cal: NSCalendar = NSCalendar.currentCalendar(){
+            return cal.component(component, fromDate: self)
+        } else {
+            return nil
+        }
+    }
+}
+
+extension NSNumber {
+    func toMaskReais() ->String?{
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+        formatter.locale = NSLocale(localeIdentifier: "pt_BR")
+        return formatter.stringFromNumber(self)
+    }
+    func maskToCurrency() ->String?{
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.CurrencyAccountingStyle
+        return formatter.stringFromNumber(self)
+    }
+}
+
 extension Int
 {
     static func random(range: Range<Int> ) -> Int

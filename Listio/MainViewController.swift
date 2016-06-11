@@ -51,7 +51,7 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     }
     
     func loadTotal(){
-        totalLabel.text = "R$\(groupObj.totalValue!)"
+        totalLabel.text = groupObj.totalValue?.toMaskReais()
     }
     
     func configTableView(){
@@ -150,7 +150,7 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         
         cell.nameLabel.text = mapType.name!
         cell.unLabel.text = mapType.qtde?.description
-        cell.valueLabel.text = mapType.vlUnit?.description
+        cell.valueLabel.text = mapType.vlUnit?.maskToCurrency()
         
         //configure right buttons
         //configure right buttons
@@ -175,14 +175,14 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "toDetailDocument"{
-            if segue.destinationViewController.isKindOfClass(DetailViewController){
-                let vc = segue.destinationViewController as! DetailViewController
-                if sender!.isKindOfClass(Document){
-                    let doc = sender as! Document
-                    vc.document = doc
-                }
-            }
+        if let vc = segue.destinationViewController as? FPHandlesMOC{
+            vc.receiveDataStack(self.dataStack)
+        }
+        if let vc = segue.destinationViewController as? DetailViewController,
+        let cell = sender as? UITableViewCell {
+            vc.groupObj = self.groupObj
+            let indexPath = self.tableView.indexPathForCell(cell)
+            vc.itemName = (self.fetchedResultsController?.objectAtIndexPath(indexPath!) as! ItemList).name
         }
     }
     

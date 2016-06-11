@@ -94,7 +94,7 @@ class FirstViewController: CoreDataTableViewController, FPHandlesMOC {
         let group = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! Group
    
         cell.titleLabel!.text = group.name
-        cell.detailLabel?.text = "R$\(group.totalValue!)"
+        cell.detailLabel?.text = group.totalValue?.toMaskReais()
         
 //        cell.markLabel.text = String.materialIcon(.TurnedIn)
 //        cell.markLabel.textColor = UIColor.randomColor()
