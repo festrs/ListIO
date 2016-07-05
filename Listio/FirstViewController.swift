@@ -8,47 +8,111 @@
 
 import UIKit
 import DATAStack
+import GoogleMaterialIconFont
 
-class FirstViewController: UIViewController,FPHandlesMOC,UITableViewDelegate,UITableViewDataSource {
+class FirstViewController: CoreDataTableViewController, FPHandlesMOC {
     
     @IBOutlet weak var tableView: UITableView!
+    var textField:UITextField!
     private var dataStack:DATAStack!
-    var array = [MapItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.configTableView()
+        self.configTableView()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    
-    @IBAction func createShopList(sender: AnyObject) {
-        
-        let core = InteligenceCore()
-        
-        array = core.calculate(self.dataStack.mainContext)!
-        self.tableView.reloadData()
+    func configTableView(){
+        self.coreDataTableView = self.tableView
+        let request = NSFetchRequest(entityName: "Group")
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.dataStack.mainContext, sectionNameKeyPath: nil, cacheName: "rootCache")
+        self.performFetch()
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
+//    let range = NSMakeRange(0, self.tableView.numberOfSections)
+//    let sections = NSIndexSet(indexesInRange: range)
+//    self.tableView.reloadSections(sections, withRowAnimation: .Automatic)
     
-    //MARK: - Table view Data Source
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return array.count
+    func addNewGroup(){
+        let groupObj = NSEntityDescription.insertNewObjectForEntityForName("Group", inManagedObjectContext: self.dataStack.mainContext) as! Group
+        groupObj.name = self.textField.text!
+        do {
+            try self.dataStack.mainContext.save()
+        } catch {
+            fatalError("Failure to save context: \(error)")
+        }
+        self.performFetch()
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let mapItem = array[indexPath.row]
+    //MARK: - UIALert handle
+    @IBAction func addNewGroup(sender: AnyObject) {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("ItemCell")
+        let alert = UIAlertController(title: "Alert Title", message: "Alert Message", preferredStyle: UIAlertControllerStyle.Alert)
         
-        cell!.textLabel!.text = mapItem.name
-        cell?.detailTextLabel?.text = mapItem.vlTotal.description
+        alert.addTextFieldWithConfigurationHandler(configurationTextField)
         
-        return cell!
+        alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.Cancel, handler:handleCancel))
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler:{ (UIAlertAction)in
+            self.addNewGroup()
+        }))
+        self.presentViewController(alert, animated: true, completion: {
+            //print("completion block")
+            //
+        })
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            //objects.removeAtIndex(indexPath.row)
+            //tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        } else if editingStyle == .Insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+        }
+    }
+    
+    func configurationTextField(textField: UITextField!)
+    {
+        if textField != nil {
+            self.textField = textField!        //Save reference to the UITextField
+            self.textField.text = "Hello world"
+        }
+    }
+    
+    func handleCancel(alertView: UIAlertAction!)
+    {
+        self.textField.resignFirstResponder()
+    }
+    
+    //MARK: - TableView Data Source
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("groupCell", forIndexPath: indexPath) as! GroupUiTableViewCell
+        let group = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! Group
+   
+        cell.titleLabel!.text = group.name
+        cell.detailLabel?.text = group.totalValue?.toMaskReais()
+        
+//        cell.markLabel.text = String.materialIcon(.TurnedIn)
+//        cell.markLabel.textColor = UIColor.randomColor()
+//        cell.markLabel.font = UIFont.materialIconOfSize(22)
+        
+        return cell
+    }
+    
+    func colorForIndex(index: NSInteger) -> UIColor {
+        
+        let itemCount:Int = (self.fetchedResultsController?.fetchedObjects?.count)!
+        let a = Float(index)
+        let b = Float(itemCount)
+        let val = (a/b) * 0.9
+        
+        let sender:UIColor = UIColor(red: CGFloat(0.25), green: CGFloat(val), blue: CGFloat(0.9), alpha: CGFloat(1.0))
+        
+        return sender
     }
     
     //MARK: - FPHandlesMOC Delegate
@@ -62,6 +126,11 @@ class FirstViewController: UIViewController,FPHandlesMOC,UITableViewDelegate,UIT
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let vc = segue.destinationViewController as? FPHandlesMOC{
             vc.receiveDataStack(self.dataStack)
+        }
+        if let vc = segue.destinationViewController as? MainViewController,
+            let cell = sender as? UITableViewCell {
+            let indexPath = self.tableView.indexPathForCell(cell)
+            vc.groupObj = self.fetchedResultsController?.objectAtIndexPath(indexPath!) as! Group
         }
     }
 }

@@ -9,9 +9,8 @@
 import Foundation
 import CoreData
 
-
 class Document: NSManagedObject{
-
+    
 }
 
 func ==(lhs: Document, rhs: Document) -> Bool {
@@ -31,3 +30,4 @@ func ==(lhs: Document, rhs: Document) -> Bool {
     
     return porcentage > 65
 }
+

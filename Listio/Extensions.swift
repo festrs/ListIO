@@ -6,7 +6,59 @@
 //  Copyright © 2016 Felipe Dias Pereira. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+// MARK: URL Base
+let urlBase:String = "http://nfc-e-server.herokuapp.com"
+
+// MARK: EndPoints
+let endPointAllProducts:String = "/api/v1/qrdata"
+
+let monthsName: [Int:String] = [1:"JAN",2:"FEV",3:"MAR",4:"ABR",5:"MAIO",6:"JUN",7:"JUL",8:"AGO",9:"SET",10:"OUT",11:"NOV",12:"DEZ"]
+
+extension CGFloat {
+    static func random() -> CGFloat {
+        return CGFloat(arc4random()) / CGFloat(UInt32.max)
+    }
+}
+
+
+extension UIColor {
+    static func randomColor() -> UIColor {
+        let r = CGFloat.random()
+        let g = CGFloat.random()
+        let b = CGFloat.random()
+        
+        // If you wanted a random alpha, just create another
+        // random number for that too.
+        return UIColor(red: r, green: g, blue: b, alpha: 2.5)
+    }
+}
+
+extension NSDate {
+    func getComponent(component:NSCalendarUnit) -> Int?{
+        if
+            let cal: NSCalendar = NSCalendar.currentCalendar(){
+            return cal.component(component, fromDate: self)
+        } else {
+            return nil
+        }
+    }
+}
+
+extension NSNumber {
+    func toMaskReais() ->String?{
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+        formatter.locale = NSLocale(localeIdentifier: "pt_BR")
+        return formatter.stringFromNumber(self)
+    }
+    func maskToCurrency() ->String?{
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.CurrencyAccountingStyle
+        return formatter.stringFromNumber(self)
+    }
+}
 
 extension Int
 {
@@ -179,5 +231,14 @@ extension NSDate {
         if minutesFrom(date) > 0 { return "\(minutesFrom(date))m" }
         if secondsFrom(date) > 0 { return "\(secondsFrom(date))s" }
         return ""
+    }
+}
+
+extension UIView {
+    class func loadFromNibNamed(nibNamed: String, bundle : NSBundle? = nil) -> UIView? {
+        return UINib(
+            nibName: nibNamed,
+            bundle: bundle
+            ).instantiateWithOwner(nil, options: nil)[0] as? UIView
     }
 }
