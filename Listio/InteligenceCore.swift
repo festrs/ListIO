@@ -55,7 +55,7 @@ class InteligenceCore {
                 }))
                 coreDataHandler.saveItemListObj(finalList, groupObj: documentGroup)
             }
-            
+            coreDataHandler.getAllItemsFromGroup(documentGroup)
             let values: [Double] = results.map {
                 let payment = NSKeyedUnarchiver.unarchiveObjectWithData($0.payments!) as! NSDictionary
                 return Double(payment["vl_total"] as! String)!

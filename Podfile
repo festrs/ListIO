@@ -14,6 +14,7 @@ target 'Listio' do
     pod 'GoogleMaterialIconFont'
     pod 'TransitionTreasury', '~> 3.0.4'
     pod 'Sync'
+    pod 'AIFlatSwitch', '~> 0.0.1'
 end
 
 target 'ListioTests' do
@@ -27,5 +28,6 @@ target 'ListioTests' do
     pod 'GoogleMaterialIconFont'
     pod 'TransitionTreasury', '~> 3.0.4'
     pod 'Sync'
+    pod 'AIFlatSwitch', '~> 0.0.1'
 end
 

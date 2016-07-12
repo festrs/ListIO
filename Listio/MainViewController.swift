@@ -19,6 +19,9 @@ import GoogleMaterialIconFont
 
 class MainViewController: CoreDataTableViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
     
+
+    @IBOutlet weak var qtdeItemsLabel: UILabel!
+    @IBOutlet weak var addLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     lazy var reader: QRCodeReaderViewController = {
@@ -40,10 +43,19 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         core = InteligenceCore(coreDataHandler:coreDataHandler)
         
         self.title = groupObj.name!
-        
+
         self.loadTotal()
         
+        addLabel.text = String.materialIcon(.Add)
+        //addLabel.textColor = UIColor.randomColor()
+        addLabel.font = UIFont.materialIconOfSize(51)
+        
+        coreDataHandler.getAllItemsFromGroup(self.groupObj)
+        
         self.configTableView()
+        
+        let qtdeItems = self.fetchedResultsController?.fetchedObjects?.count
+        self.qtdeItemsLabel.text = "Qtde Produtos: \(qtdeItems!)"
     }
     
     override func didReceiveMemoryWarning() {
@@ -51,7 +63,7 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     }
     
     func loadTotal(){
-        totalLabel.text = groupObj.totalValue?.toMaskReais()
+        totalLabel.text = "Valor Total: \(groupObj.totalValue!.toMaskReais()!)"
     }
     
     func configTableView(){
@@ -149,17 +161,16 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         let cell = tableView.dequeueReusableCellWithIdentifier("documentCell") as! DocumentUiTableViewCell
         
         cell.nameLabel.text = mapType.name!
-        cell.unLabel.text = mapType.qtde?.description
+        cell.unLabel.text = "Qtde \(mapType.qtde!.description)"
         cell.valueLabel.text = mapType.vlUnit?.maskToCurrency()
-        
-        //configure right buttons
-        //configure right buttons
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! DocumentUiTableViewCell
         
+        cell.bigFlatSwitch.setSelected(!cell.bigFlatSwitch.selected, animated: true)
     }
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {

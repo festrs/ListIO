@@ -2,9 +2,5 @@ language: objective-c
 
 osx_image: xcode7.3
 
-before_install:
-    - rvm use system
-    - sudo gem install cocoapods -v '0.39.0'
-
 script:
     xcodebuild -workspace Listio.xcworkspace -scheme Listio -sdk iphonesimulator build test

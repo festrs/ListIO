@@ -30,6 +30,45 @@ class CoreDataHandler {
         return nil
     }
     
+    func getAllItemsFromGroup(groupObj: Group){
+        let request = NSFetchRequest(entityName: "Item")
+        var expressionDescriptions = [AnyObject]()
+        
+//        expressionDescriptions.append("descricao")
+//        //expressionDescriptions.append("document.remoteID")
+//        
+//        //Count qtde collum on data base
+//        var expressionDescription = NSExpressionDescription()
+//        expressionDescription.name = "QtdeCount"
+//        expressionDescription.expression = NSExpression(format: "@sum.qtde")
+//        expressionDescription.expressionResultType = .Integer32AttributeType
+//        expressionDescriptions.append(expressionDescription)
+//        
+//        //Get createdAt collum on documents
+//        expressionDescription = NSExpressionDescription()
+//        expressionDescription.name = "DocCount"
+//        let sqExpression=NSExpression(format: "SUBQUERY(document, $t, $t.remoteID)")
+//        expressionDescription.expression=NSExpression(forFunction: "count", arguments: [sqExpression])
+//        //expressionDescription.expression = NSExpression(format: "count:(document.groupType.name)")
+//        expressionDescription.expressionResultType = .DoubleAttributeType
+//        expressionDescriptions.append(expressionDescription)
+//        
+//        //GroupBy for descricao and document.creadteAt
+//        request.propertiesToGroupBy = ["descricao", "document.groupType.name"]
+//        request.resultType = .DictionaryResultType
+//        request.sortDescriptors = [NSSortDescriptor(key: "descricao", ascending: true)]
+//        request.propertiesToFetch = expressionDescriptions
+//        
+//        request.predicate = NSPredicate(format: "document.groupType.name = %@",groupObj.name!)
+//        
+//        do{
+//            //let results = try self.mainContext.executeFetchRequest(request)
+//            //print(results)
+//        } catch let error as NSError {
+//            print("Could not fetch \(error), \(error.userInfo)")
+//        }
+    }
+    
     func savingData(json:[String: AnyObject], groupObj: Group){
         guard verifyNewObject(json["id"] as! String, groupObj: groupObj) == false else{
             return
