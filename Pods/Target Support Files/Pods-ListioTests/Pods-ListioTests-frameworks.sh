@@ -84,6 +84,7 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-ListioTests/AIFlatSwitch.framework"
   install_framework "Pods-ListioTests/Alamofire.framework"
   install_framework "Pods-ListioTests/Bugsnag.framework"
   install_framework "Pods-ListioTests/CryptoSwift.framework"
@@ -104,6 +105,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-ListioTests/TransitionTreasury.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-ListioTests/AIFlatSwitch.framework"
   install_framework "Pods-ListioTests/Alamofire.framework"
   install_framework "Pods-ListioTests/Bugsnag.framework"
   install_framework "Pods-ListioTests/CryptoSwift.framework"

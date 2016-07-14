@@ -7,11 +7,19 @@
 //
 
 import UIKit
+import AIFlatSwitch
 
 class DocumentUiTableViewCell: UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var unLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
+    @IBOutlet weak var bigFlatSwitch: AIFlatSwitch!
 
+    
+    @IBAction func onSwitchValueChange(sender: AnyObject) {
+        
+
+        
+    }
 }

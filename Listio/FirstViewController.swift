@@ -15,6 +15,7 @@ class FirstViewController: CoreDataTableViewController, FPHandlesMOC {
     @IBOutlet weak var tableView: UITableView!
     var textField:UITextField!
     private var dataStack:DATAStack!
+    var listIcon:[MaterialIconFont] = [.Favorite,.TagFaces,.ShoppingCart,.ShoppingBasket,.RestaurantMenu]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,10 +34,6 @@ class FirstViewController: CoreDataTableViewController, FPHandlesMOC {
         self.performFetch()
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
-    
-//    let range = NSMakeRange(0, self.tableView.numberOfSections)
-//    let sections = NSIndexSet(indexesInRange: range)
-//    self.tableView.reloadSections(sections, withRowAnimation: .Automatic)
     
     func addNewGroup(){
         let groupObj = NSEntityDescription.insertNewObjectForEntityForName("Group", inManagedObjectContext: self.dataStack.mainContext) as! Group
@@ -96,9 +93,10 @@ class FirstViewController: CoreDataTableViewController, FPHandlesMOC {
         cell.titleLabel!.text = group.name
         cell.detailLabel?.text = group.totalValue?.toMaskReais()
         
-//        cell.markLabel.text = String.materialIcon(.TurnedIn)
-//        cell.markLabel.textColor = UIColor.randomColor()
-//        cell.markLabel.font = UIFont.materialIconOfSize(22)
+        let randomIndex = Int(arc4random_uniform(UInt32(listIcon.count)))
+        cell.markLabel.text = String.materialIcon(listIcon[randomIndex])
+        cell.markLabel.textColor = UIColor.randomColor()
+        cell.markLabel.font = UIFont.materialIconOfSize(40)
         
         return cell
     }
