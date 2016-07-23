@@ -19,7 +19,6 @@ import GoogleMaterialIconFont
 
 class MainViewController: CoreDataTableViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
     
-
     @IBOutlet weak var qtdeItemsLabel: UILabel!
     @IBOutlet weak var addLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
@@ -36,7 +35,6 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         }
         return QRCodeReaderViewController(builder: builder)
     }()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
