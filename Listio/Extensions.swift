@@ -22,7 +22,6 @@ extension CGFloat {
     }
 }
 
-
 extension UIColor {
     static func randomColor() -> UIColor {
         let r = CGFloat.random()
