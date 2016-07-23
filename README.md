@@ -4,6 +4,7 @@
 # Autor
 
 Felipe Pereira, [@festrs](https://github.com/festrs)
+Camilla Bressan,  [@milabressan](https://github.com/milabressan)
 
 
 ## License
