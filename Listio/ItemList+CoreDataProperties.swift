@@ -1,8 +1,8 @@
 //
-//  List+CoreDataProperties.swift
+//  ItemList+CoreDataProperties.swift
 //  Listio
 //
-//  Created by Felipe Dias Pereira on 2016-06-07.
+//  Created by Felipe Dias Pereira on 2016-07-22.
 //  Copyright © 2016 Felipe Dias Pereira. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -15,10 +15,9 @@ import CoreData
 extension ItemList {
 
     @NSManaged var countDocument: NSNumber?
-    @NSManaged var qtde: NSNumber?
     @NSManaged var name: String?
+    @NSManaged var qtde: NSNumber?
     @NSManaged var vlTotal: NSNumber?
     @NSManaged var vlUnit: NSNumber?
-    @NSManaged var group: Group?
 
 }

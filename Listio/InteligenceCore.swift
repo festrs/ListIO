@@ -46,38 +46,32 @@ class InteligenceCore {
         self.coreDataHandler = coreDataHandler
     }
     
-    func calculate(documentGroup: Group){
-        if let results = coreDataHandler.getAllDocumentsByGroup(documentGroup) {
+    func calculate(){
+        if let results = coreDataHandler.getAllDocuments() {
             if results.count == 1{
                 let items = results.first?.items?.allObjects as! [Item]
                 let finalList = removeRedudancyAndSortForCountDoc(items.map({
                     return MapItem(countDocument: 1, qtde: ($0.qtde?.integerValue)!, name: $0.descricao!, vlUnit: ($0.vlUnit?.doubleValue)!, vlTotal: $0.vlTotal!.doubleValue)
                 }))
-                coreDataHandler.saveItemListObj(finalList, groupObj: documentGroup)
+                coreDataHandler.saveItemListObj(finalList)
             }
-            coreDataHandler.getAllItemsFromGroup(documentGroup)
-            let values: [Double] = results.map {
-                let payment = NSKeyedUnarchiver.unarchiveObjectWithData($0.payments!) as! NSDictionary
-                return Double(payment["vl_total"] as! String)!
-            }
+//            let values: [Double] = results.map {
+//                let payment = NSKeyedUnarchiver.unarchiveObjectWithData($0.payments!) as! NSDictionary
+//                return Double(payment["vl_total"] as! String)!
+//            }
             let mapped: [MapItem] = getAllItens(results)
-            
             // mapped
             let newMapped = removeRedudancyAndSortForCountDoc(mapped)
-            
-            let mediumPriceLists = values.reduce(0, combine: +)/Double(values.count)
-            
-            let finalList = getFinalListCutForMediumPrice(newMapped, price: mediumPriceLists)
-            coreDataHandler.saveItemListObj(finalList, groupObj: documentGroup)
+//            let mediumPriceLists = values.reduce(0, combine: +)/Double(values.count)
+//            let finalList = getFinalListCutForMediumPrice(newMapped, price: mediumPriceLists)
+            coreDataHandler.saveItemListObj(newMapped)
         }
     }
 }
 
 func getAllItens(documentList : [Document])->[MapItem]{
-    
     // put all itens in a single array
     let allItems = documentList.flatMap({ d in d.items!}) as! [Item]
-    
     //check if the item is present in more them 1 document, return list of MapItem
     return allItems.map {
         item in

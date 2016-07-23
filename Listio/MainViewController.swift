@@ -19,11 +19,15 @@ import GoogleMaterialIconFont
 
 class MainViewController: CoreDataTableViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
     
-
     @IBOutlet weak var qtdeItemsLabel: UILabel!
     @IBOutlet weak var addLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    
+    private var dataStack:DATAStack!
+    var core:InteligenceCore!
+    var coreDataHandler:CoreDataHandler!
+    
     lazy var reader: QRCodeReaderViewController = {
         let builder = QRCodeViewControllerBuilder { builder in
             builder.reader          = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode,AVMetadataObjectTypeInterleaved2of5Code,AVMetadataObjectTypeEAN13Code])
@@ -31,26 +35,18 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         }
         return QRCodeReaderViewController(builder: builder)
     }()
-    private var dataStack:DATAStack!
-    var groupObj:Group!
-    var core:InteligenceCore!
-    var coreDataHandler:CoreDataHandler!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // init objects
         coreDataHandler = CoreDataHandler(mainContext: self.dataStack.mainContext)
         core = InteligenceCore(coreDataHandler:coreDataHandler)
-        
-        self.title = groupObj.name!
 
         self.loadTotal()
         
         addLabel.text = String.materialIcon(.Add)
         //addLabel.textColor = UIColor.randomColor()
         addLabel.font = UIFont.materialIconOfSize(51)
-        
-        coreDataHandler.getAllItemsFromGroup(self.groupObj)
         
         self.configTableView()
         
@@ -63,7 +59,7 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     }
     
     func loadTotal(){
-        totalLabel.text = "Valor Total: \(groupObj.totalValue!.toMaskReais()!)"
+        //totalLabel.text = "Valor Total: \(groupObj.totalValue!.toMaskReais()!)"
     }
     
     func configTableView(){
@@ -71,7 +67,6 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         let request = NSFetchRequest(entityName: "ItemList")
         let countDocumentSort = NSSortDescriptor(key: "countDocument", ascending: false)
         request.sortDescriptors = [countDocumentSort]
-        request.predicate = NSPredicate(format: "group.name = %@",groupObj.name!)
         self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.dataStack.mainContext, sectionNameKeyPath: nil, cacheName: "rootCache")
         self.performFetch()
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
@@ -97,13 +92,11 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         if QRCodeReader.supportsMetadataObjectTypes() {
             reader.modalPresentationStyle = .FormSheet
             reader.delegate               = self
-            
             presentViewController(reader, animated: true, completion: nil)
         }
         else {
             let alert = UIAlertController(title: "Error", message: "Reader not supported by the current device", preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-            
             presentViewController(alert, animated: true, completion: nil)
         }
     }
@@ -130,16 +123,16 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
                     self.hideLoadingHUD()
                     return
                 }
-                
                 guard let responseJSON = response.result.value as? [String: AnyObject] else {
                     print("Invalid tag information received from service")
                     self.hideLoadingHUD()
                     return
                 }
                 // add new item
-                self.coreDataHandler.savingData(responseJSON, groupObj: self.groupObj)
-                //calculate list
-                self.core.calculate(self.groupObj)
+                if self.coreDataHandler.savingData(responseJSON) {
+                    //case document are add calculate the list
+                    self.core.calculate()
+                }
                 // reload data
                 self.performFetch()
                 self.loadTotal()
@@ -188,12 +181,6 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let vc = segue.destinationViewController as? FPHandlesMOC{
             vc.receiveDataStack(self.dataStack)
-        }
-        if let vc = segue.destinationViewController as? DetailViewController,
-        let cell = sender as? UITableViewCell {
-            vc.groupObj = self.groupObj
-            let indexPath = self.tableView.indexPathForCell(cell)
-            vc.itemName = (self.fetchedResultsController?.objectAtIndexPath(indexPath!) as! ItemList).name
         }
     }
     

@@ -11,14 +11,7 @@
         <attribute name="payments" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="remoteID" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="groupType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="documents" inverseEntity="Group" syncable="YES"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Item" inverseName="document" inverseEntity="Item" syncable="YES"/>
-    </entity>
-    <entity name="Group" representedClassName=".Group" syncable="YES">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="totalValue" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
-        <relationship name="documents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Document" inverseName="groupType" inverseEntity="Document" syncable="YES"/>
-        <relationship name="itemList" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ItemList" inverseName="group" inverseEntity="ItemList" syncable="YES"/>
     </entity>
     <entity name="Item" representedClassName=".Item" syncable="YES">
         <attribute name="descricao" optional="YES" attributeType="String" syncable="YES">
@@ -43,12 +36,10 @@
         <attribute name="qtde" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="vlTotal" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="vlUnit" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="itemList" inverseEntity="Group" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Document" positionX="331" positionY="-48" width="128" height="165"/>
-        <element name="Group" positionX="135" positionY="27" width="128" height="105"/>
-        <element name="Item" positionX="-63" positionY="-18" width="128" height="150"/>
-        <element name="ItemList" positionX="135" positionY="27" width="128" height="135"/>
+        <element name="Document" positionX="324" positionY="-48" width="128" height="28"/>
+        <element name="Item" positionX="97" positionY="-33" width="128" height="150"/>
+        <element name="ItemList" positionX="324" positionY="162" width="128" height="28"/>
     </elements>
 </model>
