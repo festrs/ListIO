@@ -7,10 +7,10 @@
 //
 
 import XCTest
-@testable import Listio
+
 
 class ListioTests: XCTestCase {
-    var core:InteligenceCore!
+    
     
     override func setUp() {
         super.setUp()
@@ -25,7 +25,7 @@ class ListioTests: XCTestCase {
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
-        self.measureBlock {
+        self.measure {
             
             
         }

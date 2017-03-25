@@ -79,7 +79,7 @@ typedef enum
         return nil;
     }
     NSArray* splitSelector = [selectorParam.value componentsSeparatedByString:@":"];
-    int paramCount = (int)[splitSelector count] - 1;
+    int paramCount = (int)splitSelector.count - 1;
 
     NSMutableString* string = [NSMutableString stringWithFormat:@"-[%@ %@", receiver, [splitSelector objectAtIndex:0]];
     for(int paramNum = 0; paramNum < paramCount; paramNum++)
@@ -134,9 +134,9 @@ typedef enum
         return objCCall;
     }
 
-    if(paramCount > (int)[self.params count])
+    if(paramCount > (int)self.params.count)
     {
-        paramCount = (int)[self.params count];
+        paramCount = (int)self.params.count;
     }
     NSMutableString* str = [NSMutableString string];
     [str appendFormat:@"Function: %@\n", self.name];
@@ -468,11 +468,11 @@ typedef enum
 
 - (NSString*) zombieCall:(KSCrashDoctorFunctionCall*) functionCall
 {
-    if([functionCall.name isEqualToString:@"objc_msgSend"] && [[functionCall.params objectAtIndex:0] previousClassName] != nil)
+    if([functionCall.name isEqualToString:@"objc_msgSend"] && functionCall.params.count > 0 && [[functionCall.params objectAtIndex:0] previousClassName] != nil)
     {
         return [functionCall descriptionWithParamCount:4];
     }
-    else if([functionCall.name isEqualToString:@"objc_retain"] && [[functionCall.params objectAtIndex:0] previousClassName] != nil)
+    else if([functionCall.name isEqualToString:@"objc_retain"] && functionCall.params.count > 0 && [[functionCall.params objectAtIndex:0] previousClassName] != nil)
     {
         return [functionCall descriptionWithParamCount:1];
     }

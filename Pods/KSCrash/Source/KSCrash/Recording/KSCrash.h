@@ -28,7 +28,7 @@
 #import <Foundation/Foundation.h>
 
 #import "KSCrashReportWriter.h"
-#import "KSCrashReportFilter.h"
+#import "KSCrashReportFilterCompletion.h"
 #import "KSCrashType.h"
 
 
@@ -70,21 +70,6 @@ typedef enum
  *       fail to install.
  */
 @property(nonatomic,readwrite,assign) KSCrashType handlingCrashTypes;
-
-/** The size of the cache to use for on-device zombie tracking.
- * Every deallocated object will be hashed based on its address modulus the cache
- * size, so the bigger the cache, the less likely a hash collision (missed zombie).
- * It is best to profile your app to determine how many objects are allocated at
- * a time before choosing this value, but in general you'll want a value of
- * at least 16384.
- * Each cache entry will occupy 8 bytes for 32-bit architectures and 16 bytes
- * for 64-bit architectures.
- *
- * Note: Value must be a power-of-2. 0 = no zombie checking.
- *
- * Default: 0
- */
-@property(nonatomic,readwrite,assign) size_t zombieCacheSize;
 
 /** Maximum time to allow the main thread to run without returning.
  * If a task occupies the main thread for longer than this interval, the
@@ -136,6 +121,13 @@ typedef enum
  */
 @property(nonatomic,readwrite,assign) bool introspectMemory;
 
+/** If YES, monitor all Objective-C/Swift deallocations and keep track of any
+ * accesses after deallocation.
+ *
+ * Default: NO
+ */
+@property(nonatomic,readwrite,assign) bool catchZombies;
+
 /** List of Objective-C classes that should never be introspected.
  * Whenever a class in this list is encountered, only the class name will be recorded.
  * This can be useful for information security concerns.
@@ -183,16 +175,25 @@ typedef enum
  *
  * @param reason A description of why the exception occurred.
  *
+ * @param language A unique language identifier.
+ *
  * @param lineOfCode A copy of the offending line of code (nil = ignore).
  *
- * @param stackTrace An array of strings representing the call stack leading to the exception (nil = ignore).
+ * @param stackTrace An array of frames (dictionaries or strings) representing the call stack leading to the exception (nil = ignore).
  *
  * @param terminateProgram If true, do not return from this function call. Terminate the program instead.
  */
 - (void) reportUserException:(NSString*) name
                       reason:(NSString*) reason
+                    language:(NSString*) language
                   lineOfCode:(NSString*) lineOfCode
                   stackTrace:(NSArray*) stackTrace
             terminateProgram:(BOOL) terminateProgram;
 
 @end
+
+//! Project version number for KSCrashFramework.
+FOUNDATION_EXPORT const double KSCrashFrameworkVersionNumber;
+
+//! Project version string for KSCrashFramework.
+FOUNDATION_EXPORT const unsigned char KSCrashFrameworkVersionString[];

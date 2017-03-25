@@ -24,8 +24,10 @@
 // THE SOFTWARE.
 //
 
+#include <TargetConditionals.h>
 
 #include "KSCrashSentry_Signal.h"
+#include "KSCrashSentry_Context.h"
 #include "KSCrashSentry_Private.h"
 
 #include "KSSignalInfo.h"
@@ -50,8 +52,10 @@
  */
 static volatile sig_atomic_t g_installed = 0;
 
+#if KSCRASH_HAS_SIGNAL_STACK
 /** Our custom signal stack. The signal handler will use this as its stack. */
 static stack_t g_signalStack = {0};
+#endif
 
 /** Signal handlers that were installed before we installed ours. */
 static struct sigaction* g_previousSignalHandlers = NULL;
@@ -72,7 +76,7 @@ static KSCrash_SentryContext* g_context;
  * Once we're done, re-raise the signal and let the default handlers deal with
  * it.
  *
- * @param signal The signal that was raised.
+ * @param sigNum The signal that was raised.
  *
  * @param signalInfo Information about the signal.
  *
@@ -142,6 +146,8 @@ bool kscrashsentry_installSignalHandler(KSCrash_SentryContext* context)
 
     g_context = context;
 
+#if KSCRASH_HAS_SIGNAL_STACK
+
     if(g_signalStack.ss_size == 0)
     {
         KSLOG_DEBUG("Allocating signal stack area.");
@@ -155,6 +161,7 @@ bool kscrashsentry_installSignalHandler(KSCrash_SentryContext* context)
         KSLOG_ERROR("signalstack: %s", strerror(errno));
         goto failed;
     }
+#endif
 
     const int* fatalSignals = kssignal_fatalSignals();
     int fatalSignalsCount = kssignal_numFatalSignals();

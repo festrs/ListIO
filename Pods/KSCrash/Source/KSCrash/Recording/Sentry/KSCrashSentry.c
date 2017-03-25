@@ -26,6 +26,7 @@
 
 
 #include "KSCrashSentry.h"
+#include "KSCrashSentry_Context.h"
 #include "KSCrashSentry_Private.h"
 
 #include "KSCrashSentry_Deadlock.h"
@@ -35,6 +36,7 @@
 #include "KSCrashSentry_Signal.h"
 #include "KSCrashSentry_User.h"
 #include "KSMach.h"
+#include "KSSystemCapabilities.h"
 
 //#define KSLogger_LocalLevel TRACE
 #include "KSLogger.h"
@@ -53,16 +55,20 @@ typedef struct
 
 static CrashSentry g_sentries[] =
 {
+#if KSCRASH_HAS_MACH
     {
         KSCrashTypeMachException,
         kscrashsentry_installMachHandler,
         kscrashsentry_uninstallMachHandler,
     },
+#endif
+#if KSCRASH_HAS_SIGNAL
     {
         KSCrashTypeSignal,
         kscrashsentry_installSignalHandler,
         kscrashsentry_uninstallSignalHandler,
     },
+#endif
     {
         KSCrashTypeCPPException,
         kscrashsentry_installCPPExceptionHandler,
@@ -84,7 +90,7 @@ static CrashSentry g_sentries[] =
         kscrashsentry_uninstallUserExceptionHandler,
     },
 };
-static size_t g_sentriesCount = sizeof(g_sentries) / sizeof(*g_sentries);
+static int g_sentriesCount = sizeof(g_sentries) / sizeof(*g_sentries);
 
 /** Context to fill with crash information. */
 static KSCrash_SentryContext* g_context = NULL;
@@ -103,13 +109,22 @@ KSCrashType kscrashsentry_installWithContext(KSCrash_SentryContext* context,
                                              KSCrashType crashTypes,
                                              void (*onCrash)(void))
 {
-    KSLOG_DEBUG("Installing handlers with context %p, crash types 0x%x.", context, crashTypes);
+    if(ksmach_isBeingTraced())
+    {
+        KSLOGBASIC_WARN("KSCrash: App is running in a debugger. Only user reported events will be handled.");
+        crashTypes = KSCrashTypeUserReported;
+    }
+    else
+    {
+        KSLOG_DEBUG("Installing handlers with context %p, crash types 0x%x.", context, crashTypes);
+    }
+
     g_context = context;
     kscrashsentry_clearContext(g_context);
     g_context->onCrash = onCrash;
 
-    KSCrashType installed = 0;
-    for(size_t i = 0; i < g_sentriesCount; i++)
+    KSCrashType installed = KSCrashTypeNone;
+    for(int i = 0; i < g_sentriesCount; i++)
     {
         CrashSentry* sentry = &g_sentries[i];
         if(sentry->crashType & crashTypes)
@@ -128,7 +143,7 @@ KSCrashType kscrashsentry_installWithContext(KSCrash_SentryContext* context,
 void kscrashsentry_uninstall(KSCrashType crashTypes)
 {
     KSLOG_DEBUG("Uninstalling handlers with crash types 0x%x.", crashTypes);
-    for(size_t i = 0; i < g_sentriesCount; i++)
+    for(int i = 0; i < g_sentriesCount; i++)
     {
         CrashSentry* sentry = &g_sentries[i];
         if(sentry->crashType & crashTypes)

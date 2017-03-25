@@ -28,17 +28,15 @@ extension UIColor {
         let g = CGFloat.random()
         let b = CGFloat.random()
         
-        // If you wanted a random alpha, just create another
-        // random number for that too.
         return UIColor(red: r, green: g, blue: b, alpha: 2.5)
     }
 }
 
-extension NSDate {
-    func getComponent(component:NSCalendarUnit) -> Int?{
+extension Date {
+    func getComponent(_ component:NSCalendar.Unit) -> Int?{
         if
-            let cal: NSCalendar = NSCalendar.currentCalendar(){
-            return cal.component(component, fromDate: self)
+            let cal: Calendar = Calendar.current{
+            return (cal as NSCalendar).component(component, from: self)
         } else {
             return nil
         }
@@ -47,37 +45,37 @@ extension NSDate {
 
 extension NSNumber {
     func toMaskReais() ->String?{
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
-        formatter.locale = NSLocale(localeIdentifier: "pt_BR")
-        return formatter.stringFromNumber(self)
+        let formatter = NumberFormatter()
+        formatter.numberStyle = NumberFormatter.Style.currency
+        formatter.locale = Locale(identifier: "pt_BR")
+        return formatter.string(from: self)
     }
     func maskToCurrency() ->String?{
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = NSNumberFormatterStyle.CurrencyAccountingStyle
-        return formatter.stringFromNumber(self)
+        let formatter = NumberFormatter()
+        formatter.numberStyle = NumberFormatter.Style.currencyAccounting
+        return formatter.string(from: self)
     }
 }
 
 extension Int
 {
-    static func random(range: Range<Int> ) -> Int
+    static func random(_ range: Range<Int> ) -> Int
     {
         var offset = 0
         
-        if range.startIndex < 0   // allow negative ranges
+        if range.lowerBound < 0   // allow negative ranges
         {
-            offset = abs(range.startIndex)
+            offset = abs(range.lowerBound)
         }
         
-        let mini = UInt32(range.startIndex + offset)
-        let maxi = UInt32(range.endIndex   + offset)
+        let mini = UInt32(range.lowerBound + offset)
+        let maxi = UInt32(range.upperBound   + offset)
         
         return Int(mini + arc4random_uniform(maxi - mini)) - offset
     }
 }
 
-func flatten<T>(a: [[T]]) -> [T] {
+func flatten<T>(_ a: [[T]]) -> [T] {
     return a.reduce([]) {
         res, ca in
         return res + ca
@@ -88,43 +86,40 @@ extension String
 {
     func trim() -> String
     {
-        return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        return self.trimmingCharacters(in: CharacterSet.whitespaces)
     }
     
     func removeSpaces() -> String
     {
-        return self.stringByReplacingOccurrencesOfString(" ", withString: "")
+        return self.replacingOccurrences(of: " ", with: "")
     }
 }
 
 public protocol Groupable {
-    func sameGroupAs(otherPerson: Self) -> Bool
+    func sameGroupAs(_ otherPerson: Self) -> Bool
 }
 
 
-extension CollectionType where Self.Generator.Element: Groupable {
-    
-    public func group() -> [[Self.Generator.Element]] {
+extension Collection where Self.Iterator.Element: Groupable {
+    public func group() -> [[Self.Iterator.Element]] {
         return self.groupBy { $0.sameGroupAs($1) }
     }
     
 }
 
-extension CollectionType where Self.Generator.Element: Comparable {
-    
-    public func uniquelyGroupBy(grouper: (Self.Generator.Element, Self.Generator.Element) -> Bool) -> [[Self.Generator.Element]] {
-        let sorted = self.sort()
+extension Collection where Self.Iterator.Element: Comparable {
+    public func uniquelyGroupBy(_ grouper: (Self.Iterator.Element, Self.Iterator.Element) -> Bool) -> [[Self.Iterator.Element]] {
+        let sorted = self.sorted()
         return sorted.groupBy(grouper)
     }
     
 }
 
-extension CollectionType {
-    
-    public typealias ItemType = Self.Generator.Element
+extension Collection {
+    public typealias ItemType = Self.Iterator.Element
     public typealias Grouper = (ItemType, ItemType) -> Bool
     
-    public func groupBy(grouper: Grouper) -> [[ItemType]] {
+    public func groupBy(_ grouper: Grouper) -> [[ItemType]] {
         var result : Array<Array<ItemType>> = []
         
         var previousItem: ItemType?
@@ -158,8 +153,8 @@ extension CollectionType {
     
 }
 
-extension SequenceType where Generator.Element: Equatable {
-    func containsObject(val: Self.Generator.Element?) -> Bool {
+extension Sequence where Iterator.Element: Equatable {
+    func containsObject(_ val: Self.Iterator.Element?) -> Bool {
         if val != nil {
             for item in self {
                 if item == val {
@@ -171,8 +166,8 @@ extension SequenceType where Generator.Element: Equatable {
     }
 }
 
-extension SequenceType where Generator.Element: AnyObject {
-    func containsObject(obj: Self.Generator.Element?) -> Bool {
+extension Sequence where Iterator.Element: AnyObject {
+    func containsObject(_ obj: Self.Iterator.Element?) -> Bool {
         if obj != nil {
             for item in self {
                 if item === obj {
@@ -184,12 +179,10 @@ extension SequenceType where Generator.Element: AnyObject {
     }
 }
 
-public extension SequenceType {
-    
+public extension Sequence {
     /// Categorises elements of self into a dictionary, with the keys given by keyFunc
-    
-    func categorise<U : Hashable>(@noescape keyFunc: Generator.Element -> U) -> [U:[Generator.Element]] {
-        var dict: [U:[Generator.Element]] = [:]
+    func categorise<U : Hashable>(_ keyFunc: (Iterator.Element) -> U) -> [U:[Iterator.Element]] {
+        var dict: [U:[Iterator.Element]] = [:]
         for el in self {
             let key = keyFunc(el)
             if case nil = dict[key]?.append(el) { dict[key] = [el] }
@@ -199,29 +192,29 @@ public extension SequenceType {
 }
 
 
-extension NSDate {
-    func yearsFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Year, fromDate: date, toDate: self, options: []).year
+extension Date {
+    func yearsFrom(_ date:Date) -> Int{
+        return (Calendar.current as NSCalendar).components(.year, from: date, to: self, options: []).year!
     }
-    func monthsFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Month, fromDate: date, toDate: self, options: []).month
+    func monthsFrom(_ date:Date) -> Int{
+        return (Calendar.current as NSCalendar).components(.month, from: date, to: self, options: []).month!
     }
-    func weeksFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.WeekOfYear, fromDate: date, toDate: self, options: []).weekOfYear
+    func weeksFrom(_ date:Date) -> Int{
+        return (Calendar.current as NSCalendar).components(.weekOfYear, from: date, to: self, options: []).weekOfYear!
     }
-    func daysFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Day, fromDate: date, toDate: self, options: []).day
+    func daysFrom(_ date:Date) -> Int{
+        return (Calendar.current as NSCalendar).components(.day, from: date, to: self, options: []).day!
     }
-    func hoursFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Hour, fromDate: date, toDate: self, options: []).hour
+    func hoursFrom(_ date:Date) -> Int{
+        return (Calendar.current as NSCalendar).components(.hour, from: date, to: self, options: []).hour!
     }
-    func minutesFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Minute, fromDate: date, toDate: self, options: []).minute
+    func minutesFrom(_ date:Date) -> Int{
+        return (Calendar.current as NSCalendar).components(.minute, from: date, to: self, options: []).minute!
     }
-    func secondsFrom(date:NSDate) -> Int{
-        return NSCalendar.currentCalendar().components(.Second, fromDate: date, toDate: self, options: []).second
+    func secondsFrom(_ date:Date) -> Int{
+        return (Calendar.current as NSCalendar).components(.second, from: date, to: self, options: []).second!
     }
-    func offsetFrom(date:NSDate) -> String {
+    func offsetFrom(_ date:Date) -> String {
         if yearsFrom(date)   > 0 { return "\(yearsFrom(date))y"   }
         if monthsFrom(date)  > 0 { return "\(monthsFrom(date))M"  }
         if weeksFrom(date)   > 0 { return "\(weeksFrom(date))w"   }
@@ -234,10 +227,10 @@ extension NSDate {
 }
 
 extension UIView {
-    class func loadFromNibNamed(nibNamed: String, bundle : NSBundle? = nil) -> UIView? {
+    class func loadFromNibNamed(_ nibNamed: String, bundle : Bundle? = nil) -> UIView? {
         return UINib(
             nibName: nibNamed,
             bundle: bundle
-            ).instantiateWithOwner(nil, options: nil)[0] as? UIView
+            ).instantiate(withOwner: nil, options: nil)[0] as? UIView
     }
 }

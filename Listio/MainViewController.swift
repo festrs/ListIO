@@ -15,7 +15,6 @@ import MBProgressHUD
 import Sync
 import DATAStack
 import Sync
-import GoogleMaterialIconFont
 
 class MainViewController: CoreDataTableViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
     
@@ -24,7 +23,7 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    private var dataStack:DATAStack!
+    fileprivate var dataStack:DATAStack!
     var core:InteligenceCore!
     var coreDataHandler:CoreDataHandler!
     
@@ -44,7 +43,7 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
 
         self.loadTotal()
         
-        addLabel.text = String.materialIcon(.Add)
+        addLabel.text = String.materialIcon(.add)
         //addLabel.textColor = UIColor.randomColor()
         addLabel.font = UIFont.materialIconOfSize(51)
         
@@ -73,44 +72,44 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     }
     
     // MARK: - HUD
-    private func showLoadingHUD() {
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.labelText = "Loading..."
+    fileprivate func showLoadingHUD() {
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+        hud?.labelText = "Loading..."
     }
     
-    private func hideLoadingHUD() {
-        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+    fileprivate func hideLoadingHUD() {
+        MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
     }
     
     //MARK: - FPHandlesMOC Delegate
-    func receiveDataStack(incomingDataStack: DATAStack) {
+    func receiveDataStack(_ incomingDataStack: DATAStack) {
         self.dataStack = incomingDataStack
     }
     
     // MARK: - Actions
-    @IBAction func addButtonAction(sender: AnyObject) {
+    @IBAction func addButtonAction(_ sender: AnyObject) {
         if QRCodeReader.supportsMetadataObjectTypes() {
-            reader.modalPresentationStyle = .FormSheet
+            reader.modalPresentationStyle = .formSheet
             reader.delegate               = self
-            presentViewController(reader, animated: true, completion: nil)
+            present(reader, animated: true, completion: nil)
         }
         else {
-            let alert = UIAlertController(title: "Error", message: "Reader not supported by the current device", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-            presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: "Error", message: "Reader not supported by the current device", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
         }
     }
     
     //MARK: - QRCodeReader Delegate Methods
-    func reader(reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
-        self.dismissViewControllerAnimated(true, completion: {
+    func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
+        self.dismiss(animated: true, completion: {
             self.showLoadingHUD()
             guard result.metadataType == AVMetadataObjectTypeQRCode else { return }
             
             let url = urlBase + endPointAllProducts
             let headers = [
-                "x-access-token": JWT.encode(.HS256("SupperDupperSecret")) { builder in
-                    builder.expiration = NSDate().dateByAddingTimeInterval(30*60)
+                "x-access-token": JWT.encode(.hs256("SupperDupperSecret")) { builder in
+                    builder.expiration = Date().addingTimeInterval(30*60)
                 }
             ]
             let parameters = [
@@ -141,17 +140,17 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         })
     }
     
-    func readerDidCancel(reader: QRCodeReaderViewController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func readerDidCancel(_ reader: QRCodeReaderViewController) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     //MARK: UITableView Delegate
-    override func tableView(tableView: UITableView,
-                            cellForRowAtIndexPath
-        indexPath: NSIndexPath) -> UITableViewCell {
-        let mapType = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! ItemList
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt
+        indexPath: IndexPath) -> UITableViewCell {
+        let mapType = self.fetchedResultsController?.object(at: indexPath) as! ItemList
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("documentCell") as! DocumentUiTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "documentCell") as! DocumentUiTableViewCell
         
         cell.nameLabel.text = mapType.name!
         cell.unLabel.text = "Qtde \(mapType.qtde!.description)"
@@ -160,17 +159,17 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as! DocumentUiTableViewCell
+    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! DocumentUiTableViewCell
         
-        cell.bigFlatSwitch.setSelected(!cell.bigFlatSwitch.selected, animated: true)
+        cell.bigFlatSwitch.setSelected(!cell.bigFlatSwitch.isSelected, animated: true)
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
+    func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
+        if editingStyle == .delete {
             //objects.removeAtIndex(indexPath.row)
             //tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
+        } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
@@ -178,8 +177,8 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let vc = segue.destinationViewController as? FPHandlesMOC{
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? FPHandlesMOC{
             vc.receiveDataStack(self.dataStack)
         }
     }

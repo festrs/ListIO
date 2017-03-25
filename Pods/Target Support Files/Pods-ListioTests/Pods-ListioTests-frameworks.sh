@@ -16,7 +16,7 @@ install_framework()
     local source="$1"
   fi
 
-  local destination="${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
+  local destination="${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
 
   if [ -L "${source}" ]; then
       echo "Symlinked..."
@@ -59,8 +59,13 @@ code_sign_if_enabled() {
   if [ -n "${EXPANDED_CODE_SIGN_IDENTITY}" -a "${CODE_SIGNING_REQUIRED}" != "NO" -a "${CODE_SIGNING_ALLOWED}" != "NO" ]; then
     # Use the current code_sign_identitiy
     echo "Code Signing $1 with Identity ${EXPANDED_CODE_SIGN_IDENTITY_NAME}"
-    echo "/usr/bin/codesign --force --sign ${EXPANDED_CODE_SIGN_IDENTITY} --preserve-metadata=identifier,entitlements \"$1\""
-    /usr/bin/codesign --force --sign ${EXPANDED_CODE_SIGN_IDENTITY} --preserve-metadata=identifier,entitlements "$1"
+    local code_sign_cmd="/usr/bin/codesign --force --sign ${EXPANDED_CODE_SIGN_IDENTITY} ${OTHER_CODE_SIGN_FLAGS} --preserve-metadata=identifier,entitlements '$1'"
+
+    if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
+      code_sign_cmd="$code_sign_cmd &"
+    fi
+    echo "$code_sign_cmd"
+    eval "$code_sign_cmd"
   fi
 }
 
@@ -82,46 +87,6 @@ strip_invalid_archs() {
   fi
 }
 
-
-if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "Pods-ListioTests/AIFlatSwitch.framework"
-  install_framework "Pods-ListioTests/Alamofire.framework"
-  install_framework "Pods-ListioTests/Bugsnag.framework"
-  install_framework "Pods-ListioTests/CryptoSwift.framework"
-  install_framework "Pods-ListioTests/DATAFilter.framework"
-  install_framework "Pods-ListioTests/DATAObjectIDs.framework"
-  install_framework "Pods-ListioTests/DATAStack.framework"
-  install_framework "Pods-ListioTests/GoogleMaterialIconFont.framework"
-  install_framework "Pods-ListioTests/JWT.framework"
-  install_framework "Pods-ListioTests/KSCrash.framework"
-  install_framework "Pods-ListioTests/MBProgressHUD.framework"
-  install_framework "Pods-ListioTests/NSDictionary_ANDYSafeValue.framework"
-  install_framework "Pods-ListioTests/NSEntityDescription_SYNCPrimaryKey.framework"
-  install_framework "Pods-ListioTests/NSManagedObject_HYPPropertyMapper.framework"
-  install_framework "Pods-ListioTests/NSString_HYPNetworking.framework"
-  install_framework "Pods-ListioTests/QRCodeReader.framework"
-  install_framework "Pods-ListioTests/StringScore_Swift.framework"
-  install_framework "Pods-ListioTests/Sync.framework"
-  install_framework "Pods-ListioTests/TransitionTreasury.framework"
-fi
-if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "Pods-ListioTests/AIFlatSwitch.framework"
-  install_framework "Pods-ListioTests/Alamofire.framework"
-  install_framework "Pods-ListioTests/Bugsnag.framework"
-  install_framework "Pods-ListioTests/CryptoSwift.framework"
-  install_framework "Pods-ListioTests/DATAFilter.framework"
-  install_framework "Pods-ListioTests/DATAObjectIDs.framework"
-  install_framework "Pods-ListioTests/DATAStack.framework"
-  install_framework "Pods-ListioTests/GoogleMaterialIconFont.framework"
-  install_framework "Pods-ListioTests/JWT.framework"
-  install_framework "Pods-ListioTests/KSCrash.framework"
-  install_framework "Pods-ListioTests/MBProgressHUD.framework"
-  install_framework "Pods-ListioTests/NSDictionary_ANDYSafeValue.framework"
-  install_framework "Pods-ListioTests/NSEntityDescription_SYNCPrimaryKey.framework"
-  install_framework "Pods-ListioTests/NSManagedObject_HYPPropertyMapper.framework"
-  install_framework "Pods-ListioTests/NSString_HYPNetworking.framework"
-  install_framework "Pods-ListioTests/QRCodeReader.framework"
-  install_framework "Pods-ListioTests/StringScore_Swift.framework"
-  install_framework "Pods-ListioTests/Sync.framework"
-  install_framework "Pods-ListioTests/TransitionTreasury.framework"
+if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
+  wait
 fi

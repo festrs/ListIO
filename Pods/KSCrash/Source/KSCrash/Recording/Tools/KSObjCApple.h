@@ -25,6 +25,7 @@ extern "C" {
 
 
 #include <objc/objc.h>
+#include <CoreFoundation/CoreFoundation.h>
 
 
 #define MAKE_LIST_T(TYPE) \
@@ -485,7 +486,7 @@ struct __CFArray {
     CFIndex _count;		/* number of objects */
     CFIndex _mutations;
     int32_t _mutInProgress;
-    __strong void *_store;           /* can be NULL when MutableDeque */
+    /* __strong */ void *_store;           /* can be NULL when MutableDeque */
 };
 
 /* Flag bits */
@@ -578,8 +579,8 @@ static const uintptr_t __CFBasicHashTableSizes[64] = {
 
 typedef union {
     uintptr_t neutral;
-    id strong;
-    id weak;
+    void* Xstrong; // Changed from type 'id'
+    void* Xweak; // Changed from type 'id'
 } CFBasicHashValue;
 
 struct __CFBasicHash {

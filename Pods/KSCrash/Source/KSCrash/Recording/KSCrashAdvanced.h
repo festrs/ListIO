@@ -26,8 +26,15 @@
 
 
 #import "KSCrash.h"
-#import "KSCrashReportStore.h"
+#import "KSCrashReportFilter.h"
 
+typedef enum
+{
+    KSCrashDemangleLanguageNone = 0,
+    KSCrashDemangleLanguageCPlusPlus = 1,
+    KSCrashDemangleLanguageSwift = 2,
+    KSCrashDemangleLanguageAll = ~1
+} KSCrashDemangleLanguage;
 
 /**
  * Advanced interface to the KSCrash system.
@@ -60,19 +67,21 @@
 /** If true, the application crashed on the previous launch. */
 @property(nonatomic,readonly,assign) BOOL crashedLastLaunch;
 
+/** Which languages to demangle when getting stack traces (default KSCrashDemangleLanguageAll) */
+@property(nonatomic,readwrite,assign) KSCrashDemangleLanguage demangleLanguages;
+
 /** The total number of unsent reports. Note: This is an expensive operation.
  */
 - (NSUInteger) reportCount;
 
-/** Get all reports, with data types corrected, as dictionaries.
- */
-- (NSArray*) allReports;
-
 
 #pragma mark - Configuration -
 
+/** Init KSCrash instance with custom report files directory path. */
+//- (id) initWithReportFilesDirectory:(NSString *)reportFilesDirectory;
+
 /** Store containing all crash reports. */
-@property(nonatomic, readwrite, retain) KSCrashReportStore* crashReportStore;
+//@property(nonatomic, readwrite, retain) KSCrashReportStore* crashReportStore;
 
 /** The report sink where reports get sent.
  * This MUST be set or else the reporter will not send reports (although it will
@@ -110,22 +119,10 @@
  */
 @property(nonatomic,readwrite,assign) bool printTraceToStdout;
 
-/** Sets logFilePath to the default log file location
- * (Library/Caches/KSCrashReports/<bundle name>-CrashLog.txt).
- * If the file exists, it will be overwritten.
- *
+/** Redirect KSCrash's console log messages to a file inside the Data dir.
  * @return true if the operation was successful.
  */
-- (BOOL) redirectConsoleLogsToDefaultFile;
-
-/** Redirect the log of KSCrash's activities from the console to the specified log file.
- *
- * @param fullPath The path to the logfile (nil = log to console instead).
- * @param overwrite If true, overwrite the file (ignored if fullPath is nil).
- *
- * @return true if the operation was successful.
- */
-- (BOOL) redirectConsoleLogsToFile:(NSString*) fullPath overwrite:(BOOL) overwrite;
+- (BOOL) redirectConsoleLogToFile;
 
 
 #pragma mark - Operations -

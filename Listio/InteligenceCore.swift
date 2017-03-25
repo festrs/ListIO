@@ -9,6 +9,30 @@
 import Foundation
 import CoreData
 import StringScore_Swift
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 //Conjunto de items comuns entre as compras porém diferentes entre si
 
@@ -23,12 +47,12 @@ struct MapItem :Equatable{
     var vlUnit:Double = 0
     var vlTotal:Double = 0
     
-    mutating func addCountQte(value: Int){
+    mutating func addCountQte(_ value: Int){
         qtde += value
     }
     
     func toJson() ->[String : AnyObject]{
-        return ["countDocument":countDocument,"qtde":qtde,"name":name,"vlUnit":vlUnit,"vlTotal":vlTotal]
+        return ["countDocument":countDocument as AnyObject,"qtde":qtde as AnyObject,"name":name as AnyObject,"vlUnit":vlUnit as AnyObject,"vlTotal":vlTotal as AnyObject]
     }
 }
 
@@ -51,7 +75,7 @@ class InteligenceCore {
             if results.count == 1{
                 let items = results.first?.items?.allObjects as! [Item]
                 let finalList = removeRedudancyAndSortForCountDoc(items.map({
-                    return MapItem(countDocument: 1, qtde: ($0.qtde?.integerValue)!, name: $0.descricao!, vlUnit: ($0.vlUnit?.doubleValue)!, vlTotal: $0.vlTotal!.doubleValue)
+                    return MapItem(countDocument: 1, qtde: ($0.qtde?.intValue)!, name: $0.descricao!, vlUnit: ($0.vlUnit?.doubleValue)!, vlTotal: $0.vlTotal!.doubleValue)
                 }))
                 coreDataHandler.saveItemListObj(finalList)
             }
@@ -69,7 +93,7 @@ class InteligenceCore {
     }
 }
 
-func getAllItens(documentList : [Document])->[MapItem]{
+func getAllItens(_ documentList : [Document])->[MapItem]{
     // put all itens in a single array
     let allItems = documentList.flatMap({ d in d.items!}) as! [Item]
     //check if the item is present in more them 1 document, return list of MapItem
@@ -84,29 +108,29 @@ func getAllItens(documentList : [Document])->[MapItem]{
                 }
             }
         }
-        return MapItem(countDocument: countDoc, qtde: (item.qtde?.integerValue)!, name: item.descricao!, vlUnit: (item.vlUnit?.doubleValue)!, vlTotal: item.vlTotal!.doubleValue)
+        return MapItem(countDocument: countDoc, qtde: (item.qtde?.intValue)!, name: item.descricao!, vlUnit: (item.vlUnit?.doubleValue)!, vlTotal: item.vlTotal!.doubleValue)
     }
 }
 
 
-func removeRedudancyAndSortForCountDoc(mappedList: [MapItem])->[MapItem]{
+func removeRedudancyAndSortForCountDoc(_ mappedList: [MapItem])->[MapItem]{
     var newMapped = mappedList.reduce([MapItem]()) {
         a, item in
         var b = [MapItem]()
         var aux = a
-        if !a.contains({$0 == item}){
+        if !a.contains(where: {$0 == item}){
             b.append(item)
         }else{
-            let index = a.indexOf({$0 == item})!
+            let index = a.index(where: {$0 == item})!
             var item2 = a[index]
             item2.addCountQte(item.qtde)
-            aux.removeAtIndex(index)
-            aux.insert(item2, atIndex: index)
+            aux.remove(at: index)
+            aux.insert(item2, at: index)
         }
-        b.appendContentsOf(aux)
+        b.append(contentsOf: aux)
         return b
     }
-    newMapped = newMapped.sort({ (a, b) -> Bool in
+    newMapped = newMapped.sorted(by: { (a, b) -> Bool in
         a.countDocument < b.countDocument
     })
     return newMapped
@@ -114,7 +138,7 @@ func removeRedudancyAndSortForCountDoc(mappedList: [MapItem])->[MapItem]{
 
 
 
-func getFinalListCutForMediumPrice(mappedList:[MapItem], price:Double) -> [MapItem]{
+func getFinalListCutForMediumPrice(_ mappedList:[MapItem], price:Double) -> [MapItem]{
     var totalPrice = 0.0
     var finalList = [MapItem]()
     var listCopy = mappedList
@@ -131,7 +155,7 @@ func getFinalListCutForMediumPrice(mappedList:[MapItem], price:Double) -> [MapIt
             finalList.append(item)
         }else{
             // sort itens that not appear in more then 1 Document
-            var item = listCopy.removeAtIndex(Int.random(0 ... listCopy.count-1)) // TODO escolha do item tem que levar em conta o preço
+            var item = listCopy.remove(at: Int.random(0 ... listCopy.count-1)) // TODO escolha do item tem que levar em conta o preço
             if item.qtde >= item.countDocument{
                 item.qtde = item.qtde / item.countDocument
             }

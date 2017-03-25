@@ -26,11 +26,15 @@
 
 
 #include "KSCrashSentry_MachException.h"
+#include "KSCrashSentry_Context.h"
 #include "KSCrashSentry_Private.h"
 #include "KSMach.h"
+#include "KSSystemCapabilities.h"
 
 //#define KSLogger_LocalLevel TRACE
 #include "KSLogger.h"
+
+#if KSCRASH_HAS_MACH
 
 #include <pthread.h>
 
@@ -261,10 +265,10 @@ void* ksmachexc_i_handleExceptions(void* const userData)
         if(ksmach_thread_self() == g_primaryMachThread)
         {
             KSLOG_DEBUG("This is the primary exception thread. Activating secondary thread.");
+            ksmachexc_i_restoreExceptionPorts();
             if(thread_resume(g_secondaryMachThread) != KERN_SUCCESS)
             {
                 KSLOG_DEBUG("Could not activate secondary thread. Restoring original exception ports.");
-                ksmachexc_i_restoreExceptionPorts();
             }
         }
         else
@@ -518,3 +522,17 @@ void kscrashsentry_uninstallMachHandler(void)
     KSLOG_DEBUG("Mach exception handlers uninstalled.");
     g_installed = 0;
 }
+
+#else
+
+bool kscrashsentry_installMachHandler(__unused KSCrash_SentryContext* const context)
+{
+    KSLOG_WARN("Mach exception handler not available on this platform.");
+    return false;
+}
+
+void kscrashsentry_uninstallMachHandler(void)
+{
+}
+
+#endif

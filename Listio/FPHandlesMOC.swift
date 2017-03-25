@@ -10,5 +10,5 @@ import UIKit
 import DATAStack
 
 protocol FPHandlesMOC:class{
-    func receiveDataStack(incomingDataStack: DATAStack)
+    func receiveDataStack(_ incomingDataStack: DATAStack)
 }

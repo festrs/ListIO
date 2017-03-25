@@ -11,9 +11,9 @@ import CoreData
 
 class CoreDataTableViewController: UIViewController, CoreDataTableViewControllerProtocol {
     var coreDataTableView:UITableView!
-    var _fetchedResultsController:NSFetchedResultsController?
+    var _fetchedResultsController:NSFetchedResultsController<NSFetchRequestResult>?
     
-    var fetchedResultsController:NSFetchedResultsController?{
+    var fetchedResultsController:NSFetchedResultsController<NSFetchRequestResult>?{
         get {
             return _fetchedResultsController
         }
@@ -35,22 +35,22 @@ class CoreDataTableViewController: UIViewController, CoreDataTableViewController
     }
     
     // MARK: - Table view data source
-    func tableView(tableView: UITableView,
-        cellForRowAtIndexPath
-        indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,
+        cellForRowAt
+        indexPath: IndexPath) -> UITableViewCell {
             let cell =
-            tableView.dequeueReusableCellWithIdentifier("Cell")
+            tableView.dequeueReusableCell(withIdentifier: "Cell")
             return cell!
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         if (self.fetchedResultsController!.sections != nil){
             return (self.fetchedResultsController!.sections?.count)!
         }
         return 0
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let sections = fetchedResultsController!.sections {
             let currentSection = sections[section]
             return currentSection.numberOfObjects
@@ -58,7 +58,7 @@ class CoreDataTableViewController: UIViewController, CoreDataTableViewController
         return 0
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if let sections = fetchedResultsController!.sections {
             let currentSection = sections[section]
             return currentSection.name
@@ -66,51 +66,47 @@ class CoreDataTableViewController: UIViewController, CoreDataTableViewController
         
         return nil
     }
-    func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
-        return self.fetchedResultsController!.sectionForSectionIndexTitle(title, atIndex: index)
+    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        return self.fetchedResultsController!.section(forSectionIndexTitle: title, at: index)
     }
     
-//    func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
-//        return self.fetchedResultsController.sectionIndexTitles
-//    }
-    
     //MARK - NSFetchedResultsControllerDelegate
-    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.coreDataTableView.beginUpdates()
     }
     
-    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
         switch(type){
-        case .Insert:
-            self.coreDataTableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: UITableViewRowAnimation.Fade)
+        case .insert:
+            self.coreDataTableView.insertSections(IndexSet(integer: sectionIndex), with: UITableViewRowAnimation.fade)
             break
-        case .Delete:
-            self.coreDataTableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: UITableViewRowAnimation.Fade)
+        case .delete:
+            self.coreDataTableView.deleteSections(IndexSet(integer: sectionIndex), with: UITableViewRowAnimation.fade)
             break
         default:
             break
         }
     }
     
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChangeObject anObject: AnyObject, atIndexPath indexPath: IndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type{
-        case .Insert:
-            self.coreDataTableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: UITableViewRowAnimation.Fade)
+        case .insert:
+            self.coreDataTableView.insertRows(at: [newIndexPath!], with: UITableViewRowAnimation.fade)
             break
-        case .Delete:
-            self.coreDataTableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: UITableViewRowAnimation.Fade)
+        case .delete:
+            self.coreDataTableView.deleteRows(at: [indexPath!], with: UITableViewRowAnimation.fade)
             break
-        case .Update:
-            self.coreDataTableView.reloadRowsAtIndexPaths([indexPath!], withRowAnimation: UITableViewRowAnimation.Fade)
+        case .update:
+            self.coreDataTableView.reloadRows(at: [indexPath!], with: UITableViewRowAnimation.fade)
             break
-        case .Move:
-            self.coreDataTableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: UITableViewRowAnimation.Fade)
-            self.coreDataTableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: UITableViewRowAnimation.Fade)
+        case .move:
+            self.coreDataTableView.deleteRows(at: [indexPath!], with: UITableViewRowAnimation.fade)
+            self.coreDataTableView.insertRows(at: [newIndexPath!], with: UITableViewRowAnimation.fade)
             break
         }
     }
     
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.coreDataTableView.endUpdates()
     }
 }

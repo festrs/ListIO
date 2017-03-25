@@ -12,14 +12,14 @@ import CoreData
 public protocol CoreDataTableViewControllerProtocol: UITableViewDataSource {
     
     func performFetch()
-    var fetchedResultsController:NSFetchedResultsController? {get set}
+    var fetchedResultsController:NSFetchedResultsController<NSFetchRequestResult>? {get set}
     // MARK: - Table view data source
-    func tableView(tableView: UITableView,
+    func tableView(_ tableView: UITableView,
         cellForRowAtIndexPath
-        indexPath: NSIndexPath) -> UITableViewCell
+        indexPath: IndexPath) -> UITableViewCell
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
-    func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int
 }

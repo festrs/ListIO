@@ -54,157 +54,333 @@ NSMutableDictionary *BSGFormatFrame(NSDictionary *frame,
   return nil;
 }
 
+NSString *BSGParseErrorClass(NSDictionary *error, NSString *errorType) {
+    if ([errorType isEqualToString:@"cpp_exception"]) {
+        return error[@"cpp_exception"][@"name"];
+    } else if ([errorType isEqualToString:@"mach"]) {
+        return error[@"mach"][@"exception_name"];
+    } else if ([errorType isEqualToString:@"signal"]) {
+        return error[@"signal"][@"name"];
+    } else if ([errorType isEqualToString:@"nsexception"]) {
+        return error[@"nsexception"][@"name"];
+    } else if ([errorType isEqualToString:@"user"]) {
+        return error[@"user_reported"][@"name"];
+    }
+    return @"Exception";
+}
+
+NSString *BSGParseErrorMessage(NSDictionary *report, NSDictionary *error, NSString *errorType) {
+    if ([errorType isEqualToString:@"mach"] || error[@"reason"] == nil) {
+        NSString *diagnosis = [report valueForKeyPath:@"crash.diagnosis"];
+        if (diagnosis && ![diagnosis hasPrefix:@"No diagnosis"]) {
+            return [[diagnosis componentsSeparatedByString:@"\n"] firstObject];
+        }
+    }
+    return error[@"reason"] ?: @"";
+}
+
+NSDictionary *BSGParseDevice(NSDictionary *report) {
+    NSDictionary *system = report[@"system"];
+    NSMutableDictionary *device = [NSMutableDictionary dictionary];
+
+    BSGDictSetSafeObject(device, @"Apple", @"manufacturer");
+    BSGDictSetSafeObject(device, [[NSLocale currentLocale] localeIdentifier],
+                         @"locale");
+    BSGDictSetSafeObject(device, system[@"device_app_hash"], @"id");
+    BSGDictSetSafeObject(device, system[@"time_zone"], @"timezone");
+    BSGDictSetSafeObject(device, system[@"model"], @"modelNumber");
+    BSGDictSetSafeObject(device, system[@"machine"], @"model");
+    BSGDictSetSafeObject(device, system[@"system_name"], @"osName");
+    BSGDictSetSafeObject(device, system[@"system_version"], @"osVersion");
+    BSGDictSetSafeObject(device, system[@"memory"][@"usable"],
+                         @"totalMemory");
+    
+    return device;
+}
+
+NSDictionary *BSGParseApp(NSDictionary *report, NSString *appVersion) {
+    NSDictionary *system = report[@"system"];
+    NSMutableDictionary *app = [NSMutableDictionary dictionary];
+
+    BSGDictSetSafeObject(app, system[@"CFBundleVersion"], @"bundleVersion");
+    BSGDictSetSafeObject(app, system[@"CFBundleIdentifier"], @"id");
+    BSGDictSetSafeObject(app, system[@"CFBundleExecutable"], @"name");
+    BSGDictSetSafeObject(app, [Bugsnag configuration].releaseStage,
+                         @"releaseStage");
+    if ([appVersion isKindOfClass:[NSString class]]) {
+        BSGDictSetSafeObject(app, appVersion, @"version");
+    } else {
+        BSGDictSetSafeObject(app, system[@"CFBundleShortVersionString"],
+                             @"version");
+    }
+    
+    return app;
+}
+
+NSDictionary *BSGParseAppState(NSDictionary *report) {
+    NSDictionary *appStats = report[@"system"][@"application_stats"];
+    NSMutableDictionary *appState = [NSMutableDictionary dictionary];
+    NSInteger activeTimeSinceLaunch =
+    [appStats[@"active_time_since_launch"] doubleValue] * 1000.0;
+    NSInteger backgroundTimeSinceLaunch =
+    [appStats[@"background_time_since_launch"] doubleValue] * 1000.0;
+
+    BSGDictSetSafeObject(appState, @(activeTimeSinceLaunch),
+                         @"durationInForeground");
+    BSGDictSetSafeObject(appState,
+                         @(activeTimeSinceLaunch + backgroundTimeSinceLaunch),
+                         @"duration");
+    BSGDictSetSafeObject(appState, appStats[@"application_in_foreground"],
+                         @"inForeground");
+    BSGDictSetSafeObject(appState, appStats, @"stats");
+    
+    return appState;
+}
+
+NSDictionary *BSGParseDeviceState(NSDictionary *report) {
+    NSMutableDictionary *deviceState =
+    [[report valueForKeyPath:@"user.state.deviceState"] mutableCopy];
+    BSGDictSetSafeObject(deviceState,
+                         [report valueForKeyPath:@"system.memory.free"],
+                         @"freeMemory");
+    BSGDictSetSafeObject(deviceState,
+                         [report valueForKeyPath:@"report.timestamp"],
+                         @"time");
+    return deviceState;
+}
+
+NSString *BSGParseContext(NSDictionary *report, NSDictionary *metaData) {
+    id context = [report valueForKeyPath:@"user.overrides.context"];
+    if ([context isKindOfClass:[NSString class]])
+        return context;
+    context = metaData[@"context"];
+    if ([context isKindOfClass:[NSString class]])
+        return context;
+    context = [report valueForKeyPath:@"user.config.context"];
+    if ([context isKindOfClass:[NSString class]])
+        return context;
+    return nil;
+}
+
+NSString *BSGParseGroupingHash(NSDictionary *report, NSDictionary *metaData) {
+    id groupingHash = [report valueForKeyPath:@"user.overrides.groupingHash"];
+    if (groupingHash)
+        return groupingHash;
+    groupingHash = metaData[@"groupingHash"];
+    if ([groupingHash isKindOfClass:[NSString class]])
+        return groupingHash;
+    return nil;
+}
+
+NSArray *BSGParseBreadcrumbs(NSDictionary *report) {
+    return [report valueForKeyPath:@"user.overrides.breadcrumbs"] ?:
+        [report valueForKeyPath:@"user.state.crash.breadcrumbs"];
+}
+
+NSString *BSGParseReleaseStage(NSDictionary *report) {
+    return [report valueForKeyPath:@"user.overrides.releaseStage"] ?:
+    [report valueForKeyPath:@"user.config.releaseStage"];
+}
+
+BSGSeverity BSGParseSeverity(NSString *severity) {
+    if ([severity isEqualToString:@"info"])
+        return BSGSeverityInfo;
+    else if ([severity isEqualToString:@"warning"])
+        return BSGSeverityWarning;
+    return BSGSeverityError;
+}
+
+NSString *BSGFormatSeverity(BSGSeverity severity) {
+    switch (severity) {
+        case BSGSeverityInfo:
+            return @"info";
+        case BSGSeverityError:
+            return @"error";
+        case BSGSeverityWarning:
+            return @"warning";
+    }
+}
+
+NSDictionary *BSGParseCustomException(NSDictionary *report, NSString *errorClass, NSString *message) {
+    id frames = [report valueForKeyPath:@"user.overrides.customStacktraceFrames"];
+    id type = [report valueForKeyPath:@"user.overrides.customStacktraceType"];
+    if (type && frames) {
+        return @{ @"stacktrace": frames,
+                  @"type": type,
+                  @"errorClass": errorClass,
+                  @"message": message};
+    }
+
+    return nil;
+}
+
+static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
+
+@interface BugsnagCrashReport ()
+
+/**
+ *  The type of the error, such as `mach` or `user`
+ */
+@property (nonatomic, readwrite, copy, nullable) NSString *errorType;
+/**
+ *  The UUID of the dSYM file
+ */
+@property (nonatomic, readonly, copy, nullable) NSString *dsymUUID;
+/**
+ *  A unique hash identifying this device for the application or vendor
+ */
+@property (nonatomic, readonly, copy, nullable) NSString *deviceAppHash;
+/**
+ *  Binary images used to identify application symbols
+ */
+@property (nonatomic, readonly, copy, nullable) NSArray *binaryImages;
+/**
+ *  Thread information captured at the time of the error
+ */
+@property (nonatomic, readonly, copy, nullable) NSArray *threads;
+/**
+ *  User-provided exception metadata
+ */
+@property (nonatomic, readwrite, copy, nullable) NSDictionary *customException;
+@end
+
 @implementation BugsnagCrashReport
 
-- (id)initWithKSReport:(NSDictionary *)report {
-  if ((self = [super init])) {
-    _ksReport = report;
+- (instancetype)initWithKSReport:(NSDictionary *)report {
+  if (self = [super init]) {
+      _notifyReleaseStages = [report valueForKeyPath:@"user.config.notifyReleaseStages"];
+      _releaseStage = BSGParseReleaseStage(report);
+      _error = [report valueForKeyPath:@"crash.error"];
+      _errorType = _error[@"type"];
+      _errorClass = BSGParseErrorClass(_error, _errorType);
+      _errorMessage = BSGParseErrorMessage(report, _error, _errorType);
+      _binaryImages = report[@"binary_images"];
+      _threads = [report valueForKeyPath:@"crash.threads"];
+      _breadcrumbs = BSGParseBreadcrumbs(report);
+      _severity = BSGParseSeverity([report valueForKeyPath:@"user.state.crash.severity"]);
+      _depth = [[report valueForKeyPath:@"user.state.crash.depth"] unsignedIntegerValue];
+      _dsymUUID = [report valueForKeyPath:@"system.app_uuid"];
+      _deviceAppHash = [report valueForKeyPath:@"system.device_app_hash"];
+      _metaData = [report valueForKeyPath:@"user.metaData"] ?: [NSDictionary new];
+      _context = BSGParseContext(report, _metaData);
+      _deviceState = BSGParseDeviceState(report);
+      _device = BSGParseDevice(report);
+      _app = BSGParseApp(report, [report valueForKeyPath:@"user.config.appVersion"]);
+      _appState = BSGParseAppState(report);
+      _groupingHash = BSGParseGroupingHash(report, _metaData);
+      _overrides = [report valueForKeyPath:@"user.overrides"];
+      _customException = BSGParseCustomException(report, [_errorClass copy], [_errorMessage copy]);
   }
   return self;
 }
 
-- (NSString *)releaseStage {
-  return self.config[@"releaseStage"];
-}
-
-- (NSArray *)notifyReleaseStages {
-  return self.config[@"notifyReleaseStages"];
-}
-
-- (NSString *)context {
-  if ([self.config[@"context"] isKindOfClass:[NSString class]]) {
-    return self.config[@"context"];
-  }
-  // TODO:SM Get other contexts if possible
-  return nil;
-}
-
-- (NSString *)appVersion {
-  if ([self.config[@"appVersion"] isKindOfClass:[NSString class]]) {
-    return self.config[@"appVersion"];
-  }
-  return nil;
-}
-
-- (NSArray *)binaryImages {
-  return self.ksReport[@"binary_images"];
-}
-
-- (NSArray *)threads {
-  return self.crash[@"threads"];
-}
-
-- (NSDictionary *)error {
-  return self.crash[@"error"];
-}
-
-- (NSString *)errorType {
-  return self.error[@"type"];
-}
-
-- (NSString *)errorClass {
-  if ([self.errorType isEqualToString:@"cpp_exception"]) {
-    return self.error[@"cpp_exception"][@"name"];
-  } else if ([self.errorType isEqualToString:@"mach"]) {
-    return self.error[@"mach"][@"exception_name"];
-  } else if ([self.errorType isEqualToString:@"signal"]) {
-    return self.error[@"signal"][@"name"];
-  } else if ([self.errorType isEqualToString:@"nsexception"]) {
-    return self.error[@"nsexception"][@"name"];
-  } else if ([self.errorType isEqualToString:@"user"]) {
-    return self.error[@"user_reported"][@"name"];
-  }
-  return @"Exception";
-}
-
-- (NSString *)errorMessage {
-  if ([self.errorType isEqualToString:@"mach"]) {
-    NSString *diagnosis = self.crash[@"diagnosis"];
-    if (diagnosis && ![diagnosis hasPrefix:@"No diagnosis"]) {
-      return [[diagnosis componentsSeparatedByString:@"\n"] firstObject];
+- (instancetype)initWithErrorName:(NSString *)name
+                     errorMessage:(NSString *)message
+                    configuration:(BugsnagConfiguration *)config
+                         metaData:(NSDictionary *)metaData
+                         severity:(BSGSeverity)severity {
+    if (self = [super init]) {
+        _errorClass = name;
+        _errorMessage = message;
+        _metaData = metaData ?: [NSDictionary new];
+        _severity = severity;
+        _releaseStage = config.releaseStage;
+        _notifyReleaseStages = config.notifyReleaseStages;
+        _context = BSGParseContext(nil, metaData);
+        _breadcrumbs = [config.breadcrumbs arrayValue];
+        _overrides = [NSDictionary new];
     }
-  }
-  return self.error[@"reason"];
+    return self;
 }
 
-- (NSArray *)breadcrumbs {
-  return self.state[@"crash"][@"breadcrumbs"];
+- (BOOL)shouldBeSent {
+    return [self.notifyReleaseStages containsObject:self.releaseStage]
+        || (self.notifyReleaseStages.count == 0 && [[Bugsnag configuration] shouldSendReports]);
 }
 
-- (NSString *)severity {
-  return self.state[@"crash"][@"severity"];
+- (void)setContext:(NSString *)context {
+    [self setOverrideProperty:@"context" value:context];
+    _context = context;
 }
 
-- (NSString *)dsymUUID {
-  return self.system[@"app_uuid"];
+- (void)setGroupingHash:(NSString *)groupingHash {
+    [self setOverrideProperty:@"groupingHash" value:groupingHash];
+    _groupingHash = groupingHash;
 }
 
-- (NSString *)deviceAppHash {
-  return self.system[@"device_app_hash"];
+- (void)setBreadcrumbs:(NSArray *)breadcrumbs {
+    [self setOverrideProperty:@"breadcrumbs" value:breadcrumbs];
+    _breadcrumbs = breadcrumbs;
 }
 
-- (NSUInteger)depth {
-  return [self.state[@"crash"][@"depth"] unsignedIntegerValue];
+- (void)setReleaseStage:(NSString *)releaseStage {
+    [self setOverrideProperty:@"releaseStage" value:releaseStage];
+    _releaseStage = releaseStage;
 }
 
-- (NSDictionary *)metaData {
-  return self.ksReport[@"user"][@"metaData"];
+- (void)attachCustomStacktrace:(NSArray *)frames withType:(NSString *)type {
+    [self setOverrideProperty:@"customStacktraceFrames" value:frames];
+    [self setOverrideProperty:@"customStacktraceType" value:type];
 }
 
-- (NSDictionary *)appStats {
-  return self.system[@"application_stats"];
-}
-
-// PRIVATE
-- (NSDictionary *)system {
-  return self.ksReport[@"system"];
-}
-
-- (NSDictionary *)state {
-  return self.ksReport[@"user"][@"state"];
-}
-
-- (NSDictionary *)config {
-  return self.ksReport[@"user"][@"config"];
-}
-
-- (NSDictionary *)crash {
-  return self.ksReport[@"crash"];
-}
-
-- (NSDictionary *)unityExceptionReport {
-  return self.metaData[@"_bugsnag_unity_exception"];
+- (void)setOverrideProperty:(NSString *)key value:(id)value {
+    NSMutableDictionary *metadata = [self.overrides mutableCopy];
+    if (value) {
+        metadata[key] = value;
+    } else {
+        [metadata removeObjectForKey:key];
+    }
+    _overrides = metadata;
 }
 
 - (NSDictionary *)serializableValueWithTopLevelData:
     (NSMutableDictionary *)data {
   NSMutableDictionary *event = [NSMutableDictionary dictionary];
-  NSMutableDictionary *exception = [NSMutableDictionary dictionary];
   NSMutableDictionary *metaData = [[self metaData] mutableCopy];
-  NSString *severity =
-      [self severity].length > 0 ? [self severity] : BugsnagSeverityError;
 
+  if (self.customException) {
+      BSGDictSetSafeObject(event, @[self.customException], @"exceptions");
+      BSGDictSetSafeObject(event,
+                           [self serializeThreadsWithException:nil],
+                           @"threads");
+  } else {
+      NSMutableDictionary *exception = [NSMutableDictionary dictionary];
+      BSGDictSetSafeObject(exception, [self errorClass], @"errorClass");
+      BSGDictInsertIfNotNil(exception, [self errorMessage], @"message");
+      BSGDictInsertIfNotNil(exception, DEFAULT_EXCEPTION_TYPE, @"type");
+      BSGDictSetSafeObject(event, @[exception], @"exceptions");
+
+      // HACK: For the Unity Notifier. We don't include ObjectiveC exceptions or
+      // threads
+      // if this is an exception from Unity-land.
+      NSDictionary *unityReport = metaData[@"_bugsnag_unity_exception"];
+      if (unityReport) {
+          BSGDictSetSafeObject(data, unityReport[@"notifier"], @"notifier");
+          BSGDictSetSafeObject(exception, unityReport[@"stacktrace"], @"stacktrace");
+          [metaData removeObjectForKey:@"_bugsnag_unity_exception"];
+          return event;
+      }
+
+      BSGDictSetSafeObject(event,
+                           [self serializeThreadsWithException:exception],
+                           @"threads");
+  }
   // Build Event
-  BSGDictSetSafeObject(event, @[ exception ], @"exceptions");
   BSGDictInsertIfNotNil(event, [self dsymUUID], @"dsymUUID");
-  BSGDictSetSafeObject(event, severity, @"severity");
+  BSGDictSetSafeObject(event, BSGFormatSeverity(self.severity), @"severity");
   BSGDictSetSafeObject(event, [self breadcrumbs], @"breadcrumbs");
-  BSGDictSetSafeObject(event, @"2", @"payloadVersion");
+  BSGDictSetSafeObject(event, @"3", @"payloadVersion");
   BSGDictSetSafeObject(event, metaData, @"metaData");
   BSGDictSetSafeObject(event, [self deviceState], @"deviceState");
   BSGDictSetSafeObject(event, [self device], @"device");
   BSGDictSetSafeObject(event, [self appState], @"appState");
   BSGDictSetSafeObject(event, [self app], @"app");
+  BSGDictSetSafeObject(event, [self context], @"context");
+  BSGDictInsertIfNotNil(event, self.groupingHash, @"groupingHash");
 
-  if ([metaData[@"context"] isKindOfClass:[NSString class]]) {
-    BSGDictSetSafeObject(event, metaData[@"context"], @"context");
-    [metaData removeObjectForKey:@"context"];
-
-  } else {
-    BSGDictSetSafeObject(event, [self context], @"context");
-  }
-
-  //  Build MetaData
+  //  Inserted into `context` property
+  [metaData removeObjectForKey:@"context"];
+  // Build metadata
   BSGDictSetSafeObject(metaData, [self error], @"error");
 
   // Make user mutable and set the id if the user hasn't already
@@ -217,23 +393,6 @@ NSMutableDictionary *BSGFormatFrame(NSDictionary *frame,
     BSGDictSetSafeObject(user, [self deviceAppHash], @"id");
   }
 
-  // Build Exception
-  BSGDictSetSafeObject(exception, [self errorClass], @"errorClass");
-  BSGDictInsertIfNotNil(exception, [self errorMessage], @"message");
-
-  // HACK: For the Unity Notifier. We don't include ObjectiveC exceptions or
-  // threads
-  // if this is an exception from Unity-land.
-  NSDictionary *unityReport = metaData[@"_bugsnag_unity_exception"];
-  if (unityReport) {
-    BSGDictSetSafeObject(data, unityReport[@"notifier"], @"notifier");
-    BSGDictSetSafeObject(exception, unityReport[@"stacktrace"], @"stacktrace");
-    [metaData removeObjectForKey:@"_bugsnag_unity_exception"];
-    return event;
-  }
-
-  BSGDictSetSafeObject(event, [self serializeThreadsWithException:exception],
-                       @"threads");
   return event;
 }
 
@@ -277,6 +436,7 @@ NSMutableDictionary *BSGFormatFrame(NSDictionary *frame,
       NSMutableDictionary *threadDict = [NSMutableDictionary dictionary];
       BSGDictSetSafeObject(threadDict, thread[@"index"], @"id");
       BSGDictSetSafeObject(threadDict, threadStack, @"stacktrace");
+      BSGDictSetSafeObject(threadDict, DEFAULT_EXCEPTION_TYPE, @"type");
       // only if this is enabled in KSCrash.
       if (thread[@"name"]) {
         BSGDictSetSafeObject(threadDict, thread[@"name"], @"name");
@@ -286,73 +446,6 @@ NSMutableDictionary *BSGFormatFrame(NSDictionary *frame,
     }
   }
   return bugsnagThreads;
-}
-
-// Generates the deviceState section of the payload
-- (NSDictionary *)deviceState {
-  NSMutableDictionary *deviceState = [[self state][@"deviceState"] mutableCopy];
-  BSGDictSetSafeObject(deviceState, [self system][@"memory"][@"free"],
-                       @"freeMemory");
-  return deviceState;
-}
-
-// Generates the device section of the payload
-- (NSDictionary *)device {
-  NSMutableDictionary *device = [NSMutableDictionary dictionary];
-
-  BSGDictSetSafeObject(device, @"Apple", @"manufacturer");
-  BSGDictSetSafeObject(device, [[NSLocale currentLocale] localeIdentifier],
-                       @"locale");
-  BSGDictSetSafeObject(device, [self system][@"device_app_hash"], @"id");
-  BSGDictSetSafeObject(device, [self system][@"time_zone"], @"timezone");
-  BSGDictSetSafeObject(device, [self system][@"model"], @"modelNumber");
-  BSGDictSetSafeObject(device, [self system][@"machine"], @"model");
-  BSGDictSetSafeObject(device, [self system][@"system_name"], @"osName");
-  BSGDictSetSafeObject(device, [self system][@"system_version"], @"osVersion");
-  BSGDictSetSafeObject(device, [self system][@"memory"][@"usable"],
-                       @"totalMemory");
-
-  return device;
-}
-
-// Generates the appState section of the payload
-- (NSDictionary *)appState {
-  NSMutableDictionary *appState = [NSMutableDictionary dictionary];
-  NSInteger activeTimeSinceLaunch =
-      [[self appStats][@"active_time_since_launch"] doubleValue] * 1000.0;
-  NSInteger backgroundTimeSinceLaunch =
-      [[self appStats][@"background_time_since_launch"] doubleValue] * 1000.0;
-
-  BSGDictSetSafeObject(appState, @(activeTimeSinceLaunch),
-                       @"durationInForeground");
-  BSGDictSetSafeObject(appState,
-                       @(activeTimeSinceLaunch + backgroundTimeSinceLaunch),
-                       @"duration");
-  BSGDictSetSafeObject(appState, [self appStats][@"application_in_foreground"],
-                       @"inForeground");
-  BSGDictSetSafeObject(appState, [self appStats], @"stats");
-
-  return appState;
-}
-
-// Generates the app section of the payload
-- (NSDictionary *)app {
-  NSMutableDictionary *app = [NSMutableDictionary dictionary];
-
-  BSGDictSetSafeObject(app, [self system][@"CFBundleVersion"],
-                       @"bundleVersion");
-  BSGDictSetSafeObject(app, [self system][@"CFBundleIdentifier"], @"id");
-  BSGDictSetSafeObject(app, [self system][@"CFBundleExecutable"], @"name");
-  BSGDictSetSafeObject(app, [Bugsnag configuration].releaseStage,
-                       @"releaseStage");
-  if ([self appVersion]) {
-    BSGDictSetSafeObject(app, [self appVersion], @"version");
-  } else {
-    BSGDictSetSafeObject(app, [self system][@"CFBundleShortVersionString"],
-                         @"version");
-  }
-
-  return app;
 }
 
 @end

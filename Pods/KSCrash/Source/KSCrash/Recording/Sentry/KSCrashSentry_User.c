@@ -23,6 +23,7 @@
 //
 
 #include "KSCrashSentry_User.h"
+#include "KSCrashSentry_Context.h"
 #include "KSCrashSentry_Private.h"
 #include "KSMach.h"
 
@@ -52,12 +53,16 @@ void kscrashsentry_uninstallUserExceptionHandler(void)
 
 void kscrashsentry_reportUserException(const char* name,
                                        const char* reason,
+                                       const char* language,
                                        const char* lineOfCode,
-                                       const char** stackTrace,
-                                       size_t stackTraceCount,
+                                       const char* stackTrace,
                                        bool terminateProgram)
 {
-    if(g_context != NULL)
+    if(g_context == NULL)
+    {
+        KSLOG_WARN("User-reported exception sentry is not installed. Exception has not been recorded.");
+    }
+    else
     {
         kscrashsentry_beginHandlingCrash(g_context);
 
@@ -82,9 +87,9 @@ void kscrashsentry_reportUserException(const char* name,
         g_context->stackTrace = callstack;
         g_context->stackTraceLength = callstackCount;
         g_context->userException.name = name;
+        g_context->userException.language = language;
         g_context->userException.lineOfCode = lineOfCode;
         g_context->userException.customStackTrace = stackTrace;
-        g_context->userException.customStackTraceLength = (int)stackTraceCount;
 
         KSLOG_DEBUG("Calling main crash handler.");
         g_context->onCrash();

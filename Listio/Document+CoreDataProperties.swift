@@ -14,10 +14,10 @@ import CoreData
 
 extension Document {
 
-    @NSManaged var createdAt: NSDate?
+    @NSManaged var createdAt: Date?
     @NSManaged var link: String?
     @NSManaged var mes: String?
-    @NSManaged var payments: NSData?
+    @NSManaged var payments: Data?
     @NSManaged var remoteID: String?
     @NSManaged var value: String?
     @NSManaged var items: NSSet?

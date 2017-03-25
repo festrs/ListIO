@@ -1,49 +1,115 @@
-![QRCodeReader.swift](http://yannickloriot.com/resources/qrcodereader.swift-logo.png)
+<p align="center">
+  <img src="https://cloud.githubusercontent.com/assets/798235/19688388/c61a6ab8-9ac9-11e6-9757-e087c268f3a6.png" alt="QRCodeReader.swift">
+</p>
 
-[![License](https://cocoapod-badges.herokuapp.com/l/QRCodeReader.swift/badge.svg)](http://cocoadocs.org/docsets/QRCodeReader.swift/) [![Supported Plateforms](https://cocoapod-badges.herokuapp.com/p/QRCodeReader.swift/badge.svg)](http://cocoadocs.org/docsets/QRCodeReader.swift/) [![Version](https://cocoapod-badges.herokuapp.com/v/QRCodeReader.swift/badge.svg)](http://cocoadocs.org/docsets/QRCodeReader.swift/)
+<p align="center">
+  <a href="http://cocoadocs.org/docsets/QRCodeReader.swift/"><img alt="Supported Platforms" src="https://cocoapod-badges.herokuapp.com/p/QRCodeReader.swift/badge.svg"/></a>
+  <a href="http://cocoadocs.org/docsets/QRCodeReader.swift/"><img alt="Version" src="https://cocoapod-badges.herokuapp.com/v/QRCodeReader.swift/badge.svg"/></a>
+</p>
 
-The _QRCodeReader.swift_ was initially a simple QRCode reader but it now lets you the possibility to specify the [format type](https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVMetadataMachineReadableCodeObject_Class/index.html#//apple_ref/doc/constant_group/Machine_Readable_Object_Types) you want to decode. It is based on the `AVFoundation` framework from Apple in order to replace ZXing or ZBar for iOS 8.0 and over.
+**QRCodeReader.swift** is a simple code reader (initially only QRCode) for iOS in Swift. It is based on the `AVFoundation` framework from Apple in order to replace ZXing or ZBar for iOS 8.0 and over. It can decodes these [format types](https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVMetadataMachineReadableCodeObject_Class/index.html#//apple_ref/doc/constant_group/Machine_Readable_Object_Types).
 
 It provides a default view controller to display the camera view with the scan area overlay and it also provides a button to switch between the front and the back cameras.
 
-![screenshot](http://yannickloriot.com/resources/qrcodereader.swift-screenshot.jpg)
+<p align="center">
+  <img src="http://yannickloriot.com/resources/qrcodereader.swift-screenshot.jpg" alt="QRCodeReader.swift screenshot">
+</p>
 
-*Note: the v4.x or over are compatibles with swift 1.2, use the v3 with XCode 6.2 or lower.*
+<p align="center">
+  <a href="#requirements">Requirements</a> • <a href="#usage">Usage</a> • <a href="#installation">Installation</a> • <a href="#contact">Contact</a> • <a href="#license-mit">License</a>
+</p>
+
+## Requirements
+
+- iOS 8.0+
+- Xcode 8.0+
+- Swift 3.0+
 
 ## Usage
+
+In iOS10+, you will need first to reasoning about the camera use. For that you'll need to add the **Privacy - Camera Usage Description** *(NSCameraUsageDescription)* field in your Info.plist:
+
+<p align="center">
+  <img alt="privacy - camera usage description" src="https://cloud.githubusercontent.com/assets/798235/19264826/bc25b8dc-8fa2-11e6-9c13-17926384ebd1.png" height="28">
+</p>
+
+Then just follow these steps:
+
+-  Add delegate `QRCodeReaderViewControllerDelegate`
+-  Add `import AVFoundation`
+-  The `QRCodeReaderViewControllerDelegate` implementations is:
 
 ```swift
 // Good practice: create the reader lazily to avoid cpu overload during the
 // initialization and each time we need to scan a QRCode
-lazy var reader = QRCodeReaderViewController(metadataObjectTypes: [AVMetadataObjectTypeQRCode])
+lazy var readerVC = QRCodeReaderViewController(builder: QRCodeReaderViewControllerBuilder {
+  $0.reader = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode], captureDevicePosition: .back)
+})
 
-@IBAction func scanAction(sender: AnyObject) {
+@IBAction func scanAction(_ sender: AnyObject) {
   // Retrieve the QRCode content
   // By using the delegate pattern
-  reader.delegate = self
+  readerVC.delegate = self
 
   // Or by using the closure pattern
-  reader.completionBlock = { (result: QRCodeReaderResult?) in
-    println(result)
+  readerVC.completionBlock = { (result: QRCodeReaderResult?) in
+    print(result)
   }
 
-  // Presents the reader as modal form sheet
-  reader.modalPresentationStyle = .FormSheet
-  presentViewController(reader, animated: true, completion: nil)
+  // Presents the readerVC as modal form sheet
+  readerVC.modalPresentationStyle = .formSheet
+  present(readerVC, animated: true, completion: nil)
 }
 
-// MARK: - QRCodeReader Delegate Methods
+// MARK: - QRCodeReaderViewController Delegate Methods
 
-func reader(reader: QRCodeReader, didScanResult result: QRCodeReaderResult) {
-  self.dismissViewControllerAnimated(true, completion: nil)
+func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
+  reader.stopScanning()
+
+  dismiss(animated: true, completion: nil)
 }
 
-func readerDidCancel(reader: QRCodeReader) {
-  self.dismissViewControllerAnimated(true, completion: nil)
+//This is an optional delegate method, that allows you to be notified when the user switches the cameraName
+//By pressing on the switch camera button
+func reader(_ reader: QRCodeReaderViewController, didSwitchCamera newCaptureDevice: AVCaptureDeviceInput) {
+    if let cameraName = newCaptureDevice.device.localizedName {
+      print("Switching capturing to: \(cameraName)")
+    }
+}
+
+func readerDidCancel(_ reader: QRCodeReaderViewController) {
+  reader.stopScanning()
+
+  dismiss(animated: true, completion: nil)
 }
 ```
 
 *Note that you should check whether the device supports the reader library by using the `QRCodeReader.isAvailable()` or the `QRCodeReader.supportsMetadataObjectTypes()` methods.*
+
+#### Interface customization
+
+You can create your own interface to scan your 1D/2D codes by using the `QRCodeReaderDisplayable` protocol and the `readerView` property in the `QRCodeReaderViewControllerBuilder`:
+
+```swift
+class YourCustomView: UIView, QRCodeReaderDisplayable {
+  let cameraView: UIView            = UIView()
+  let cancelButton: UIButton?       = UIButton()
+  let switchCameraButton: UIButton? = SwitchCameraButton()
+  let toggleTorchButton: UIButton?  = ToggleTorchButton()
+
+  func setupComponents(showCancelButton: Bool, showSwitchCameraButton: Bool, showTorchButton: Bool) {
+    // addSubviews
+    // setup constraints
+    // etc.
+  }
+}
+
+lazy var reader = QRCodeReaderViewController(builder: QRCodeReaderViewControllerBuilder {
+  let readerView = QRCodeReaderContainer(displayable: YourCustomView())
+
+  $0.readerView = readerView
+})
+```
 
 ### Installation
 
@@ -57,7 +123,7 @@ Install CocoaPods if not already available:
 $ [sudo] gem install cocoapods
 $ pod setup
 ```
-Go to the directory of your Xcode project, and Create and Edit your Podfile and add _QRCodeReader.swift_:
+Go to the directory of your Xcode project, and Create and Edit your Podfile and add _QRCodeReader.swift_ to your corresponding `TargetName`:
 
 ``` bash
 $ cd /path/to/MyProject
@@ -65,9 +131,11 @@ $ touch Podfile
 $ edit Podfile
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
-
 use_frameworks!
-pod 'QRCodeReader.swift', '~> 5.3.1'
+
+target 'TargetName' do
+    pod 'QRCodeReader.swift', '~> 7.3.0'
+end
 ```
 
 Install into your project:
@@ -98,8 +166,26 @@ $ brew install carthage
 To integrate `QRCodeReader` into your Xcode project using Carthage, specify it in your `Cartfile` file:
 
 ```ogdl
-github "yannickl/QRCodeReader.swift" >= 5.3.1
+github "yannickl/QRCodeReader.swift" >= 7.3.0
 ```
+
+#### Swift Package Manager
+
+You can use [The Swift Package Manager](https://swift.org/package-manager) to install `QRCodeReader.swift` by adding the proper description to your `Package.swift` file:
+
+```swift
+import PackageDescription
+
+let package = Package(
+    name: "YOUR_PROJECT_NAME",
+    targets: [],
+    dependencies: [
+        .Package(url: "https://github.com/yannickl/QRCodeReader.swift.git", versions: "7.3.0" ..< Version.max)
+    ]
+)
+```
+
+Note that the [Swift Package Manager](https://swift.org/package-manager) is still in early design and development, for more information checkout its [GitHub Page](https://github.com/apple/swift-package-manager).
 
 #### Manually
 
