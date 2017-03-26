@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import StringScore_Swift
+
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
@@ -154,8 +155,9 @@ func getFinalListCutForMediumPrice(_ mappedList:[MapItem], price:Double) -> [Map
             totalPrice += item.vlTotal
             finalList.append(item)
         }else{
+            
             // sort itens that not appear in more then 1 Document
-            var item = listCopy.remove(at: Int.random(0 ... listCopy.count-1)) // TODO escolha do item tem que levar em conta o preço
+            var item = listCopy.remove(at: Int(arc4random_uniform(UInt32(listCopy.count)))) // TODO escolha do item tem que levar em conta o preço
             if item.qtde >= item.countDocument{
                 item.qtde = item.qtde / item.countDocument
             }

@@ -9,12 +9,9 @@
 import UIKit
 import QRCodeReader
 import AVFoundation
-import JWT
-import Alamofire
 import MBProgressHUD
 import Sync
 import DATAStack
-import Sync
 
 class MainViewController: CoreDataTableViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
     
@@ -22,39 +19,34 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     @IBOutlet weak var addLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    
     fileprivate var dataStack:DATAStack!
     var core:InteligenceCore!
     var coreDataHandler:CoreDataHandler!
+    var downloader:Downloader?
+    var hud:MBProgressHUD!
+    lazy var readerVC = QRCodeReaderViewController(builder: QRCodeReaderViewControllerBuilder {
+        $0.reader = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode], captureDevicePosition: .back)
+    })
     
-    lazy var reader: QRCodeReaderViewController = {
-        let builder = QRCodeViewControllerBuilder { builder in
-            builder.reader          = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode,AVMetadataObjectTypeInterleaved2of5Code,AVMetadataObjectTypeEAN13Code])
-            builder.showTorchButton = true
-        }
-        return QRCodeReaderViewController(builder: builder)
-    }()
-    
+    struct Keys {
+        static let EntityName = "ItemList"
+        static let SortDescriptorField = "countDocument"
+        static let IdentifierCell = "documentCell"
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // init objects
         coreDataHandler = CoreDataHandler(mainContext: self.dataStack.mainContext)
-        core = InteligenceCore(coreDataHandler:coreDataHandler)
-
+        core = InteligenceCore(coreDataHandler: coreDataHandler)
+        downloader = Downloader(core: core, withDataHandler: coreDataHandler)
+        hud = MBProgressHUD(view: self.view)
+        
         self.loadTotal()
-        
-        addLabel.text = String.materialIcon(.add)
-        //addLabel.textColor = UIColor.randomColor()
-        addLabel.font = UIFont.materialIconOfSize(51)
-        
         self.configTableView()
         
         let qtdeItems = self.fetchedResultsController?.fetchedObjects?.count
         self.qtdeItemsLabel.text = "Qtde Produtos: \(qtdeItems!)"
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     func loadTotal(){
@@ -63,8 +55,8 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     
     func configTableView(){
         self.coreDataTableView = self.tableView
-        let request = NSFetchRequest(entityName: "ItemList")
-        let countDocumentSort = NSSortDescriptor(key: "countDocument", ascending: false)
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: Keys.EntityName)
+        let countDocumentSort = NSSortDescriptor(key: Keys.SortDescriptorField, ascending: false)
         request.sortDescriptors = [countDocumentSort]
         self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.dataStack.mainContext, sectionNameKeyPath: nil, cacheName: "rootCache")
         self.performFetch()
@@ -73,12 +65,11 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     
     // MARK: - HUD
     fileprivate func showLoadingHUD() {
-        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
-        hud?.labelText = "Loading..."
+        hud.show(animated: true)
     }
     
     fileprivate func hideLoadingHUD() {
-        MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+        hud.hide(animated: true)
     }
     
     //MARK: - FPHandlesMOC Delegate
@@ -88,60 +79,40 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
     
     // MARK: - Actions
     @IBAction func addButtonAction(_ sender: AnyObject) {
-        if QRCodeReader.supportsMetadataObjectTypes() {
-            reader.modalPresentationStyle = .formSheet
-            reader.delegate               = self
-            present(reader, animated: true, completion: nil)
-        }
-        else {
-            let alert = UIAlertController(title: "Error", message: "Reader not supported by the current device", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            present(alert, animated: true, completion: nil)
-        }
+        // Retrieve the QRCode content
+        // By using the delegate pattern
+        readerVC.delegate = self
+
+        // Presents the readerVC as modal form sheet
+        readerVC.modalPresentationStyle = .formSheet
+        present(readerVC, animated: true, completion: nil)
     }
     
-    //MARK: - QRCodeReader Delegate Methods
+    // MARK: - QRCodeReaderViewController Delegate Methods
     func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
-        self.dismiss(animated: true, completion: {
-            self.showLoadingHUD()
-            guard result.metadataType == AVMetadataObjectTypeQRCode else { return }
+        reader.stopScanning()
+        
+        self.showLoadingHUD()
+        guard result.metadataType == AVMetadataObjectTypeQRCode else { return }
+        
+        downloader?.downloadData(result: result, { (error) in
+            self.hideLoadingHUD()
             
-            let url = urlBase + endPointAllProducts
-            let headers = [
-                "x-access-token": JWT.encode(.hs256("SupperDupperSecret")) { builder in
-                    builder.expiration = Date().addingTimeInterval(30*60)
-                }
-            ]
-            let parameters = [
-                "linkurl": result.value
-                ] as [String : AnyObject]
+            guard error == nil else {
+                return
+            }
+            // reload data
+            self.performFetch()
+            self.loadTotal()
             
-            Alamofire.request(.POST, url, parameters: parameters, headers: headers).responseJSON(completionHandler: { response in
-                guard response.result.isSuccess else {
-                    print("Error while fetching tags: \(response.result.error)")
-                    self.hideLoadingHUD()
-                    return
-                }
-                guard let responseJSON = response.result.value as? [String: AnyObject] else {
-                    print("Invalid tag information received from service")
-                    self.hideLoadingHUD()
-                    return
-                }
-                // add new item
-                if self.coreDataHandler.savingData(responseJSON) {
-                    //case document are add calculate the list
-                    self.core.calculate()
-                }
-                // reload data
-                self.performFetch()
-                self.loadTotal()
-                self.hideLoadingHUD()
-            })
         })
+        dismiss(animated: true, completion: nil)
     }
     
     func readerDidCancel(_ reader: QRCodeReaderViewController) {
-        self.dismiss(animated: true, completion: nil)
+        reader.stopScanning()
+        
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK: UITableView Delegate
@@ -150,7 +121,7 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         indexPath: IndexPath) -> UITableViewCell {
         let mapType = self.fetchedResultsController?.object(at: indexPath) as! ItemList
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "documentCell") as! DocumentUiTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Keys.IdentifierCell) as! DocumentUiTableViewCell
         
         cell.nameLabel.text = mapType.name!
         cell.unLabel.text = "Qtde \(mapType.qtde!.description)"

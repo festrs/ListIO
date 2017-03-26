@@ -4,7 +4,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'Listio' do
-	pod 'JSONWebToken', '~> 2.0.0'
+    pod 'JSONWebToken', :git => "https://github.com/kylef/JSONWebToken.swift.git", :branch => 'master'
 	pod 'MBProgressHUD', '~> 1.0.0'
 	pod 'Alamofire', '~> 4.4'
 	pod 'QRCodeReader.swift', '~> 7.3.0'

@@ -23,40 +23,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZYh-EV-bE7">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZYh-EV-bE7">
+                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Qtde Produtos: 99" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4R2-9K-nUo">
-                                        <rect key="frame" x="8" y="49" width="576" height="50"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Qtde Produtos: 99" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4R2-9K-nUo">
+                                        <rect key="frame" x="8" y="0.0" width="101.5" height="18"/>
                                         <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="13"/>
                                         <nil key="highlightedColor"/>
                                         <size key="shadowOffset" width="0.0" height="-2"/>
                                     </label>
-                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OSv-Qk-22u">
-                                        <rect key="frame" x="-42" y="-21" width="42" height="21"/>
-                                        <gestureRecognizers/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="qQa-iR-TMf"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="qQa-iR-TMf"/>
-                                            </mask>
-                                        </variation>
-                                        <variation key="widthClass=compact">
-                                            <mask key="constraints">
-                                                <include reference="qQa-iR-TMf"/>
-                                            </mask>
-                                        </variation>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="dAM-Sm-1NN" appends="YES" id="5Jm-HC-pWs"/>
-                                        </connections>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="R$80000,00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xls-8O-PbX">
-                                        <rect key="frame" x="8" y="49" width="576" height="50"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="R$80000,00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xls-8O-PbX">
+                                        <rect key="frame" x="293" y="0.0" width="74" height="16"/>
                                         <fontDescription key="fontDescription" name="AppleSDGothicNeo-Medium" family="Apple SD Gothic Neo" pointSize="13"/>
                                         <color key="textColor" red="0.79607843140000001" green="0.54117647059999996" blue="0.098039215690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -66,28 +43,19 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="4R2-9K-nUo" firstAttribute="leading" secondItem="ZYh-EV-bE7" secondAttribute="leadingMargin" id="10y-71-Aic"/>
-                                    <constraint firstItem="OSv-Qk-22u" firstAttribute="top" secondItem="Xls-8O-PbX" secondAttribute="top" id="2aA-kg-7ab"/>
                                     <constraint firstItem="4R2-9K-nUo" firstAttribute="firstBaseline" secondItem="Xls-8O-PbX" secondAttribute="firstBaseline" id="3fQ-Lc-a1h"/>
                                     <constraint firstAttribute="bottom" secondItem="4R2-9K-nUo" secondAttribute="bottom" constant="32" id="6SS-hF-Ooj"/>
                                     <constraint firstItem="Xls-8O-PbX" firstAttribute="trailing" secondItem="ZYh-EV-bE7" secondAttribute="trailingMargin" id="GIA-Mp-lZp"/>
-                                    <constraint firstItem="OSv-Qk-22u" firstAttribute="centerX" secondItem="ZYh-EV-bE7" secondAttribute="centerX" id="PuO-ji-BKc"/>
-                                    <constraint firstItem="OSv-Qk-22u" firstAttribute="leading" secondItem="4R2-9K-nUo" secondAttribute="trailing" constant="59" id="VaC-IM-XfR"/>
                                     <constraint firstAttribute="height" constant="50" id="WeP-E2-a0r"/>
-                                    <constraint firstAttribute="bottom" secondItem="OSv-Qk-22u" secondAttribute="bottom" id="pWn-0j-aSl"/>
                                     <constraint firstItem="Xls-8O-PbX" firstAttribute="top" secondItem="ZYh-EV-bE7" secondAttribute="top" id="wDj-q4-yHg"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="subviews">
                                         <exclude reference="4R2-9K-nUo"/>
-                                        <exclude reference="OSv-Qk-22u"/>
                                         <exclude reference="Xls-8O-PbX"/>
                                     </mask>
                                     <mask key="constraints">
                                         <exclude reference="WeP-E2-a0r"/>
-                                        <exclude reference="2aA-kg-7ab"/>
-                                        <exclude reference="PuO-ji-BKc"/>
-                                        <exclude reference="VaC-IM-XfR"/>
-                                        <exclude reference="pWn-0j-aSl"/>
                                         <exclude reference="10y-71-Aic"/>
                                         <exclude reference="3fQ-Lc-a1h"/>
                                         <exclude reference="6SS-hF-Ooj"/>
@@ -98,15 +66,10 @@
                                 <variation key="widthClass=compact">
                                     <mask key="subviews">
                                         <include reference="4R2-9K-nUo"/>
-                                        <include reference="OSv-Qk-22u"/>
                                         <include reference="Xls-8O-PbX"/>
                                     </mask>
                                     <mask key="constraints">
                                         <include reference="WeP-E2-a0r"/>
-                                        <include reference="2aA-kg-7ab"/>
-                                        <include reference="PuO-ji-BKc"/>
-                                        <include reference="VaC-IM-XfR"/>
-                                        <include reference="pWn-0j-aSl"/>
                                         <include reference="10y-71-Aic"/>
                                         <include reference="3fQ-Lc-a1h"/>
                                         <include reference="6SS-hF-Ooj"/>
@@ -123,7 +86,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="61"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n2T-lg-vgT" id="OsE-2F-41k">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D3g-yQ-cjZ" customClass="AIFlatSwitch" customModule="AIFlatSwitch">
@@ -303,9 +266,15 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Lista" id="BWL-b7-Sg9"/>
+                    <navigationItem key="navigationItem" title="Lista" id="BWL-b7-Sg9">
+                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="hU4-VY-uD1"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Has-Ex-5mI">
+                            <connections>
+                                <action selector="addButtonAction:" destination="BYZ-38-t0r" id="JKt-VT-QrV"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <outlet property="addLabel" destination="OSv-Qk-22u" id="xi1-wD-rEr"/>
                         <outlet property="qtdeItemsLabel" destination="4R2-9K-nUo" id="c44-XB-wNV"/>
                         <outlet property="tableView" destination="LYD-19-DVT" id="f62-cJ-3pt"/>
                         <outlet property="totalLabel" destination="Xls-8O-PbX" id="bsz-vV-mHc"/>

@@ -5,7 +5,7 @@ PODS:
     - KSCrash/RecordingAdvanced (= 1.11.2)
   - CryptoSwift (0.6.8)
   - DATAStack (6.1.2)
-  - JSONWebToken (2.0.2):
+  - JSONWebToken (2.1.0):
     - CryptoSwift (~> 0.6.1)
   - KSCrash/Recording (1.11.2)
   - KSCrash/RecordingAdvanced (1.11.2):
@@ -23,7 +23,7 @@ DEPENDENCIES:
   - Alamofire (~> 4.4)
   - Bugsnag (from `https://github.com/bugsnag/bugsnag-cocoa.git`)
   - DATAStack (~> 6)
-  - JSONWebToken (~> 2.0.0)
+  - JSONWebToken (from `https://github.com/kylef/JSONWebToken.swift.git`, branch `master`)
   - MBProgressHUD (~> 1.0.0)
   - QRCodeReader.swift (~> 7.3.0)
   - StringScore_Swift (from `https://github.com/yichizhang/StringScore_Swift.git`)
@@ -32,6 +32,9 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   Bugsnag:
     :git: https://github.com/bugsnag/bugsnag-cocoa.git
+  JSONWebToken:
+    :branch: master
+    :git: https://github.com/kylef/JSONWebToken.swift.git
   StringScore_Swift:
     :git: https://github.com/yichizhang/StringScore_Swift.git
 
@@ -39,6 +42,9 @@ CHECKOUT OPTIONS:
   Bugsnag:
     :commit: eb5fe14f80fe247b3014e56a8cf8f08f1c873369
     :git: https://github.com/bugsnag/bugsnag-cocoa.git
+  JSONWebToken:
+    :commit: b605fe2d53a239946ffa81ab7de32daa71fd4aa4
+    :git: https://github.com/kylef/JSONWebToken.swift.git
   StringScore_Swift:
     :commit: 83abf26b6d7e30b8e00dcc1b336770b77b64886f
     :git: https://github.com/yichizhang/StringScore_Swift.git
@@ -49,7 +55,7 @@ SPEC CHECKSUMS:
   Bugsnag: d86488d670f91acbce0186e6570e500039676ef0
   CryptoSwift: f21ea03ed3a94e79d241648ce26652cd4810508a
   DATAStack: a45fc144e15193f1b22c26b507cc46655ce96a71
-  JSONWebToken: ca86f02eeb3d1f58ba5197ec2cd53c7de915ecc1
+  JSONWebToken: 5e84312d380091d98adef8f27a39bfb99ba46af6
   KSCrash: 8acc46aca72b2772d5d1e3cba1da9173db4d705e
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   QRCodeReader.swift: d7e190d49818948aa030704cfb26283f1f32fb0a
@@ -57,6 +63,6 @@ SPEC CHECKSUMS:
   Sync: a41b41cf61625676d3fe66efc09daf25b1548d9d
   SYNCPropertyMapper: b3157f5183285c8a25ba23877b95a06ec2547e73
 
-PODFILE CHECKSUM: 3a3290d339f08f1320fcbdb8da2886e403f3f9a1
+PODFILE CHECKSUM: 005105abf8a05159090c52cbbf35f35d5dad80eb
 
 COCOAPODS: 1.2.1.beta.1

@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 
 class CoreDataTableViewController: UIViewController, CoreDataTableViewControllerProtocol {
+    
     var coreDataTableView:UITableView!
     var _fetchedResultsController:NSFetchedResultsController<NSFetchRequestResult>?
     
@@ -66,6 +67,7 @@ class CoreDataTableViewController: UIViewController, CoreDataTableViewController
         
         return nil
     }
+    
     func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
         return self.fetchedResultsController!.section(forSectionIndexTitle: title, at: index)
     }

@@ -7,14 +7,7 @@
 //
 
 import UIKit
-
-// MARK: URL Base
-let urlBase:String = "http://nfc-e-server.herokuapp.com"
-
-// MARK: EndPoints
-let endPointAllProducts:String = "/api/v1/qrdata"
-
-let monthsName: [Int:String] = [1:"JAN",2:"FEV",3:"MAR",4:"ABR",5:"MAIO",6:"JUN",7:"JUL",8:"AGO",9:"SET",10:"OUT",11:"NOV",12:"DEZ"]
+import JWT
 
 extension CGFloat {
     static func random() -> CGFloat {
@@ -93,6 +86,11 @@ extension String
     {
         return self.replacingOccurrences(of: " ", with: "")
     }
+    
+    func JWTEncoded() -> String {
+        return JWT.encode(["expiration": Date().addingTimeInterval(30*60).description], algorithm: .hs256(self.data(using: .utf8)!))
+    }
+    
 }
 
 public protocol Groupable {
