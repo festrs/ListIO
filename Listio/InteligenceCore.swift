@@ -80,16 +80,16 @@ class InteligenceCore {
                 }))
                 coreDataHandler.saveItemListObj(finalList)
             }
-//            let values: [Double] = results.map {
-//                let payment = NSKeyedUnarchiver.unarchiveObjectWithData($0.payments!) as! NSDictionary
-//                return Double(payment["vl_total"] as! String)!
-//            }
+            let values: [Double] = results.map {
+                let payment = NSKeyedUnarchiver.unarchiveObject(with: $0.payments!) as! NSDictionary
+                return Double(payment["vl_total"] as! String)!
+            }
             let mapped: [MapItem] = getAllItens(results)
             // mapped
             let newMapped = removeRedudancyAndSortForCountDoc(mapped)
-//            let mediumPriceLists = values.reduce(0, combine: +)/Double(values.count)
-//            let finalList = getFinalListCutForMediumPrice(newMapped, price: mediumPriceLists)
-            coreDataHandler.saveItemListObj(newMapped)
+            let mediumPriceLists = values.reduce(0, +)/Double(values.count)
+            let finalList = getFinalListCutForMediumPrice(newMapped, price: mediumPriceLists)
+            coreDataHandler.saveItemListObj(finalList)
         }
     }
 }

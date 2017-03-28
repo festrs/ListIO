@@ -26,7 +26,6 @@ class Downloader {
     
     func downloadData(result: QRCodeReaderResult, _ completion:@escaping (_ error: Error?) ->Void) {
         
-        let url = URL(fileURLWithPath: Keys.BaseURL)
         let headers = [
             "x-access-token": "SupperDupperSecret".JWTEncoded()
         ]
@@ -34,7 +33,7 @@ class Downloader {
             "linkurl": result.value as AnyObject
         ] as [String : AnyObject]
         
-        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON(completionHandler: {
+        Alamofire.request(Keys.BaseURL + Keys.EndPointAllProducts, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON(completionHandler: {
             response in
             guard response.result.isSuccess else {
                 print("Error while fetching tags: \(response.result.error)")

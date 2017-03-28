@@ -47,7 +47,7 @@ class CoreDataHandler {
         return true
     }
     
-    func verifyNewObject(_ key:String) -> Bool{
+    func verifyNewObject(_ key:String) -> Bool {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Document")
         fetchRequest.predicate = NSPredicate(format: "remoteID = %@",key)
         do{
@@ -61,10 +61,10 @@ class CoreDataHandler {
         return false
     }
     
-    func saveItemListObj(_ array:[MapItem]){
+    func saveItemListObj(_ array:[MapItem]) {
         deleteAllItemList()
         var totalValue = 0.0
-        for item in array{
+        for item in array {
             let listObj = NSEntityDescription.insertNewObject(forEntityName: "ItemList", into: self.mainContext) as! ItemList
             listObj.hyp_dictionary()
             listObj.hyp_fill(with: item.toJson())
@@ -73,7 +73,7 @@ class CoreDataHandler {
         saveContex()
     }
     
-    func deleteAllItemList(){
+    func deleteAllItemList() {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ItemList")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         

@@ -41,16 +41,16 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         core = InteligenceCore(coreDataHandler: coreDataHandler)
         downloader = Downloader(core: core, withDataHandler: coreDataHandler)
         hud = MBProgressHUD(view: self.view)
-        
-        self.loadTotal()
+
         self.configTableView()
-        
-        let qtdeItems = self.fetchedResultsController?.fetchedObjects?.count
-        self.qtdeItemsLabel.text = "Qtde Produtos: \(qtdeItems!)"
+        self.loadTotal()
     }
     
     func loadTotal(){
-        //totalLabel.text = "Valor Total: \(groupObj.totalValue!.toMaskReais()!)"
+        let qtdeItems = fetchedResultsController?.fetchedObjects?.count
+        qtdeItemsLabel.text = "Qtde Produtos: \(qtdeItems!)"
+        let total = 0
+        totalLabel.text = "Valor Total: \(total)"
     }
     
     func configTableView(){
@@ -58,7 +58,7 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: Keys.EntityName)
         let countDocumentSort = NSSortDescriptor(key: Keys.SortDescriptorField, ascending: false)
         request.sortDescriptors = [countDocumentSort]
-        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.dataStack.mainContext, sectionNameKeyPath: nil, cacheName: "rootCache")
+        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.dataStack.mainContext, sectionNameKeyPath: "countDocument", cacheName: "rootCache")
         self.performFetch()
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
     }

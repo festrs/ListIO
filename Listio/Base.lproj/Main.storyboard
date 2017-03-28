@@ -86,7 +86,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="61"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n2T-lg-vgT" id="OsE-2F-41k">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D3g-yQ-cjZ" customClass="AIFlatSwitch" customModule="AIFlatSwitch">
@@ -180,15 +180,15 @@
                                                     <exclude reference="Tbf-j1-fng"/>
                                                 </mask>
                                                 <mask key="constraints">
+                                                    <exclude reference="1oe-e8-axv"/>
+                                                    <exclude reference="dPi-K3-87h"/>
+                                                    <exclude reference="r9g-E6-mla"/>
+                                                    <exclude reference="P6n-Qy-zno"/>
                                                     <exclude reference="7iY-Wx-4PJ"/>
                                                     <exclude reference="Ik0-wg-Fmi"/>
                                                     <exclude reference="s7Y-zX-lyB"/>
                                                     <exclude reference="Ftg-HJ-Ztv"/>
                                                     <exclude reference="r3C-u3-ULY"/>
-                                                    <exclude reference="P6n-Qy-zno"/>
-                                                    <exclude reference="1oe-e8-axv"/>
-                                                    <exclude reference="dPi-K3-87h"/>
-                                                    <exclude reference="r9g-E6-mla"/>
                                                 </mask>
                                             </variation>
                                             <variation key="widthClass=compact">
@@ -199,15 +199,15 @@
                                                     <include reference="Tbf-j1-fng"/>
                                                 </mask>
                                                 <mask key="constraints">
+                                                    <include reference="1oe-e8-axv"/>
+                                                    <include reference="dPi-K3-87h"/>
+                                                    <include reference="r9g-E6-mla"/>
+                                                    <include reference="P6n-Qy-zno"/>
                                                     <include reference="7iY-Wx-4PJ"/>
                                                     <include reference="Ik0-wg-Fmi"/>
                                                     <include reference="s7Y-zX-lyB"/>
                                                     <include reference="Ftg-HJ-Ztv"/>
                                                     <include reference="r3C-u3-ULY"/>
-                                                    <include reference="P6n-Qy-zno"/>
-                                                    <include reference="1oe-e8-axv"/>
-                                                    <include reference="dPi-K3-87h"/>
-                                                    <include reference="r9g-E6-mla"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
