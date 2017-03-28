@@ -11,11 +11,9 @@ import Alamofire
 import QRCodeReader
 
 class Downloader {
-    var core:InteligenceCore!
     var coreDataHandler:CoreDataHandler!
     
-    init(core: InteligenceCore, withDataHandler coreDataHandler:CoreDataHandler!) {
-        self.core = core
+    init(withDataHandler coreDataHandler:CoreDataHandler!) {
         self.coreDataHandler = coreDataHandler
     }
     
@@ -48,12 +46,9 @@ class Downloader {
             // add new item
             if self.coreDataHandler.savingData(responseJSON) {
                 //case document are add calculate the list
-                self.core.calculate()
+                completion(response.error)
             }
-            completion(nil)
         })
-        
-        
     }
     
 }

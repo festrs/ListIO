@@ -13,17 +13,16 @@ import MBProgressHUD
 import Sync
 import DATAStack
 
-class MainViewController: CoreDataTableViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
+class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
     
     @IBOutlet weak var qtdeItemsLabel: UILabel!
     @IBOutlet weak var addLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     fileprivate var dataStack:DATAStack!
-    var core:InteligenceCore!
-    var coreDataHandler:CoreDataHandler!
-    var downloader:Downloader?
-    var hud:MBProgressHUD!
+    var coreDataHandler: CoreDataHandler!
+    var downloader: Downloader?
+    var hud: MBProgressHUD!
     lazy var readerVC = QRCodeReaderViewController(builder: QRCodeReaderViewControllerBuilder {
         $0.reader = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode], captureDevicePosition: .back)
     })
@@ -33,33 +32,26 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         static let SortDescriptorField = "countDocument"
         static let IdentifierCell = "documentCell"
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // init objects
         coreDataHandler = CoreDataHandler(mainContext: self.dataStack.mainContext)
-        core = InteligenceCore(coreDataHandler: coreDataHandler)
-        downloader = Downloader(core: core, withDataHandler: coreDataHandler)
+        downloader = Downloader(withDataHandler: coreDataHandler)
         hud = MBProgressHUD(view: self.view)
-
+        
         self.configTableView()
         self.loadTotal()
     }
     
-    func loadTotal(){
-        let qtdeItems = fetchedResultsController?.fetchedObjects?.count
-        qtdeItemsLabel.text = "Qtde Produtos: \(qtdeItems!)"
+    func loadTotal() {
+        //        let qtdeItems = fetchedResultsController?.fetchedObjects?.count
+        //        qtdeItemsLabel.text = "Qtde Produtos: \(qtdeItems!)"
         let total = 0
         totalLabel.text = "Valor Total: \(total)"
     }
     
-    func configTableView(){
-        self.coreDataTableView = self.tableView
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: Keys.EntityName)
-        let countDocumentSort = NSSortDescriptor(key: Keys.SortDescriptorField, ascending: false)
-        request.sortDescriptors = [countDocumentSort]
-        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.dataStack.mainContext, sectionNameKeyPath: "countDocument", cacheName: "rootCache")
-        self.performFetch()
+    func configTableView() {
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
@@ -82,7 +74,7 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         // Retrieve the QRCode content
         // By using the delegate pattern
         readerVC.delegate = self
-
+        
         // Presents the readerVC as modal form sheet
         readerVC.modalPresentationStyle = .formSheet
         present(readerVC, animated: true, completion: nil)
@@ -102,9 +94,8 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
                 return
             }
             // reload data
-            self.performFetch()
+            self.tableView.reloadData()
             self.loadTotal()
-            
         })
         dismiss(animated: true, completion: nil)
     }
@@ -115,28 +106,46 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
         dismiss(animated: true, completion: nil)
     }
     
-    //MARK: UITableView Delegate
-    override func tableView(_ tableView: UITableView,
-                            cellForRowAt
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? FPHandlesMOC{
+            vc.receiveDataStack(self.dataStack)
+        }
+    }
+}
+
+extension MainViewController : UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return coreDataHandler.itemList.count
+    }
+}
+
+extension MainViewController : UITableViewDataSource {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt
+        
         indexPath: IndexPath) -> UITableViewCell {
-        let mapType = self.fetchedResultsController?.object(at: indexPath) as! ItemList
+        let viewItem = coreDataHandler.itemList[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: Keys.IdentifierCell) as! DocumentUiTableViewCell
         
-        cell.nameLabel.text = mapType.name!
-        cell.unLabel.text = "Qtde \(mapType.qtde!.description)"
-        cell.valueLabel.text = mapType.vlUnit?.maskToCurrency()
+        cell.nameLabel.text = viewItem.name
+        cell.unLabel.text = "Qtde \(viewItem.qtde.description)"
+        cell.valueLabel.text = viewItem.vlUnit.description
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! DocumentUiTableViewCell
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        cell.bigFlatSwitch.setSelected(!cell.bigFlatSwitch.isSelected, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             //objects.removeAtIndex(indexPath.row)
             //tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
@@ -144,15 +153,4 @@ class MainViewController: CoreDataTableViewController, QRCodeReaderViewControlle
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
-    
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? FPHandlesMOC{
-            vc.receiveDataStack(self.dataStack)
-        }
-    }
-    
-    
 }
