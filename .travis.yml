@@ -1,13 +1,12 @@
-language: objective-c
+language: swift
 
 osx_image: xcode8.3
 
 before_install:
     - pod install
 
+script:
+    - xcodebuild -workspace Listio.xcworkspace -scheme 'Listio' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 7,OS=10.1' clean build test
+
 after_success:
   - bash <(curl -s https://codecov.io/bash) -t 07101cd7-6101-475c-9b27-5426e067ac0c
-
-script:
-    - xcodebuild -workspace Listio.xcworkspace -scheme 'Listio' -sdk iphonesimulator clean build
-    - xcodebuild test -workspace Listio.xcworkspace -scheme 'ListioTests' -destination 'platform=iOS Simulator,name=iPhone 7,OS=10.1'
