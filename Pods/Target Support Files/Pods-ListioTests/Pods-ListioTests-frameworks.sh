@@ -87,6 +87,35 @@ strip_invalid_archs() {
   fi
 }
 
+
+if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/AIFlatSwitch/AIFlatSwitch.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Bugsnag/Bugsnag.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/CryptoSwift/CryptoSwift.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/DATAStack/DATAStack.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/JSONWebToken/JWT.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/KSCrash/KSCrash.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/MBProgressHUD/MBProgressHUD.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/QRCodeReader.swift/QRCodeReader.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SYNCPropertyMapper/SYNCPropertyMapper.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/StringScore_Swift/StringScore_Swift.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Sync/Sync.framework"
+fi
+if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/AIFlatSwitch/AIFlatSwitch.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Bugsnag/Bugsnag.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/CryptoSwift/CryptoSwift.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/DATAStack/DATAStack.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/JSONWebToken/JWT.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/KSCrash/KSCrash.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/MBProgressHUD/MBProgressHUD.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/QRCodeReader.swift/QRCodeReader.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SYNCPropertyMapper/SYNCPropertyMapper.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/StringScore_Swift/StringScore_Swift.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Sync/Sync.framework"
+fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait
 fi

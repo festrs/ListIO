@@ -1,0 +1,58 @@
+{
+"items" : [
+{
+"vl_unit" : "1.99",
+"id" : "7437943",
+"descricao" : "PASTILHA TIC TAC CER",
+"un" : "UN",
+"qtde" : "1",
+"vl_total" : "1.99"
+},
+{
+"vl_unit" : "1.99",
+"id" : "9744665",
+"descricao" : "PASTILHA TIC TAC MIX",
+"un" : "UN",
+"qtde" : "1",
+"vl_total" : "1.99"
+},
+{
+"vl_unit" : "1.79",
+"id" : "7750480",
+"descricao" : "CONFEITO MENTOS SORT",
+"un" : "UN",
+"qtde" : "1",
+"vl_total" : "1.79"
+},
+{
+"vl_unit" : "3.99",
+"id" : "9990372",
+"descricao" : "CHOC WAFER BIS OREO",
+"un" : "UN",
+"qtde" : "1",
+"vl_total" : "3.99"
+},
+{
+"vl_unit" : "3.99",
+"id" : "9990372",
+"descricao" : "CHOC WAFER BIS OREO",
+"un" : "UN",
+"qtde" : "1",
+"vl_total" : "3.99"
+}
+],
+"link" : "https:\/\/www.sefaz.rs.gov.br\/NFCE\/NFCE-COM.aspx?chNFe=43170445543915000777650320002357181826681951&nVersao=100&tpAmb=1&dhEmi=323031372d30342d30395431333a32353a32322d30333a3030&vNF=13.75&vICMS=1.04&digVal=616b542f6c316d72484274776c454f6e34787931695745582f72413d&cIdToken=000001&cHashQRCode=4EAB9C8FC54C4A0115B475C0A81BC5EC5384ACA9",
+"created_at" : "2017-04-09T13:25:22.000Z",
+"payments" : {
+"vl_total" : "13.75",
+"vl_desc" : "0.00",
+"pagmetodos" : [
+{
+"forma_pag" : "Cart�o de D�bito",
+"valor" : "13.75"
+}
+]
+},
+"id" : "43170445543915000777650320002357181826681951",
+"mes" : "04\/2017"
+}

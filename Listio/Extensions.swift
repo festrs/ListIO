@@ -26,9 +26,9 @@ extension UIColor {
 }
 
 extension Date {
-    func getComponent(_ component:NSCalendar.Unit) -> Int?{
+    func getComponent(_ component:NSCalendar.Unit) -> Int? {
         if
-            let cal: Calendar = Calendar.current{
+            let cal: Calendar = Calendar.current {
             return (cal as NSCalendar).component(component, from: self)
         } else {
             return nil
@@ -37,13 +37,13 @@ extension Date {
 }
 
 extension NSNumber {
-    func toMaskReais() ->String?{
+    func toMaskReais() -> String? {
         let formatter = NumberFormatter()
         formatter.numberStyle = NumberFormatter.Style.currency
         formatter.locale = Locale(identifier: "pt_BR")
         return formatter.string(from: self)
     }
-    func maskToCurrency() ->String?{
+    func maskToCurrency() ->String? {
         let formatter = NumberFormatter()
         formatter.numberStyle = NumberFormatter.Style.currencyAccounting
         return formatter.string(from: self)
@@ -68,13 +68,6 @@ extension Int
     }
 }
 
-func flatten<T>(_ a: [[T]]) -> [T] {
-    return a.reduce([]) {
-        res, ca in
-        return res + ca
-    }
-}
-
 extension String
 {
     func trim() -> String
@@ -89,6 +82,15 @@ extension String
     
     func JWTEncoded() -> String {
         return JWT.encode(["expiration": Date().addingTimeInterval(30*60).description], algorithm: .hs256(self.data(using: .utf8)!))
+    }
+    
+    func JWTEncoded(withExpirationDate date: Date) -> String {
+        var claims = ClaimSet()
+        claims.issuer = "Listio"
+        claims.issuedAt = Date()
+        claims.expiration = date
+        
+        return JWT.encode(claims: claims, algorithm: .hs256(self.data(using: .utf8)!))
     }
     
 }

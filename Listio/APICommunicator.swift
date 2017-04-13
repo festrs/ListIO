@@ -10,45 +10,39 @@ import UIKit
 import Alamofire
 import QRCodeReader
 
-class Downloader {
-    var coreDataHandler:CoreDataHandler!
-    
-    init(withDataHandler coreDataHandler:CoreDataHandler!) {
-        self.coreDataHandler = coreDataHandler
-    }
-    
+struct APICommunicator : APICommunicatorProtocol {
     struct Keys {
         static let BaseURL = "https://nfc-e-server.herokuapp.com"
         static let EndPointAllProducts = "/api/v1/qrdata"
     }
     
-    func downloadData(result: QRCodeReaderResult, _ completion:@escaping (_ error: Error?) ->Void) {
+    func getReceipt(linkUrl: String, _ completion: @escaping (Error?, [String : AnyObject]?) -> Void) {
         
         let headers = [
             "x-access-token": "SupperDupperSecret".JWTEncoded()
         ]
         let parameters = [
-            "linkurl": result.value as AnyObject
-        ] as [String : AnyObject]
+            "linkurl": linkUrl
+            ] as [String : AnyObject]
         
         Alamofire.request(Keys.BaseURL + Keys.EndPointAllProducts, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON(completionHandler: {
             response in
             guard response.result.isSuccess else {
-                print("Error while fetching tags: \(response.result.error)")
-                completion(response.error)
+                print("Error while fetching tags: \(String(describing: response.result.error))")
+                completion(response.error, nil)
                 return
             }
             guard let responseJSON = response.result.value as? [String: AnyObject] else {
                 print("Invalid tag information received from service")
-                completion(response.error)
+                completion(response.error, nil)
                 return
             }
-            // add new item
-            if self.coreDataHandler.savingData(responseJSON) {
-                //case document are add calculate the list
-                completion(response.error)
-            }
+            
+            completion(response.error, responseJSON)
+            
         })
     }
+
+
     
 }

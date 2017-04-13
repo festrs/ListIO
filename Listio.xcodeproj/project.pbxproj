@@ -7,16 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A17B70A1E9D58B90026756E /* DataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A17B7091E9D58B90026756E /* DataProviderTests.swift */; };
 		3A975D4F1CFCC42200E400B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */; };
 		3A975D541CFCC42200E400B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D521CFCC42200E400B3 /* Main.storyboard */; };
 		3A975D571CFCC42200E400B3 /* Listio.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D551CFCC42200E400B3 /* Listio.xcdatamodeld */; };
 		3A975D591CFCC42200E400B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D581CFCC42200E400B3 /* Assets.xcassets */; };
 		3A975D5C1CFCC42200E400B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D5A1CFCC42200E400B3 /* LaunchScreen.storyboard */; };
-		3A975D671CFCC42200E400B3 /* ListioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D661CFCC42200E400B3 /* ListioTests.swift */; };
 		3A9D64711D027082002369A4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9D64701D027082002369A4 /* Extensions.swift */; };
 		3AC1AD7C1D09093100097926 /* GroupUiTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC1AD7B1D09093000097926 /* GroupUiTableViewCell.swift */; };
 		3AC1AD7E1D0B897A00097926 /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC1AD7D1D0B897A00097926 /* DetailTableViewCell.swift */; };
-		3AD02D101E88056D00B4CAD5 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD02D0F1E88056D00B4CAD5 /* Downloader.swift */; };
+		3ACD3B3A1E9BC81300713A04 /* DataProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B391E9BC81300713A04 /* DataProviderProtocol.swift */; };
+		3ACD3B3C1E9BF16C00713A04 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B3B1E9BF16C00713A04 /* DataProvider.swift */; };
+		3ACD3B3E1E9BF5BB00713A04 /* ExtensionsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B3D1E9BF5BB00713A04 /* ExtensionsTest.swift */; };
+		3ACD3B3F1E9C075A00713A04 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9D64701D027082002369A4 /* Extensions.swift */; };
+		3ACD3B411E9D08C400713A04 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B401E9D08C400713A04 /* CoreDataHelper.swift */; };
+		3ACD3B431E9D121000713A04 /* APICommunicatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B421E9D121000713A04 /* APICommunicatorProtocol.swift */; };
+		3ACD3B451E9D179D00713A04 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B441E9D179D00713A04 /* CoreDataTests.swift */; };
+		3ACD3B481E9D1AA900713A04 /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE8D2F31E8B0B30006CA297 /* Receipt.swift */; };
+		3ACD3B491E9D1AA900713A04 /* Receipt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE8D2F41E8B0B30006CA297 /* Receipt+CoreDataProperties.swift */; };
+		3ACD3B4A1E9D1AA900713A04 /* Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233391CFE1A5C00656969 /* Item+CoreDataProperties.swift */; };
+		3ACD3B4B1E9D1AA900713A04 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE2333A1CFE1A5C00656969 /* Item.swift */; };
+		3ACD3B4F1E9D251800713A04 /* JSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 3ACD3B4E1E9D251800713A04 /* JSON.json */; };
+		3AD02D101E88056D00B4CAD5 /* APICommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD02D0F1E88056D00B4CAD5 /* APICommunicator.swift */; };
 		3AE1FB271D07710B001A6914 /* CoreDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB261D07710B001A6914 /* CoreDataHandler.swift */; };
 		3AE1FB2A1D07B71E001A6914 /* DocumentUiTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB291D07B71E001A6914 /* DocumentUiTableViewCell.swift */; };
 		3AE233341CFE11B000656969 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233331CFE11B000656969 /* MainViewController.swift */; };
@@ -43,6 +55,7 @@
 /* Begin PBXFileReference section */
 		08240201388815E9C27643BF /* Pods_Listio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Listio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23F40384B0CF39E67EC77B56 /* Pods-ListioTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ListioTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ListioTests/Pods-ListioTests.release.xcconfig"; sourceTree = "<group>"; };
+		3A17B7091E9D58B90026756E /* DataProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviderTests.swift; sourceTree = "<group>"; };
 		3A975D4B1CFCC42200E400B3 /* Listio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Listio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A975D531CFCC42200E400B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -51,13 +64,19 @@
 		3A975D5B1CFCC42200E400B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3A975D5D1CFCC42200E400B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A975D621CFCC42200E400B3 /* ListioTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ListioTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3A975D661CFCC42200E400B3 /* ListioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListioTests.swift; sourceTree = "<group>"; };
 		3A975D681CFCC42200E400B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A9D64701D027082002369A4 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3AC1AD7B1D09093000097926 /* GroupUiTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupUiTableViewCell.swift; sourceTree = "<group>"; };
 		3AC1AD7D1D0B897A00097926 /* DetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		3AC8A6894ED59EF4CF72ECFA /* Pods-Listio.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Listio.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Listio/Pods-Listio.debug.xcconfig"; sourceTree = "<group>"; };
-		3AD02D0F1E88056D00B4CAD5 /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
+		3ACD3B391E9BC81300713A04 /* DataProviderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviderProtocol.swift; sourceTree = "<group>"; };
+		3ACD3B3B1E9BF16C00713A04 /* DataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		3ACD3B3D1E9BF5BB00713A04 /* ExtensionsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionsTest.swift; sourceTree = "<group>"; };
+		3ACD3B401E9D08C400713A04 /* CoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
+		3ACD3B421E9D121000713A04 /* APICommunicatorProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICommunicatorProtocol.swift; sourceTree = "<group>"; };
+		3ACD3B441E9D179D00713A04 /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
+		3ACD3B4E1E9D251800713A04 /* JSON.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = JSON.json; sourceTree = "<group>"; };
+		3AD02D0F1E88056D00B4CAD5 /* APICommunicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICommunicator.swift; sourceTree = "<group>"; };
 		3AE1FB261D07710B001A6914 /* CoreDataHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataHandler.swift; sourceTree = "<group>"; };
 		3AE1FB291D07B71E001A6914 /* DocumentUiTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentUiTableViewCell.swift; sourceTree = "<group>"; };
 		3AE233331CFE11B000656969 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -128,7 +147,7 @@
 			children = (
 				3AD02D121E8805A300B4CAD5 /* Navegation */,
 				3AD02D111E88058B00B4CAD5 /* Utils */,
-				3AE233461CFE9EC800656969 /* Controller */,
+				3AE233461CFE9EC800656969 /* MainView */,
 				3AE233451CFE9EBA00656969 /* Object */,
 				3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */,
 				3A975D521CFCC42200E400B3 /* Main.storyboard */,
@@ -143,8 +162,12 @@
 		3A975D651CFCC42200E400B3 /* ListioTests */ = {
 			isa = PBXGroup;
 			children = (
-				3A975D661CFCC42200E400B3 /* ListioTests.swift */,
 				3A975D681CFCC42200E400B3 /* Info.plist */,
+				3ACD3B3D1E9BF5BB00713A04 /* ExtensionsTest.swift */,
+				3ACD3B401E9D08C400713A04 /* CoreDataHelper.swift */,
+				3ACD3B441E9D179D00713A04 /* CoreDataTests.swift */,
+				3ACD3B4E1E9D251800713A04 /* JSON.json */,
+				3A17B7091E9D58B90026756E /* DataProviderTests.swift */,
 			);
 			path = ListioTests;
 			sourceTree = "<group>";
@@ -153,8 +176,9 @@
 			isa = PBXGroup;
 			children = (
 				3A9D64701D027082002369A4 /* Extensions.swift */,
-				3AD02D0F1E88056D00B4CAD5 /* Downloader.swift */,
 				3AE1FB261D07710B001A6914 /* CoreDataHandler.swift */,
+				3AD02D0F1E88056D00B4CAD5 /* APICommunicator.swift */,
+				3ACD3B421E9D121000713A04 /* APICommunicatorProtocol.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -197,13 +221,15 @@
 			name = Object;
 			sourceTree = "<group>";
 		};
-		3AE233461CFE9EC800656969 /* Controller */ = {
+		3AE233461CFE9EC800656969 /* MainView */ = {
 			isa = PBXGroup;
 			children = (
 				3AE1FB281D07B6F4001A6914 /* Cells */,
 				3AE233331CFE11B000656969 /* MainViewController.swift */,
+				3ACD3B391E9BC81300713A04 /* DataProviderProtocol.swift */,
+				3ACD3B3B1E9BF16C00713A04 /* DataProvider.swift */,
 			);
-			name = Controller;
+			name = MainView;
 			sourceTree = "<group>";
 		};
 		7BAF71735A7544AA1DEF2A3C /* Frameworks */ = {
@@ -266,7 +292,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Felipe Dias Pereira";
 				TargetAttributes = {
 					3A975D4A1CFCC42200E400B3 = {
@@ -277,6 +303,7 @@
 					3A975D611CFCC42200E400B3 = {
 						CreatedOnToolsVersion = 7.3;
 						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 3A975D4A1CFCC42200E400B3;
 					};
 				};
@@ -315,6 +342,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ACD3B4F1E9D251800713A04 /* JSON.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,9 +455,12 @@
 				3AE233361CFE179300656969 /* FPHandlesMOC.swift in Sources */,
 				3AE2333D1CFE1A5C00656969 /* Item+CoreDataProperties.swift in Sources */,
 				3AE2333E1CFE1A5C00656969 /* Item.swift in Sources */,
-				3AD02D101E88056D00B4CAD5 /* Downloader.swift in Sources */,
+				3ACD3B431E9D121000713A04 /* APICommunicatorProtocol.swift in Sources */,
+				3AD02D101E88056D00B4CAD5 /* APICommunicator.swift in Sources */,
 				3AC1AD7C1D09093100097926 /* GroupUiTableViewCell.swift in Sources */,
 				3A9D64711D027082002369A4 /* Extensions.swift in Sources */,
+				3ACD3B3A1E9BC81300713A04 /* DataProviderProtocol.swift in Sources */,
+				3ACD3B3C1E9BF16C00713A04 /* DataProvider.swift in Sources */,
 				3AE233341CFE11B000656969 /* MainViewController.swift in Sources */,
 				3A975D571CFCC42200E400B3 /* Listio.xcdatamodeld in Sources */,
 				3AE1FB2A1D07B71E001A6914 /* DocumentUiTableViewCell.swift in Sources */,
@@ -440,7 +471,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A975D671CFCC42200E400B3 /* ListioTests.swift in Sources */,
+				3ACD3B4B1E9D1AA900713A04 /* Item.swift in Sources */,
+				3ACD3B481E9D1AA900713A04 /* Receipt.swift in Sources */,
+				3ACD3B3F1E9C075A00713A04 /* Extensions.swift in Sources */,
+				3ACD3B491E9D1AA900713A04 /* Receipt+CoreDataProperties.swift in Sources */,
+				3ACD3B411E9D08C400713A04 /* CoreDataHelper.swift in Sources */,
+				3ACD3B4A1E9D1AA900713A04 /* Item+CoreDataProperties.swift in Sources */,
+				3ACD3B3E1E9BF5BB00713A04 /* ExtensionsTest.swift in Sources */,
+				3ACD3B451E9D179D00713A04 /* CoreDataTests.swift in Sources */,
+				3A17B70A1E9D58B90026756E /* DataProviderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,8 +527,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -533,8 +574,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -553,6 +596,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -563,6 +607,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 439F5NHE7E;
 				INFOPLIST_FILE = Listio/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -580,6 +625,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 439F5NHE7E;
 				INFOPLIST_FILE = Listio/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -595,10 +641,13 @@
 			baseConfigurationReference = 44A4E7DAA2D34A3042A68024 /* Pods-ListioTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ListioTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = felipep.com.ListioTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Listio.app/Listio";
 			};
@@ -609,10 +658,13 @@
 			baseConfigurationReference = 23F40384B0CF39E67EC77B56 /* Pods-ListioTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ListioTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = felipep.com.ListioTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Listio.app/Listio";
 			};

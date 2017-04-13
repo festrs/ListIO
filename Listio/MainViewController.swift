@@ -20,12 +20,16 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     fileprivate var dataStack:DATAStack!
-    var coreDataHandler: CoreDataHandler!
-    var downloader: Downloader?
+    public var dataProvider: DataProviderProtocol?
+    public var communicator: APICommunicatorProtocol = APICommunicator()
     var hud: MBProgressHUD!
-    lazy var readerVC = QRCodeReaderViewController(builder: QRCodeReaderViewControllerBuilder {
-        $0.reader = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode], captureDevicePosition: .back)
-    })
+    
+    lazy var readerVC: QRCodeReaderViewController = {
+        let builder = QRCodeReaderViewControllerBuilder {
+            $0.reader = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode], captureDevicePosition: .back)
+        }
+        return QRCodeReaderViewController(builder: builder)
+    }()
     
     struct Keys {
         static let EntityName = "ItemList"
@@ -36,23 +40,24 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         // init objects
-        coreDataHandler = CoreDataHandler(mainContext: self.dataStack.mainContext)
-        downloader = Downloader(withDataHandler: coreDataHandler)
-        hud = MBProgressHUD(view: self.view)
+        hud = MBProgressHUD(view: (self.navigationController?.view!)!)
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         
-        self.configTableView()
+        dataProvider = DataProvider(coreDataHandler: CoreDataHandler(mainContext: dataStack.mainContext))
+        
+        assert(dataProvider != nil, "dataProvider is not allowed to be nil at this point")
+        
+        dataProvider?.tableView = tableView
+        tableView.dataSource = dataProvider
+        
         self.loadTotal()
     }
     
     func loadTotal() {
-        //        let qtdeItems = fetchedResultsController?.fetchedObjects?.count
-        //        qtdeItemsLabel.text = "Qtde Produtos: \(qtdeItems!)"
-        let total = 0
-        totalLabel.text = "Valor Total: \(total)"
-    }
-    
-    func configTableView() {
-        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        let qtdeItems = dataProvider?.getCountItems()
+        qtdeItemsLabel.text = "Qtde Produtos: \(String(describing: qtdeItems))"
+        let total = NSNumber(value: (dataProvider?.calcMediumCost())!)
+        totalLabel.text = "Valor Total: \(total.toMaskReais()!)"
     }
     
     // MARK: - HUD
@@ -71,10 +76,7 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
     
     // MARK: - Actions
     @IBAction func addButtonAction(_ sender: AnyObject) {
-        // Retrieve the QRCode content
-        // By using the delegate pattern
         readerVC.delegate = self
-        
         // Presents the readerVC as modal form sheet
         readerVC.modalPresentationStyle = .formSheet
         present(readerVC, animated: true, completion: nil)
@@ -87,16 +89,16 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
         self.showLoadingHUD()
         guard result.metadataType == AVMetadataObjectTypeQRCode else { return }
         
-        downloader?.downloadData(result: result, { (error) in
+        communicator.getReceipt(linkUrl: result.value) { (error, responseJSON) in
             self.hideLoadingHUD()
-            
             guard error == nil else {
                 return
             }
-            // reload data
-            self.tableView.reloadData()
-            self.loadTotal()
-        })
+
+            self.dataProvider?.addReceipt(responseJSON!)
+
+        }
+    
         dismiss(animated: true, completion: nil)
     }
     
@@ -114,43 +116,3 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
     }
 }
 
-extension MainViewController : UITableViewDelegate {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return coreDataHandler.itemList.count
-    }
-}
-
-extension MainViewController : UITableViewDataSource {
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt
-        
-        indexPath: IndexPath) -> UITableViewCell {
-        let viewItem = coreDataHandler.itemList[indexPath.row]
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: Keys.IdentifierCell) as! DocumentUiTableViewCell
-        
-        cell.nameLabel.text = viewItem.name
-        cell.unLabel.text = "Qtde \(viewItem.qtde.description)"
-        cell.valueLabel.text = viewItem.vlUnit.description
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
-    
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            //objects.removeAtIndex(indexPath.row)
-            //tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-        }
-    }
-}

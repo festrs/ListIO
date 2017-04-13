@@ -26,9 +26,14 @@ extension Item {
     @NSManaged public var countDocument: NSNumber?
     @NSManaged public var document: Receipt?
 
-    func addCountQte(_ value: Int){
+    func addCountQte(_ value: Int) {
         let aux = (qtde?.intValue)! + value
         qtde = NSDecimalNumber(value: aux)
+    }
+    
+    func addCountDocument(_ value: Int) {
+        let aux = (countDocument?.intValue)! + value
+        countDocument = NSDecimalNumber(value: aux)
     }
     
 }

@@ -1,16 +1,14 @@
 //
-//  ListioTests.swift
-//  ListioTests
+//  DataProviderTests.swift
+//  Listio
 //
-//  Created by Felipe Dias Pereira on 2016-05-30.
-//  Copyright © 2016 Felipe Dias Pereira. All rights reserved.
+//  Created by Felipe Dias Pereira on 2017-04-11.
+//  Copyright © 2017 Felipe Dias Pereira. All rights reserved.
 //
 
 import XCTest
 
-
-class ListioTests: XCTestCase {
-    
+class DataProviderTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
@@ -22,12 +20,15 @@ class ListioTests: XCTestCase {
         super.tearDown()
     }
     
+    func testExample() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
-            
-            
+            // Put the code you want to measure the time of here.
         }
     }
     
