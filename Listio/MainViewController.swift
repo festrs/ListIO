@@ -40,17 +40,15 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         // init objects
-        hud = MBProgressHUD(view: (self.navigationController?.view!)!)
+        hud = MBProgressHUD(view: self.view)
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-        
-        dataProvider = DataProvider(coreDataHandler: CoreDataHandler(mainContext: dataStack.mainContext))
         
         assert(dataProvider != nil, "dataProvider is not allowed to be nil at this point")
         
         dataProvider?.tableView = tableView
         tableView.dataSource = dataProvider
         
-        self.loadTotal()
+        //self.loadTotal()
     }
     
     func loadTotal() {
@@ -94,9 +92,7 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
             guard error == nil else {
                 return
             }
-
             self.dataProvider?.addReceipt(responseJSON!)
-
         }
     
         dismiss(animated: true, completion: nil)

@@ -12,15 +12,11 @@ import CoreData
 public protocol DataProviderProtocol: UITableViewDataSource {
     
     var coreDataHandler: CoreDataHandler! { get }
-    
     weak var tableView: UITableView! { get set }
 
     func fetch()
-    
     func addReceipt(_ json:[String: AnyObject])
-    
     func calcMediumCost() -> Double
-    
     func getCountItems() -> Int
     
     init(coreDataHandler: CoreDataHandler)

@@ -19,7 +19,7 @@ struct APICommunicator : APICommunicatorProtocol {
     func getReceipt(linkUrl: String, _ completion: @escaping (Error?, [String : AnyObject]?) -> Void) {
         
         let headers = [
-            "x-access-token": "SupperDupperSecret".JWTEncoded()
+            "x-access-token": "SupperDupperSecret".JWTEncoded(withExpirationDate: Date().addingTimeInterval(30*60))
         ]
         let parameters = [
             "linkurl": linkUrl

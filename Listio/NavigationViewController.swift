@@ -14,9 +14,15 @@ class NavigationViewController: UINavigationController, FPHandlesMOC {
     var dataStack:DATAStack!
     
     func receiveDataStack(_ incomingDataStack: DATAStack) {
-        if let child = self.viewControllers.first as? FPHandlesMOC{
+        if let child = self.viewControllers.first as? FPHandlesMOC {
             child.receiveDataStack(incomingDataStack)
         }
+        
+        if let child = self.viewControllers.first as? MainViewController {
+            let coreDataHandler = CoreDataHandler(mainContext: incomingDataStack.mainContext)
+            let dataProvider = DataProvider(coreDataHandler: coreDataHandler)
+            child.dataProvider = dataProvider
+        }
     }
- 
+
 }

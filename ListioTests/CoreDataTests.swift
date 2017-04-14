@@ -12,11 +12,6 @@ import CoreData
 
 class CoreDataTests: XCTestCase {
     
-    var storeCoordinator: NSPersistentStoreCoordinator!
-    var managedObjectContext: NSManagedObjectContext!
-    var managedObjectModel: NSManagedObjectModel!
-    var store: NSPersistentStore!
-    
     var coreDataHelper: CoreDataHandler!
     var mockAPI: MockAPICommunicator!
     var response:[String: AnyObject]? = nil
@@ -120,9 +115,51 @@ class CoreDataTests: XCTestCase {
             
             XCTAssertNotNil(response, "JSON file should not be nil")
             
-            self.coreDataHelper.savingData(response!)
+            _ = self.coreDataHelper.savingData(response!)
         }
     }
     
+    func testReceiptModelFetch() {
+        //given
+        XCTAssertNotNil(response, "JSON file should not be nil")
+        
+        //when
+        XCTAssertTrue(coreDataHelper.savingData(response!))
+        
+        //then
+        do{
+            if #available(iOS 10.0, *) {
+                let request: NSFetchRequest<Listio.Receipt> = Listio.Receipt.fetchRequest()
+                let result = try coreDataHelper.mainContext.fetch(request)
+                XCTAssertNotNil(result)
+            } else {
+                XCTAssertTrue(true)
+            }
+        } catch let error as NSError {
+            XCTFail("Could not fetch \(error), \(error.userInfo)")
+        }
+        
+    }
+    
+    func testItemModelFetch() {
+        //given
+        XCTAssertNotNil(response, "JSON file should not be nil")
+        
+        //when
+        XCTAssertTrue(coreDataHelper.savingData(response!))
+        
+        //then
+        do{
+            if #available(iOS 10.0, *) {
+                let request: NSFetchRequest<Listio.Item> = Listio.Item.fetchRequest()
+                let result = try coreDataHelper.mainContext.fetch(request)
+                XCTAssertNotNil(result)
+            } else {
+                XCTAssertTrue(true)
+            }
+        } catch let error as NSError {
+            XCTFail("Could not fetch \(error), \(error.userInfo)")
+        }
+    }
 
 }
