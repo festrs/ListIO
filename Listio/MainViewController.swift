@@ -52,10 +52,18 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
     }
     
     func loadTotal() {
-        let qtdeItems = dataProvider?.getCountItems()
-        qtdeItemsLabel.text = "Qtde Produtos: \(String(describing: qtdeItems))"
-        let total = NSNumber(value: (dataProvider?.calcMediumCost())!)
-        totalLabel.text = "Valor Total: \(total.toMaskReais()!)"
+        
+        do {
+            let qtdeItems = try dataProvider?.getCountItems()
+            qtdeItemsLabel.text = "Qtde Produtos: \(String(describing: qtdeItems))"
+            let total = try NSNumber(value: (dataProvider?.calcMediumCost())!)
+            totalLabel.text = "Valor Total: \(total.toMaskReais()!)"
+        } catch Errors.CoreDataError(let msg){
+            //TO DO handle properly
+            print()
+        } catch {
+            
+        }
     }
     
     // MARK: - HUD
@@ -92,7 +100,14 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
             guard error == nil else {
                 return
             }
-            self.dataProvider?.addReceipt(responseJSON!)
+            do {
+                try self.dataProvider?.addReceipt(responseJSON!)
+            } catch Errors.CoreDataError(let msg) {
+                
+            } catch {
+                
+            }
+            
         }
     
         dismiss(animated: true, completion: nil)
