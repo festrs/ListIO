@@ -15,7 +15,7 @@ class Item: NSManagedObject {
 
 }
 
-func ==(lhs: Item, rhs: Item) -> Bool {
+func == (lhs: Item, rhs: Item) -> Bool {
     let fuzzy1 = lhs.descricao!.trim().score(rhs.descricao!.trim(), fuzziness:1.0)
     return fuzzy1 > 0.45
 }
