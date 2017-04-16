@@ -10,49 +10,116 @@ import UIKit
 import CoreData
 import Sync
 
-class CoreDataHandler {
-    
+public class CoreDataHandler {
     let mainContext:NSManagedObjectContext!
     
-    init(mainContext:NSManagedObjectContext){
+    struct Keys {
+        static let ReceiptEntityName = "Receipt"
+        static let ReceiptItemsArrayName = "items"
+        static let ReceiptItemEntityName = "Item"
+        static let ReceiptSortDescriptor = "createdAt"
+        static let ItemDescriptionKey = "descricao"
+    }
+
+    init(mainContext: NSManagedObjectContext) {
         self.mainContext = mainContext
     }
     
-    func getAllDocuments() -> [Document]?{
-        let fetchRequest = NSFetchRequest(entityName: "Document")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+    func getAllReceipt() -> [Receipt]? {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Keys.ReceiptEntityName)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Keys.ReceiptSortDescriptor, ascending: false)]
         do{
-            return try self.mainContext.executeFetchRequest(fetchRequest) as? [Document]
+            return try self.mainContext.fetch(fetchRequest) as? [Receipt]
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }
         return nil
     }
     
-    func savingData(json:[String: AnyObject]) -> Bool{
-        guard verifyNewObject(json["id"] as! String) == false else{
+    func getAllItems() -> [Item]? {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Keys.ReceiptItemEntityName)
+        do{
+            return try self.mainContext.fetch(fetchRequest) as? [Item]
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        return nil
+    }
+    
+    func savingData(_ json:[String: AnyObject]) -> Bool {
+        guard verifyNewObject(json["id"] as! String) == false else {
             return false
         }
-        let docObj = NSEntityDescription.insertNewObjectForEntityForName("Document", inManagedObjectContext: self.mainContext) as! Document
-        docObj.hyp_fillWithDictionary(json)
-        for item in json["items"] as! [AnyObject] {
-            let itemObj = NSEntityDescription.insertNewObjectForEntityForName("Item", inManagedObjectContext: self.mainContext) as! Item
-            if let itemT = item as? [String:AnyObject]{
-                itemObj.hyp_fillWithDictionary(itemT)
+        let docObj = NSEntityDescription.insertNewObject(forEntityName: Keys.ReceiptEntityName, into: self.mainContext) as! Receipt
+        docObj.hyp_fill(with: json)
+        let itemsArray = removeRedudancy(receipt: docObj, json[Keys.ReceiptItemsArrayName] as! [AnyObject])
+        
+        let allItems = getAllItems()!
+        
+        _ = allItems.reduce([Item]()){
+            uniqueElements, element in
+            
+            if let index = uniqueElements.index(where: {$0 == element}) {
+                let auxItem = uniqueElements[index]
+                auxItem.addCountDocument(1)
+                return uniqueElements
+            } else {
+                return uniqueElements + [element]
             }
-            itemObj.document = docObj
-            docObj.mutableSetValueForKey("items").addObject(itemObj)
         }
+
+        docObj.addToItems(NSSet(array: itemsArray))
+
         saveContex()
         return true
     }
     
-    func verifyNewObject(key:String) -> Bool{
-        let fetchRequest = NSFetchRequest(entityName: "Document")
+    func calcMediumCost() -> Double {
+        let receipts = getAllReceipt()
+        let values: [Double] = receipts!.map { (receipt) -> Double in
+            let payment = NSKeyedUnarchiver.unarchiveObject(with: receipt.payments! as Data) as! NSDictionary
+            return Double(payment["vl_total"] as! String)!
+        }
+        return values.reduce(0, +)/Double(values.count)
+    }
+    
+    fileprivate func removeRedudancy(receipt: Receipt, _ itemList: [AnyObject]) -> [Item] {
+        let newMapped = itemList.reduce([Item]()) {
+            a, item in
+            var b = [Item]()
+            if !a.contains(where: { verifyItemByFuzzy(lhs: $0.descricao!, rhs: item[Keys.ItemDescriptionKey] as! String) }) {
+                let newItem = createItem(item: item as! [String : Any])
+                newItem.document = receipt
+                b.append(newItem)
+            } else {
+                let index = a.index(where: { verifyItemByFuzzy(lhs: $0.descricao!, rhs: item[Keys.ItemDescriptionKey] as! String) })!
+                let item2 = a[index]
+                item2.addCountQte(1)
+            }
+            b.append(contentsOf: a)
+            return b
+        }
+
+        return newMapped
+    }
+    
+    func createItem(item: [String : Any]) -> Item {
+        let itemObj:Item = NSEntityDescription.insertNewObject(forEntityName: Keys.ReceiptItemEntityName, into: self.mainContext) as! Item
+        itemObj.hyp_fill(with: item)
+        return itemObj
+    }
+    
+    func verifyItemByFuzzy(lhs: String, rhs: String) -> Bool {
+        let fuzzy1 = lhs.trim().score(rhs.trim(), fuzziness:1.0)
+        return fuzzy1 > 0.45
+    }
+    
+    fileprivate func verifyNewObject(_ key:String) -> Bool {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Keys.ReceiptEntityName)
         fetchRequest.predicate = NSPredicate(format: "remoteID = %@",key)
-        do{
-            let result = try self.mainContext.executeFetchRequest(fetchRequest)
-            if result.count > 0{
+        do {
+            let result = try self.mainContext.fetch(fetchRequest)
+            if result.count > 0 {
                 return true
             }
         } catch let error as NSError {
@@ -61,34 +128,12 @@ class CoreDataHandler {
         return false
     }
     
-    func saveItemListObj(array:[MapItem]){
-        deleteAllItemList()
-        var totalValue = 0.0
-        for item in array{
-            let listObj = NSEntityDescription.insertNewObjectForEntityForName("ItemList", inManagedObjectContext: self.mainContext) as! ItemList
-            listObj.hyp_dictionary()
-            listObj.hyp_fillWithDictionary(item.toJson())
-            totalValue += item.vlUnit * Double(item.qtde)
-        }
-        saveContex()
-    }
-    
-    func deleteAllItemList(){
-        let fetchRequest = NSFetchRequest(entityName: "ItemList")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        
-        do {
-            try self.mainContext.executeRequest(deleteRequest)
-        } catch let error as NSError {
-            print(error)
-        }
-    }
-    
-    func saveContex() {
+    fileprivate func saveContex() {
         do {
             try self.mainContext.save()
         } catch {
             fatalError("Failure to save context: \(error)")
         }
     }
+
 }
