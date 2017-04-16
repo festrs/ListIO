@@ -92,7 +92,6 @@ class DataProviderTests: XCTestCase {
     }
     
     func testAddedNewReceipt() {
-        
         setUpAddReceipt()
         
         XCTAssertThrowsError(try dataProvider.addReceipt(response!)) { error in
@@ -107,7 +106,6 @@ class DataProviderTests: XCTestCase {
     }
     
     func testRemovedRedundancy() {
-        
         setUpAddReceipt()
         
         do {
@@ -145,7 +143,6 @@ class DataProviderTests: XCTestCase {
     }
 
     func testCalMediumValueReceipts() {
-
         setUpAddReceipt()
         
         do {
@@ -189,6 +186,17 @@ class DataProviderTests: XCTestCase {
             }
         } catch let error as NSError {
             XCTFail("Could not fetch \(error), \(error.userInfo)")
+        }
+    }
+    
+    func testCountItem() {
+        setUpAddReceipt()
+        
+        do {
+            let itemsCount = try dataProvider.getAllItems()?.count
+            XCTAssertEqual(itemsCount, 3)
+        } catch {
+            XCTFail("error throwed")
         }
     }
     

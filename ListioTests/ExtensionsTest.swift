@@ -26,21 +26,41 @@ class ExtensionsTest: XCTestCase {
         let date = Date().addingTimeInterval(30*60)
 
         do {
-            let claims: ClaimSet = try JWT.decode(toEncoded.JWTEncoded(withExpirationDate: date), algorithm: .hs256(toEncoded.data(using: .utf8)!))
+            let encoded = toEncoded.JWTEncoded(withExpirationDate: date)
+            var claims: ClaimSet = try JWT.decode(encoded, algorithm: .hs256(toEncoded.data(using: .utf8)!))
+            
+            var claimsTest = ClaimSet()
+            claimsTest.issuer = "Listio"
+            claimsTest.issuedAt = Date()
+            claimsTest.expiration = date
+            
+            let encodedTest = JWT.encode(claims: claims, algorithm: .hs256(toEncoded.data(using: .utf8)!))
+            
             XCTAssertEqual(date.timeIntervalSinceReferenceDate.rounded(), (claims.expiration?.timeIntervalSinceReferenceDate)!.rounded())
+            XCTAssertEqual(encodedTest, encoded)
         } catch {
             XCTFail("Failed to decode JWT: \(error)")
         }
     }
     
-    func testMarkToReais() {
+    func testMaskToReais() {
         let number:NSNumber = NSNumber(value: 14.0)
-        XCTAssertEqual(number.toMaskReais(), "R$14,00")
+        let stringMask = number.toMaskReais()
+        XCTAssertNotNil(number.toMaskReais())
+        XCTAssertEqual(stringMask, "R$14,00")
+    }
+    
+    func testMaskToCurrency() {
+        let number:NSNumber = NSNumber(value: 14.0)
+        let stringMask = number.maskToCurrency()
+        XCTAssertNotNil(number.maskToCurrency())
+        XCTAssertEqual(stringMask, "$14.00")
     }
     
     func testTrim() {
         let testableString = " felipe "
-        XCTAssertEqual(testableString.trim(), "felipe")
+        let trimString = testableString.trim()
+        XCTAssertEqual(trimString, "felipe")
     }
     
     
