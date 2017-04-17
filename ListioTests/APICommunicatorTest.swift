@@ -37,7 +37,7 @@ class APICommunicatorTest: XCTestCase {
             asyncExpectation.fulfill()
         }
         
-        self.waitForExpectations(timeout: 30) { (error) in
+        self.waitForExpectations(timeout: 60) { (error) in
             XCTAssertNil(error)
             XCTAssertNotNil(result)
         }

@@ -16,16 +16,17 @@ class DataProviderTests: XCTestCase {
     var viewController: MainViewController!
     var dataProvider: DataProvider!
     var mockAPI: MockAPICommunicator!
-    var response:[String: AnyObject]? = nil
+    var receipt1:[String: AnyObject]? = nil
+    var receipt2:[String: AnyObject]? = nil
     
     class MockAPICommunicator : APICommunicatorProtocol {
         
         func getReceipt(linkUrl: String, _ completion: @escaping (Error?, [String : AnyObject]?) -> Void) {
-            completion(nil,readJson())
+            completion(nil,readJson(name: linkUrl))
         }
         
-        private func readJson() -> [String: AnyObject]? {
-            guard let pathString = Bundle(for: type(of: self)).path(forResource: "JSON", ofType: "json") else {
+        private func readJson(name : String) -> [String: AnyObject]? {
+            guard let pathString = Bundle(for: type(of: self)).path(forResource: name, ofType: "json") else {
                 fatalError("UnitTestData.json not found")
             }
             
@@ -49,27 +50,20 @@ class DataProviderTests: XCTestCase {
         viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as! MainViewController
         mockAPI = MockAPICommunicator()
         
-        mockAPI.getReceipt(linkUrl: "") { (error, responseJSON) in
-            self.response = responseJSON
+        mockAPI.getReceipt(linkUrl: "receipt1") { (error, responseJSON) in
+            self.receipt1 = responseJSON
+        }
+        
+        mockAPI.getReceipt(linkUrl: "receipt2") { (error, responseJSON) in
+            self.receipt2 = responseJSON
         }
         
         let dataStack = DATAStack(modelName: "Listio", bundle: Bundle.main, storeType: .inMemory)
-        
         dataProvider = DataProvider(DATAStack: dataStack)
-    
     }
 
     override func tearDown() {
         super.tearDown()
-    }
-    
-    func testErros() {
-        let responseJson:[String: AnyObject] = [:]
-        XCTAssertThrowsError(try dataProvider.addReceipt(responseJson))
-        
-        XCTAssertThrowsError(try dataProvider.getAllItems())
-        
-        XCTAssertThrowsError(try dataProvider.getAllReceipt())
     }
     
     func testTableView() {
@@ -90,20 +84,30 @@ class DataProviderTests: XCTestCase {
                   "The table view should be set to the table view of the data source")
     }
     
-    func setUpAddReceipt() {
-        XCTAssertNotNil(response, "JSON file should not be nil")
+    func setUpAddReceipt1() {
+        XCTAssertNotNil(receipt1, "JSON file should not be nil")
         do {
-            try dataProvider.addReceipt(response!)
+            try dataProvider.addReceipt(receipt1!)
             XCTAssertTrue(true)
         } catch {
             XCTFail("error throwed")
         }
     }
     
-    func testAddedNewReceipt() {
-        setUpAddReceipt()
+    func setUpAddReceipt2() {
+        XCTAssertNotNil(receipt2, "JSON file should not be nil")
+        do {
+            try dataProvider.addReceipt(receipt2!)
+            XCTAssertTrue(true)
+        } catch {
+            XCTFail("error throwed")
+        }
+    }
+    
+    func testDuplicateAddTryReceipt() {
+        setUpAddReceipt1()
         
-        XCTAssertThrowsError(try dataProvider.addReceipt(response!)) { error in
+        XCTAssertThrowsError(try dataProvider.addReceipt(receipt1!)) { error in
             switch error as! Errors {
             case .DoubleReceiptWithSameID:
                 XCTAssertTrue(true)
@@ -115,7 +119,7 @@ class DataProviderTests: XCTestCase {
     }
     
     func testRemovedRedundancy() {
-        setUpAddReceipt()
+        setUpAddReceipt1()
         
         do {
             let allItems = try dataProvider.getAllItems()
@@ -124,13 +128,13 @@ class DataProviderTests: XCTestCase {
             XCTFail("error throwed")
         }
     }
-    
+
     func testFuzzy45() {
         let name1 = "PASTILHA TIC TAC CER"
         let name2 = "PASTILHA TIC TAC MIX"
         XCTAssertTrue(dataProvider.verifyItemByFuzzy(lhs: name1, rhs: name2))
     }
-    
+
     func testGetReceipts() {
         
         do {
@@ -140,7 +144,7 @@ class DataProviderTests: XCTestCase {
             XCTFail("error throwed")
         }
     
-        setUpAddReceipt()
+        setUpAddReceipt1()
         
         do {
             let count = try dataProvider.getAllReceipt()?.count
@@ -152,19 +156,19 @@ class DataProviderTests: XCTestCase {
     }
 
     func testCalMediumValueReceipts() {
-        setUpAddReceipt()
-        
+        setUpAddReceipt1()
+        setUpAddReceipt2()
         do {
             let mediumCost = try dataProvider.calcMediumCost()
-            XCTAssertEqual(mediumCost, 13.75)
+            XCTAssertEqual(mediumCost, 14.75)
         } catch {
             XCTFail("error throwed")
         }
     }
-    
+
 
     func testReceiptModelFetch() {
-        setUpAddReceipt()
+        setUpAddReceipt1()
         
         //then
         do{
@@ -182,7 +186,7 @@ class DataProviderTests: XCTestCase {
     }
 
     func testItemModelFetch() {
-        setUpAddReceipt()
+        setUpAddReceipt1()
         
         //then
         do{
@@ -200,16 +204,59 @@ class DataProviderTests: XCTestCase {
             XCTFail("Could not fetch \(error), \(error.userInfo)")
         }
     }
-    
-    func testCountItem() {
-        setUpAddReceipt()
+
+    func testCountUniqueItems() {
+        setUpAddReceipt1()
+        setUpAddReceipt2()
         
         do {
-            let itemsCount = try dataProvider.getAllItems()?.count
-            XCTAssertEqual(itemsCount, 3)
+            try dataProvider.fetch()
+            let itemsCount = dataProvider.getCountItems()
+            XCTAssertEqual(itemsCount, 4)
         } catch {
             XCTFail("error throwed")
         }
+    }
+    
+    func testCountAllItems() {
+        setUpAddReceipt1()
+        setUpAddReceipt2()
+        
+        do {
+            let itemsCount = try dataProvider.getAllItems()?.count
+            XCTAssertEqual(itemsCount, 6)
+        } catch {
+            XCTFail("error throwed")
+        }
+    }
+    
+    func testItemCountReceipts() {
+        setUpAddReceipt1()
+        setUpAddReceipt2()
+        
+        do {
+            var items = try dataProvider.getAllItems()
+            
+            items = items?.filter({ (item) -> Bool in
+                return (item.countReceipt?.intValue)! > 1
+            })
+            
+            XCTAssertEqual(items?.count, 2)
+        } catch {
+            XCTFail("error throwed")
+        }
+    }
+    
+    func testFetch() {
+        //given
+        setUpAddReceipt1()
+        //when
+        do {
+            try dataProvider.fetch()
+        } catch {
+            XCTFail("error throwed")
+        }
+        XCTAssertNotEqual([Item](), dataProvider.items!)
     }
     
 }

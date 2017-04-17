@@ -36,7 +36,7 @@ public class DataProvider: NSObject, DataProviderProtocol {
     }
     
     public func fetch() throws {
-        items = try getAllItems()
+        items = try getUniqueItems()
     }
     
     public func calcMediumCost() throws -> Double {
@@ -50,6 +50,23 @@ public class DataProvider: NSObject, DataProviderProtocol {
     
     public func getCountItems() -> Int {
         return (items?.count)!
+    }
+    
+    func getUniqueItems() throws -> [Item]? {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Keys.ReceiptItemEntityName)
+        do{
+            var items = try self.dataStack.mainContext.fetch(fetchRequest) as? [Item]
+            items = items?.reduce([Item](), { uniqueElements, element in
+                if uniqueElements.index(where: {$0 == element}) != nil {
+                    return uniqueElements
+                } else {
+                    return uniqueElements + [element]
+                }
+            })
+            return items
+        } catch let error as NSError {
+            throw Errors.CoreDataError("Could not fetch \(error), \(error.userInfo)")
+        }
     }
 
     
@@ -87,7 +104,7 @@ public class DataProvider: NSObject, DataProviderProtocol {
             
             if let index = uniqueElements.index(where: {$0 == element}) {
                 let auxItem = uniqueElements[index]
-                auxItem.addCountDocument(1)
+                auxItem.addCountReceipt(1)
                 return uniqueElements
             } else {
                 return uniqueElements + [element]
@@ -98,6 +115,8 @@ public class DataProvider: NSObject, DataProviderProtocol {
         
         try saveContex()
     }
+    
+
     
     fileprivate func removeRedudancy(receipt: Receipt, _ itemList: [AnyObject]) -> [Item] {
         let newMapped = itemList.reduce([Item]()) {
