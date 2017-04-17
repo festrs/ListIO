@@ -60,7 +60,7 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
             totalLabel.text = "Valor Total: \(total.toMaskReais()!)"
         } catch Errors.CoreDataError(let msg){
             //TO DO handle properly
-            print()
+            print(msg)
         } catch {
             
         }

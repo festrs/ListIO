@@ -16,10 +16,4 @@ class DocumentUiTableViewCell: UITableViewCell {
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var bigFlatSwitch: AIFlatSwitch!
 
-    
-    @IBAction func onSwitchValueChange(_ sender: AnyObject) {
-        
-
-        
-    }
 }

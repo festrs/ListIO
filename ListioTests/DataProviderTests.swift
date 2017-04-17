@@ -63,6 +63,15 @@ class DataProviderTests: XCTestCase {
         super.tearDown()
     }
     
+    func testErros() {
+        let responseJson:[String: AnyObject] = [:]
+        XCTAssertThrowsError(try dataProvider.addReceipt(responseJson))
+        
+        XCTAssertThrowsError(try dataProvider.getAllItems())
+        
+        XCTAssertThrowsError(try dataProvider.getAllReceipt())
+    }
+    
     func testTableView() {
         // given
         // 1
@@ -180,6 +189,9 @@ class DataProviderTests: XCTestCase {
             if #available(iOS 10.0, *) {
                 let request: NSFetchRequest<Listio.Item> = Listio.Item.fetchRequest()
                 let result = try dataProvider.dataStack.mainContext.fetch(request)
+                
+                XCTAssertEqual(try dataProvider.getAllItems()!, result)
+                
                 XCTAssertNotNil(result)
             } else {
                 XCTAssertTrue(true)

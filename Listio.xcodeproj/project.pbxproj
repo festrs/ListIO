@@ -23,6 +23,7 @@
 		3ACD3B431E9D121000713A04 /* APICommunicatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B421E9D121000713A04 /* APICommunicatorProtocol.swift */; };
 		3ACD3B4F1E9D251800713A04 /* JSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 3ACD3B4E1E9D251800713A04 /* JSON.json */; };
 		3AD02D101E88056D00B4CAD5 /* APICommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD02D0F1E88056D00B4CAD5 /* APICommunicator.swift */; };
+		3AD5027A1EA4F9A10071B975 /* APICommunicatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD502791EA4F9A10071B975 /* APICommunicatorTest.swift */; };
 		3AE1FB2A1D07B71E001A6914 /* DocumentUiTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB291D07B71E001A6914 /* DocumentUiTableViewCell.swift */; };
 		3AE233341CFE11B000656969 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233331CFE11B000656969 /* MainViewController.swift */; };
 		3AE233361CFE179300656969 /* FPHandlesMOC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233351CFE179300656969 /* FPHandlesMOC.swift */; };
@@ -69,6 +70,7 @@
 		3ACD3B421E9D121000713A04 /* APICommunicatorProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICommunicatorProtocol.swift; sourceTree = "<group>"; };
 		3ACD3B4E1E9D251800713A04 /* JSON.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = JSON.json; sourceTree = "<group>"; };
 		3AD02D0F1E88056D00B4CAD5 /* APICommunicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICommunicator.swift; sourceTree = "<group>"; };
+		3AD502791EA4F9A10071B975 /* APICommunicatorTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICommunicatorTest.swift; sourceTree = "<group>"; };
 		3AE1FB291D07B71E001A6914 /* DocumentUiTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentUiTableViewCell.swift; sourceTree = "<group>"; };
 		3AE233331CFE11B000656969 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		3AE233351CFE179300656969 /* FPHandlesMOC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPHandlesMOC.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				3ACD3B401E9D08C400713A04 /* CoreDataHelper.swift */,
 				3ACD3B4E1E9D251800713A04 /* JSON.json */,
 				3A17B7091E9D58B90026756E /* DataProviderTests.swift */,
+				3AD502791EA4F9A10071B975 /* APICommunicatorTest.swift */,
 			);
 			path = ListioTests;
 			sourceTree = "<group>";
@@ -462,6 +465,7 @@
 				3ACD3B411E9D08C400713A04 /* CoreDataHelper.swift in Sources */,
 				3ACD3B3E1E9BF5BB00713A04 /* ExtensionsTest.swift in Sources */,
 				3A17B70A1E9D58B90026756E /* DataProviderTests.swift in Sources */,
+				3AD5027A1EA4F9A10071B975 /* APICommunicatorTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
