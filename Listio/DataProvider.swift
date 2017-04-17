@@ -24,11 +24,13 @@ public class DataProvider: NSObject, DataProviderProtocol {
         static let ReceiptItemEntityName = "Item"
         static let ReceiptSortDescriptor = "createdAt"
         static let ItemDescriptionKey = "descricao"
+        static let numberOfSections = 2
     }
     
     public var dataStack: DATAStack!
     weak public var tableView: UITableView!
-    var items:[Item]? = []
+    var itemsSection1:[Item] = []
+    var itemsSection2:[Item] = []
     
     public required init(DATAStack: DATAStack) {
         super.init()
@@ -36,7 +38,7 @@ public class DataProvider: NSObject, DataProviderProtocol {
     }
     
     public func fetch() throws {
-        items = try getUniqueItems()
+        setItemSection(allItems: try getUniqueItems()!)
     }
     
     public func calcMediumCost() throws -> Double {
@@ -49,7 +51,7 @@ public class DataProvider: NSObject, DataProviderProtocol {
     }
     
     public func getCountItems() -> Int {
-        return (items?.count)!
+        return itemsSection1.count + itemsSection2.count
     }
     
     func getUniqueItems() throws -> [Item]? {
@@ -116,6 +118,27 @@ public class DataProvider: NSObject, DataProviderProtocol {
         try saveContex()
     }
     
+    func setItemSection(allItems: [Item]) {
+        
+        var sortedItems = allItems.sorted(by: { (item1, item2) -> Bool in
+            (item1.countReceipt?.intValue)! < (item2.countReceipt?.intValue)!
+        })
+        do {
+            let mediumPrice = try calcMediumCost()
+            var value = 0.0
+            var auxItemArray:[Item] = [Item]()
+            while value < mediumPrice, let item = sortedItems.popLast() {
+                value += (item.vlTotal?.doubleValue)!
+                auxItemArray.append(item)
+            }
+            
+            itemsSection1 = auxItemArray
+            itemsSection2 = sortedItems
+        } catch {
+            
+        }
+        
+    }
 
     
     fileprivate func removeRedudancy(receipt: Receipt, _ itemList: [AnyObject]) -> [Item] {
@@ -175,13 +198,28 @@ public class DataProvider: NSObject, DataProviderProtocol {
 
 
 extension DataProvider : UITableViewDataSource {
+    
+    public func numberOfSections(in tableView: UITableView) -> Int {
+        return Keys.numberOfSections
+    }
+    
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items!.count
+        if section == 0 {
+                return itemsSection1.count
+        }
+        return itemsSection2.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Keys.CellIdentifier, for: indexPath) as! DocumentUiTableViewCell
-        let item = items?[indexPath.row]
+        
+        var item:Item? = nil
+        
+        if indexPath.section == 0 {
+            item = itemsSection1[indexPath.row]
+        } else {
+            item = itemsSection2[indexPath.row]
+        }
         
         cell.nameLabel.text = item?.descricao
         cell.unLabel.text = item?.qtde?.intValue.description
@@ -198,6 +236,6 @@ extension DataProvider : UITableViewDataSource {
         guard sourceIndexPath != destinationIndexPath else {
             return
         }
-        swap(&items![sourceIndexPath.row], &items![destinationIndexPath.row])
+        //swap(&items![sourceIndexPath.row], &items![destinationIndexPath.row])
     }
 }

@@ -5,7 +5,6 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
-        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -23,70 +22,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZYh-EV-bE7">
-                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Qtde Produtos: 99" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4R2-9K-nUo">
-                                        <rect key="frame" x="8" y="0.0" width="101.5" height="18"/>
-                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="13"/>
-                                        <nil key="highlightedColor"/>
-                                        <size key="shadowOffset" width="0.0" height="-2"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="R$80000,00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xls-8O-PbX">
-                                        <rect key="frame" x="293" y="0.0" width="74" height="16"/>
-                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Medium" family="Apple SD Gothic Neo" pointSize="13"/>
-                                        <color key="textColor" red="0.79607843140000001" green="0.54117647059999996" blue="0.098039215690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                        <size key="shadowOffset" width="0.0" height="-2"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="4R2-9K-nUo" firstAttribute="leading" secondItem="ZYh-EV-bE7" secondAttribute="leadingMargin" id="10y-71-Aic"/>
-                                    <constraint firstItem="4R2-9K-nUo" firstAttribute="firstBaseline" secondItem="Xls-8O-PbX" secondAttribute="firstBaseline" id="3fQ-Lc-a1h"/>
-                                    <constraint firstAttribute="bottom" secondItem="4R2-9K-nUo" secondAttribute="bottom" constant="32" id="6SS-hF-Ooj"/>
-                                    <constraint firstItem="Xls-8O-PbX" firstAttribute="trailing" secondItem="ZYh-EV-bE7" secondAttribute="trailingMargin" id="GIA-Mp-lZp"/>
-                                    <constraint firstAttribute="height" constant="50" id="WeP-E2-a0r"/>
-                                    <constraint firstItem="Xls-8O-PbX" firstAttribute="top" secondItem="ZYh-EV-bE7" secondAttribute="top" id="wDj-q4-yHg"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="subviews">
-                                        <exclude reference="4R2-9K-nUo"/>
-                                        <exclude reference="Xls-8O-PbX"/>
-                                    </mask>
-                                    <mask key="constraints">
-                                        <exclude reference="WeP-E2-a0r"/>
-                                        <exclude reference="10y-71-Aic"/>
-                                        <exclude reference="3fQ-Lc-a1h"/>
-                                        <exclude reference="6SS-hF-Ooj"/>
-                                        <exclude reference="GIA-Mp-lZp"/>
-                                        <exclude reference="wDj-q4-yHg"/>
-                                    </mask>
-                                </variation>
-                                <variation key="widthClass=compact">
-                                    <mask key="subviews">
-                                        <include reference="4R2-9K-nUo"/>
-                                        <include reference="Xls-8O-PbX"/>
-                                    </mask>
-                                    <mask key="constraints">
-                                        <include reference="WeP-E2-a0r"/>
-                                        <include reference="10y-71-Aic"/>
-                                        <include reference="3fQ-Lc-a1h"/>
-                                        <include reference="6SS-hF-Ooj"/>
-                                        <include reference="GIA-Mp-lZp"/>
-                                        <include reference="wDj-q4-yHg"/>
-                                    </mask>
-                                </variation>
-                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="61" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LYD-19-DVT">
-                                <rect key="frame" x="0.0" y="64" width="375" height="551"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="documentCell" rowHeight="61" id="n2T-lg-vgT" customClass="DocumentUiTableViewCell" customModule="Listio" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="61"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n2T-lg-vgT" id="OsE-2F-41k">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="60.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D3g-yQ-cjZ" customClass="AIFlatSwitch" customModule="AIFlatSwitch">
@@ -215,47 +159,77 @@
                                             <outlet property="valueLabel" destination="Tbf-j1-fng" id="XJZ-QP-o4v"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="headerSection1" rowHeight="61" id="eRb-sw-orr" userLabel="headerSection1" customClass="SectionFooterView" customModule="Listio" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="89" width="375" height="61"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eRb-sw-orr" id="RoC-HU-qlH">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LwT-Gp-tmY">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Qtde Produtos: 99" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JKm-Lt-6xU">
+                                                            <rect key="frame" x="8" y="0.0" width="102" height="19"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="13"/>
+                                                            <nil key="highlightedColor"/>
+                                                            <size key="shadowOffset" width="0.0" height="-2"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="R$80000,00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d58-gq-LPR">
+                                                            <rect key="frame" x="293" y="0.0" width="74" height="16"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-Medium" family="Apple SD Gothic Neo" pointSize="13"/>
+                                                            <color key="textColor" red="0.79607843140000001" green="0.54117647059999996" blue="0.098039215690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                            <size key="shadowOffset" width="0.0" height="-2"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <variation key="default">
+                                                        <mask key="subviews">
+                                                            <exclude reference="JKm-Lt-6xU"/>
+                                                            <exclude reference="d58-gq-LPR"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <variation key="widthClass=compact">
+                                                        <mask key="subviews">
+                                                            <include reference="JKm-Lt-6xU"/>
+                                                            <include reference="d58-gq-LPR"/>
+                                                        </mask>
+                                                    </variation>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="LwT-Gp-tmY" firstAttribute="leading" secondItem="RoC-HU-qlH" secondAttribute="leading" id="0hh-YO-WeT"/>
+                                                <constraint firstAttribute="trailing" secondItem="LwT-Gp-tmY" secondAttribute="trailing" id="NqY-O2-Lzh"/>
+                                                <constraint firstItem="LwT-Gp-tmY" firstAttribute="top" secondItem="RoC-HU-qlH" secondAttribute="top" id="ZM1-nw-BgP"/>
+                                                <constraint firstItem="LwT-Gp-tmY" firstAttribute="centerY" secondItem="RoC-HU-qlH" secondAttribute="centerY" id="foe-do-keN"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="qteItemsLabel" destination="JKm-Lt-6xU" id="uyl-fB-cbD"/>
+                                            <outlet property="totalPriceLabel" destination="d58-gq-LPR" id="Z9d-d9-RGH"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.88405448720000002" green="0.88405448720000002" blue="0.88405448720000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="ZYh-EV-bE7" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="Hoy-sI-aRr"/>
-                            <constraint firstItem="LYD-19-DVT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Ixj-R1-hhn"/>
-                            <constraint firstAttribute="trailing" secondItem="LYD-19-DVT" secondAttribute="trailing" id="NvD-Du-qm4"/>
-                            <constraint firstItem="ZYh-EV-bE7" firstAttribute="top" secondItem="LYD-19-DVT" secondAttribute="bottom" constant="2" id="bXL-lO-Rue"/>
-                            <constraint firstItem="LYD-19-DVT" firstAttribute="trailing" secondItem="ZYh-EV-bE7" secondAttribute="trailing" id="fcg-Tk-wh5"/>
-                            <constraint firstItem="LYD-19-DVT" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="sYj-WO-WhY"/>
-                            <constraint firstItem="LYD-19-DVT" firstAttribute="leading" secondItem="ZYh-EV-bE7" secondAttribute="leading" id="sj9-x5-HGv"/>
+                            <constraint firstAttribute="trailing" secondItem="LYD-19-DVT" secondAttribute="trailing" id="NQ5-oP-Gsf"/>
+                            <constraint firstItem="LYD-19-DVT" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="Rnr-Nd-nLy"/>
+                            <constraint firstItem="LYD-19-DVT" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-64" id="Tif-Bf-lZZ"/>
+                            <constraint firstItem="LYD-19-DVT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="fwo-xC-KOx"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
-                                <exclude reference="ZYh-EV-bE7"/>
                                 <exclude reference="LYD-19-DVT"/>
-                            </mask>
-                            <mask key="constraints">
-                                <exclude reference="Ixj-R1-hhn"/>
-                                <exclude reference="NvD-Du-qm4"/>
-                                <exclude reference="fcg-Tk-wh5"/>
-                                <exclude reference="sYj-WO-WhY"/>
-                                <exclude reference="sj9-x5-HGv"/>
-                                <exclude reference="Hoy-sI-aRr"/>
-                                <exclude reference="bXL-lO-Rue"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
-                                <include reference="ZYh-EV-bE7"/>
                                 <include reference="LYD-19-DVT"/>
-                            </mask>
-                            <mask key="constraints">
-                                <include reference="Ixj-R1-hhn"/>
-                                <include reference="NvD-Du-qm4"/>
-                                <include reference="fcg-Tk-wh5"/>
-                                <include reference="sYj-WO-WhY"/>
-                                <include reference="sj9-x5-HGv"/>
-                                <include reference="Hoy-sI-aRr"/>
-                                <include reference="bXL-lO-Rue"/>
                             </mask>
                         </variation>
                     </view>
@@ -268,9 +242,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="qtdeItemsLabel" destination="4R2-9K-nUo" id="c44-XB-wNV"/>
                         <outlet property="tableView" destination="LYD-19-DVT" id="f62-cJ-3pt"/>
-                        <outlet property="totalLabel" destination="Xls-8O-PbX" id="bsz-vV-mHc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -280,7 +252,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1651.5" y="-102"/>
+            <point key="canvasLocation" x="1650.4000000000001" y="-102.09895052473765"/>
         </scene>
         <!--Navigation View Controller-->
         <scene sceneID="0yM-xj-alL">

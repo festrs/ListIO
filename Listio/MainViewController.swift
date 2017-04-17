@@ -15,9 +15,6 @@ import DATAStack
 
 class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
     
-    @IBOutlet weak var qtdeItemsLabel: UILabel!
-    @IBOutlet weak var addLabel: UILabel!
-    @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     fileprivate var dataStack:DATAStack!
     public var dataProvider: DataProviderProtocol?
@@ -35,6 +32,8 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
         static let EntityName = "ItemList"
         static let SortDescriptorField = "countDocument"
         static let IdentifierCell = "documentCell"
+        static let HeaderSection1Identifier = "headerSection1"
+        static let HeightForFooterView = 61.0
     }
     
     override func viewDidLoad() {
@@ -51,22 +50,6 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
         tableView.delegate = self
         do {
             try dataProvider?.fetch()
-        } catch {
-            
-        }
-        loadTotal()
-    }
-    
-    func loadTotal() {
-        
-        do {
-            let qtdeItems = try dataProvider?.getCountItems()
-            qtdeItemsLabel.text = "Qtde Produtos: \(String(describing: qtdeItems))"
-            let total = try NSNumber(value: (dataProvider?.calcMediumCost())!)
-            totalLabel.text = "Valor Total: \(total.toMaskReais()!)"
-        } catch Errors.CoreDataError(let msg){
-            //TO DO handle properly
-            print(msg)
         } catch {
             
         }
@@ -139,5 +122,26 @@ extension MainViewController : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         return false
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: Keys.HeaderSection1Identifier) as? SectionFooterView
+            
+            do {
+                let qtdeItems = try dataProvider?.getCountItems()
+                cell?.qteItemsLabel.text = "Qtde Produtos: \(String(describing: qtdeItems))"
+                let total = try NSNumber(value: (dataProvider?.calcMediumCost())!)
+                cell?.totalPriceLabel.text = "Valor Total: \(total.toMaskReais()!)"
+            } catch {
+                
+            }
+            return cell
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat(Keys.HeightForFooterView)
     }
 }

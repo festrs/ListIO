@@ -160,7 +160,7 @@ class DataProviderTests: XCTestCase {
         setUpAddReceipt2()
         do {
             let mediumCost = try dataProvider.calcMediumCost()
-            XCTAssertEqual(mediumCost, 14.75)
+            XCTAssertEqual(mediumCost, 16.25)
         } catch {
             XCTFail("error throwed")
         }
@@ -256,7 +256,22 @@ class DataProviderTests: XCTestCase {
         } catch {
             XCTFail("error throwed")
         }
-        XCTAssertNotEqual([Item](), dataProvider.items!)
+        XCTAssertNotEqual([Item](), dataProvider.itemsSection1)
+    }
+    
+    func testSections() {
+        setUpAddReceipt1()
+        setUpAddReceipt2()
+        
+        do {
+            try dataProvider.setItemSection(allItems:dataProvider.getUniqueItems()!)            
+            XCTAssertEqual(dataProvider.itemsSection1.count, 4)
+            XCTAssertEqual(dataProvider.itemsSection2.count, 0)
+        } catch {
+            XCTFail("error throwed")
+        }
+        
+        
     }
     
 }

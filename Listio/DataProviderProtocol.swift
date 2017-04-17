@@ -11,7 +11,6 @@ import CoreData
 import DATAStack
 
 public protocol DataProviderProtocol: UITableViewDataSource {
-    
     var dataStack: DATAStack! { get }
     weak var tableView: UITableView! { get set }
 
