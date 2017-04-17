@@ -45,10 +45,16 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
         
         assert(dataProvider != nil, "dataProvider is not allowed to be nil at this point")
         
+        tableView.setEditing(true, animated: true)
         dataProvider?.tableView = tableView
         tableView.dataSource = dataProvider
-        
-        //self.loadTotal()
+        tableView.delegate = self
+        do {
+            try dataProvider?.fetch()
+        } catch {
+            
+        }
+        loadTotal()
     }
     
     func loadTotal() {
@@ -102,12 +108,11 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
             }
             do {
                 try self.dataProvider?.addReceipt(responseJSON!)
-            } catch Errors.CoreDataError(let msg) {
-                
+            } catch Errors.DoubleReceiptWithSameID() {
+                print("mesmo")
             } catch {
                 
             }
-            
         }
     
         dismiss(animated: true, completion: nil)
@@ -127,3 +132,12 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
     }
 }
 
+extension MainViewController : UITableViewDelegate {
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .none
+    }
+    
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+}

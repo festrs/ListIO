@@ -117,9 +117,6 @@
                                                             <include reference="6tj-T5-LjQ"/>
                                                         </mask>
                                                     </variation>
-                                                    <connections>
-                                                        <action selector="onSwitchValueChange:" destination="n2T-lg-vgT" eventType="valueChanged" id="e7F-Py-k8e"/>
-                                                    </connections>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f8R-Fw-0m4">
                                                     <rect key="frame" x="46" y="9" width="40" height="20"/>

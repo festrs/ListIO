@@ -184,9 +184,20 @@ extension DataProvider : UITableViewDataSource {
         let item = items?[indexPath.row]
         
         cell.nameLabel.text = item?.descricao
-        cell.unLabel.text = item?.un
+        cell.unLabel.text = item?.qtde?.intValue.description
         cell.valueLabel.text = item?.vlUnit?.toMaskReais()
         
         return cell
+    }
+    
+    public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        guard sourceIndexPath != destinationIndexPath else {
+            return
+        }
+        swap(&items![sourceIndexPath.row], &items![destinationIndexPath.row])
     }
 }
