@@ -8,17 +8,18 @@
 
 import UIKit
 import CoreData
+import DATAStack
 
 public protocol DataProviderProtocol: UITableViewDataSource {
     
-    var coreDataHandler: CoreDataHandler! { get }
+    var dataStack: DATAStack! { get }
     weak var tableView: UITableView! { get set }
 
-    func fetch()
-    func addReceipt(_ json:[String: AnyObject])
-    func calcMediumCost() -> Double
-    func getCountItems() -> Int
+    func fetch() throws
+    func addReceipt(_ json:[String: AnyObject]) throws
+    func calcMediumCost() throws -> Double
+    func getCountItems() throws -> Int
     
-    init(coreDataHandler: CoreDataHandler)
+    init(DATAStack: DATAStack)
     
 }
