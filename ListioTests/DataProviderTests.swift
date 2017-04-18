@@ -13,7 +13,7 @@ import DATAStack
 @testable import Listio
 
 class DataProviderTests: XCTestCase {
-    var viewController: MainViewController!
+
     var dataProvider: DataProvider!
     var mockAPI: MockAPICommunicator!
     var receipt1:[String: AnyObject]? = nil
@@ -47,7 +47,7 @@ class DataProviderTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as! MainViewController
+        
         mockAPI = MockAPICommunicator()
         
         mockAPI.getReceipt(linkUrl: "receipt1") { (error, responseJSON) in
@@ -64,24 +64,6 @@ class DataProviderTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
-    }
-    
-    func testTableView() {
-        // given
-        // 1
-        viewController.dataProvider = dataProvider
-        
-        // when
-        // 2
-        XCTAssertNil(dataProvider.tableView, "Before loading the table view should be nil")
-        
-        // 3
-        let _ = viewController.view
-        // then
-        // 4
-        XCTAssertTrue(dataProvider.tableView != nil, "The table view should be set")
-        XCTAssert(dataProvider.tableView === viewController.tableView,
-                  "The table view should be set to the table view of the data source")
     }
     
     func setUpAddReceipt1() {
@@ -256,22 +238,7 @@ class DataProviderTests: XCTestCase {
         } catch {
             XCTFail("error throwed")
         }
-        XCTAssertNotEqual([Item](), dataProvider.itemsSection1)
-    }
-    
-    func testSections() {
-        setUpAddReceipt1()
-        setUpAddReceipt2()
-        
-        do {
-            try dataProvider.setItemSection(allItems:dataProvider.getUniqueItems()!)            
-            XCTAssertEqual(dataProvider.itemsSection1.count, 4)
-            XCTAssertEqual(dataProvider.itemsSection2.count, 0)
-        } catch {
-            XCTFail("error throwed")
-        }
-        
-        
+        XCTAssertNotEqual([Item](), dataProvider.items)
     }
     
 }

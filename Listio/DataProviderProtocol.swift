@@ -13,7 +13,11 @@ import DATAStack
 public protocol DataProviderProtocol: UITableViewDataSource {
     var dataStack: DATAStack! { get }
     weak var tableView: UITableView! { get set }
-
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func numberOfSections(in tableView: UITableView) -> Int
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    
     func fetch() throws
     func addReceipt(_ json:[String: AnyObject]) throws
     func calcMediumCost() throws -> Double

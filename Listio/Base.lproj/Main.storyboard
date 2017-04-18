@@ -25,12 +25,46 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="61" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LYD-19-DVT">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="57p-OB-blQ">
+                                    <rect key="frame" x="0.0" y="89" width="375" height="61"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Qtde Produtos: 99" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9aw-BL-27M">
+                                            <rect key="frame" x="8" y="0.0" width="102" height="19"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="13"/>
+                                            <nil key="highlightedColor"/>
+                                            <size key="shadowOffset" width="0.0" height="-2"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="R$80000,00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qWQ-GD-20L">
+                                            <rect key="frame" x="293" y="0.0" width="74" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-Medium" family="Apple SD Gothic Neo" pointSize="13"/>
+                                            <color key="textColor" red="0.79607843140000001" green="0.54117647059999996" blue="0.098039215690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <size key="shadowOffset" width="0.0" height="-2"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <variation key="default">
+                                        <mask key="subviews">
+                                            <exclude reference="9aw-BL-27M"/>
+                                            <exclude reference="qWQ-GD-20L"/>
+                                        </mask>
+                                    </variation>
+                                    <variation key="widthClass=compact">
+                                        <mask key="subviews">
+                                            <include reference="9aw-BL-27M"/>
+                                            <include reference="qWQ-GD-20L"/>
+                                        </mask>
+                                    </variation>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="documentCell" rowHeight="61" id="n2T-lg-vgT" customClass="DocumentUiTableViewCell" customModule="Listio" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="61"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n2T-lg-vgT" id="OsE-2F-41k">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="60.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D3g-yQ-cjZ" customClass="AIFlatSwitch" customModule="AIFlatSwitch">
@@ -157,59 +191,6 @@
                                             <outlet property="nameLabel" destination="f8R-Fw-0m4" id="p7q-05-zZ4"/>
                                             <outlet property="unLabel" destination="MI5-6m-L1I" id="v7N-D1-b2A"/>
                                             <outlet property="valueLabel" destination="Tbf-j1-fng" id="XJZ-QP-o4v"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="headerSection1" rowHeight="61" id="eRb-sw-orr" userLabel="headerSection1" customClass="SectionFooterView" customModule="Listio" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="89" width="375" height="61"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eRb-sw-orr" id="RoC-HU-qlH">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LwT-Gp-tmY">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Qtde Produtos: 99" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JKm-Lt-6xU">
-                                                            <rect key="frame" x="8" y="0.0" width="102" height="19"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="13"/>
-                                                            <nil key="highlightedColor"/>
-                                                            <size key="shadowOffset" width="0.0" height="-2"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="R$80000,00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d58-gq-LPR">
-                                                            <rect key="frame" x="293" y="0.0" width="74" height="16"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-Medium" family="Apple SD Gothic Neo" pointSize="13"/>
-                                                            <color key="textColor" red="0.79607843140000001" green="0.54117647059999996" blue="0.098039215690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                            <size key="shadowOffset" width="0.0" height="-2"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <variation key="default">
-                                                        <mask key="subviews">
-                                                            <exclude reference="JKm-Lt-6xU"/>
-                                                            <exclude reference="d58-gq-LPR"/>
-                                                        </mask>
-                                                    </variation>
-                                                    <variation key="widthClass=compact">
-                                                        <mask key="subviews">
-                                                            <include reference="JKm-Lt-6xU"/>
-                                                            <include reference="d58-gq-LPR"/>
-                                                        </mask>
-                                                    </variation>
-                                                </view>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="LwT-Gp-tmY" firstAttribute="leading" secondItem="RoC-HU-qlH" secondAttribute="leading" id="0hh-YO-WeT"/>
-                                                <constraint firstAttribute="trailing" secondItem="LwT-Gp-tmY" secondAttribute="trailing" id="NqY-O2-Lzh"/>
-                                                <constraint firstItem="LwT-Gp-tmY" firstAttribute="top" secondItem="RoC-HU-qlH" secondAttribute="top" id="ZM1-nw-BgP"/>
-                                                <constraint firstItem="LwT-Gp-tmY" firstAttribute="centerY" secondItem="RoC-HU-qlH" secondAttribute="centerY" id="foe-do-keN"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="qteItemsLabel" destination="JKm-Lt-6xU" id="uyl-fB-cbD"/>
-                                            <outlet property="totalPriceLabel" destination="d58-gq-LPR" id="Z9d-d9-RGH"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

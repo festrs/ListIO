@@ -19,7 +19,6 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
     fileprivate var dataStack:DATAStack!
     public var dataProvider: DataProviderProtocol?
     public var communicator: APICommunicatorProtocol = APICommunicator()
-    var hud: MBProgressHUD!
     
     lazy var readerVC: QRCodeReaderViewController = {
         let builder = QRCodeReaderViewControllerBuilder {
@@ -36,10 +35,16 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
         static let HeightForFooterView = 61.0
     }
     
+    struct Alerts {
+        static let DismissAlert = "Dismiss"
+        static let DataDownloaderError = "Error while data downloading."
+        static let DefaultTitle = "Ops"
+        static let DefaultMessage = "There was a problem, please try again."
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // init objects
-        hud = MBProgressHUD(view: self.view)
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         
         assert(dataProvider != nil, "dataProvider is not allowed to be nil at this point")
@@ -55,13 +60,21 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
         }
     }
     
+    func showAlert(_ title: String, message: String) {
+        let alert = UIAlertController(title: Alerts.DefaultTitle, message: Alerts.DefaultMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Alerts.DismissAlert, style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     // MARK: - HUD
     fileprivate func showLoadingHUD() {
-        hud.show(animated: true)
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "Carregando"
     }
     
     fileprivate func hideLoadingHUD() {
-        hud.hide(animated: true)
+        MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
     }
     
     //MARK: - FPHandlesMOC Delegate
@@ -142,6 +155,9 @@ extension MainViewController : UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 1 {
+            return 0.0
+        }
         return CGFloat(Keys.HeightForFooterView)
     }
 }

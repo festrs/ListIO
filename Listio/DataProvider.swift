@@ -16,7 +16,6 @@ enum Errors : Error {
 }
 
 public class DataProvider: NSObject, DataProviderProtocol {
-
     struct Keys {
         static let CellIdentifier = "documentCell"
         static let ReceiptEntityName = "Receipt"
@@ -24,13 +23,12 @@ public class DataProvider: NSObject, DataProviderProtocol {
         static let ReceiptItemEntityName = "Item"
         static let ReceiptSortDescriptor = "createdAt"
         static let ItemDescriptionKey = "descricao"
-        static let numberOfSections = 2
+        static let numberOfSections = 1
     }
     
     public var dataStack: DATAStack!
     weak public var tableView: UITableView!
-    var itemsSection1:[Item] = []
-    var itemsSection2:[Item] = []
+    var items:[Item] = []
     
     public required init(DATAStack: DATAStack) {
         super.init()
@@ -51,7 +49,7 @@ public class DataProvider: NSObject, DataProviderProtocol {
     }
     
     public func getCountItems() -> Int {
-        return itemsSection1.count + itemsSection2.count
+        return items.count
     }
     
     func getUniqueItems() throws -> [Item]? {
@@ -131,9 +129,7 @@ public class DataProvider: NSObject, DataProviderProtocol {
                 value += (item.vlTotal?.doubleValue)!
                 auxItemArray.append(item)
             }
-            
-            itemsSection1 = auxItemArray
-            itemsSection2 = sortedItems
+            items = auxItemArray
         } catch {
             
         }
@@ -204,38 +200,18 @@ extension DataProvider : UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-                return itemsSection1.count
-        }
-        return itemsSection2.count
+        return items.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Keys.CellIdentifier, for: indexPath) as! DocumentUiTableViewCell
         
-        var item:Item? = nil
-        
-        if indexPath.section == 0 {
-            item = itemsSection1[indexPath.row]
-        } else {
-            item = itemsSection2[indexPath.row]
-        }
+        let item:Item? = items[indexPath.row]
         
         cell.nameLabel.text = item?.descricao
         cell.unLabel.text = item?.qtde?.intValue.description
         cell.valueLabel.text = item?.vlUnit?.toMaskReais()
         
         return cell
-    }
-    
-    public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        guard sourceIndexPath != destinationIndexPath else {
-            return
-        }
-        //swap(&items![sourceIndexPath.row], &items![destinationIndexPath.row])
     }
 }
