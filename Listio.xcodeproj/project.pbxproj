@@ -14,8 +14,11 @@
 		3A975D591CFCC42200E400B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D581CFCC42200E400B3 /* Assets.xcassets */; };
 		3A975D5C1CFCC42200E400B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D5A1CFCC42200E400B3 /* LaunchScreen.storyboard */; };
 		3A9D64711D027082002369A4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9D64701D027082002369A4 /* Extensions.swift */; };
-		3ACD3B3A1E9BC81300713A04 /* DataProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B391E9BC81300713A04 /* DataProviderProtocol.swift */; };
-		3ACD3B3C1E9BF16C00713A04 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B3B1E9BF16C00713A04 /* DataProvider.swift */; };
+		3ABA10261EAD62D20002CECE /* AddListItemDataProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA10251EAD62D20002CECE /* AddListItemDataProviderProtocol.swift */; };
+		3ABA10281EAD66860002CECE /* AddListItemDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA10271EAD66860002CECE /* AddListItemDataProvider.swift */; };
+		3ABA102B1EAD6F860002CECE /* AddListItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA102A1EAD6F860002CECE /* AddListItemTableViewCell.swift */; };
+		3ACD3B3A1E9BC81300713A04 /* MainDataProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B391E9BC81300713A04 /* MainDataProviderProtocol.swift */; };
+		3ACD3B3C1E9BF16C00713A04 /* MainDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B3B1E9BF16C00713A04 /* MainDataProvider.swift */; };
 		3ACD3B3E1E9BF5BB00713A04 /* ExtensionsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B3D1E9BF5BB00713A04 /* ExtensionsTest.swift */; };
 		3ACD3B411E9D08C400713A04 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B401E9D08C400713A04 /* CoreDataHelper.swift */; };
 		3ACD3B431E9D121000713A04 /* APICommunicatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B421E9D121000713A04 /* APICommunicatorProtocol.swift */; };
@@ -24,7 +27,6 @@
 		3AD5027A1EA4F9A10071B975 /* APICommunicatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD502791EA4F9A10071B975 /* APICommunicatorTest.swift */; };
 		3AD5027C1EA526C90071B975 /* receipt2.json in Resources */ = {isa = PBXBuildFile; fileRef = 3AD5027B1EA526C90071B975 /* receipt2.json */; };
 		3AD5027E1EA569340071B975 /* MainViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD5027D1EA569340071B975 /* MainViewControllerTest.swift */; };
-		3AD502801EA574280071B975 /* SectionFooterTableViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD5027F1EA574280071B975 /* SectionFooterTableViewControllerCell.swift */; };
 		3AE1FB2A1D07B71E001A6914 /* DocumentUiTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB291D07B71E001A6914 /* DocumentUiTableViewCell.swift */; };
 		3AE233341CFE11B000656969 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233331CFE11B000656969 /* MainViewController.swift */; };
 		3AE233361CFE179300656969 /* FPHandlesMOC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233351CFE179300656969 /* FPHandlesMOC.swift */; };
@@ -61,9 +63,12 @@
 		3A975D621CFCC42200E400B3 /* ListioTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ListioTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A975D681CFCC42200E400B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A9D64701D027082002369A4 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		3ABA10251EAD62D20002CECE /* AddListItemDataProviderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListItemDataProviderProtocol.swift; sourceTree = "<group>"; };
+		3ABA10271EAD66860002CECE /* AddListItemDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListItemDataProvider.swift; sourceTree = "<group>"; };
+		3ABA102A1EAD6F860002CECE /* AddListItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListItemTableViewCell.swift; sourceTree = "<group>"; };
 		3AC8A6894ED59EF4CF72ECFA /* Pods-Listio.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Listio.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Listio/Pods-Listio.debug.xcconfig"; sourceTree = "<group>"; };
-		3ACD3B391E9BC81300713A04 /* DataProviderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviderProtocol.swift; sourceTree = "<group>"; };
-		3ACD3B3B1E9BF16C00713A04 /* DataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		3ACD3B391E9BC81300713A04 /* MainDataProviderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainDataProviderProtocol.swift; sourceTree = "<group>"; };
+		3ACD3B3B1E9BF16C00713A04 /* MainDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainDataProvider.swift; sourceTree = "<group>"; };
 		3ACD3B3D1E9BF5BB00713A04 /* ExtensionsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionsTest.swift; sourceTree = "<group>"; };
 		3ACD3B401E9D08C400713A04 /* CoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
 		3ACD3B421E9D121000713A04 /* APICommunicatorProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICommunicatorProtocol.swift; sourceTree = "<group>"; };
@@ -72,7 +77,6 @@
 		3AD502791EA4F9A10071B975 /* APICommunicatorTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICommunicatorTest.swift; sourceTree = "<group>"; };
 		3AD5027B1EA526C90071B975 /* receipt2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = receipt2.json; sourceTree = "<group>"; };
 		3AD5027D1EA569340071B975 /* MainViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewControllerTest.swift; sourceTree = "<group>"; };
-		3AD5027F1EA574280071B975 /* SectionFooterTableViewControllerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionFooterTableViewControllerCell.swift; sourceTree = "<group>"; };
 		3AE1FB291D07B71E001A6914 /* DocumentUiTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentUiTableViewCell.swift; sourceTree = "<group>"; };
 		3AE233331CFE11B000656969 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		3AE233351CFE179300656969 /* FPHandlesMOC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPHandlesMOC.swift; sourceTree = "<group>"; };
@@ -140,6 +144,7 @@
 		3A975D4D1CFCC42200E400B3 /* Listio */ = {
 			isa = PBXGroup;
 			children = (
+				3ABA10241EAD618C0002CECE /* AddListItemView */,
 				3AD02D121E8805A300B4CAD5 /* Navegation */,
 				3AD02D111E88058B00B4CAD5 /* Utils */,
 				3AE233461CFE9EC800656969 /* MainView */,
@@ -166,6 +171,24 @@
 				3AD5027D1EA569340071B975 /* MainViewControllerTest.swift */,
 			);
 			path = ListioTests;
+			sourceTree = "<group>";
+		};
+		3ABA10241EAD618C0002CECE /* AddListItemView */ = {
+			isa = PBXGroup;
+			children = (
+				3ABA10291EAD6F710002CECE /* Cells */,
+				3ABA10251EAD62D20002CECE /* AddListItemDataProviderProtocol.swift */,
+				3ABA10271EAD66860002CECE /* AddListItemDataProvider.swift */,
+			);
+			name = AddListItemView;
+			sourceTree = "<group>";
+		};
+		3ABA10291EAD6F710002CECE /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				3ABA102A1EAD6F860002CECE /* AddListItemTableViewCell.swift */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		3AD02D111E88058B00B4CAD5 /* Utils */ = {
@@ -202,7 +225,6 @@
 			isa = PBXGroup;
 			children = (
 				3AE1FB291D07B71E001A6914 /* DocumentUiTableViewCell.swift */,
-				3AD5027F1EA574280071B975 /* SectionFooterTableViewControllerCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -221,8 +243,8 @@
 			children = (
 				3AE1FB281D07B6F4001A6914 /* Cells */,
 				3AE233331CFE11B000656969 /* MainViewController.swift */,
-				3ACD3B391E9BC81300713A04 /* DataProviderProtocol.swift */,
-				3ACD3B3B1E9BF16C00713A04 /* DataProvider.swift */,
+				3ACD3B391E9BC81300713A04 /* MainDataProviderProtocol.swift */,
+				3ACD3B3B1E9BF16C00713A04 /* MainDataProvider.swift */,
 			);
 			name = MainView;
 			sourceTree = "<group>";
@@ -446,15 +468,17 @@
 				3AE233401CFE21D400656969 /* NavigationViewController.swift in Sources */,
 				3A975D4F1CFCC42200E400B3 /* AppDelegate.swift in Sources */,
 				3AE8D2F61E8B0B30006CA297 /* Receipt+CoreDataProperties.swift in Sources */,
+				3ABA102B1EAD6F860002CECE /* AddListItemTableViewCell.swift in Sources */,
 				3AE233361CFE179300656969 /* FPHandlesMOC.swift in Sources */,
+				3ABA10281EAD66860002CECE /* AddListItemDataProvider.swift in Sources */,
 				3AE2333D1CFE1A5C00656969 /* Item+CoreDataProperties.swift in Sources */,
 				3AE2333E1CFE1A5C00656969 /* Item.swift in Sources */,
 				3ACD3B431E9D121000713A04 /* APICommunicatorProtocol.swift in Sources */,
 				3AD02D101E88056D00B4CAD5 /* APICommunicator.swift in Sources */,
 				3A9D64711D027082002369A4 /* Extensions.swift in Sources */,
-				3AD502801EA574280071B975 /* SectionFooterTableViewControllerCell.swift in Sources */,
-				3ACD3B3A1E9BC81300713A04 /* DataProviderProtocol.swift in Sources */,
-				3ACD3B3C1E9BF16C00713A04 /* DataProvider.swift in Sources */,
+				3ACD3B3A1E9BC81300713A04 /* MainDataProviderProtocol.swift in Sources */,
+				3ABA10261EAD62D20002CECE /* AddListItemDataProviderProtocol.swift in Sources */,
+				3ACD3B3C1E9BF16C00713A04 /* MainDataProvider.swift in Sources */,
 				3AE233341CFE11B000656969 /* MainViewController.swift in Sources */,
 				3A975D571CFCC42200E400B3 /* Listio.xcdatamodeld in Sources */,
 				3AE1FB2A1D07B71E001A6914 /* DocumentUiTableViewCell.swift in Sources */,

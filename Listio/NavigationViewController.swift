@@ -19,7 +19,7 @@ class NavigationViewController: UINavigationController, FPHandlesMOC {
         }
         
         if let child = self.viewControllers.first as? MainViewController {
-            let dataProvider = DataProvider(DATAStack: incomingDataStack)
+            let dataProvider = MainDataProvider(DATAStack: incomingDataStack)
             child.dataProvider = dataProvider
         }
     }

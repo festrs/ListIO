@@ -13,11 +13,13 @@ import MBProgressHUD
 import Sync
 import DATAStack
 
-class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, FPHandlesMOC {
+class MainViewController: UIViewController, FPHandlesMOC {
     
+    @IBOutlet weak var totalLabel: UILabel!
+    @IBOutlet weak var qteItemsLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     fileprivate var dataStack:DATAStack!
-    public var dataProvider: DataProviderProtocol?
+    public var dataProvider: MainDataProviderProtocol?
     public var communicator: APICommunicatorProtocol = APICommunicator()
     
     lazy var readerVC: QRCodeReaderViewController = {
@@ -52,16 +54,22 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
         tableView.setEditing(true, animated: true)
         dataProvider?.tableView = tableView
         tableView.dataSource = dataProvider
-        tableView.delegate = self
         do {
             try dataProvider?.fetch()
+            try loadTotal()
         } catch {
             
         }
     }
+    func loadTotal() throws {
+        let qtdeItems = try dataProvider?.getCountItems()
+        qteItemsLabel.text = "Qtde Produtos: \(String(describing: qtdeItems))"
+        let total = try NSNumber(value: (dataProvider?.calcMediumCost())!)
+        totalLabel.text = "Valor Total: \(total.toMaskReais()!)"
+    }
     
     func showAlert(_ title: String, message: String) {
-        let alert = UIAlertController(title: Alerts.DefaultTitle, message: Alerts.DefaultMessage, preferredStyle: .alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Alerts.DismissAlert, style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
@@ -84,16 +92,46 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
     
     // MARK: - Actions
     @IBAction func addButtonAction(_ sender: AnyObject) {
-        readerVC.delegate = self
-        // Presents the readerVC as modal form sheet
-        readerVC.modalPresentationStyle = .formSheet
-        present(readerVC, animated: true, completion: nil)
+        //Create the AlertController and add Its action like button in Actionsheet
+        let actionSheetControllerIOS8: UIAlertController = UIAlertController(title: "Please select", message: "Option to select", preferredStyle: .actionSheet)
+        
+        let cancelActionButton = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            print("Cancel")
+        }
+        actionSheetControllerIOS8.addAction(cancelActionButton)
+        
+        let saveActionButton = UIAlertAction(title: "Novo", style: .default)
+        { _ in
+            print("Save")
+            
+            self.readerVC.delegate = self
+            // Presents the readerVC as modal form sheet
+            self.readerVC.modalPresentationStyle = .formSheet
+            self.present(self.readerVC, animated: true, completion: nil)
+        }
+        actionSheetControllerIOS8.addAction(saveActionButton)
+        
+        let deleteActionButton = UIAlertAction(title: "Item", style: .default)
+        { _ in
+            
+        }
+        actionSheetControllerIOS8.addAction(deleteActionButton)
+        self.present(actionSheetControllerIOS8, animated: true, completion: nil)
+        
     }
     
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? FPHandlesMOC{
+            vc.receiveDataStack(self.dataStack)
+        }
+    }
+}
+
+extension MainViewController : QRCodeReaderViewControllerDelegate {
     // MARK: - QRCodeReaderViewController Delegate Methods
     func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
         reader.stopScanning()
-        
         self.showLoadingHUD()
         guard result.metadataType == AVMetadataObjectTypeQRCode else { return }
         
@@ -110,7 +148,7 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
                 
             }
         }
-    
+        
         dismiss(animated: true, completion: nil)
     }
     
@@ -118,46 +156,5 @@ class MainViewController: UIViewController, QRCodeReaderViewControllerDelegate, 
         reader.stopScanning()
         
         dismiss(animated: true, completion: nil)
-    }
-    
-    // MARK: - Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? FPHandlesMOC{
-            vc.receiveDataStack(self.dataStack)
-        }
-    }
-}
-
-extension MainViewController : UITableViewDelegate {
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        return .none
-    }
-    
-    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: Keys.HeaderSection1Identifier) as? SectionFooterView
-            
-            do {
-                let qtdeItems = try dataProvider?.getCountItems()
-                cell?.qteItemsLabel.text = "Qtde Produtos: \(String(describing: qtdeItems))"
-                let total = try NSNumber(value: (dataProvider?.calcMediumCost())!)
-                cell?.totalPriceLabel.text = "Valor Total: \(total.toMaskReais()!)"
-            } catch {
-                
-            }
-            return cell
-        }
-        return nil
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == 1 {
-            return 0.0
-        }
-        return CGFloat(Keys.HeightForFooterView)
     }
 }

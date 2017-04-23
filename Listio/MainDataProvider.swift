@@ -15,7 +15,7 @@ enum Errors : Error {
     case DoubleReceiptWithSameID
 }
 
-public class DataProvider: NSObject, DataProviderProtocol {
+public class MainDataProvider: NSObject, MainDataProviderProtocol {
     struct Keys {
         static let CellIdentifier = "documentCell"
         static let ReceiptEntityName = "Receipt"
@@ -36,7 +36,9 @@ public class DataProvider: NSObject, DataProviderProtocol {
     }
     
     public func fetch() throws {
-        setItemSection(allItems: try getUniqueItems()!)
+        let allItems = try getUniqueItems()!
+        setItemSection(allItems: allItems)
+        tableView.reloadData()
     }
     
     public func calcMediumCost() throws -> Double {
@@ -114,26 +116,41 @@ public class DataProvider: NSObject, DataProviderProtocol {
         docObj.addToItems(NSSet(array: itemsArray))
         
         try saveContex()
+        createPresentTagList(allItems: try getUniqueItems()!)
     }
     
     func setItemSection(allItems: [Item]) {
-        
-        var sortedItems = allItems.sorted(by: { (item1, item2) -> Bool in
-            (item1.countReceipt?.intValue)! < (item2.countReceipt?.intValue)!
+        let auxItems = allItems
+        //verify for items with present tag
+        let arrayPresentedItems = auxItems.filter({ (item) -> Bool in
+            item.present?.boolValue == true
         })
+    
+        //create present tag
+        if arrayPresentedItems.count > 0 {
+            items = arrayPresentedItems
+        } else {
+            createPresentTagList(allItems: auxItems)
+        }
+    }
+    
+    func createPresentTagList(allItems: [Item]) {
         do {
+            var auxItems = allItems.sorted(by: { (item1, item2) -> Bool in
+                (item1.countReceipt?.intValue)! < (item2.countReceipt?.intValue)!
+            })
             let mediumPrice = try calcMediumCost()
             var value = 0.0
             var auxItemArray:[Item] = [Item]()
-            while value < mediumPrice, let item = sortedItems.popLast() {
+            while value < mediumPrice, let item = auxItems.popLast() {
                 value += (item.vlTotal?.doubleValue)!
+                item.present = NSNumber(booleanLiteral: true)
                 auxItemArray.append(item)
             }
             items = auxItemArray
         } catch {
             
         }
-        
     }
 
     
@@ -193,7 +210,7 @@ public class DataProvider: NSObject, DataProviderProtocol {
 }
 
 
-extension DataProvider : UITableViewDataSource {
+extension MainDataProvider {
     
     public func numberOfSections(in tableView: UITableView) -> Int {
         return Keys.numberOfSections
