@@ -11,9 +11,21 @@ import CoreData
 
 
 extension Receipt {
+    
+    static let ReceiptSortDescriptor = "createdAt"
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Receipt> {
         return NSFetchRequest<Receipt>(entityName: "Receipt");
+    }
+    
+    @nonobjc public class func getAllReceipt(_ mainContext: NSManagedObjectContext) throws -> [Receipt]? {
+        let fetchRequest: NSFetchRequest<Receipt> = Receipt.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Receipt.ReceiptSortDescriptor, ascending: false)]
+        do{
+            return try mainContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            throw Errors.CoreDataError("Could not fetch \(error), \(error.userInfo)")
+        }
     }
 
     @NSManaged public var createdAt: NSDate?

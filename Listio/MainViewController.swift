@@ -35,6 +35,7 @@ class MainViewController: UIViewController, FPHandlesMOC {
         static let IdentifierCell = "documentCell"
         static let HeaderSection1Identifier = "headerSection1"
         static let HeightForFooterView = 61.0
+        static let SegueAddListItem = "toAddListItem"
     }
     
     struct Alerts {
@@ -51,16 +52,26 @@ class MainViewController: UIViewController, FPHandlesMOC {
         
         assert(dataProvider != nil, "dataProvider is not allowed to be nil at this point")
         
-        tableView.setEditing(true, animated: true)
         dataProvider?.tableView = tableView
         tableView.dataSource = dataProvider
+        dataProvider?.dataStack = dataStack
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         do {
             try dataProvider?.fetch()
+            tableView.reloadData()
             try loadTotal()
         } catch {
             
         }
     }
+    
+    @IBAction func editTableView(_ sender: Any) {
+        tableView.setEditing(!tableView.isEditing, animated: true)
+    }
+    
     func loadTotal() throws {
         let qtdeItems = try dataProvider?.getCountItems()
         qteItemsLabel.text = "Qtde Produtos: \(String(describing: qtdeItems))"
@@ -100,7 +111,7 @@ class MainViewController: UIViewController, FPHandlesMOC {
         }
         actionSheetControllerIOS8.addAction(cancelActionButton)
         
-        let saveActionButton = UIAlertAction(title: "Novo", style: .default)
+        let saveActionButton = UIAlertAction(title: "QR Code Novo", style: .default)
         { _ in
             print("Save")
             
@@ -111,19 +122,22 @@ class MainViewController: UIViewController, FPHandlesMOC {
         }
         actionSheetControllerIOS8.addAction(saveActionButton)
         
-        let deleteActionButton = UIAlertAction(title: "Item", style: .default)
+        let addListItemActionButton = UIAlertAction(title: "Add Item List", style: .default)
         { _ in
-            
+            self.performSegue(withIdentifier: Keys.SegueAddListItem, sender: nil)
         }
-        actionSheetControllerIOS8.addAction(deleteActionButton)
+        actionSheetControllerIOS8.addAction(addListItemActionButton)
         self.present(actionSheetControllerIOS8, animated: true, completion: nil)
         
     }
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? FPHandlesMOC{
+        if let vc = segue.destination as? FPHandlesMOC {
             vc.receiveDataStack(self.dataStack)
+        }
+        if let vc = segue.destination as? AddListItemViewController {
+            vc.dataProvider = AddListItemDataProvider()
         }
     }
 }
@@ -138,10 +152,12 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
         communicator.getReceipt(linkUrl: result.value) { (error, responseJSON) in
             self.hideLoadingHUD()
             guard error == nil else {
+                // TO:DO
                 return
             }
             do {
                 try self.dataProvider?.addReceipt(responseJSON!)
+                self.tableView.reloadData()
             } catch Errors.DoubleReceiptWithSameID() {
                 print("mesmo")
             } catch {

@@ -12,9 +12,9 @@ import DATAStack
 
 @testable import Listio
 
-class DataProviderTests: XCTestCase {
+class MainDataProviderTests: XCTestCase {
 
-    var dataProvider: DataProvider!
+    var dataProvider: MainDataProvider!
     var mockAPI: MockAPICommunicator!
     var receipt1:[String: AnyObject]? = nil
     var receipt2:[String: AnyObject]? = nil
@@ -59,7 +59,8 @@ class DataProviderTests: XCTestCase {
         }
         
         let dataStack = DATAStack(modelName: "Listio", bundle: Bundle.main, storeType: .inMemory)
-        dataProvider = DataProvider(DATAStack: dataStack)
+        dataProvider = MainDataProvider()
+        dataProvider.dataStack = dataStack
     }
 
     override func tearDown() {

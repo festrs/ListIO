@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Zgg-hG-f9y">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Zgg-hG-f9y">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -220,7 +220,11 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Lista" id="BWL-b7-Sg9">
-                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="hU4-VY-uD1"/>
+                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="edit" id="PDe-QF-00W">
+                            <connections>
+                                <action selector="editTableView:" destination="BYZ-38-t0r" id="34h-gt-pq7"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Has-Ex-5mI">
                             <connections>
                                 <action selector="addButtonAction:" destination="BYZ-38-t0r" id="JKt-VT-QrV"/>
@@ -238,10 +242,10 @@
             </objects>
             <point key="canvasLocation" x="1650.4000000000001" y="-102.09895052473765"/>
         </scene>
-        <!--View Controller-->
+        <!--Title-->
         <scene sceneID="FTR-wQ-sdt">
             <objects>
-                <viewController id="aaZ-Qm-MuQ" sceneMemberID="viewController">
+                <viewController id="aaZ-Qm-MuQ" customClass="AddListItemViewController" customModule="Listio" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Bld-qv-5aw"/>
                         <viewControllerLayoutGuide type="bottom" id="E3P-dq-6ht"/>
@@ -250,17 +254,65 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dWY-ks-nRU">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="58" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dWY-ks-nRU">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ItemListCell" id="TRf-9T-vIz">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ItemListCell" rowHeight="58" id="TRf-9T-vIz" customClass="AddListItemTableViewCell" customModule="Listio" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="58"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TRf-9T-vIz" id="g1R-ef-glv">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="57.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O53-FS-FCy">
+                                                    <rect key="frame" x="22" y="8" width="40" height="20"/>
+                                                    <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="R$800,00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iHO-LT-5TN">
+                                                    <rect key="frame" x="295" y="19" width="72" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="74" id="Saq-7n-bpm">
+                                                            <variation key="widthClass=compact" constant="72"/>
+                                                        </constraint>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="16"/>
+                                                    <color key="textColor" red="0.32549019610000002" green="0.32549019610000002" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="Saq-7n-bpm"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <variation key="widthClass=compact">
+                                                        <mask key="constraints">
+                                                            <include reference="Saq-7n-bpm"/>
+                                                        </mask>
+                                                    </variation>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VYL-ih-nvR">
+                                                    <rect key="frame" x="22" y="33" width="20" height="18"/>
+                                                    <fontDescription key="fontDescription" name="AppleSDGothicNeo-Medium" family="Apple SD Gothic Neo" pointSize="15"/>
+                                                    <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="VYL-ih-nvR" firstAttribute="top" secondItem="O53-FS-FCy" secondAttribute="bottom" constant="5" id="144-Bj-bAW"/>
+                                                <constraint firstItem="O53-FS-FCy" firstAttribute="top" secondItem="g1R-ef-glv" secondAttribute="topMargin" id="2V6-yd-K1G"/>
+                                                <constraint firstItem="O53-FS-FCy" firstAttribute="leading" secondItem="VYL-ih-nvR" secondAttribute="leading" id="3jE-fK-O33"/>
+                                                <constraint firstItem="iHO-LT-5TN" firstAttribute="trailing" secondItem="g1R-ef-glv" secondAttribute="trailingMargin" id="IeP-s1-HA9"/>
+                                                <constraint firstItem="O53-FS-FCy" firstAttribute="leading" secondItem="g1R-ef-glv" secondAttribute="leadingMargin" constant="14" id="fiB-JR-HIa"/>
+                                                <constraint firstItem="iHO-LT-5TN" firstAttribute="centerY" secondItem="g1R-ef-glv" secondAttribute="centerY" id="vBO-pS-f7x"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="nameLabel" destination="O53-FS-FCy" id="tiq-uy-q5C"/>
+                                            <outlet property="priceLabel" destination="iHO-LT-5TN" id="Fpb-qa-tCe"/>
+                                            <outlet property="unLabel" destination="VYL-ih-nvR" id="E9Q-q6-1J3"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -273,10 +325,20 @@
                             <constraint firstItem="dWY-ks-nRU" firstAttribute="top" secondItem="jWC-zo-10c" secondAttribute="top" id="vMr-7N-mv2"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="uEi-ee-EeP">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="C0t-44-wGu">
+                            <connections>
+                                <action selector="saveItems:" destination="aaZ-Qm-MuQ" id="P4X-ox-fLl"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="dWY-ks-nRU" id="p0F-9y-7cC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jok-Hh-kKR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2641" y="-102"/>
+            <point key="canvasLocation" x="2640.8000000000002" y="-102.09895052473765"/>
         </scene>
         <!--Navigation View Controller-->
         <scene sceneID="0yM-xj-alL">

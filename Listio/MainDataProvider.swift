@@ -30,15 +30,9 @@ public class MainDataProvider: NSObject, MainDataProviderProtocol {
     weak public var tableView: UITableView!
     var items:[Item] = []
     
-    public required init(DATAStack: DATAStack) {
-        super.init()
-        self.dataStack = DATAStack
-    }
-    
     public func fetch() throws {
         let allItems = try getUniqueItems()!
         setItemSection(allItems: allItems)
-        tableView.reloadData()
     }
     
     public func calcMediumCost() throws -> Double {
@@ -55,40 +49,15 @@ public class MainDataProvider: NSObject, MainDataProviderProtocol {
     }
     
     func getUniqueItems() throws -> [Item]? {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Keys.ReceiptItemEntityName)
-        do{
-            var items = try self.dataStack.mainContext.fetch(fetchRequest) as? [Item]
-            items = items?.reduce([Item](), { uniqueElements, element in
-                if uniqueElements.index(where: {$0 == element}) != nil {
-                    return uniqueElements
-                } else {
-                    return uniqueElements + [element]
-                }
-            })
-            return items
-        } catch let error as NSError {
-            throw Errors.CoreDataError("Could not fetch \(error), \(error.userInfo)")
-        }
+        return try Item.getUniqueItems(dataStack.mainContext)
     }
-
     
     func getAllReceipt() throws -> [Receipt]? {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Keys.ReceiptEntityName)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Keys.ReceiptSortDescriptor, ascending: false)]
-        do{
-            return try self.dataStack.mainContext.fetch(fetchRequest) as? [Receipt]
-        } catch let error as NSError {
-            throw Errors.CoreDataError("Could not fetch \(error), \(error.userInfo)")
-        }
+        return try Receipt.getAllReceipt(dataStack.mainContext)
     }
     
     func getAllItems() throws -> [Item]? {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Keys.ReceiptItemEntityName)
-        do{
-            return try self.dataStack.mainContext.fetch(fetchRequest) as? [Item]
-        } catch let error as NSError {
-            throw Errors.CoreDataError("Could not fetch \(error), \(error.userInfo)")
-        }
+        return try Item.getAllItems(dataStack.mainContext)
     }
     
     public func addReceipt(_ json:[String: AnyObject]) throws {
@@ -152,7 +121,6 @@ public class MainDataProvider: NSObject, MainDataProviderProtocol {
             
         }
     }
-
     
     fileprivate func removeRedudancy(receipt: Receipt, _ itemList: [AnyObject]) -> [Item] {
         let newMapped = itemList.reduce([Item]()) {
@@ -221,7 +189,9 @@ extension MainDataProvider {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Keys.CellIdentifier, for: indexPath) as! DocumentUiTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.CellIdentifier, for: indexPath) as? DocumentUiTableViewCell else {
+            fatalError("Unexpected Index Path")
+        }
         
         let item:Item? = items[indexPath.row]
         
@@ -230,5 +200,21 @@ extension MainDataProvider {
         cell.valueLabel.text = item?.vlUnit?.toMaskReais()
         
         return cell
+    }
+    
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            let obj = items.remove(at: indexPath.row)
+            obj.present = NSNumber(booleanLiteral: false)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.reloadData()
+            
+            do {
+                try saveContex()
+            } catch {
+                
+            }
+        }
     }
 }

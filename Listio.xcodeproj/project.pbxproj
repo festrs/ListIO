@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3A17B70A1E9D58B90026756E /* DataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A17B7091E9D58B90026756E /* DataProviderTests.swift */; };
+		3A17B70A1E9D58B90026756E /* MainDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A17B7091E9D58B90026756E /* MainDataProviderTests.swift */; };
 		3A975D4F1CFCC42200E400B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */; };
 		3A975D541CFCC42200E400B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D521CFCC42200E400B3 /* Main.storyboard */; };
 		3A975D571CFCC42200E400B3 /* Listio.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D551CFCC42200E400B3 /* Listio.xcdatamodeld */; };
@@ -17,6 +17,7 @@
 		3ABA10261EAD62D20002CECE /* AddListItemDataProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA10251EAD62D20002CECE /* AddListItemDataProviderProtocol.swift */; };
 		3ABA10281EAD66860002CECE /* AddListItemDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA10271EAD66860002CECE /* AddListItemDataProvider.swift */; };
 		3ABA102B1EAD6F860002CECE /* AddListItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA102A1EAD6F860002CECE /* AddListItemTableViewCell.swift */; };
+		3ABA102D1EAE43D70002CECE /* AddListItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA102C1EAE43D70002CECE /* AddListItemViewController.swift */; };
 		3ACD3B3A1E9BC81300713A04 /* MainDataProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B391E9BC81300713A04 /* MainDataProviderProtocol.swift */; };
 		3ACD3B3C1E9BF16C00713A04 /* MainDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B3B1E9BF16C00713A04 /* MainDataProvider.swift */; };
 		3ACD3B3E1E9BF5BB00713A04 /* ExtensionsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B3D1E9BF5BB00713A04 /* ExtensionsTest.swift */; };
@@ -52,7 +53,7 @@
 /* Begin PBXFileReference section */
 		08240201388815E9C27643BF /* Pods_Listio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Listio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23F40384B0CF39E67EC77B56 /* Pods-ListioTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ListioTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ListioTests/Pods-ListioTests.release.xcconfig"; sourceTree = "<group>"; };
-		3A17B7091E9D58B90026756E /* DataProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviderTests.swift; sourceTree = "<group>"; };
+		3A17B7091E9D58B90026756E /* MainDataProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainDataProviderTests.swift; sourceTree = "<group>"; };
 		3A975D4B1CFCC42200E400B3 /* Listio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Listio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A975D531CFCC42200E400B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -66,6 +67,7 @@
 		3ABA10251EAD62D20002CECE /* AddListItemDataProviderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListItemDataProviderProtocol.swift; sourceTree = "<group>"; };
 		3ABA10271EAD66860002CECE /* AddListItemDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListItemDataProvider.swift; sourceTree = "<group>"; };
 		3ABA102A1EAD6F860002CECE /* AddListItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListItemTableViewCell.swift; sourceTree = "<group>"; };
+		3ABA102C1EAE43D70002CECE /* AddListItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListItemViewController.swift; sourceTree = "<group>"; };
 		3AC8A6894ED59EF4CF72ECFA /* Pods-Listio.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Listio.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Listio/Pods-Listio.debug.xcconfig"; sourceTree = "<group>"; };
 		3ACD3B391E9BC81300713A04 /* MainDataProviderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainDataProviderProtocol.swift; sourceTree = "<group>"; };
 		3ACD3B3B1E9BF16C00713A04 /* MainDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainDataProvider.swift; sourceTree = "<group>"; };
@@ -166,7 +168,7 @@
 				3ACD3B401E9D08C400713A04 /* CoreDataHelper.swift */,
 				3ACD3B4E1E9D251800713A04 /* receipt1.json */,
 				3AD5027B1EA526C90071B975 /* receipt2.json */,
-				3A17B7091E9D58B90026756E /* DataProviderTests.swift */,
+				3A17B7091E9D58B90026756E /* MainDataProviderTests.swift */,
 				3AD502791EA4F9A10071B975 /* APICommunicatorTest.swift */,
 				3AD5027D1EA569340071B975 /* MainViewControllerTest.swift */,
 			);
@@ -179,6 +181,7 @@
 				3ABA10291EAD6F710002CECE /* Cells */,
 				3ABA10251EAD62D20002CECE /* AddListItemDataProviderProtocol.swift */,
 				3ABA10271EAD66860002CECE /* AddListItemDataProvider.swift */,
+				3ABA102C1EAE43D70002CECE /* AddListItemViewController.swift */,
 			);
 			name = AddListItemView;
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 				3ACD3B3A1E9BC81300713A04 /* MainDataProviderProtocol.swift in Sources */,
 				3ABA10261EAD62D20002CECE /* AddListItemDataProviderProtocol.swift in Sources */,
 				3ACD3B3C1E9BF16C00713A04 /* MainDataProvider.swift in Sources */,
+				3ABA102D1EAE43D70002CECE /* AddListItemViewController.swift in Sources */,
 				3AE233341CFE11B000656969 /* MainViewController.swift in Sources */,
 				3A975D571CFCC42200E400B3 /* Listio.xcdatamodeld in Sources */,
 				3AE1FB2A1D07B71E001A6914 /* DocumentUiTableViewCell.swift in Sources */,
@@ -491,7 +495,7 @@
 			files = (
 				3ACD3B411E9D08C400713A04 /* CoreDataHelper.swift in Sources */,
 				3ACD3B3E1E9BF5BB00713A04 /* ExtensionsTest.swift in Sources */,
-				3A17B70A1E9D58B90026756E /* DataProviderTests.swift in Sources */,
+				3A17B70A1E9D58B90026756E /* MainDataProviderTests.swift in Sources */,
 				3AD5027E1EA569340071B975 /* MainViewControllerTest.swift in Sources */,
 				3AD5027A1EA4F9A10071B975 /* APICommunicatorTest.swift in Sources */,
 			);

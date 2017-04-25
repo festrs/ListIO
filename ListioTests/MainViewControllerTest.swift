@@ -13,7 +13,7 @@ import DATAStack
 class MainViewControllerTest: XCTestCase {
     var viewController: MainViewController!
     
-    class MockDataProvider: NSObject, DataProviderProtocol, UITableViewDataSource {
+    class MockDataProvider: NSObject, MainDataProviderProtocol, UITableViewDataSource {
         
         var dataStack: DATAStack!
         weak var tableView: UITableView!
@@ -24,8 +24,13 @@ class MainViewControllerTest: XCTestCase {
         func numberOfSections(in tableView: UITableView) -> Int {
             return 1
         }
+        
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             return DocumentUiTableViewCell()
+        }
+        
+        func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+            
         }
         
         func fetch() throws {
@@ -91,12 +96,6 @@ class MainViewControllerTest: XCTestCase {
         let cell = viewController.dataProvider?.tableView(viewController.tableView, cellForRowAt: IndexPath(row: 0, section: 0))
         
         XCTAssert(cell is DocumentUiTableViewCell) //whatever the name of your UITableViewCell subclass
-    }
-    
-    func testSUT_ConformsToTableViewDelegateProtocol() {
-        
-        XCTAssert((viewController.conforms(to: UITableViewDelegate.self)))
-        
     }
     
 }
