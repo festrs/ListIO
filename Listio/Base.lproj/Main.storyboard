@@ -220,7 +220,7 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Lista" id="BWL-b7-Sg9">
-                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="edit" id="PDe-QF-00W">
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="PDe-QF-00W">
                             <connections>
                                 <action selector="editTableView:" destination="BYZ-38-t0r" id="34h-gt-pq7"/>
                             </connections>
@@ -245,7 +245,7 @@
         <!--Title-->
         <scene sceneID="FTR-wQ-sdt">
             <objects>
-                <viewController id="aaZ-Qm-MuQ" customClass="AddListItemViewController" customModule="Listio" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="addListItemController" id="aaZ-Qm-MuQ" customClass="AddListItemViewController" customModule="Listio" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Bld-qv-5aw"/>
                         <viewControllerLayoutGuide type="bottom" id="E3P-dq-6ht"/>
@@ -262,7 +262,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="58"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TRf-9T-vIz" id="g1R-ef-glv">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="57.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="58"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O53-FS-FCy">
@@ -326,7 +326,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="uEi-ee-EeP">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="C0t-44-wGu">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="C0t-44-wGu">
                             <connections>
                                 <action selector="saveItems:" destination="aaZ-Qm-MuQ" id="P4X-ox-fLl"/>
                             </connections>

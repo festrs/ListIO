@@ -21,6 +21,7 @@ class MainViewController: UIViewController, FPHandlesMOC {
     fileprivate var dataStack:DATAStack!
     public var dataProvider: MainDataProviderProtocol?
     public var communicator: APICommunicatorProtocol = APICommunicator()
+    let actionSheetController: UIAlertController = UIAlertController(title: "Please select", message: "Option to select", preferredStyle: .actionSheet)
     
     lazy var readerVC: QRCodeReaderViewController = {
         let builder = QRCodeReaderViewControllerBuilder {
@@ -104,12 +105,10 @@ class MainViewController: UIViewController, FPHandlesMOC {
     // MARK: - Actions
     @IBAction func addButtonAction(_ sender: AnyObject) {
         //Create the AlertController and add Its action like button in Actionsheet
-        let actionSheetControllerIOS8: UIAlertController = UIAlertController(title: "Please select", message: "Option to select", preferredStyle: .actionSheet)
-        
         let cancelActionButton = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             print("Cancel")
         }
-        actionSheetControllerIOS8.addAction(cancelActionButton)
+        actionSheetController.addAction(cancelActionButton)
         
         let saveActionButton = UIAlertAction(title: "QR Code Novo", style: .default)
         { _ in
@@ -120,14 +119,14 @@ class MainViewController: UIViewController, FPHandlesMOC {
             self.readerVC.modalPresentationStyle = .formSheet
             self.present(self.readerVC, animated: true, completion: nil)
         }
-        actionSheetControllerIOS8.addAction(saveActionButton)
+        actionSheetController.addAction(saveActionButton)
         
         let addListItemActionButton = UIAlertAction(title: "Add Item List", style: .default)
         { _ in
             self.performSegue(withIdentifier: Keys.SegueAddListItem, sender: nil)
         }
-        actionSheetControllerIOS8.addAction(addListItemActionButton)
-        self.present(actionSheetControllerIOS8, animated: true, completion: nil)
+        actionSheetController.addAction(addListItemActionButton)
+        self.present(actionSheetController, animated: true, completion: nil)
         
     }
     

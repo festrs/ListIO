@@ -1,8 +1,8 @@
 //
-//  MainViewControllerTest.swift
+//  AddListItemControllerTest.swift
 //  Listio
 //
-//  Created by Felipe Dias Pereira on 2017-04-17.
+//  Created by Felipe Dias Pereira on 2017-04-26.
 //  Copyright © 2017 Felipe Dias Pereira. All rights reserved.
 //
 
@@ -10,55 +10,40 @@ import XCTest
 import DATAStack
 @testable import Listio
 
-class MainViewControllerTest: XCTestCase {
-    var viewController: MainViewController!
+class AddListItemControllerTest: XCTestCase {
+    var viewController: AddListItemViewController!
     
-    class MockDataProvider: NSObject, MainDataProviderProtocol, UITableViewDataSource {
+    class MockDataProvider: NSObject, AddListItemDataProviderProtocol {
         
         var dataStack: DATAStack!
         weak var tableView: UITableView!
         
+        func performFetch() throws {
+            
+        }
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 1
+            return 2
         }
         func numberOfSections(in tableView: UITableView) -> Int {
             return 1
         }
-        
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            return DocumentUiTableViewCell()
+            return AddListItemTableViewCell()
         }
-        
-        func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             
-        }
-        
-        func fetch() throws {
-            
-        }
-        func addReceipt(_ json:[String: AnyObject]) throws {
-            
-        }
-        func calcMediumCost() throws -> Double {
-            return 14.4
-        }
-        func getCountItems() throws -> Int {
-            return 1
-        }
-        
-        required init(DATAStack: DATAStack){
-            super.init()
         }
     }
-
+    
     
     override func setUp() {
         super.setUp()
-        viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as! MainViewController
+        viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addListItemController") as! AddListItemViewController
         
         let dataStack = DATAStack(modelName: "Listio", bundle: Bundle.main, storeType: .inMemory)
         
-        viewController.dataProvider = MockDataProvider(DATAStack: dataStack)
+        viewController.dataProvider = MockDataProvider()
+        viewController.dataProvider?.dataStack = dataStack
         
         let _ = viewController.view
     }
@@ -81,9 +66,7 @@ class MainViewControllerTest: XCTestCase {
     
     func testSUT_ConformsToTableViewDataSourceProtocol() {
         
-        XCTAssert((viewController.dataProvider?.conforms(to: UITableViewDataSource.self))!)
-        
-        XCTAssert((viewController.dataProvider?.responds(to: #selector(viewController.dataProvider?.numberOfSections(in:))))!)
+        XCTAssert((viewController.dataProvider?.responds(to: #selector(UITableViewDataSource.numberOfSections(in:))))!)
         
         XCTAssert((viewController.dataProvider?.responds(to: #selector(UITableViewDataSource.tableView(_:numberOfRowsInSection:))))!)
         
@@ -95,16 +78,7 @@ class MainViewControllerTest: XCTestCase {
         
         let cell = viewController.dataProvider?.tableView(viewController.tableView, cellForRowAt: IndexPath(row: 0, section: 0))
         
-        XCTAssert(cell is DocumentUiTableViewCell) //whatever the name of your UITableViewCell subclass
+        XCTAssert(cell is AddListItemTableViewCell) //whatever the name of your UITableViewCell subclass
     }
-    
-//    func testAddButton() {
-//  
-//        UIApplication.topViewController()?.present(viewController, animated: true, completion: nil)
-//        
-//        viewController.addButtonAction(UIButton(type: .custom))
-//        
-//        XCTAssert(viewController.actionSheetController.isViewLoaded)
-//    }
     
 }
