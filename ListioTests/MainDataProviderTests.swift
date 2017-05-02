@@ -12,10 +12,11 @@ import DATAStack
 
 @testable import Listio
 
-class DataProviderTests: XCTestCase {
-    var viewController: MainViewController!
-    var dataProvider: DataProvider!
+class MainDataProviderTests: XCTestCase {
+
+    var dataProvider: MainDataProvider!
     var mockAPI: MockAPICommunicator!
+    var dataStack: DATAStack!
     var receipt1:[String: AnyObject]? = nil
     var receipt2:[String: AnyObject]? = nil
     
@@ -47,7 +48,7 @@ class DataProviderTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as! MainViewController
+        
         mockAPI = MockAPICommunicator()
         
         mockAPI.getReceipt(linkUrl: "receipt1") { (error, responseJSON) in
@@ -58,36 +59,21 @@ class DataProviderTests: XCTestCase {
             self.receipt2 = responseJSON
         }
         
-        let dataStack = DATAStack(modelName: "Listio", bundle: Bundle.main, storeType: .inMemory)
-        dataProvider = DataProvider(DATAStack: dataStack)
+        dataStack = DATAStack(modelName: "Listio", bundle: Bundle.main, storeType: .inMemory)
+        dataProvider = MainDataProvider()
+        dataProvider.dataStack = dataStack
     }
 
     override func tearDown() {
         super.tearDown()
-    }
-    
-    func testTableView() {
-        // given
-        // 1
-        viewController.dataProvider = dataProvider
-        
-        // when
-        // 2
-        XCTAssertNil(dataProvider.tableView, "Before loading the table view should be nil")
-        
-        // 3
-        let _ = viewController.view
-        // then
-        // 4
-        XCTAssertTrue(dataProvider.tableView != nil, "The table view should be set")
-        XCTAssert(dataProvider.tableView === viewController.tableView,
-                  "The table view should be set to the table view of the data source")
+        mockAPI = nil
+        dataProvider = nil
     }
     
     func setUpAddReceipt1() {
         XCTAssertNotNil(receipt1, "JSON file should not be nil")
         do {
-            try dataProvider.addReceipt(receipt1!)
+            try Receipt.createReceipt(dataStack.mainContext, json: receipt1!)
             XCTAssertTrue(true)
         } catch {
             XCTFail("error throwed")
@@ -97,7 +83,7 @@ class DataProviderTests: XCTestCase {
     func setUpAddReceipt2() {
         XCTAssertNotNil(receipt2, "JSON file should not be nil")
         do {
-            try dataProvider.addReceipt(receipt2!)
+            try Receipt.createReceipt(dataStack.mainContext, json: receipt2!)
             XCTAssertTrue(true)
         } catch {
             XCTFail("error throwed")
@@ -107,7 +93,7 @@ class DataProviderTests: XCTestCase {
     func testDuplicateAddTryReceipt() {
         setUpAddReceipt1()
         
-        XCTAssertThrowsError(try dataProvider.addReceipt(receipt1!)) { error in
+        XCTAssertThrowsError(try Receipt.createReceipt(dataStack.mainContext, json: receipt1!)) { error in
             switch error as! Errors {
             case .DoubleReceiptWithSameID:
                 XCTAssertTrue(true)
@@ -115,24 +101,6 @@ class DataProviderTests: XCTestCase {
                 XCTAssertTrue(false)
             }
         }
-
-    }
-    
-    func testRemovedRedundancy() {
-        setUpAddReceipt1()
-        
-        do {
-            let allItems = try dataProvider.getAllItems()
-            XCTAssertEqual(3, allItems?.count)
-        } catch {
-            XCTFail("error throwed")
-        }
-    }
-
-    func testFuzzy45() {
-        let name1 = "PASTILHA TIC TAC CER"
-        let name2 = "PASTILHA TIC TAC MIX"
-        XCTAssertTrue(dataProvider.verifyItemByFuzzy(lhs: name1, rhs: name2))
     }
 
     func testGetReceipts() {
@@ -152,7 +120,6 @@ class DataProviderTests: XCTestCase {
         } catch {
             XCTFail("error throwed")
         }
-        
     }
 
     func testCalMediumValueReceipts() {
@@ -160,7 +127,7 @@ class DataProviderTests: XCTestCase {
         setUpAddReceipt2()
         do {
             let mediumCost = try dataProvider.calcMediumCost()
-            XCTAssertEqual(mediumCost, 14.75)
+            XCTAssertEqual(mediumCost, 16.25)
         } catch {
             XCTFail("error throwed")
         }
@@ -205,19 +172,6 @@ class DataProviderTests: XCTestCase {
         }
     }
 
-    func testCountUniqueItems() {
-        setUpAddReceipt1()
-        setUpAddReceipt2()
-        
-        do {
-            try dataProvider.fetch()
-            let itemsCount = dataProvider.getCountItems()
-            XCTAssertEqual(itemsCount, 4)
-        } catch {
-            XCTFail("error throwed")
-        }
-    }
-    
     func testCountAllItems() {
         setUpAddReceipt1()
         setUpAddReceipt2()
@@ -228,35 +182,6 @@ class DataProviderTests: XCTestCase {
         } catch {
             XCTFail("error throwed")
         }
-    }
-    
-    func testItemCountReceipts() {
-        setUpAddReceipt1()
-        setUpAddReceipt2()
-        
-        do {
-            var items = try dataProvider.getAllItems()
-            
-            items = items?.filter({ (item) -> Bool in
-                return (item.countReceipt?.intValue)! > 1
-            })
-            
-            XCTAssertEqual(items?.count, 2)
-        } catch {
-            XCTFail("error throwed")
-        }
-    }
-    
-    func testFetch() {
-        //given
-        setUpAddReceipt1()
-        //when
-        do {
-            try dataProvider.fetch()
-        } catch {
-            XCTFail("error throwed")
-        }
-        XCTAssertNotEqual([Item](), dataProvider.items!)
     }
     
 }

@@ -2,18 +2,10 @@
     "items" : [
                {
                "vl_unit" : "2.99",
-               "id" : "7437943",
-               "descricao" : "BISC PARATI ROSCA COCO",
-               "un" : "UN",
-               "qtde" : "1",
-               "vl_total" : "2.99"
-               },
-               {
-               "vl_unit" : "2.99",
                "id" : "9744665",
                "descricao" : "BISC PARATI ROSCA LTE",
                "un" : "UN",
-               "qtde" : "1",
+               "qtde" : "3",
                "vl_total" : "2.99"
                },
                {
@@ -29,27 +21,19 @@
                "id" : "9990372",
                "descricao" : "CHOC WAFER BIS OREO",
                "un" : "UN",
-               "qtde" : "1",
-               "vl_total" : "3.99"
-               },
-               {
-               "vl_unit" : "3.99",
-               "id" : "9990372",
-               "descricao" : "CHOC WAFER BIS OREO",
-               "un" : "UN",
-               "qtde" : "1",
+               "qtde" : "2",
                "vl_total" : "3.99"
                }
                ],
     "link" : "https:\/\/www.sefaz.rs.gov.br\/NFCE\/NFCE-COM.aspx?chNFe=43170445543915000777650320002357181826681952&nVersao=100&tpAmb=1&dhEmi=323031372d30342d30395431333a32353a32322d30333a3030&vNF=13.75&vICMS=1.04&digVal=616b542f6c316d72484274776c454f6e34787931695745582f72413d&cIdToken=000001&cHashQRCode=4EAB9C8FC54C4A0115B475C0A81BC5EC5384ACA9",
     "created_at" : "2017-04-10T15:25:22.000Z",
     "payments" : {
-        "vl_total" : "15.75",
+        "vl_total" : "18.75",
         "vl_desc" : "0.00",
         "pagmetodos" : [
                         {
                         "forma_pag" : "Cart�o de D�bito",
-                        "valor" : "15.75"
+                        "valor" : "18.75"
                         }
                         ]
     },

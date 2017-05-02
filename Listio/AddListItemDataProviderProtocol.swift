@@ -1,0 +1,23 @@
+//
+//  AddListItemDataProviderProtocol.swift
+//  Listio
+//
+//  Created by Felipe Dias Pereira on 2017-04-23.
+//  Copyright © 2017 Felipe Dias Pereira. All rights reserved.
+//
+
+import UIKit
+import CoreData
+import DATAStack
+
+public protocol AddListItemDataProviderProtocol: UITableViewDataSource, UITableViewDelegate {
+    var dataStack: DATAStack! { get set }
+    weak var tableView: UITableView! { get set }
+    
+    func performFetch() throws
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func numberOfSections(in tableView: UITableView) -> Int
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    func countItems() -> Int
+}

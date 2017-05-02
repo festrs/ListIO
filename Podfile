@@ -25,5 +25,6 @@ target 'ListioTests' do
     pod 'StringScore_Swift', :git => "https://github.com/yichizhang/StringScore_Swift.git"
     pod 'Sync', '~> 2'
     pod 'AIFlatSwitch', '~> 1.0.1'
+    pod 'MockUIAlertController', '~> 2.0'
 end
 
