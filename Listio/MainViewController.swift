@@ -10,25 +10,16 @@ import UIKit
 import QRCodeReader
 import AVFoundation
 import MBProgressHUD
-import Sync
 import DATAStack
 
 class MainViewController: UIViewController, FPHandlesMOC {
     
+    @IBOutlet weak var addButton: UIBarButtonItem!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var qteItemsLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     fileprivate var dataStack:DATAStack!
     public var dataProvider: MainDataProviderProtocol?
-    public var communicator: APICommunicatorProtocol = APICommunicator()
-    let actionSheetController: UIAlertController = UIAlertController(title: "Please select", message: "Option to select", preferredStyle: .actionSheet)
-    
-    lazy var readerVC: QRCodeReaderViewController = {
-        let builder = QRCodeReaderViewControllerBuilder {
-            $0.reader = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode], captureDevicePosition: .back)
-        }
-        return QRCodeReaderViewController(builder: builder)
-    }()
     
     struct Keys {
         static let EntityName = "ItemList"
@@ -61,13 +52,19 @@ class MainViewController: UIViewController, FPHandlesMOC {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         do {
-            try dataProvider?.fetch()
+            try dataProvider?.performFetch()
             tableView.reloadData()
             try loadTotal()
+        } catch Errors.CoreDataError(let msg) {
+            showAlert("Error", message: msg)
         } catch {
-            
+            showAlert("Error", message: "Generic ")
         }
     }
+    @IBAction func createNewList(_ sender: Any) {
+        performSegue(withIdentifier: Keys.SegueAddListItem, sender: sender)
+    }
+  
     
     @IBAction func editTableView(_ sender: Any) {
         tableView.setEditing(!tableView.isEditing, animated: true)
@@ -102,34 +99,6 @@ class MainViewController: UIViewController, FPHandlesMOC {
         self.dataStack = incomingDataStack
     }
     
-    // MARK: - Actions
-    @IBAction func addButtonAction(_ sender: AnyObject) {
-        //Create the AlertController and add Its action like button in Actionsheet
-        let cancelActionButton = UIAlertAction(title: "Cancel", style: .cancel) { _ in
-            print("Cancel")
-        }
-        actionSheetController.addAction(cancelActionButton)
-        
-        let saveActionButton = UIAlertAction(title: "QR Code Novo", style: .default)
-        { _ in
-            print("Save")
-            
-            self.readerVC.delegate = self
-            // Presents the readerVC as modal form sheet
-            self.readerVC.modalPresentationStyle = .formSheet
-            self.present(self.readerVC, animated: true, completion: nil)
-        }
-        actionSheetController.addAction(saveActionButton)
-        
-        let addListItemActionButton = UIAlertAction(title: "Add Item List", style: .default)
-        { _ in
-            self.performSegue(withIdentifier: Keys.SegueAddListItem, sender: nil)
-        }
-        actionSheetController.addAction(addListItemActionButton)
-        self.present(actionSheetController, animated: true, completion: nil)
-        
-    }
-    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? FPHandlesMOC {
@@ -141,35 +110,4 @@ class MainViewController: UIViewController, FPHandlesMOC {
     }
 }
 
-extension MainViewController : QRCodeReaderViewControllerDelegate {
-    // MARK: - QRCodeReaderViewController Delegate Methods
-    func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
-        reader.stopScanning()
-        self.showLoadingHUD()
-        guard result.metadataType == AVMetadataObjectTypeQRCode else { return }
-        
-        communicator.getReceipt(linkUrl: result.value) { (error, responseJSON) in
-            self.hideLoadingHUD()
-            guard error == nil else {
-                // TO:DO
-                return
-            }
-            do {
-                try self.dataProvider?.addReceipt(responseJSON!)
-                self.tableView.reloadData()
-            } catch Errors.DoubleReceiptWithSameID() {
-                print("mesmo")
-            } catch {
-                
-            }
-        }
-        
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func readerDidCancel(_ reader: QRCodeReaderViewController) {
-        reader.stopScanning()
-        
-        dismiss(animated: true, completion: nil)
-    }
-}
+

@@ -8,10 +8,13 @@
 
 import XCTest
 import DATAStack
+import MockUIAlertController
+
 @testable import Listio
 
 class MainViewControllerTest: XCTestCase {
     var viewController: MainViewController!
+    var alertVerifier: QCOMockAlertVerifier!
     
     class MockDataProvider: NSObject, MainDataProviderProtocol, UITableViewDataSource {
         
@@ -33,16 +36,17 @@ class MainViewControllerTest: XCTestCase {
             
         }
         
-        func fetch() throws {
+        func performFetch() throws {
             
         }
+        
         func addReceipt(_ json:[String: AnyObject]) throws {
             
         }
         func calcMediumCost() throws -> Double {
             return 14.4
         }
-        func getCountItems() throws -> Int {
+        func getCountItems() -> Int {
             return 1
         }
         
@@ -60,7 +64,15 @@ class MainViewControllerTest: XCTestCase {
         
         viewController.dataProvider = MockDataProvider(DATAStack: dataStack)
         
+        alertVerifier = QCOMockAlertVerifier()
+        
         let _ = viewController.view
+    }
+    
+    override func tearDown() {
+        alertVerifier = nil
+        viewController = nil
+        super.tearDown()
     }
     
     
@@ -74,16 +86,11 @@ class MainViewControllerTest: XCTestCase {
         XCTAssertNotNil(viewController.tableView.dataSource)
     }
     
-    func testSUT_ShouldSetTableViewDelegate() {
-        
-        XCTAssertNotNil(viewController.tableView.dataSource)
-    }
-    
     func testSUT_ConformsToTableViewDataSourceProtocol() {
         
         XCTAssert((viewController.dataProvider?.conforms(to: UITableViewDataSource.self))!)
         
-        XCTAssert((viewController.dataProvider?.responds(to: #selector(viewController.dataProvider?.numberOfSections(in:))))!)
+        XCTAssert((viewController.dataProvider?.responds(to: #selector(UITableViewDataSource.numberOfSections(in:))))!)
         
         XCTAssert((viewController.dataProvider?.responds(to: #selector(UITableViewDataSource.tableView(_:numberOfRowsInSection:))))!)
         
@@ -98,13 +105,12 @@ class MainViewControllerTest: XCTestCase {
         XCTAssert(cell is DocumentUiTableViewCell) //whatever the name of your UITableViewCell subclass
     }
     
-//    func testAddButton() {
-//  
-//        UIApplication.topViewController()?.present(viewController, animated: true, completion: nil)
-//        
-//        viewController.addButtonAction(UIButton(type: .custom))
-//        
-//        XCTAssert(viewController.actionSheetController.isViewLoaded)
-//    }
-    
+    func testEditTableView() {
+        
+        XCTAssertFalse(viewController.tableView.isEditing)
+        
+        viewController.editTableView(UIButton(type: .custom))
+        
+        XCTAssert(viewController.tableView.isEditing)
+    }
 }

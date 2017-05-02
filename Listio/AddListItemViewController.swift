@@ -14,6 +14,7 @@ class AddListItemViewController: UIViewController, FPHandlesMOC {
     var dataProvider:AddListItemDataProviderProtocol?
     fileprivate var dataStack:DATAStack!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var doneButtonItem: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,29 +35,26 @@ class AddListItemViewController: UIViewController, FPHandlesMOC {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
+    @IBAction func backAction(_ sender: Any) {
+        dismissWithTabBar()
+    }
+    
+    func dismissWithTabBar() {
+        tabBarController?.selectedIndex = 0
+        dismiss(animated: true, completion: nil)
+    }
+    
     func showAlert(_ title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func saveItems(_ sender: Any) {
-        let refreshAlert = UIAlertController(title: "Refresh", message: "All data will be lost.", preferredStyle: UIAlertControllerStyle.alert)
-        
-        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
-            self.navigationController?.popViewController(animated: true)
-            self.dismiss(animated: true, completion: nil)
-        }))
-        
-        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-            print("Handle Cancel Logic here")
-        }))
-        
-        present(refreshAlert, animated: true, completion: nil)
-    }
-    
     func receiveDataStack(_ incomingDataStack: DATAStack) {
         dataStack = incomingDataStack
     }
-
 }

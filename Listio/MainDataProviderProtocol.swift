@@ -19,9 +19,8 @@ public protocol MainDataProviderProtocol: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
     
-    func fetch() throws
-    func addReceipt(_ json:[String: AnyObject]) throws
+    func performFetch() throws
     func calcMediumCost() throws -> Double
-    func getCountItems() throws -> Int
+    func getCountItems() -> Int
 
 }

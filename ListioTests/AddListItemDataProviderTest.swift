@@ -1,21 +1,21 @@
 //
-//  DataProviderTests.swift
+//  AddListItemDataProviderTest.swift
 //  Listio
 //
-//  Created by Felipe Dias Pereira on 2017-04-11.
+//  Created by Felipe Dias Pereira on 2017-04-26.
 //  Copyright © 2017 Felipe Dias Pereira. All rights reserved.
 //
 
 import XCTest
-import CoreData
 import DATAStack
 
 @testable import Listio
 
-class MainDataProviderTests: XCTestCase {
-
-    var dataProvider: MainDataProvider!
+class AddListItemDataProviderTest: XCTestCase {
+    
     var mockAPI: MockAPICommunicator!
+    var dataProvider: AddListItemDataProviderProtocol!
+    var mainDataProvider: MainDataProviderProtocol!
     var dataStack: DATAStack!
     var receipt1:[String: AnyObject]? = nil
     var receipt2:[String: AnyObject]? = nil
@@ -48,7 +48,6 @@ class MainDataProviderTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        
         mockAPI = MockAPICommunicator()
         
         mockAPI.getReceipt(linkUrl: "receipt1") { (error, responseJSON) in
@@ -60,13 +59,20 @@ class MainDataProviderTests: XCTestCase {
         }
         
         dataStack = DATAStack(modelName: "Listio", bundle: Bundle.main, storeType: .inMemory)
-        dataProvider = MainDataProvider()
+        dataProvider = AddListItemDataProvider()
         dataProvider.dataStack = dataStack
+        
+        mainDataProvider = MainDataProvider()
+        mainDataProvider.dataStack = dataStack
+        
+        setUpAddReceipt1()
+        setUpAddReceipt2()
     }
-
+    
     override func tearDown() {
         super.tearDown()
         mockAPI = nil
+        dataStack = nil
         dataProvider = nil
     }
     
@@ -75,8 +81,10 @@ class MainDataProviderTests: XCTestCase {
         do {
             try Receipt.createReceipt(dataStack.mainContext, json: receipt1!)
             XCTAssertTrue(true)
+        } catch Errors.CoreDataError(let msg) {
+            XCTFail("error throwed" + msg)
         } catch {
-            XCTFail("error throwed")
+            
         }
     }
     
@@ -90,98 +98,60 @@ class MainDataProviderTests: XCTestCase {
         }
     }
     
-    func testDuplicateAddTryReceipt() {
-        setUpAddReceipt1()
+    func testSUT_ConformsToTableViewDataSourceProtocol() {
         
-        XCTAssertThrowsError(try Receipt.createReceipt(dataStack.mainContext, json: receipt1!)) { error in
-            switch error as! Errors {
-            case .DoubleReceiptWithSameID:
-                XCTAssertTrue(true)
-            default:
-                XCTAssertTrue(false)
-            }
-        }
+        XCTAssert(dataProvider.responds(to: #selector(UITableViewDataSource.numberOfSections(in:))))
+        
+        XCTAssert((dataProvider.responds(to: #selector(UITableViewDataSource.tableView(_:numberOfRowsInSection:)))))
+        
+        XCTAssert((dataProvider.responds(to: #selector(UITableViewDataSource.tableView(_:cellForRowAt:)))))
+        
     }
-
-    func testGetReceipts() {
-        
-        do {
-            let count = try dataProvider.getAllReceipt()?.count
-            XCTAssertEqual(0, count)
-        } catch {
-            XCTFail("error throwed")
-        }
     
-        setUpAddReceipt1()
-        
+    func testPerformFetch() {
+        XCTAssertEqual(dataProvider.countItems(), 0)
         do {
-            let count = try dataProvider.getAllReceipt()?.count
-            XCTAssertEqual(1, count)
+            try dataProvider.performFetch()
+            XCTAssertEqual(dataProvider.countItems(), 4)
+        }catch {
+            XCTFail("error throwed")
+        }
+    }
+    
+    func testCountUniqueItems() {
+        do {
+            try dataProvider.performFetch()
+            let itemsCount = dataProvider.countItems()
+            XCTAssertEqual(itemsCount, 4)
         } catch {
             XCTFail("error throwed")
         }
     }
-
-    func testCalMediumValueReceipts() {
-        setUpAddReceipt1()
-        setUpAddReceipt2()
+    
+    func testItemCountReceipts() {
         do {
-            let mediumCost = try dataProvider.calcMediumCost()
-            XCTAssertEqual(mediumCost, 16.25)
+            var items = try Item.getUniqueItems(dataStack.mainContext)
+            
+            items = items?.filter({ (item) -> Bool in
+                return (item.countReceipt?.intValue)! > 1
+            })
+            
+            XCTAssertEqual(items?.count, 2)
         } catch {
             XCTFail("error throwed")
         }
     }
+    
+    func testFetch() {
 
-
-    func testReceiptModelFetch() {
-        setUpAddReceipt1()
-        
-        //then
-        do{
-            if #available(iOS 10.0, *) {
-                let request: NSFetchRequest<Listio.Receipt> = Listio.Receipt.fetchRequest()
-                let result = try dataProvider.dataStack.mainContext.fetch(request)
-                XCTAssertNotNil(result)
-            } else {
-                XCTAssertTrue(true)
-            }
-        } catch let error as NSError {
-            XCTFail("Could not fetch \(error), \(error.userInfo)")
-        }
-        
-    }
-
-    func testItemModelFetch() {
-        setUpAddReceipt1()
-        
-        //then
-        do{
-            if #available(iOS 10.0, *) {
-                let request: NSFetchRequest<Listio.Item> = Listio.Item.fetchRequest()
-                let result = try dataProvider.dataStack.mainContext.fetch(request)
-                
-                XCTAssertEqual(try dataProvider.getAllItems()!, result)
-                
-                XCTAssertNotNil(result)
-            } else {
-                XCTAssertTrue(true)
-            }
-        } catch let error as NSError {
-            XCTFail("Could not fetch \(error), \(error.userInfo)")
-        }
-    }
-
-    func testCountAllItems() {
-        setUpAddReceipt1()
-        setUpAddReceipt2()
-        
         do {
-            let itemsCount = try dataProvider.getAllItems()?.count
-            XCTAssertEqual(itemsCount, 6)
+            try dataProvider.performFetch()
         } catch {
             XCTFail("error throwed")
         }
+        //XCTAssertNotEqual([Item](), dataProvider.items)
     }
+    
+
     
 }

@@ -2,26 +2,10 @@
     "items" : [
                {
                "vl_unit" : "2.99",
-               "id" : "7437943",
-               "descricao" : "BISC PARATI ROSCA COCO",
-               "un" : "UN",
-               "qtde" : "1",
-               "vl_total" : "2.99"
-               },
-               {
-               "vl_unit" : "3.00",
-               "id" : "7437943",
-               "descricao" : "BISC PARATI ROSCA COCO",
-               "un" : "UN",
-               "qtde" : "1",
-               "vl_total" : "3.00"
-               },
-               {
-               "vl_unit" : "2.99",
                "id" : "9744665",
                "descricao" : "BISC PARATI ROSCA LTE",
                "un" : "UN",
-               "qtde" : "1",
+               "qtde" : "3",
                "vl_total" : "2.99"
                },
                {
@@ -37,15 +21,7 @@
                "id" : "9990372",
                "descricao" : "CHOC WAFER BIS OREO",
                "un" : "UN",
-               "qtde" : "1",
-               "vl_total" : "3.99"
-               },
-               {
-               "vl_unit" : "3.99",
-               "id" : "9990372",
-               "descricao" : "CHOC WAFER BIS OREO",
-               "un" : "UN",
-               "qtde" : "1",
+               "qtde" : "2",
                "vl_total" : "3.99"
                }
                ],

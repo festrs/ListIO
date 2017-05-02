@@ -12,7 +12,7 @@ import StringScore_Swift
 
 
 class Item: NSManagedObject {
-
+    
 }
 
 func == (lhs: Item, rhs: Item) -> Bool {

@@ -9,11 +9,15 @@
 import Foundation
 import CoreData
 
-
 extension Item {
+    struct Keys {
+        static let ItemEntityName = "Item"
+        static let ItemsArrayName = "items"
+        static let sortKey = "descricao"
+    }
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Item> {
-        return NSFetchRequest<Item>(entityName: "Item");
+        return NSFetchRequest<Item>(entityName: Keys.ItemEntityName);
     }
     
     @nonobjc public class func getAllItems(_ mainContext: NSManagedObjectContext) throws -> [Item]? {
@@ -27,9 +31,9 @@ extension Item {
     
     @nonobjc public class func getUniqueItems(_ mainContext: NSManagedObjectContext, withPresent: Bool = false) throws -> [Item]? {
         let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "descricao", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Keys.sortKey, ascending: true)]
         if withPresent {
-            fetchRequest.predicate = NSPredicate(format: "present == %@", NSNumber(booleanLiteral: false))
+            fetchRequest.predicate = NSPredicate(format: "present == %@", NSNumber(booleanLiteral: true))
         }
         do{
             var items = try mainContext.fetch(fetchRequest)
@@ -55,15 +59,5 @@ extension Item {
     @NSManaged public var present: NSNumber?
     @NSManaged public var countReceipt: NSNumber?
     @NSManaged public var document: Receipt?
-    
-    func addCountQte(_ value: Int) {
-        let aux = (qtde?.intValue)! + value
-        qtde = NSDecimalNumber(value: aux)
-    }
-    
-    func addCountReceipt(_ value: Int) {
-        let aux = (countReceipt?.intValue)! + value
-        countReceipt = NSDecimalNumber(value: aux)
-    }
     
 }

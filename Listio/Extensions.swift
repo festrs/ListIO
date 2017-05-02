@@ -46,6 +46,28 @@ extension String
     
 }
 
+extension Sequence where Self.Iterator.Element: Equatable {
+    public typealias Element = Self.Iterator.Element
+    
+    func freqTuple() -> [(element: Element, count: Int)] {
+        
+        let empty: [(Element, Int)] = []
+        
+        return reduce(empty) { (accu: [(Element, Int)], element) in
+            var accu = accu
+            for (index, value) in accu.enumerated() {
+                if value.0 == element {
+                    accu[index].1 += 1
+                    return accu
+                }
+            }
+            
+            return accu + [(element, 1)]
+        }
+    }
+}
+
+
 extension UIApplication {
     class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         if let nav = base as? UINavigationController {

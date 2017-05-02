@@ -14,12 +14,15 @@ class AddListItemControllerTest: XCTestCase {
     var viewController: AddListItemViewController!
     
     class MockDataProvider: NSObject, AddListItemDataProviderProtocol {
-        
         var dataStack: DATAStack!
         weak var tableView: UITableView!
+        public var shouldCallPerformFecth:Bool = false
         
         func performFetch() throws {
-            
+            shouldCallPerformFecth = true
+        }
+        func countItems() -> Int {
+            return 2
         }
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return 2
@@ -40,12 +43,14 @@ class AddListItemControllerTest: XCTestCase {
         super.setUp()
         viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addListItemController") as! AddListItemViewController
         
-        let dataStack = DATAStack(modelName: "Listio", bundle: Bundle.main, storeType: .inMemory)
-        
         viewController.dataProvider = MockDataProvider()
-        viewController.dataProvider?.dataStack = dataStack
         
         let _ = viewController.view
+    }
+    
+    override func tearDown() {
+        super.tearDown()
+        viewController = nil
     }
     
     
@@ -61,7 +66,7 @@ class AddListItemControllerTest: XCTestCase {
     
     func testSUT_ShouldSetTableViewDelegate() {
         
-        XCTAssertNotNil(viewController.tableView.dataSource)
+        XCTAssertNotNil(viewController.tableView.delegate)
     }
     
     func testSUT_ConformsToTableViewDataSourceProtocol() {
@@ -79,6 +84,12 @@ class AddListItemControllerTest: XCTestCase {
         let cell = viewController.dataProvider?.tableView(viewController.tableView, cellForRowAt: IndexPath(row: 0, section: 0))
         
         XCTAssert(cell is AddListItemTableViewCell) //whatever the name of your UITableViewCell subclass
+    }
+    
+    func testShouldCallPerformFetch() {
+        UIApplication.topViewController()?.present(viewController, animated: true, completion: nil)
+        
+        //XCTAssertTrue(viewController.dataProvider.shouldCallPerformFecth)
     }
     
 }

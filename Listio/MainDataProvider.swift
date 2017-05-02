@@ -30,9 +30,8 @@ public class MainDataProvider: NSObject, MainDataProviderProtocol {
     weak public var tableView: UITableView!
     var items:[Item] = []
     
-    public func fetch() throws {
-        let allItems = try getUniqueItems()!
-        setItemSection(allItems: allItems)
+    public func performFetch() throws {
+        items = try getUniqueItems()!
     }
     
     public func calcMediumCost() throws -> Double {
@@ -49,7 +48,7 @@ public class MainDataProvider: NSObject, MainDataProviderProtocol {
     }
     
     func getUniqueItems() throws -> [Item]? {
-        return try Item.getUniqueItems(dataStack.mainContext)
+        return try Item.getUniqueItems(dataStack.mainContext, withPresent: true)
     }
     
     func getAllReceipt() throws -> [Receipt]? {
@@ -60,58 +59,20 @@ public class MainDataProvider: NSObject, MainDataProviderProtocol {
         return try Item.getAllItems(dataStack.mainContext)
     }
     
-    public func addReceipt(_ json:[String: AnyObject]) throws {
-        guard try verifyNewObject(json["id"] as! String) == false else {
-            throw Errors.DoubleReceiptWithSameID
-        }
-        let docObj = NSEntityDescription.insertNewObject(forEntityName: Keys.ReceiptEntityName, into: self.dataStack.mainContext) as! Receipt
-        docObj.hyp_fill(with: json)
-        let itemsArray = removeRedudancy(receipt: docObj, json[Keys.ReceiptItemsArrayName] as! [AnyObject])
-        
-        let allItems = try getAllItems()!
-        
-        _ = allItems.reduce([Item]()){
-            uniqueElements, element in
-            
-            if let index = uniqueElements.index(where: {$0 == element}) {
-                let auxItem = uniqueElements[index]
-                auxItem.addCountReceipt(1)
-                return uniqueElements
-            } else {
-                return uniqueElements + [element]
-            }
-        }
-        
-        docObj.addToItems(NSSet(array: itemsArray))
-        
-        try saveContex()
-        createPresentTagList(allItems: try getUniqueItems()!)
-    }
-    
-    func setItemSection(allItems: [Item]) {
-        let auxItems = allItems
-        //verify for items with present tag
-        let arrayPresentedItems = auxItems.filter({ (item) -> Bool in
-            item.present?.boolValue == true
-        })
-    
-        //create present tag
-        if arrayPresentedItems.count > 0 {
-            items = arrayPresentedItems
-        } else {
-            createPresentTagList(allItems: auxItems)
-        }
-    }
-    
     func createPresentTagList(allItems: [Item]) {
         do {
-            var auxItems = allItems.sorted(by: { (item1, item2) -> Bool in
+            var auxItems = allItems.map { (item) -> (Item) in
+                item.present = NSNumber(booleanLiteral: false)
+                return item
+            }
+            
+            auxItems = allItems.sorted(by: { (item1, item2) -> Bool in
                 (item1.countReceipt?.intValue)! < (item2.countReceipt?.intValue)!
             })
             let mediumPrice = try calcMediumCost()
             var value = 0.0
             var auxItemArray:[Item] = [Item]()
-            while value < mediumPrice, let item = auxItems.popLast() {
+            while value <= mediumPrice, let item = auxItems.popLast() {
                 value += (item.vlTotal?.doubleValue)!
                 item.present = NSNumber(booleanLiteral: true)
                 auxItemArray.append(item)
@@ -121,60 +82,6 @@ public class MainDataProvider: NSObject, MainDataProviderProtocol {
             
         }
     }
-    
-    fileprivate func removeRedudancy(receipt: Receipt, _ itemList: [AnyObject]) -> [Item] {
-        let newMapped = itemList.reduce([Item]()) {
-            a, item in
-            var b = [Item]()
-            if !a.contains(where: { verifyItemByFuzzy(lhs: $0.descricao!, rhs: item[Keys.ItemDescriptionKey] as! String) }) {
-                let newItem = createItem(item: item as! [String : Any])
-                newItem.document = receipt
-                b.append(newItem)
-            } else {
-                let index = a.index(where: { verifyItemByFuzzy(lhs: $0.descricao!, rhs: item[Keys.ItemDescriptionKey] as! String) })!
-                let item2 = a[index]
-                item2.addCountQte(1)
-            }
-            b.append(contentsOf: a)
-            return b
-        }
-        
-        return newMapped
-    }
-    
-    func createItem(item: [String : Any]) -> Item {
-        let itemObj:Item = NSEntityDescription.insertNewObject(forEntityName: Keys.ReceiptItemEntityName, into: self.dataStack.mainContext) as! Item
-        itemObj.hyp_fill(with: item)
-        return itemObj
-    }
-    
-    func verifyItemByFuzzy(lhs: String, rhs: String) -> Bool {
-        let fuzzy1 = lhs.trim().score(rhs.trim(), fuzziness:1.0)
-        return fuzzy1 > 0.45
-    }
-    
-    fileprivate func verifyNewObject(_ key:String) throws -> Bool {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Keys.ReceiptEntityName)
-        fetchRequest.predicate = NSPredicate(format: "remoteID = %@",key)
-        do {
-            let result = try self.dataStack.mainContext.fetch(fetchRequest)
-            if result.count > 0 {
-                return true
-            }
-        } catch let error as NSError {
-            throw Errors.CoreDataError("Could not fetch \(error), \(error.userInfo)")
-        }
-        return false
-    }
-    
-    fileprivate func saveContex() throws {
-        do {
-            try self.dataStack.mainContext.save()
-        } catch {
-            throw Errors.CoreDataError("Failure to save context: \(error)")
-        }
-    }
-    
 }
 
 
@@ -209,12 +116,6 @@ extension MainDataProvider {
             obj.present = NSNumber(booleanLiteral: false)
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.reloadData()
-            
-            do {
-                try saveContex()
-            } catch {
-                
-            }
         }
     }
 }

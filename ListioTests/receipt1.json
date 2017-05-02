@@ -5,15 +5,7 @@
                "id" : "7437943",
                "descricao" : "PASTILHA TIC TAC CER",
                "un" : "UN",
-               "qtde" : "1",
-               "vl_total" : "1.99"
-               },
-               {
-               "vl_unit" : "1.99",
-               "id" : "9744665",
-               "descricao" : "PASTILHA TIC TAC MIX",
-               "un" : "UN",
-               "qtde" : "1",
+               "qtde" : "2",
                "vl_total" : "1.99"
                },
                {
@@ -29,15 +21,7 @@
                "id" : "9990372",
                "descricao" : "CHOC WAFER BIS OREO",
                "un" : "UN",
-               "qtde" : "1",
-               "vl_total" : "3.99"
-               },
-               {
-               "vl_unit" : "3.99",
-               "id" : "9990372",
-               "descricao" : "CHOC WAFER BIS OREO",
-               "un" : "UN",
-               "qtde" : "1",
+               "qtde" : "2",
                "vl_total" : "3.99"
                }
                ],

@@ -18,14 +18,18 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
     }
     public var dataStack: DATAStack!
     weak public var tableView: UITableView!
-    var items:[Item]!
+    var items:[Item] = [Item]()
     
     func performFetch() throws {
-        items = try getUniqueItems()
+        items = try getUniqueItems()!
     }
     
     func getUniqueItems() throws -> [Item]? {
-        return try Item.getUniqueItems(dataStack.mainContext, withPresent: true)
+        return try Item.getUniqueItems(dataStack.mainContext)
+    }
+    
+    func countItems() -> Int {
+        return items.count
     }
 }
 
