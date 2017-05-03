@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3A17B70A1E9D58B90026756E /* MainDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A17B7091E9D58B90026756E /* MainDataProviderTests.swift */; };
+		3A4CC4DB1EBA1EB300E230D1 /* ItemTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4CC4DA1EBA1EB300E230D1 /* ItemTest.swift */; };
+		3A4CC4DD1EBA5D3300E230D1 /* ReceiptTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4CC4DC1EBA5D3300E230D1 /* ReceiptTest.swift */; };
 		3A975D4F1CFCC42200E400B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */; };
 		3A975D541CFCC42200E400B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D521CFCC42200E400B3 /* Main.storyboard */; };
 		3A975D571CFCC42200E400B3 /* Listio.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D551CFCC42200E400B3 /* Listio.xcdatamodeld */; };
@@ -36,7 +38,6 @@
 		3AE8D2F51E8B0B30006CA297 /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE8D2F31E8B0B30006CA297 /* Receipt.swift */; };
 		3AE8D2F61E8B0B30006CA297 /* Receipt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE8D2F41E8B0B30006CA297 /* Receipt+CoreDataProperties.swift */; };
 		3AE9D4021EB0D6EF005A4665 /* AddListItemControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE9D4011EB0D6EF005A4665 /* AddListItemControllerTest.swift */; };
-		3AE9D4041EB13568005A4665 /* AddListItemDataProviderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE9D4031EB13568005A4665 /* AddListItemDataProviderTest.swift */; };
 		3AE9D4061EB16AE1005A4665 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AE9D4051EB16AE1005A4665 /* Assets.xcassets */; };
 		3AE9D4081EB21170005A4665 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE9D4071EB21170005A4665 /* TabBarViewController.swift */; };
 		3AE9D40B1EB23C80005A4665 /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE9D40A1EB23C80005A4665 /* QRCodeViewController.swift */; };
@@ -58,6 +59,8 @@
 		08240201388815E9C27643BF /* Pods_Listio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Listio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23F40384B0CF39E67EC77B56 /* Pods-ListioTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ListioTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ListioTests/Pods-ListioTests.release.xcconfig"; sourceTree = "<group>"; };
 		3A17B7091E9D58B90026756E /* MainDataProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainDataProviderTests.swift; sourceTree = "<group>"; };
+		3A4CC4DA1EBA1EB300E230D1 /* ItemTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemTest.swift; sourceTree = "<group>"; };
+		3A4CC4DC1EBA5D3300E230D1 /* ReceiptTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceiptTest.swift; sourceTree = "<group>"; };
 		3A975D4B1CFCC42200E400B3 /* Listio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Listio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A975D531CFCC42200E400B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -91,7 +94,6 @@
 		3AE8D2F31E8B0B30006CA297 /* Receipt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
 		3AE8D2F41E8B0B30006CA297 /* Receipt+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Receipt+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3AE9D4011EB0D6EF005A4665 /* AddListItemControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListItemControllerTest.swift; sourceTree = "<group>"; };
-		3AE9D4031EB13568005A4665 /* AddListItemDataProviderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListItemDataProviderTest.swift; sourceTree = "<group>"; };
 		3AE9D4051EB16AE1005A4665 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3AE9D4071EB21170005A4665 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		3AE9D40A1EB23C80005A4665 /* QRCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +131,42 @@
 				23F40384B0CF39E67EC77B56 /* Pods-ListioTests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		3A4CC4D61EBA1D7700E230D1 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				3AD5027D1EA569340071B975 /* MainViewControllerTest.swift */,
+				3A17B7091E9D58B90026756E /* MainDataProviderTests.swift */,
+			);
+			name = MainView;
+			sourceTree = "<group>";
+		};
+		3A4CC4D71EBA1D7F00E230D1 /* AddQRCodeView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = AddQRCodeView;
+			sourceTree = "<group>";
+		};
+		3A4CC4D81EBA1D8A00E230D1 /* AddListItemView */ = {
+			isa = PBXGroup;
+			children = (
+				3AE9D4011EB0D6EF005A4665 /* AddListItemControllerTest.swift */,
+			);
+			name = AddListItemView;
+			sourceTree = "<group>";
+		};
+		3A4CC4D91EBA1D9600E230D1 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				3ACD3B4E1E9D251800713A04 /* receipt1.json */,
+				3AD5027B1EA526C90071B975 /* receipt2.json */,
+				3ACD3B401E9D08C400713A04 /* CoreDataHelper.swift */,
+				3A4CC4DA1EBA1EB300E230D1 /* ItemTest.swift */,
+				3A4CC4DC1EBA5D3300E230D1 /* ReceiptTest.swift */,
+			);
+			name = "Core Data";
 			sourceTree = "<group>";
 		};
 		3A975D421CFCC42200E400B3 = {
@@ -172,16 +210,13 @@
 		3A975D651CFCC42200E400B3 /* ListioTests */ = {
 			isa = PBXGroup;
 			children = (
+				3A4CC4D91EBA1D9600E230D1 /* Core Data */,
+				3A4CC4D81EBA1D8A00E230D1 /* AddListItemView */,
+				3A4CC4D71EBA1D7F00E230D1 /* AddQRCodeView */,
+				3A4CC4D61EBA1D7700E230D1 /* MainView */,
 				3A975D681CFCC42200E400B3 /* Info.plist */,
 				3ACD3B3D1E9BF5BB00713A04 /* ExtensionsTest.swift */,
-				3ACD3B401E9D08C400713A04 /* CoreDataHelper.swift */,
-				3ACD3B4E1E9D251800713A04 /* receipt1.json */,
-				3AD5027B1EA526C90071B975 /* receipt2.json */,
-				3A17B7091E9D58B90026756E /* MainDataProviderTests.swift */,
 				3AD502791EA4F9A10071B975 /* APICommunicatorTest.swift */,
-				3AD5027D1EA569340071B975 /* MainViewControllerTest.swift */,
-				3AE9D4011EB0D6EF005A4665 /* AddListItemControllerTest.swift */,
-				3AE9D4031EB13568005A4665 /* AddListItemDataProviderTest.swift */,
 			);
 			path = ListioTests;
 			sourceTree = "<group>";
@@ -515,13 +550,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A4CC4DB1EBA1EB300E230D1 /* ItemTest.swift in Sources */,
+				3A4CC4DD1EBA5D3300E230D1 /* ReceiptTest.swift in Sources */,
 				3ACD3B411E9D08C400713A04 /* CoreDataHelper.swift in Sources */,
 				3ACD3B3E1E9BF5BB00713A04 /* ExtensionsTest.swift in Sources */,
 				3A17B70A1E9D58B90026756E /* MainDataProviderTests.swift in Sources */,
 				3AD5027E1EA569340071B975 /* MainViewControllerTest.swift in Sources */,
 				3AE9D4021EB0D6EF005A4665 /* AddListItemControllerTest.swift in Sources */,
 				3AD5027A1EA4F9A10071B975 /* APICommunicatorTest.swift in Sources */,
-				3AE9D4041EB13568005A4665 /* AddListItemDataProviderTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
