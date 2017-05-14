@@ -9,7 +9,6 @@
 import UIKit
 import QRCodeReader
 import AVFoundation
-import MBProgressHUD
 import DATAStack
 
 class MainViewController: UIViewController, FPHandlesMOC {
@@ -20,6 +19,7 @@ class MainViewController: UIViewController, FPHandlesMOC {
     @IBOutlet weak var tableView: UITableView!
     fileprivate var dataStack:DATAStack!
     public var dataProvider: MainDataProviderProtocol?
+    var presentedAlert:Bool = false
     
     struct Keys {
         static let EntityName = "ItemList"
@@ -30,22 +30,15 @@ class MainViewController: UIViewController, FPHandlesMOC {
         static let SegueAddListItem = "toAddListItem"
     }
     
-    struct Alerts {
-        static let DismissAlert = "Dismiss"
-        static let DataDownloaderError = "Error while data downloading."
-        static let DefaultTitle = "Ops"
-        static let DefaultMessage = "There was a problem, please try again."
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // init objects
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-        
+
         assert(dataProvider != nil, "dataProvider is not allowed to be nil at this point")
         
         dataProvider?.tableView = tableView
         tableView.dataSource = dataProvider
+        tableView.delegate = dataProvider
         dataProvider?.dataStack = dataStack
     }
     
@@ -56,42 +49,37 @@ class MainViewController: UIViewController, FPHandlesMOC {
             tableView.reloadData()
             try loadTotal()
         } catch Errors.CoreDataError(let msg) {
-            showAlert("Error", message: msg)
-        } catch {
-            showAlert("Error", message: "Generic ")
+            showAlert(Alerts.ErroTitle, message: msg)
+        } catch let error as NSError {
+            showAlert(Alerts.ErroTitle, message: error.localizedDescription)
         }
     }
     @IBAction func createNewList(_ sender: Any) {
         performSegue(withIdentifier: Keys.SegueAddListItem, sender: sender)
     }
-  
     
     @IBAction func editTableView(_ sender: Any) {
         tableView.setEditing(!tableView.isEditing, animated: true)
     }
     
     func loadTotal() throws {
-        let qtdeItems = try dataProvider?.getCountItems()
-        qteItemsLabel.text = "Qtde Produtos: \(String(describing: qtdeItems))"
+        let qtdeItems = dataProvider?.getCountItems()
+        qteItemsLabel.text = "Qtde Produtos: \(qtdeItems!)"
         let total = try NSNumber(value: (dataProvider?.calcMediumCost())!)
-        totalLabel.text = "Valor Total: \(total.toMaskReais()!)"
+        totalLabel.text = total.toMaskReais()!
     }
     
     func showAlert(_ title: String, message: String) {
+        guard !presentedAlert else {
+            return
+        }
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Alerts.DismissAlert, style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    // MARK: - HUD
-    fileprivate func showLoadingHUD() {
-        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.indeterminate
-        loadingNotification.label.text = "Carregando"
-    }
-    
-    fileprivate func hideLoadingHUD() {
-        MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+        alert.addAction(UIAlertAction(title: Alerts.DismissAlert, style: .default, handler: { (action: UIAlertAction!) in
+            self.presentedAlert = false
+        }))
+        self.present(alert, animated: true, completion: {
+            self.presentedAlert = true
+        })
     }
     
     //MARK: - FPHandlesMOC Delegate
@@ -106,6 +94,7 @@ class MainViewController: UIViewController, FPHandlesMOC {
         }
         if let vc = segue.destination as? AddListItemViewController {
             vc.dataProvider = AddListItemDataProvider()
+            vc.new = false
         }
     }
 }

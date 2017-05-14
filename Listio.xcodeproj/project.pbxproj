@@ -29,7 +29,7 @@
 		3AD5027A1EA4F9A10071B975 /* APICommunicatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD502791EA4F9A10071B975 /* APICommunicatorTest.swift */; };
 		3AD5027C1EA526C90071B975 /* receipt2.json in Resources */ = {isa = PBXBuildFile; fileRef = 3AD5027B1EA526C90071B975 /* receipt2.json */; };
 		3AD5027E1EA569340071B975 /* MainViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD5027D1EA569340071B975 /* MainViewControllerTest.swift */; };
-		3AE1FB2A1D07B71E001A6914 /* DocumentUiTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB291D07B71E001A6914 /* DocumentUiTableViewCell.swift */; };
+		3AE1FB2A1D07B71E001A6914 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB291D07B71E001A6914 /* MainTableViewCell.swift */; };
 		3AE233341CFE11B000656969 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233331CFE11B000656969 /* MainViewController.swift */; };
 		3AE233361CFE179300656969 /* FPHandlesMOC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233351CFE179300656969 /* FPHandlesMOC.swift */; };
 		3AE2333D1CFE1A5C00656969 /* Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233391CFE1A5C00656969 /* Item+CoreDataProperties.swift */; };
@@ -41,6 +41,7 @@
 		3AE9D4061EB16AE1005A4665 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AE9D4051EB16AE1005A4665 /* Assets.xcassets */; };
 		3AE9D4081EB21170005A4665 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE9D4071EB21170005A4665 /* TabBarViewController.swift */; };
 		3AE9D40B1EB23C80005A4665 /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE9D40A1EB23C80005A4665 /* QRCodeViewController.swift */; };
+		3AF9BF891EC8B5470067F73F /* AddListCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF9BF881EC8B5470067F73F /* AddListCommunicator.swift */; };
 		860D43D8DD321DE626F6DA25 /* Pods_Listio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08240201388815E9C27643BF /* Pods_Listio.framework */; };
 		E0B22C94EB99C6F0EDB558E2 /* Pods_ListioTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 636812301D29730BA587119A /* Pods_ListioTests.framework */; };
 /* End PBXBuildFile section */
@@ -85,7 +86,7 @@
 		3AD502791EA4F9A10071B975 /* APICommunicatorTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICommunicatorTest.swift; sourceTree = "<group>"; };
 		3AD5027B1EA526C90071B975 /* receipt2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = receipt2.json; sourceTree = "<group>"; };
 		3AD5027D1EA569340071B975 /* MainViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewControllerTest.swift; sourceTree = "<group>"; };
-		3AE1FB291D07B71E001A6914 /* DocumentUiTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentUiTableViewCell.swift; sourceTree = "<group>"; };
+		3AE1FB291D07B71E001A6914 /* MainTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		3AE233331CFE11B000656969 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		3AE233351CFE179300656969 /* FPHandlesMOC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPHandlesMOC.swift; sourceTree = "<group>"; };
 		3AE233391CFE1A5C00656969 /* Item+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -97,6 +98,7 @@
 		3AE9D4051EB16AE1005A4665 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3AE9D4071EB21170005A4665 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		3AE9D40A1EB23C80005A4665 /* QRCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
+		3AF9BF881EC8B5470067F73F /* AddListCommunicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListCommunicator.swift; sourceTree = "<group>"; };
 		44A4E7DAA2D34A3042A68024 /* Pods-ListioTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ListioTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ListioTests/Pods-ListioTests.debug.xcconfig"; sourceTree = "<group>"; };
 		636812301D29730BA587119A /* Pods_ListioTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ListioTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB53FA159F032F61916CDD4D /* Pods-Listio.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Listio.release.xcconfig"; path = "Pods/Target Support Files/Pods-Listio/Pods-Listio.release.xcconfig"; sourceTree = "<group>"; };
@@ -224,10 +226,10 @@
 		3ABA10241EAD618C0002CECE /* AddListItemView */ = {
 			isa = PBXGroup;
 			children = (
+				3AF9BF8A1EC8B6960067F73F /* Data Provider */,
 				3ABA10291EAD6F710002CECE /* Cells */,
-				3ABA10251EAD62D20002CECE /* AddListItemDataProviderProtocol.swift */,
-				3ABA10271EAD66860002CECE /* AddListItemDataProvider.swift */,
 				3ABA102C1EAE43D70002CECE /* AddListItemViewController.swift */,
+				3AF9BF881EC8B5470067F73F /* AddListCommunicator.swift */,
 			);
 			name = AddListItemView;
 			sourceTree = "<group>";
@@ -274,7 +276,7 @@
 		3AE1FB281D07B6F4001A6914 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				3AE1FB291D07B71E001A6914 /* DocumentUiTableViewCell.swift */,
+				3AE1FB291D07B71E001A6914 /* MainTableViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -291,10 +293,9 @@
 		3AE233461CFE9EC800656969 /* MainView */ = {
 			isa = PBXGroup;
 			children = (
+				3AF9BF8B1EC8B6A40067F73F /* Data Provider */,
 				3AE1FB281D07B6F4001A6914 /* Cells */,
 				3AE233331CFE11B000656969 /* MainViewController.swift */,
-				3ACD3B391E9BC81300713A04 /* MainDataProviderProtocol.swift */,
-				3ACD3B3B1E9BF16C00713A04 /* MainDataProvider.swift */,
 			);
 			name = MainView;
 			sourceTree = "<group>";
@@ -305,6 +306,24 @@
 				3AE9D40A1EB23C80005A4665 /* QRCodeViewController.swift */,
 			);
 			name = AddQRCodeView;
+			sourceTree = "<group>";
+		};
+		3AF9BF8A1EC8B6960067F73F /* Data Provider */ = {
+			isa = PBXGroup;
+			children = (
+				3ABA10251EAD62D20002CECE /* AddListItemDataProviderProtocol.swift */,
+				3ABA10271EAD66860002CECE /* AddListItemDataProvider.swift */,
+			);
+			name = "Data Provider";
+			sourceTree = "<group>";
+		};
+		3AF9BF8B1EC8B6A40067F73F /* Data Provider */ = {
+			isa = PBXGroup;
+			children = (
+				3ACD3B391E9BC81300713A04 /* MainDataProviderProtocol.swift */,
+				3ACD3B3B1E9BF16C00713A04 /* MainDataProvider.swift */,
+			);
+			name = "Data Provider";
 			sourceTree = "<group>";
 		};
 		7BAF71735A7544AA1DEF2A3C /* Frameworks */ = {
@@ -540,9 +559,10 @@
 				3ABA10261EAD62D20002CECE /* AddListItemDataProviderProtocol.swift in Sources */,
 				3ACD3B3C1E9BF16C00713A04 /* MainDataProvider.swift in Sources */,
 				3ABA102D1EAE43D70002CECE /* AddListItemViewController.swift in Sources */,
+				3AF9BF891EC8B5470067F73F /* AddListCommunicator.swift in Sources */,
 				3AE233341CFE11B000656969 /* MainViewController.swift in Sources */,
 				3A975D571CFCC42200E400B3 /* Listio.xcdatamodeld in Sources */,
-				3AE1FB2A1D07B71E001A6914 /* DocumentUiTableViewCell.swift in Sources */,
+				3AE1FB2A1D07B71E001A6914 /* MainTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -690,7 +710,7 @@
 				INFOPLIST_FILE = Listio/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = felipep.com.Listio;
+				PRODUCT_BUNDLE_IDENTIFIER = com.felipep.Listio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -708,7 +728,7 @@
 				INFOPLIST_FILE = Listio/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = felipep.com.Listio;
+				PRODUCT_BUNDLE_IDENTIFIER = com.felipep.Listio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

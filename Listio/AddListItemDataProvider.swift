@@ -29,6 +29,20 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
     func countItems() -> Int {
         return items.count
     }
+    
+    func unselectAll() {
+        for (_, value) in items.enumerated() {
+            value.present = NSNumber(booleanLiteral: false)
+        }
+        tableView.reloadData()
+    }
+    
+    func selectAll() {
+        for (_, value) in items.enumerated() {
+            value.present = NSNumber(booleanLiteral: true)
+        }
+        tableView.reloadData()
+    }
 }
 
 extension AddListItemDataProvider {
@@ -65,7 +79,7 @@ extension AddListItemDataProvider {
         
         cell.nameLabel.text = itemObj.descricao
         cell.priceLabel.text = itemObj.vlUnit?.toMaskReais()
-        cell.unLabel.text = itemObj.qtde?.description
+        cell.unLabel.text = "UN \(itemObj.qtde?.intValue ?? 0)"
         
         if let present = itemObj.present?.boolValue, present {
             cell.accessoryType = .checkmark

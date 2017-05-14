@@ -5,7 +5,6 @@ use_frameworks!
 
 target 'Listio' do
     pod 'JSONWebToken', :git => "https://github.com/kylef/JSONWebToken.swift.git", :branch => 'master'
-	pod 'MBProgressHUD', '~> 1.0.0'
 	pod 'Alamofire', '~> 4.4'
 	pod 'QRCodeReader.swift', '~> 7.3.0'
     pod 'DATAStack', '~> 6'
@@ -13,11 +12,11 @@ target 'Listio' do
     pod 'StringScore_Swift', :git => "https://github.com/yichizhang/StringScore_Swift.git"
     pod 'Sync', '~> 2'
     pod 'AIFlatSwitch', '~> 1.0.1'
+    pod 'SVProgressHUD', '~> 2.1.2'
 end
 
 target 'ListioTests' do
     pod 'JSONWebToken', :git => "https://github.com/kylef/JSONWebToken.swift.git", :branch => 'master'
-    pod 'MBProgressHUD', '~> 1.0.0'
     pod 'Alamofire', '~> 4.4'
     pod 'QRCodeReader.swift', '~> 7.3.0'
     pod 'DATAStack', '~> 6'

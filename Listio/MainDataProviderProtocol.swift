@@ -10,14 +10,14 @@ import UIKit
 import CoreData
 import DATAStack
 
-public protocol MainDataProviderProtocol: UITableViewDataSource {
+public protocol MainDataProviderProtocol: UITableViewDataSource, UITableViewDelegate {
     var dataStack: DATAStack! { get set }
     weak var tableView: UITableView! { get set }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    func numberOfSections(in tableView: UITableView) -> Int
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     
     func performFetch() throws
     func calcMediumCost() throws -> Double

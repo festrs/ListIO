@@ -19,4 +19,6 @@ public protocol AddListItemDataProviderProtocol: UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     func countItems() -> Int
+    func unselectAll()
+    func selectAll()
 }

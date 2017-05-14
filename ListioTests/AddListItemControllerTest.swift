@@ -16,7 +16,7 @@ class AddListItemControllerTest: XCTestCase {
     var viewController: AddListItemViewController!
     var mockAPI: MockAPICommunicator!
     var dataProvider: AddListItemDataProviderProtocol!
-    var dataStack: DATAStack!
+    var dataStackLocal: DATAStack!
     var receipt1:[String: AnyObject]? = nil
     var receipt2:[String: AnyObject]? = nil
     
@@ -47,6 +47,14 @@ class AddListItemControllerTest: XCTestCase {
     }
     
     class MockDataProvider: NSObject, AddListItemDataProviderProtocol {
+        func unselectAll() {
+            
+        }
+        
+        func selectAll() {
+            
+        }
+
         var dataStack: DATAStack!
         weak var tableView: UITableView!
         var shouldCallPerformFecth:Bool = false
@@ -74,7 +82,7 @@ class AddListItemControllerTest: XCTestCase {
     func setUpAddReceipt1() {
         XCTAssertNotNil(receipt1, "JSON file should not be nil")
         do {
-            try Receipt.createReceipt(dataStack.mainContext, json: receipt1!)
+            try Receipt.createReceipt(dataStackLocal.mainContext, json: receipt1!)
             XCTAssertTrue(true)
         } catch Errors.CoreDataError(let msg) {
             XCTFail("error throwed" + msg)
@@ -86,7 +94,7 @@ class AddListItemControllerTest: XCTestCase {
     func setUpAddReceipt2() {
         XCTAssertNotNil(receipt2, "JSON file should not be nil")
         do {
-            try Receipt.createReceipt(dataStack.mainContext, json: receipt2!)
+            try Receipt.createReceipt(dataStackLocal.mainContext, json: receipt2!)
             XCTAssertTrue(true)
         } catch {
             XCTFail("error throwed")
@@ -107,9 +115,9 @@ class AddListItemControllerTest: XCTestCase {
             self.receipt2 = responseJSON
         }
         
-        dataStack = DATAStack(modelName: "Listio", bundle: Bundle.main, storeType: .inMemory)
+        dataStackLocal = DATAStack(modelName: "Listio", bundle: Bundle.main, storeType: .inMemory)
         dataProvider = AddListItemDataProvider()
-        dataProvider.dataStack = dataStack
+        dataProvider.dataStack = dataStackLocal
         
         setUpAddReceipt1()
         setUpAddReceipt2()
@@ -131,7 +139,7 @@ class AddListItemControllerTest: XCTestCase {
     
     func testSUT_TableViewUsesCustomCell_AddListItemTableViewCell() {
         viewController.dataProvider = MockDataProvider()
-        
+
         let _ = viewController.view
         
         let cell = viewController.dataProvider?.tableView(viewController.tableView, cellForRowAt: IndexPath(row: 0, section: 0))
@@ -142,7 +150,7 @@ class AddListItemControllerTest: XCTestCase {
     
     func testSUT_TableViewIsNotNilAfterViewDidLoad() {
         viewController.dataProvider = dataProvider
-        
+
         let _ = viewController.view
         
         XCTAssertNotNil(viewController.tableView)
@@ -150,7 +158,7 @@ class AddListItemControllerTest: XCTestCase {
     
     func testSUT_ShouldSetTableViewDataSource() {
         viewController.dataProvider = dataProvider
-        
+
         let _ = viewController.view
         
         XCTAssertNotNil(viewController.tableView.dataSource)
@@ -164,10 +172,21 @@ class AddListItemControllerTest: XCTestCase {
         XCTAssertNotNil(viewController.tableView.delegate)
     }
     
+    func testFPHandleMOC() {
+        
+        viewController.receiveDataStack(dataStackLocal)
+
+        viewController.dataProvider = dataProvider
+        
+        let _ = viewController.view
+        
+        XCTAssertNotNil(viewController.dataProvider?.dataStack)
+    }
+    
     func testShouldCallPerformFetch() {
         
         let mock = MockDataProvider()
-        
+        mock.dataStack = dataStackLocal
         viewController.dataProvider = mock
         
         let _ = viewController.view
