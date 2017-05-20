@@ -4,6 +4,8 @@
 .DS_Store
 *.cer
 *.mobileprovision
+*.ipa
+*.zip
 
 ## Build generated
 build/
@@ -64,3 +66,4 @@ Carthage/Build
 
 fastlane/report.xml
 fastlane/screenshots
+fastlane/test_output
