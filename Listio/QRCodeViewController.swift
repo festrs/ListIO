@@ -10,65 +10,73 @@ import UIKit
 import QRCodeReader
 import AVFoundation
 import DATAStack
-import MBProgressHUD
+import SVProgressHUD
 
 class QRCodeViewController: UIViewController {
     
     public var communicator: APICommunicatorProtocol = APICommunicator()
     var dataStack: DATAStack!
     var presented: Bool = false
-    var HUD: MBProgressHUD!
+    var presentedAlert: Bool = false
     lazy var readerVC: QRCodeReaderViewController = {
         let builder = QRCodeReaderViewControllerBuilder {
             $0.reader = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode], captureDevicePosition: .back)
         }
+        builder.cancelButtonTitle = Keys.CancelButtonTittle
         return QRCodeReaderViewController(builder: builder)
     }()
     
+    struct Keys {
+        static let ToCreateListIdentifier = "toCreateList"
+        static let SucessAlertTitle = "Adicionado com sucesso"
+        static let SucessAlertMSG = "Você deseja criar uma nova lista?"
+        static let ProgressHUDStatus = "Adicionando ..."
+        static let CancelButtonTittle = "Cancelar"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         readerVC.delegate = self
         readerVC.modalPresentationStyle = .formSheet
-        
-        HUD = MBProgressHUD(view: view)
-        HUD.mode = .annularDeterminate
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        if !presented {
-            self.parent?.present(self.readerVC, animated: true, completion: {
-                self.presented = true
-            })
-        }
+        presentQRCodeReader()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-
-    fileprivate func saveContex() throws {
-        do {
-            try self.dataStack.mainContext.save()
-        } catch {
-            throw Errors.CoreDataError("Failure to save context: \(error)")
+    func presentQRCodeReader() {
+        if !presented {
+            self.parent?.present(self.readerVC, animated: true, completion: {
+                self.presented = true
+            })
         }
     }
     
     func showAlert(_ title: String, message: String) {
+        guard !presentedAlert else {
+            return
+        }
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: Alerts.DismissAlert, style: .default, handler: { (action: UIAlertAction!) in
+            self.presentedAlert = false
+            self.presented = false
+            self.presentQRCodeReader()
+        }))
+        self.present(alert, animated: true, completion: {
+            self.presentedAlert = true
+        })
     }
     
     func createNewList() {
-        let refreshAlert = UIAlertController(title: "Adicionado com sucesso", message: "Você deseja criar uma nova lista?", preferredStyle: UIAlertControllerStyle.alert)
+        let refreshAlert = UIAlertController(title: Keys.SucessAlertTitle, message: Keys.SucessAlertMSG, preferredStyle: UIAlertControllerStyle.alert)
         
         refreshAlert.addAction(UIAlertAction(title: "Sim", style: .default, handler: { (action: UIAlertAction!) in
-            self.performSegue(withIdentifier: "toCreateList", sender: nil)
+            self.performSegue(withIdentifier: Keys.ToCreateListIdentifier, sender: nil)
         }))
         
         refreshAlert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: { (action: UIAlertAction!) in
@@ -91,10 +99,17 @@ class QRCodeViewController: UIViewController {
             vc.receiveDataStack(self.dataStack)
         }
         if let vc = segue.destination as? AddListItemViewController {
+            vc.new = true
             vc.dataProvider = AddListItemDataProvider()
+            vc.communicatorDelegate = self
         }
     }
+}
 
+extension QRCodeViewController : AddListCommunicator {
+    func backFromAddList() {
+        dismissWithTabBar()
+    }
 }
 
 extension QRCodeViewController : FPHandlesMOC {
@@ -106,25 +121,28 @@ extension QRCodeViewController : FPHandlesMOC {
 extension QRCodeViewController : QRCodeReaderViewControllerDelegate {
     // MARK: - QRCodeReaderViewController Delegate Methods
     func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
+        SVProgressHUD.setStatus(Keys.ProgressHUDStatus)
+        SVProgressHUD.show()
         reader.stopScanning()
 
         guard result.metadataType == AVMetadataObjectTypeQRCode else { return }
-        HUD.show(animated: true)
-        communicator.getReceipt(linkUrl: result.value) { (error, responseJSON) in
-            self.HUD.hide(animated: true)
+        
+        communicator.getReceipt(linkUrl: result.value) { [weak self] (error, responseJSON) in
+            SVProgressHUD.dismiss()
+            guard let strongSelf = self else {
+                return
+            }
             guard error == nil else {
-                self.showAlert("error", message: (error?.localizedDescription)!)
+                strongSelf.showAlert(Alerts.ErroTitle, message: (error?.localizedDescription)!)
                 return
             }
             do {
-                try Receipt.createReceipt(self.dataStack.mainContext, json: responseJSON!)
-                
-                self.createNewList()
-                
+                try Receipt.createReceipt(strongSelf.dataStack.mainContext, json: responseJSON!)
+                strongSelf.createNewList()
             } catch Errors.DoubleReceiptWithSameID() {
-                print("mesmo")
-            } catch {
-                
+                strongSelf.showAlert(Alerts.ErroTitle, message: Alerts.ErrorDoubleReceiptWithSameID)
+            } catch let error as NSError {
+                strongSelf.showAlert(Alerts.ErroTitle, message: error.localizedDescription)
             }
         }
         
@@ -135,6 +153,6 @@ extension QRCodeViewController : QRCodeReaderViewControllerDelegate {
     
     func readerDidCancel(_ reader: QRCodeReaderViewController) {
         reader.stopScanning()
-        self.dismissWithTabBar()
+        dismissWithTabBar()
     }
 }

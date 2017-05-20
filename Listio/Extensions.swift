@@ -9,6 +9,12 @@
 import UIKit
 import JWT
 
+struct Alerts {
+    static let DismissAlert = "Ok"
+    static let ErroTitle = "Erro"
+    static let ErrorDoubleReceiptWithSameID = "Nota já cadastrada."
+}
+
 extension NSNumber {
     func toMaskReais() -> String? {
         let formatter = NumberFormatter()

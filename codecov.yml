@@ -1,7 +1,11 @@
 codecov:
   notify:
     require_ci_to_pass: yes
-
+  ignore:
+    - "Listio/AddListItemDataProvider.swift"  # ignore folders and all its contents
+    - "Listio/AppDelegate.swift"       # wildcards accepted
+    - "Listio/NavigationViewController.swift"         # glob accepted
+    - "Listio/QRCodeViewController.swift"  # regexp accepted
 coverage:
   precision: 2
   round: down
@@ -24,3 +28,4 @@ comment:
   layout: "header, diff"
   behavior: default
   require_changes: no
+

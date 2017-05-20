@@ -1,21 +1,19 @@
 //
-//  AddListItemDataProviderTest.swift
+//  ReceiptTest.swift
 //  Listio
 //
-//  Created by Felipe Dias Pereira on 2017-04-26.
+//  Created by Felipe Dias Pereira on 2017-05-03.
 //  Copyright © 2017 Felipe Dias Pereira. All rights reserved.
 //
 
 import XCTest
 import DATAStack
+import CoreData
 
 @testable import Listio
 
-class AddListItemDataProviderTest: XCTestCase {
-    
+class ReceiptTest: XCTestCase {
     var mockAPI: MockAPICommunicator!
-    var dataProvider: AddListItemDataProviderProtocol!
-    var mainDataProvider: MainDataProviderProtocol!
     var dataStack: DATAStack!
     var receipt1:[String: AnyObject]? = nil
     var receipt2:[String: AnyObject]? = nil
@@ -46,6 +44,13 @@ class AddListItemDataProviderTest: XCTestCase {
         }
     }
     
+    class MockMOC : NSManagedObjectContext {
+        
+        override func fetch(_ request: NSFetchRequest<NSFetchRequestResult>) throws -> [Any] {
+            throw Errors.CoreDataError("test")
+        }
+    }
+    
     override func setUp() {
         super.setUp()
         mockAPI = MockAPICommunicator()
@@ -59,12 +64,6 @@ class AddListItemDataProviderTest: XCTestCase {
         }
         
         dataStack = DATAStack(modelName: "Listio", bundle: Bundle.main, storeType: .inMemory)
-        dataProvider = AddListItemDataProvider()
-        dataProvider.dataStack = dataStack
-        
-        mainDataProvider = MainDataProvider()
-        mainDataProvider.dataStack = dataStack
-        
         setUpAddReceipt1()
         setUpAddReceipt2()
     }
@@ -73,7 +72,8 @@ class AddListItemDataProviderTest: XCTestCase {
         super.tearDown()
         mockAPI = nil
         dataStack = nil
-        dataProvider = nil
+        receipt1 = nil
+        receipt2 = nil
     }
     
     func setUpAddReceipt1() {
@@ -98,60 +98,37 @@ class AddListItemDataProviderTest: XCTestCase {
         }
     }
     
-    func testSUT_ConformsToTableViewDataSourceProtocol() {
+    func testDuplicateAddTryReceipt() {
+        setUpAddReceipt1()
         
-        XCTAssert(dataProvider.responds(to: #selector(UITableViewDataSource.numberOfSections(in:))))
-        
-        XCTAssert((dataProvider.responds(to: #selector(UITableViewDataSource.tableView(_:numberOfRowsInSection:)))))
-        
-        XCTAssert((dataProvider.responds(to: #selector(UITableViewDataSource.tableView(_:cellForRowAt:)))))
-        
-    }
-    
-    func testPerformFetch() {
-        XCTAssertEqual(dataProvider.countItems(), 0)
-        do {
-            try dataProvider.performFetch()
-            XCTAssertEqual(dataProvider.countItems(), 4)
-        }catch {
-            XCTFail("error throwed")
+        XCTAssertThrowsError(try Receipt.createReceipt(dataStack.mainContext, json: receipt1!)) { error in
+            switch error as! Errors {
+            case .DoubleReceiptWithSameID:
+                XCTAssertTrue(true)
+            default:
+                XCTAssertTrue(false)
+            }
         }
     }
     
-    func testCountUniqueItems() {
+    func testErrorGetReceipt() {
+        let context = MockMOC(concurrencyType: .mainQueueConcurrencyType)
+        XCTAssertThrowsError(try Receipt.getAllReceipt(context))
+    }
+    
+    func testSetCountReceiptError() {
+        let context = MockMOC(concurrencyType: .mainQueueConcurrencyType)
+        XCTAssertThrowsError(try Receipt.setCountReceipt(context))
+    }
+    
+    func testGetAllReceipt() {
         do {
-            try dataProvider.performFetch()
-            let itemsCount = dataProvider.countItems()
-            XCTAssertEqual(itemsCount, 4)
+            let countReceipts = try Receipt.getAllReceipt(dataStack.mainContext)?.count
+            XCTAssertEqual(countReceipts, 2)
         } catch {
             XCTFail("error throwed")
         }
     }
     
-    func testItemCountReceipts() {
-        do {
-            var items = try Item.getUniqueItems(dataStack.mainContext)
-            
-            items = items?.filter({ (item) -> Bool in
-                return (item.countReceipt?.intValue)! > 1
-            })
-            
-            XCTAssertEqual(items?.count, 2)
-        } catch {
-            XCTFail("error throwed")
-        }
-    }
-    
-    func testFetch() {
-
-        do {
-            try dataProvider.performFetch()
-        } catch {
-            XCTFail("error throwed")
-        }
-        //XCTAssertNotEqual([Item](), dataProvider.items)
-    }
-    
-
     
 }

@@ -16,8 +16,9 @@ public protocol AddListItemDataProviderProtocol: UITableViewDataSource, UITableV
     
     func performFetch() throws
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    func numberOfSections(in tableView: UITableView) -> Int
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     func countItems() -> Int
+    func unselectAll()
+    func selectAll()
 }

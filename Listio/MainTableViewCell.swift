@@ -9,7 +9,7 @@
 import UIKit
 import AIFlatSwitch
 
-class DocumentUiTableViewCell: UITableViewCell {
+class MainTableViewCell: UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var unLabel: UILabel!

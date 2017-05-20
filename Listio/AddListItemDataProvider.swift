@@ -13,8 +13,6 @@ import DATAStack
 class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
     struct Keys {
         static let CellIdentifier = "ItemListCell"
-        static let PresentPredicateItem = 0
-        static let NumberOfSections = 1
     }
     public var dataStack: DATAStack!
     weak public var tableView: UITableView!
@@ -30,6 +28,20 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
     
     func countItems() -> Int {
         return items.count
+    }
+    
+    func unselectAll() {
+        for (_, value) in items.enumerated() {
+            value.present = NSNumber(booleanLiteral: false)
+        }
+        tableView.reloadData()
+    }
+    
+    func selectAll() {
+        for (_, value) in items.enumerated() {
+            value.present = NSNumber(booleanLiteral: true)
+        }
+        tableView.reloadData()
     }
 }
 
@@ -55,10 +67,6 @@ extension AddListItemDataProvider {
 
 extension AddListItemDataProvider {
     //MARK - UITableViewDataSource
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return Keys.NumberOfSections
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
@@ -71,7 +79,7 @@ extension AddListItemDataProvider {
         
         cell.nameLabel.text = itemObj.descricao
         cell.priceLabel.text = itemObj.vlUnit?.toMaskReais()
-        cell.unLabel.text = itemObj.qtde?.description
+        cell.unLabel.text = "UN \(itemObj.qtde?.intValue ?? 0)"
         
         if let present = itemObj.present?.boolValue, present {
             cell.accessoryType = .checkmark

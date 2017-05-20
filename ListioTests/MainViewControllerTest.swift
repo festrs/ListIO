@@ -17,6 +17,9 @@ class MainViewControllerTest: XCTestCase {
     var alertVerifier: QCOMockAlertVerifier!
     
     class MockDataProvider: NSObject, MainDataProviderProtocol, UITableViewDataSource {
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        }
         
         var dataStack: DATAStack!
         weak var tableView: UITableView!
@@ -29,7 +32,7 @@ class MainViewControllerTest: XCTestCase {
         }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            return DocumentUiTableViewCell()
+            return MainTableViewCell()
         }
         
         func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -102,7 +105,7 @@ class MainViewControllerTest: XCTestCase {
         
         let cell = viewController.dataProvider?.tableView(viewController.tableView, cellForRowAt: IndexPath(row: 0, section: 0))
         
-        XCTAssert(cell is DocumentUiTableViewCell) //whatever the name of your UITableViewCell subclass
+        XCTAssert(cell is MainTableViewCell) //whatever the name of your UITableViewCell subclass
     }
     
     func testEditTableView() {

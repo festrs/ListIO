@@ -1,20 +1,17 @@
 //
-//  DataProviderTests.swift
+//  ItemTest.swift
 //  Listio
 //
-//  Created by Felipe Dias Pereira on 2017-04-11.
+//  Created by Felipe Dias Pereira on 2017-05-03.
 //  Copyright © 2017 Felipe Dias Pereira. All rights reserved.
 //
 
 import XCTest
-import CoreData
 import DATAStack
-
+import CoreData
 @testable import Listio
 
-class MainDataProviderTests: XCTestCase {
-
-    var dataProvider: MainDataProvider!
+class ItemTest: XCTestCase {
     var mockAPI: MockAPICommunicator!
     var dataStack: DATAStack!
     var receipt1:[String: AnyObject]? = nil
@@ -46,9 +43,15 @@ class MainDataProviderTests: XCTestCase {
         }
     }
     
+    class MockMOC : NSManagedObjectContext {
+        
+        override func fetch(_ request: NSFetchRequest<NSFetchRequestResult>) throws -> [Any] {
+            throw Errors.CoreDataError("test")
+        }
+    }
+    
     override func setUp() {
         super.setUp()
-        
         mockAPI = MockAPICommunicator()
         
         mockAPI.getReceipt(linkUrl: "receipt1") { (error, responseJSON) in
@@ -60,14 +63,16 @@ class MainDataProviderTests: XCTestCase {
         }
         
         dataStack = DATAStack(modelName: "Listio", bundle: Bundle.main, storeType: .inMemory)
-        dataProvider = MainDataProvider()
-        dataProvider.dataStack = dataStack
+        setUpAddReceipt1()
+        setUpAddReceipt2()
     }
-
+    
     override func tearDown() {
         super.tearDown()
         mockAPI = nil
-        dataProvider = nil
+        dataStack = nil
+        receipt1 = nil
+        receipt2 = nil
     }
     
     func setUpAddReceipt1() {
@@ -75,8 +80,10 @@ class MainDataProviderTests: XCTestCase {
         do {
             try Receipt.createReceipt(dataStack.mainContext, json: receipt1!)
             XCTAssertTrue(true)
+        } catch Errors.CoreDataError(let msg) {
+            XCTFail("error throwed" + msg)
         } catch {
-            XCTFail("error throwed")
+            
         }
     }
     
@@ -89,47 +96,42 @@ class MainDataProviderTests: XCTestCase {
             XCTFail("error throwed")
         }
     }
-
-    func testGetReceipts() {
-        
-        do {
-            let count = try dataProvider.getAllReceipt()?.count
-            XCTAssertEqual(0, count)
-        } catch {
-            XCTFail("error throwed")
-        }
     
-        setUpAddReceipt1()
-        
+    func testGetAllItems() {
         do {
-            let count = try dataProvider.getAllReceipt()?.count
-            XCTAssertEqual(1, count)
-        } catch {
-            XCTFail("error throwed")
-        }
-    }
-
-    func testCalMediumValueReceipts() {
-        setUpAddReceipt1()
-        setUpAddReceipt2()
-        do {
-            let mediumCost = try dataProvider.calcMediumCost()
-            XCTAssertEqual(mediumCost, 16.25)
-        } catch {
-            XCTFail("error throwed")
-        }
-    }
-
-    func testCountAllItems() {
-        setUpAddReceipt1()
-        setUpAddReceipt2()
-        
-        do {
-            let itemsCount = try dataProvider.getAllItems()?.count
+            let itemsCount = try Item.getAllItems(dataStack.mainContext)?.count
             XCTAssertEqual(itemsCount, 6)
         } catch {
             XCTFail("error throwed")
         }
     }
     
+    func testCountUniqueItems() {
+        do {
+            let itemsCount = try Item.getUniqueItems(dataStack.mainContext)?.count
+            XCTAssertEqual(itemsCount, 4)
+        } catch {
+            XCTFail("error throwed")
+        }
+    }
+    
+    func testItemCountReceipts() {
+        do {
+            var items = try Item.getUniqueItems(dataStack.mainContext)
+            
+            items = items?.filter({ (item) -> Bool in
+                return (item.countReceipt?.intValue)! > 1
+            })
+            
+            XCTAssertEqual(items?.count, 2)
+        } catch {
+            XCTFail("error throwed")
+        }
+    }
+    
+    func testItemErros() {
+        let context = MockMOC(concurrencyType: .mainQueueConcurrencyType)
+        XCTAssertThrowsError(try Item.getUniqueItems(context))
+        XCTAssertThrowsError(try Item.getAllItems(context))
+    }
 }

@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Item-->
+        <!--Lista-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="mainViewController" id="BYZ-38-t0r" customClass="MainViewController" customModule="Listio" customModuleProvider="target" sceneMemberID="viewController">
@@ -25,17 +25,21 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="57p-OB-blQ">
                                 <rect key="frame" x="0.0" y="568" width="375" height="50"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Qtde Produtos: 99" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9aw-BL-27M">
-                                        <rect key="frame" x="8" y="0.0" width="102" height="19"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="13"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Qtde Produtos: 199" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9aw-BL-27M">
+                                        <rect key="frame" x="8" y="16" width="140" height="19"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="140" id="LSZ-OX-Jnp"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
                                         <nil key="highlightedColor"/>
                                         <size key="shadowOffset" width="0.0" height="-2"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="R$80000,00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qWQ-GD-20L">
-                                        <rect key="frame" x="293" y="0.0" width="74" height="16"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Medium" family="Apple SD Gothic Neo" pointSize="13"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="R$80000,00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qWQ-GD-20L">
+                                        <rect key="frame" x="282" y="14" width="85" height="20.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="85" id="xYI-aZ-bhX"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
                                         <color key="textColor" red="0.79607843140000001" green="0.54117647059999996" blue="0.098039215690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                         <size key="shadowOffset" width="0.0" height="-2"/>
@@ -43,7 +47,12 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="9aw-BL-27M" firstAttribute="top" secondItem="57p-OB-blQ" secondAttribute="top" constant="16" id="3Nl-Ht-7dT"/>
+                                    <constraint firstItem="qWQ-GD-20L" firstAttribute="trailing" secondItem="57p-OB-blQ" secondAttribute="trailingMargin" id="Vdw-AL-7w8"/>
+                                    <constraint firstItem="9aw-BL-27M" firstAttribute="leading" secondItem="57p-OB-blQ" secondAttribute="leadingMargin" id="Xso-PO-pN5"/>
+                                    <constraint firstAttribute="bottom" secondItem="9aw-BL-27M" secondAttribute="bottom" constant="15" id="cft-KB-PIX"/>
                                     <constraint firstAttribute="height" constant="50" id="chY-mn-9xR"/>
+                                    <constraint firstItem="9aw-BL-27M" firstAttribute="top" secondItem="qWQ-GD-20L" secondAttribute="top" constant="2" id="dJb-sr-4oz"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="subviews">
@@ -62,7 +71,7 @@
                                 <rect key="frame" x="0.0" y="66" width="375" height="502"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="documentCell" rowHeight="61" id="n2T-lg-vgT" customClass="DocumentUiTableViewCell" customModule="Listio" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="mainCell" rowHeight="61" id="n2T-lg-vgT" customClass="MainTableViewCell" customModule="Listio" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="61"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n2T-lg-vgT" id="OsE-2F-41k">
@@ -99,25 +108,25 @@
                                                     </variation>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f8R-Fw-0m4">
-                                                    <rect key="frame" x="46" y="9" width="40" height="20"/>
-                                                    <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="16"/>
+                                                    <rect key="frame" x="46" y="10" width="233" height="19.5"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MI5-6m-L1I">
-                                                    <rect key="frame" x="46" y="34" width="20" height="18"/>
-                                                    <fontDescription key="fontDescription" name="AppleSDGothicNeo-Medium" family="Apple SD Gothic Neo" pointSize="15"/>
+                                                    <rect key="frame" x="46" y="34" width="19.5" height="18"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="13"/>
                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="R$800,00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tbf-j1-fng">
-                                                    <rect key="frame" x="295" y="20" width="72" height="20"/>
+                                                    <rect key="frame" x="287" y="19.5" width="80" height="20.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="74" id="kis-fq-87C">
-                                                            <variation key="widthClass=compact" constant="72"/>
+                                                            <variation key="widthClass=compact" constant="80"/>
                                                         </constraint>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
                                                     <color key="textColor" red="0.32549019610000002" green="0.32549019610000002" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
@@ -136,6 +145,7 @@
                                                 <constraint firstAttribute="leadingMargin" secondItem="D3g-yQ-cjZ" secondAttribute="leading" id="1oe-e8-axv"/>
                                                 <constraint firstItem="MI5-6m-L1I" firstAttribute="leading" secondItem="D3g-yQ-cjZ" secondAttribute="trailing" constant="8" id="7iY-Wx-4PJ"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="Tbf-j1-fng" secondAttribute="bottom" constant="12" id="Ftg-HJ-Ztv"/>
+                                                <constraint firstItem="Tbf-j1-fng" firstAttribute="leading" secondItem="f8R-Fw-0m4" secondAttribute="trailing" constant="8" id="Gy3-2e-QWd"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="MI5-6m-L1I" secondAttribute="bottom" constant="3" id="Ik0-wg-Fmi">
                                                     <variation key="widthClass=compact" constant="0.0"/>
                                                 </constraint>
@@ -205,13 +215,13 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Title" id="blt-yr-vMa">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="GlR-qf-xT6">
+                                    <navigationItem title="Lista" id="blt-yr-vMa">
+                                        <barButtonItem key="leftBarButtonItem" title="Editar" id="GlR-qf-xT6">
                                             <connections>
                                                 <action selector="editTableView:" destination="BYZ-38-t0r" id="gCI-Ok-wJg"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="JCJ-dE-clM">
+                                        <barButtonItem key="rightBarButtonItem" title="Criar Lista" id="JCJ-dE-clM">
                                             <connections>
                                                 <action selector="createNewList:" destination="BYZ-38-t0r" id="wqj-gZ-1Gr"/>
                                             </connections>
@@ -241,7 +251,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" image="list" id="3BP-sD-MYq"/>
+                    <tabBarItem key="tabBarItem" title="Lista" image="To Do-29" id="3BP-sD-MYq"/>
                     <connections>
                         <outlet property="qteItemsLabel" destination="9aw-BL-27M" id="Laf-7r-x2B"/>
                         <outlet property="tableView" destination="LYD-19-DVT" id="f62-cJ-3pt"/>
@@ -251,7 +261,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="785" y="-166"/>
+            <point key="canvasLocation" x="784.79999999999995" y="-166.8665667166417"/>
         </scene>
         <!--Add List Item View Controller-->
         <scene sceneID="FTR-wQ-sdt">
@@ -268,7 +278,17 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVP-iq-Oy4">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
-                                    <barButtonItem title="Item" id="ZZJ-jw-4qh"/>
+                                    <barButtonItem title="Desmarcar Todos" id="VaK-pY-OFN">
+                                        <connections>
+                                            <action selector="unselectAllItems:" destination="aaZ-Qm-MuQ" id="nkq-8T-ZaK"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="YzF-Hc-P3e"/>
+                                    <barButtonItem title="Marcar Todos" id="ZZJ-jw-4qh">
+                                        <connections>
+                                            <action selector="selectAllItems:" destination="aaZ-Qm-MuQ" id="zSk-Ta-gey"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="58" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dWY-ks-nRU">
@@ -283,19 +303,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O53-FS-FCy">
-                                                    <rect key="frame" x="22" y="8" width="40" height="20"/>
-                                                    <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="16"/>
+                                                    <rect key="frame" x="22" y="8" width="254" height="19.5"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="R$800,00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iHO-LT-5TN">
-                                                    <rect key="frame" x="295" y="19" width="72" height="20"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="R$9999,00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iHO-LT-5TN">
+                                                    <rect key="frame" x="284" y="19" width="83" height="20.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="74" id="Saq-7n-bpm">
-                                                            <variation key="widthClass=compact" constant="72"/>
+                                                            <variation key="widthClass=compact" constant="83"/>
                                                         </constraint>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
                                                     <color key="textColor" red="0.32549019610000002" green="0.32549019610000002" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
@@ -310,8 +330,8 @@
                                                     </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VYL-ih-nvR">
-                                                    <rect key="frame" x="22" y="33" width="20" height="18"/>
-                                                    <fontDescription key="fontDescription" name="AppleSDGothicNeo-Medium" family="Apple SD Gothic Neo" pointSize="15"/>
+                                                    <rect key="frame" x="22" y="32.5" width="19.5" height="18"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="13"/>
                                                     <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -321,6 +341,7 @@
                                                 <constraint firstItem="O53-FS-FCy" firstAttribute="top" secondItem="g1R-ef-glv" secondAttribute="topMargin" id="2V6-yd-K1G"/>
                                                 <constraint firstItem="O53-FS-FCy" firstAttribute="leading" secondItem="VYL-ih-nvR" secondAttribute="leading" id="3jE-fK-O33"/>
                                                 <constraint firstItem="iHO-LT-5TN" firstAttribute="trailing" secondItem="g1R-ef-glv" secondAttribute="trailingMargin" id="IeP-s1-HA9"/>
+                                                <constraint firstItem="iHO-LT-5TN" firstAttribute="leading" secondItem="O53-FS-FCy" secondAttribute="trailing" constant="8" id="cGw-jh-7qI"/>
                                                 <constraint firstItem="O53-FS-FCy" firstAttribute="leading" secondItem="g1R-ef-glv" secondAttribute="leadingMargin" constant="14" id="fiB-JR-HIa"/>
                                                 <constraint firstItem="iHO-LT-5TN" firstAttribute="centerY" secondItem="g1R-ef-glv" secondAttribute="centerY" id="vBO-pS-f7x"/>
                                             </constraints>
@@ -337,8 +358,8 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Title" id="eOb-nI-Phj">
-                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Kwo-wt-6M2">
+                                    <navigationItem title="Nova Lista" id="eOb-nI-Phj">
+                                        <barButtonItem key="rightBarButtonItem" title="Ok" id="Kwo-wt-6M2">
                                             <connections>
                                                 <action selector="backAction:" destination="aaZ-Qm-MuQ" id="qBV-7L-91B"/>
                                             </connections>
@@ -369,7 +390,7 @@
             </objects>
             <point key="canvasLocation" x="1712.8" y="188.45577211394306"/>
         </scene>
-        <!--Item 2-->
+        <!--Adicionar Nota-->
         <scene sceneID="vNs-Lx-8fT">
             <objects>
                 <viewController id="6DP-XM-Bth" customClass="QRCodeViewController" customModule="Listio" customModuleProvider="target" sceneMemberID="viewController">
@@ -382,7 +403,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" image="blackberry-qr-code-variant" id="s1E-DC-SK4"/>
+                    <tabBarItem key="tabBarItem" title="Adicionar Nota" image="QR Code-29" id="s1E-DC-SK4"/>
                     <connections>
                         <segue destination="aaZ-Qm-MuQ" kind="presentation" identifier="toCreateList" id="5UL-un-YRD"/>
                     </connections>
@@ -411,10 +432,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="blackberry-qr-code-variant" width="32" height="32"/>
-        <image name="list" width="32" height="32"/>
+        <image name="QR Code-29" width="29" height="29"/>
+        <image name="To Do-29" width="29" height="29"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fa1-JO-ZQm"/>
+        <segue reference="5UL-un-YRD"/>
     </inferredMetricsTieBreakers>
 </document>
