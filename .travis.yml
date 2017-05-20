@@ -2,7 +2,15 @@ language: objective-c
 
 osx_image: xcode8.3
 
+cache:
+- bundler
+- cocoapods
+
+before_install:
+- bundle install
+- bundle exec pod keys set ListioAPISecret $ListioAPISecret 
+
 script:
-  - xcodebuild -version
-  - xcodebuild -workspace Listio.xcworkspace -scheme 'Listio' -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 7" -enableCodeCoverage YES test
-  - bash <(curl -s https://codecov.io/bash) -t 07101cd7-6101-475c-9b27-5426e067ac0c
+- xcodebuild -version
+- xcodebuild -workspace Listio.xcworkspace -scheme 'Listio' -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 7" -enableCodeCoverage YES test
+- bash <(curl -s https://codecov.io/bash) -t 07101cd7-6101-475c-9b27-5426e067ac0c

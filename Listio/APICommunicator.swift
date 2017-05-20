@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import QRCodeReader
+import Keys
 
 struct APICommunicator : APICommunicatorProtocol {
     struct Keys {
@@ -18,8 +19,10 @@ struct APICommunicator : APICommunicatorProtocol {
     
     func getReceipt(linkUrl: String, _ completion: @escaping (Error?, [String : AnyObject]?) -> Void) {
         
+        let keys = ListioKeys()
+        
         let headers = [
-            "x-access-token": "SupperDupperSecret".JWTEncoded(withExpirationDate: Date().addingTimeInterval(30*60))
+            "x-access-token": keys.listioAPISecret.JWTEncoded(withExpirationDate: Date().addingTimeInterval(30*60))
         ]
         let parameters = [
             "linkurl": linkUrl
@@ -42,7 +45,4 @@ struct APICommunicator : APICommunicatorProtocol {
             
         })
     }
-
-
-    
 }

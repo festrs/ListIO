@@ -4,6 +4,13 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'Listio' do
+    
+    plugin 'cocoapods-keys', {
+        :project => "Listio",
+        :keys => [
+        "ListioAPISecret"
+        ]}
+    
     pod 'JSONWebToken', :git => "https://github.com/kylef/JSONWebToken.swift.git", :branch => 'master'
 	pod 'Alamofire', '~> 4.4'
 	pod 'QRCodeReader.swift', '~> 7.3.0'
