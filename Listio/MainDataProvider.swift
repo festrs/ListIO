@@ -11,6 +11,7 @@ import CoreData
 import DATAStack
 
 enum Errors : Error {
+    // swiftlint:disable identifier_name
     case CoreDataError(String)
     case DoubleReceiptWithSameID
 }
@@ -36,6 +37,7 @@ public class MainDataProvider: NSObject, MainDataProviderProtocol {
     public func calcMediumCost() throws -> Double {
         let receipts = try getAllReceipt()
         let values: [Double] = receipts!.map { (receipt) -> Double in
+            // swiftlint:disable force_cast
             let payment = NSKeyedUnarchiver.unarchiveObject(with: receipt.payments! as Data) as! NSDictionary
             return Double(payment["vl_total"] as! String)!
         }

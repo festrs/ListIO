@@ -20,6 +20,7 @@ target 'Listio' do
     pod 'Sync', '~> 2'
     pod 'AIFlatSwitch', '~> 1.0.1'
     pod 'SVProgressHUD', '~> 2.1.2'
+    pod 'SwiftLint'
 end
 
 target 'ListioTests' do

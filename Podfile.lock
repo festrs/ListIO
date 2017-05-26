@@ -15,6 +15,7 @@ PODS:
   - QRCodeReader.swift (7.3.0)
   - StringScore_Swift (0.1.1)
   - SVProgressHUD (2.1.2)
+  - SwiftLint (0.18.1)
   - Sync (2.6.3):
     - DATAStack (~> 6.1.2)
     - SYNCPropertyMapper (~> 5.2.0)
@@ -31,6 +32,7 @@ DEPENDENCIES:
   - QRCodeReader.swift (~> 7.3.0)
   - StringScore_Swift (from `https://github.com/yichizhang/StringScore_Swift.git`)
   - SVProgressHUD (~> 2.1.2)
+  - SwiftLint
   - Sync (~> 2)
 
 EXTERNAL SOURCES:
@@ -68,9 +70,10 @@ SPEC CHECKSUMS:
   QRCodeReader.swift: d7e190d49818948aa030704cfb26283f1f32fb0a
   StringScore_Swift: 821102bf4b5253725ee1b418b4fe5d21547a2a0f
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
+  SwiftLint: b467d08f5b25dc3b3cfed243d8e1b74b91714c67
   Sync: a41b41cf61625676d3fe66efc09daf25b1548d9d
   SYNCPropertyMapper: b3157f5183285c8a25ba23877b95a06ec2547e73
 
-PODFILE CHECKSUM: 24050638c4e6627f4d94e34a5c7354d8fad7b7cd
+PODFILE CHECKSUM: 897451f25487e8d2ed5b681c2655e63e415c693c
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.1.beta.1

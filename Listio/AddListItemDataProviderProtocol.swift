@@ -13,7 +13,6 @@ import DATAStack
 public protocol AddListItemDataProviderProtocol: UITableViewDataSource, UITableViewDelegate {
     var dataStack: DATAStack! { get set }
     weak var tableView: UITableView! { get set }
-    
     func performFetch() throws
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell

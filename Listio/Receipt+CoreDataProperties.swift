@@ -33,13 +33,16 @@ extension Receipt {
     }
     
     @nonobjc public class func createReceipt(_ mainContext: NSManagedObjectContext, json:[String: AnyObject]) throws {
+        // swiftlint:disable force_cast
         guard try verifyNewReceipt(mainContext, key: json["id"] as! String) == false else {
             throw Errors.DoubleReceiptWithSameID
         }
+        // swiftlint:disable force_cast
         let docObj = NSEntityDescription.insertNewObject(forEntityName: Keys.ReceiptEntityName, into: mainContext) as! Receipt
         docObj.hyp_fill(with: json)
         
         for item in (json[Keys.ReceiptItemsArrayName] as? [AnyObject])! {
+            // swiftlint:disable force_cast
             let itemObj:Item = NSEntityDescription.insertNewObject(forEntityName: Keys.ItemEntityName, into: mainContext) as! Item
             itemObj.hyp_fill(with: item as! [String : Any])
             docObj.addToItems(itemObj)

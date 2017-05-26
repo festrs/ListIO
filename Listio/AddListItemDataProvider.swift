@@ -13,10 +13,15 @@ import DATAStack
 class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
     struct Keys {
         static let CellIdentifier = "ItemListCell"
+        static let InfoCellIdentifer = "infoCell"
     }
     public var dataStack: DATAStack!
-    weak public var tableView: UITableView!
-    var items:[Item] = [Item]()
+    weak public var tableView: UITableView! {
+        didSet {
+            tableView.translatesAutoresizingMaskIntoConstraints = true
+        }
+    }
+    var items: [Item] = [Item]()
     
     func performFetch() throws {
         items = try getUniqueItems()!
@@ -68,10 +73,27 @@ extension AddListItemDataProvider {
 extension AddListItemDataProvider {
     //MARK - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if items.count == 0 {
+            return 1
+        }
         return items.count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if items.isEmpty {
+            return 92
+        }
+        return 58
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if items.count == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.InfoCellIdentifer, for: indexPath) as? AddListItemTableViewCell else {
+                fatalError("Unexpected Index Path")
+            }
+            cell.frame.size.height = 92
+            return cell
+        }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.CellIdentifier, for: indexPath) as? AddListItemTableViewCell else {
             fatalError("Unexpected Index Path")
         }

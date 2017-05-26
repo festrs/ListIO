@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hCu-d9-Tl9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hCu-d9-Tl9">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -352,6 +352,29 @@
                                             <outlet property="unLabel" destination="VYL-ih-nvR" id="E9Q-q6-1J3"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="infoCell" rowHeight="92" id="0cw-Do-FRu" customClass="AddListItemTableViewCell" customModule="Listio" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="86" width="375" height="92"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0cw-Do-FRu" id="ghI-G8-5cw">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="92"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fkf-zI-hBP">
+                                                    <rect key="frame" x="8" y="8" width="359" height="76"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <string key="text">Para adicionar produtos, primeiro você deve escanear uma nota fiscal eletrônica que contenha um QR Code, esse novo tipo de nota está dispónivel em quase todos os mercados brasileiros.</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="fkf-zI-hBP" secondAttribute="trailing" id="GVg-8k-zq8"/>
+                                                <constraint firstItem="fkf-zI-hBP" firstAttribute="leading" secondItem="ghI-G8-5cw" secondAttribute="leadingMargin" id="HpS-IG-WNN"/>
+                                                <constraint firstItem="fkf-zI-hBP" firstAttribute="top" secondItem="ghI-G8-5cw" secondAttribute="topMargin" id="U9b-FK-6AM"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="fkf-zI-hBP" secondAttribute="bottom" id="fWL-6Q-neZ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SOK-Pf-zNa">
@@ -436,6 +459,6 @@
         <image name="To Do-29" width="29" height="29"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5UL-un-YRD"/>
+        <segue reference="fa1-JO-ZQm"/>
     </inferredMetricsTieBreakers>
 </document>
