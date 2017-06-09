@@ -8,6 +8,6 @@
 
 import UIKit
 
-protocol AddListCommunicator {
+protocol AddListCommunicator: class  {
     func backFromAddList()
 }

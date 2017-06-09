@@ -16,7 +16,7 @@ struct APICommunicator : APICommunicatorProtocol {
         static let BaseURL = "https://nfc-e-server.herokuapp.com"
         static let EndPointAllProducts = "/api/v1/qrdata"
     }
-    
+
     func getReceipt(linkUrl: String, _ completion: @escaping (Error?, [String : AnyObject]?) -> Void) {
         
         let keys = ListioKeys()
@@ -27,8 +27,10 @@ struct APICommunicator : APICommunicatorProtocol {
         let parameters = [
             "linkurl": linkUrl
             ] as [String : AnyObject]
-        
-        Alamofire.request(Keys.BaseURL + Keys.EndPointAllProducts, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON(completionHandler: {
+
+        Alamofire.request(Keys.BaseURL + Keys.EndPointAllProducts, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .validate(statusCode: 200..<300)
+            .responseJSON(completionHandler: {
             response in
             guard response.result.isSuccess else {
                 print("Error while fetching tags: \(String(describing: response.result.error))")
@@ -40,9 +42,9 @@ struct APICommunicator : APICommunicatorProtocol {
                 completion(response.error, nil)
                 return
             }
-            
+
             completion(response.error, responseJSON)
-            
+
         })
     }
 }

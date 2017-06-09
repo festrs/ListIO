@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import DATAStack
 
-enum Errors : Error {
+enum Errors: Error {
     // swiftlint:disable identifier_name
     case CoreDataError(String)
     case DoubleReceiptWithSameID
@@ -25,28 +25,21 @@ public class MainDataProvider: NSObject, MainDataProviderProtocol {
         static let ReceiptSortDescriptor = "createdAt"
         static let ItemDescriptionKey = "descricao"
     }
-    
+
     public var dataStack: DATAStack!
     weak public var tableView: UITableView!
-    var items:[Item] = []
-    
+    var items: [Item] = []
+
     public func performFetch() throws {
         items = try getUniqueItems()!
     }
-    
-    public func calcMediumCost() throws -> Double {
-        let receipts = try getAllReceipt()
-        let values: [Double] = receipts!.map { (receipt) -> Double in
-            // swiftlint:disable force_cast
-            let payment = NSKeyedUnarchiver.unarchiveObject(with: receipt.payments! as Data) as! NSDictionary
-            return Double(payment["vl_total"] as! String)!
+
+    public func calcMediumCost() -> Double {
+        return items.reduce(0.0) { (result, item) -> Double in
+            return (item.vlTotal?.doubleValue)! + result
         }
-        if values.count > 0 {
-            return values.reduce(0, +)/Double(values.count)
-        }
-        return 0.0
     }
-    
+
     public func getCountItems() -> Int {
         return items.count
     }
@@ -54,11 +47,11 @@ public class MainDataProvider: NSObject, MainDataProviderProtocol {
     func getUniqueItems() throws -> [Item]? {
         return try Item.getUniqueItems(dataStack.mainContext, withPresent: true)
     }
-    
+
     func getAllReceipt() throws -> [Receipt]? {
         return try Receipt.getAllReceipt(dataStack.mainContext)
     }
-    
+
     func getAllItems() throws -> [Item]? {
         return try Item.getAllItems(dataStack.mainContext)
     }
@@ -125,6 +118,6 @@ extension MainDataProvider {
         guard let cell = tableView.cellForRow(at: indexPath) as? MainTableViewCell else {
             fatalError("Unexpected Index Path")
         }
-        cell.bigFlatSwitch.setSelected(!cell.bigFlatSwitch.isSelected, animated: true)
+        cell.marked = !cell.marked
     }
 }

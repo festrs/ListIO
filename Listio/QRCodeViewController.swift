@@ -48,7 +48,6 @@ class QRCodeViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
     func presentQRCodeReader() {
         if !presented {
             self.parent?.present(self.readerVC, animated: true, completion: {
@@ -56,7 +55,6 @@ class QRCodeViewController: UIViewController {
             })
         }
     }
-    
     func showAlert(_ title: String, message: String) {
         guard !presentedAlert else {
             return
@@ -71,10 +69,8 @@ class QRCodeViewController: UIViewController {
             self.presentedAlert = true
         })
     }
-    
     func createNewList() {
         let refreshAlert = UIAlertController(title: Keys.SucessAlertTitle, message: Keys.SucessAlertMSG, preferredStyle: UIAlertControllerStyle.alert)
-        
         refreshAlert.addAction(UIAlertAction(title: "Sim", style: .default, handler: { (action: UIAlertAction!) in
             self.performSegue(withIdentifier: Keys.ToCreateListIdentifier, sender: nil)
         }))
@@ -82,7 +78,6 @@ class QRCodeViewController: UIViewController {
         refreshAlert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: { (action: UIAlertAction!) in
             self.dismissWithTabBar()
         }))
-        
         present(refreshAlert, animated: true, completion: nil)
     }
     
@@ -92,7 +87,6 @@ class QRCodeViewController: UIViewController {
             self.presented = false
         })
     }
-    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? FPHandlesMOC {
@@ -126,14 +120,13 @@ extension QRCodeViewController : QRCodeReaderViewControllerDelegate {
         reader.stopScanning()
 
         guard result.metadataType == AVMetadataObjectTypeQRCode else { return }
-        
         communicator.getReceipt(linkUrl: result.value) { [weak self] (error, responseJSON) in
             SVProgressHUD.dismiss()
             guard let strongSelf = self else {
                 return
             }
             guard error == nil else {
-                strongSelf.showAlert(Alerts.ErroTitle, message: (error?.localizedDescription)!)
+                strongSelf.showAlert(Alerts.ErroTitle, message: "O serviço ainda não chegou ao seu estado.")
                 return
             }
             do {
@@ -145,12 +138,10 @@ extension QRCodeViewController : QRCodeReaderViewControllerDelegate {
                 strongSelf.showAlert(Alerts.ErroTitle, message: error.localizedDescription)
             }
         }
-        
         dismiss(animated: true, completion: {
             self.presented = false
         })
     }
-    
     func readerDidCancel(_ reader: QRCodeReaderViewController) {
         reader.stopScanning()
         dismissWithTabBar()

@@ -81,7 +81,7 @@ extension AddListItemDataProvider {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if items.isEmpty {
-            return 92
+            return 120
         }
         return 58
     }

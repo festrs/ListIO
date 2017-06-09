@@ -11,7 +11,7 @@ import JWT
 
 struct Alerts {
     static let DismissAlert = "Ok"
-    static let ErroTitle = "Erro"
+    static let ErroTitle = "Atenção"
     static let ErrorDoubleReceiptWithSameID = "Nota já cadastrada."
 }
 

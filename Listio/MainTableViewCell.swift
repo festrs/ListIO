@@ -14,6 +14,11 @@ class MainTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var unLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
-    @IBOutlet weak var bigFlatSwitch: AIFlatSwitch!
-
+    @IBOutlet weak var markedView: UIView!
+    
+    var marked: Bool! = true {
+        didSet {
+            markedView.isHidden = marked
+        }
+    }
 }
