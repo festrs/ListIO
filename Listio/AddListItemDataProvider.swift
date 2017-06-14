@@ -16,15 +16,12 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
         static let InfoCellIdentifer = "infoCell"
     }
     public var dataStack: DATAStack!
-    weak public var tableView: UITableView! {
-        didSet {
-            tableView.translatesAutoresizingMaskIntoConstraints = true
-        }
-    }
+    weak public var tableView: UITableView!
     var items: [Item] = [Item]()
-    
+
     func performFetch() throws {
         items = try getUniqueItems()!
+        tableView.reloadData()
     }
     
     func getUniqueItems() throws -> [Item]? {

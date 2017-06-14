@@ -16,10 +16,9 @@ public protocol MainDataProviderProtocol: UITableViewDataSource, UITableViewDele
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
-    func tableView(_ tableView: UITableView, commit
-                  editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
-    
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
+
     func performFetch() throws
     func calcMediumCost() -> Double
     func getCountItems() -> Int

@@ -11,11 +11,10 @@ import DATAStack
 
 class AddListItemViewController: UIViewController, FPHandlesMOC {
 
-    var dataProvider:AddListItemDataProviderProtocol?
+    var dataProvider: AddListItemDataProviderProtocol?
     fileprivate var dataStack: DATAStack!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var doneButtonItem: UIBarButtonItem!
-    weak var communicatorDelegate: AddListCommunicator!
     var new: Bool = false
     var presentedAlert: Bool = false
 
@@ -45,16 +44,7 @@ class AddListItemViewController: UIViewController, FPHandlesMOC {
     }
 
     @IBAction func backAction(_ sender: Any) {
-        dismissWithTabBar()
-    }
-
-    func dismissWithTabBar() {
-        tabBarController?.selectedIndex = 0
         dismiss(animated: true, completion: nil)
-        if new {
-            assert(communicatorDelegate != nil, "communicatorDelegate is not allowed to be nil at this point")
-            communicatorDelegate.backFromAddList()
-        }
     }
 
     func showAlert(_ title: String, message: String) {

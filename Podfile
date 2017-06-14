@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-platform :ios, '8.0'
+platform :ios, '9.0'
 # Uncomment this line if you're using Swift
 use_frameworks!
 
@@ -21,6 +21,8 @@ target 'Listio' do
     pod 'AIFlatSwitch', '~> 1.0.1'
     pod 'SVProgressHUD', '~> 2.1.2'
     pod 'SwiftLint'
+    pod 'Floaty', '~> 3.0.0'
+    pod 'BarcodeScanner', :git => "https://github.com/festrs/BarcodeScanner.git"
 end
 
 target 'ListioTests' do
