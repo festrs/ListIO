@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import DATAStack
+import Kingfisher
 
 enum Errors: Error {
     // swiftlint:disable identifier_name
@@ -71,6 +72,8 @@ extension MainDataProvider {
         cell.nameLabel.text = item?.descricao
         cell.unLabel.text = "UN \(item?.qtde?.intValue ?? 0)"
         cell.valueLabel.text = item?.vlUnit?.toMaskReais()
+        let url = URL(string: (item?.imgUrl)!)
+        cell.productImageView.kf.setImage(with: url)
 
         return cell
     }

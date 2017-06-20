@@ -23,6 +23,7 @@ target 'Listio' do
     pod 'SwiftLint'
     pod 'Floaty', '~> 3.0.0'
     pod 'BarcodeScanner', :git => "https://github.com/festrs/BarcodeScanner.git"
+    pod 'Kingfisher', '~> 3.0'
 end
 
 target 'ListioTests' do

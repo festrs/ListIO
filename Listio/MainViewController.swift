@@ -183,14 +183,36 @@ extension MainViewController: BarcodeScannerCodeDelegate, BarcodeScannerErrorDel
 
         communicator.getProduct(code: code) { [weak self] (error, responseJSON) in
             guard let strongSelf = self else {
+                controller.resetWithError(message: "Ocorreu um erro, tente novamente mais tarde.")
                 return
             }
             guard error == nil else {
                 controller.resetWithError(message: "Ocorreu um erro, tente novamente mais tarde.")
                 return
             }
+
+            guard let records = responseJSON?["records"] as? [AnyObject],
+                let firstRecord = records.first,
+                let fields = firstRecord["fields"] as? [String: AnyObject],
+                let itemName = fields["gtin_nm"] as? String,
+                let itemUrl = fields["gtin_img"] as? String,
+                let un = fields["pkg_unit"] as? Int,
+                let cod = fields["gtin_cd"] as? String else {
+                controller.resetWithError(message: "Ocorreu um erro, tente novamente mais tarde.")
+                return
+            }
+
+            let item = Item(withName: itemName,
+                            withImageUrl: itemUrl,
+                            intoMainContext: strongSelf.dataStack.mainContext)
+
+            item.un = "\(un)"
+            item.remoteID = cod
+
             controller.reset(animated: true)
-            controller.dismiss(animated: true, completion: nil)
+            controller.dismiss(animated: true, completion: {
+                strongSelf.createNewList()
+            })
         }
     }
 

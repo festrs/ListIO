@@ -6,6 +6,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Segues with Peek and Pop" minToolsVersion="7.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -58,7 +59,7 @@
                     <connections>
                         <outlet property="floatyButtonView" destination="bA7-Gv-9K7" id="eye-K4-Zwf"/>
                         <segue destination="aaZ-Qm-MuQ" kind="presentation" identifier="toNewList" id="fa1-JO-ZQm"/>
-                        <segue destination="uyx-8j-gNP" kind="show" identifier="toNewItem" id="O8p-OG-J4B"/>
+                        <segue destination="ZYv-Th-bEm" kind="presentation" identifier="toNewItem" id="O8p-OG-J4B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -137,9 +138,13 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="nameLabel" destination="oUs-Wb-bv0" id="usl-Yu-T6x"/>
+                                    <outlet property="productImageView" destination="ljT-ei-lhe" id="sax-05-Dst"/>
                                     <outlet property="unLabel" destination="Lsu-HG-WHF" id="AW3-AQ-mDg"/>
                                     <outlet property="valueLabel" destination="yrW-bg-i56" id="83R-kg-w3j"/>
-                                    <segue destination="uyx-8j-gNP" kind="show" id="0fn-7P-g9K"/>
+                                    <segue destination="ZYv-Th-bEm" kind="show" id="0fn-7P-g9K">
+                                        <segue key="commit" inheritsFrom="parent" id="NKS-W0-Dqx"/>
+                                        <segue key="preview" inheritsFrom="commit" id="Xs2-pP-ctX"/>
+                                    </segue>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -162,15 +167,15 @@
                         <viewControllerLayoutGuide type="bottom" id="wSc-bd-0o3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="5CH-EB-5Me">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="440"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jbz-L0-NUk">
-                                <rect key="frame" x="16" y="8" width="80" height="73"/>
+                                <rect key="frame" x="7" y="102" width="80" height="73"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5uP-Jv-iiT">
-                                <rect key="frame" x="126" y="20" width="42" height="21"/>
+                                <rect key="frame" x="132" y="112" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -179,10 +184,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="P4K-u3-AY8"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0jd-1l-7H7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1862" y="-394"/>
+            <point key="canvasLocation" x="2859.375" y="-394.01408450704224"/>
         </scene>
         <!--Add List Item View Controller-->
         <scene sceneID="FTR-wQ-sdt">
@@ -370,6 +376,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OFP-Ys-2sF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="227" y="-394"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="7hr-Qp-e1P">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZYv-Th-bEm" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="6KA-sq-fm5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.0" green="0.35294117650000001" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="uyx-8j-gNP" kind="relationship" relationship="rootViewController" id="dqm-1v-mqe"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9YR-Uu-YBT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1861.875" y="-394.01408450704224"/>
         </scene>
     </scenes>
     <resources>

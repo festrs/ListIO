@@ -10,6 +10,7 @@ PODS:
   - JSONWebToken (2.1.1):
     - CryptoSwift (~> 0.6.1)
   - Keys (1.0.0)
+  - Kingfisher (3.9.1)
   - KSCrash/Recording (1.8.13)
   - KSCrash/RecordingAdvanced (1.8.13):
     - KSCrash/Recording
@@ -32,6 +33,7 @@ DEPENDENCIES:
   - Floaty (~> 3.0.0)
   - JSONWebToken (from `https://github.com/kylef/JSONWebToken.swift.git`, branch `master`)
   - Keys (from `Pods/CocoaPodsKeys`)
+  - Kingfisher (~> 3.0)
   - MockUIAlertController (~> 2.0)
   - QRCodeReader.swift (~> 7.3.0)
   - StringScore_Swift (from `https://github.com/yichizhang/StringScore_Swift.git`)
@@ -76,6 +78,7 @@ SPEC CHECKSUMS:
   Floaty: d1be5d323094f0de422bb615452d00ba26ac74dd
   JSONWebToken: a57a50fccad2078bd56ee4e038e4540a21e34ba3
   Keys: 9c35bf00f612ee1d48556f4a4b9b4551e224e90f
+  Kingfisher: 6729a0baaa458245bfb8cd5a1296c71c10d6eb6c
   KSCrash: 4c3a83f133b60f4bd57e05235ebf8d46e36d378d
   MockUIAlertController: 0221fb64142c95be6e2f485d0e220d226b99433c
   QRCodeReader.swift: d7e190d49818948aa030704cfb26283f1f32fb0a
@@ -85,6 +88,6 @@ SPEC CHECKSUMS:
   Sync: a41b41cf61625676d3fe66efc09daf25b1548d9d
   SYNCPropertyMapper: b3157f5183285c8a25ba23877b95a06ec2547e73
 
-PODFILE CHECKSUM: 7ae7b3babfb8568b87162f4d32eae6f46a2182db
+PODFILE CHECKSUM: 54667a01fc0090e39563d1b3ee6cb494c1fa8182
 
 COCOAPODS: 1.2.1

@@ -50,7 +50,19 @@ extension Item {
         }
     }
     
+    convenience init(withName name: String, withImageUrl url:String, intoMainContext context: NSManagedObjectContext) {
+        let entity = NSEntityDescription.entity(forEntityName: Keys.ItemEntityName, in: context)!
+        if #available(iOS 10.0, *) {
+            self.init(context: context)
+        } else {
+            self.init(entity: entity, insertInto: context)
+        }
+        self.descricao = name
+        self.imgUrl = url
+    }
+    
     @NSManaged public var descricao: String?
+    @NSManaged public var imgUrl: String?
     @NSManaged public var qtde: NSDecimalNumber?
     @NSManaged public var remoteID: String?
     @NSManaged public var un: String?
