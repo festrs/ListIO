@@ -54,9 +54,12 @@ class ItemsTableViewController: UITableViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if sender is UITableViewCell,
-            let vc = segue.destination as? NewItemViewController {
+        if let cell = sender as? UITableViewCell,
+            let vc = segue.destination as? NewItemViewController,
+            let index = tableView.indexPath(for: cell),
+            let item = dataProvider?.items[index.row] {
             vc.new = false
+            vc.product = item
         }
     }
 }

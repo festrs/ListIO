@@ -10,9 +10,8 @@ import Foundation
 import CoreData
 import StringScore_Swift
 
+public class Item: NSManagedObject {
 
-class Item: NSManagedObject {
-    
 }
 
 func == (lhs: Item, rhs: Item) -> Bool {

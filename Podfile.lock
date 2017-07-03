@@ -1,6 +1,7 @@
 PODS:
   - AIFlatSwitch (1.0.1)
   - Alamofire (4.4.0)
+  - ALCameraViewController (1.3.1)
   - BarcodeScanner (2.0.0)
   - Bugsnag (5.8.0):
     - KSCrash/RecordingAdvanced (= 1.8.13)
@@ -27,6 +28,7 @@ PODS:
 DEPENDENCIES:
   - AIFlatSwitch (~> 1.0.1)
   - Alamofire (~> 4.4)
+  - ALCameraViewController
   - BarcodeScanner (from `https://github.com/festrs/BarcodeScanner.git`)
   - Bugsnag (from `https://github.com/bugsnag/bugsnag-cocoa.git`)
   - DATAStack (~> 6)
@@ -71,6 +73,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AIFlatSwitch: 5b121a4a90a06f0fbd72e9f1fe9bb30e64d67177
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  ALCameraViewController: 29a34772007b98e23150bfe1772475a4a80a33ff
   BarcodeScanner: 225e96dfa2cee966771b345e4bf72b1babfa0c40
   Bugsnag: 2ddbf21cb69e04f49ef79d9db6429e9b668bc876
   CryptoSwift: f21ea03ed3a94e79d241648ce26652cd4810508a
@@ -88,6 +91,6 @@ SPEC CHECKSUMS:
   Sync: a41b41cf61625676d3fe66efc09daf25b1548d9d
   SYNCPropertyMapper: b3157f5183285c8a25ba23877b95a06ec2547e73
 
-PODFILE CHECKSUM: 54667a01fc0090e39563d1b3ee6cb494c1fa8182
+PODFILE CHECKSUM: 3fc5dafcd8580585c79825bccaa19ceb28160cab
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.1.1

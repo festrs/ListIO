@@ -29,7 +29,7 @@ public class MainDataProvider: NSObject, MainDataProviderProtocol {
 
     public var dataStack: DATAStack!
     weak public var tableView: UITableView!
-    var items: [Item] = []
+    public var items: [Item] = []
 
     public func performFetch() throws {
         items = try getUniqueItems()!
@@ -56,7 +56,7 @@ extension MainDataProvider {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
-    
+
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }

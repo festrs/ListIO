@@ -13,6 +13,7 @@ import DATAStack
 public protocol MainDataProviderProtocol: UITableViewDataSource, UITableViewDelegate {
     var dataStack: DATAStack! { get set }
     weak var tableView: UITableView! { get set }
+    var items: [Item] { get }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell

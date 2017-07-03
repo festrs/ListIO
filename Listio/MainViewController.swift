@@ -75,11 +75,29 @@ class MainViewController: UIViewController, FPHandlesMOC {
         barCodeScannerController.codeDelegate = self
         barCodeScannerController.errorDelegate = self
         barCodeScannerController.dismissalDelegate = self
+        barCodeScannerController.hidesBottomBarWhenPushed = true
+        BarcodeScanner.Title.backgroundColor = UIColor(rgb: 0x005A8A)
+        BarcodeScanner.Title.color = UIColor.white
+        BarcodeScanner.CloseButton.color = UIColor.white
+        
+        BarcodeScanner.Title.text = NSLocalizedString("Scan barcode", comment: "")
+        BarcodeScanner.CloseButton.text = NSLocalizedString("Close", comment: "")
+        BarcodeScanner.SettingsButton.text = NSLocalizedString("Settings", comment: "")
+        BarcodeScanner.Info.text = NSLocalizedString(
+            "Place the barcode within the window to scan. The search will start automatically.", comment: "")
+        BarcodeScanner.Info.loadingText = NSLocalizedString("Looking for your product...", comment: "")
+        BarcodeScanner.Info.notFoundText = NSLocalizedString("No product found.", comment: "")
+        BarcodeScanner.Info.settingsText = NSLocalizedString(
+            "In order to scan barcodes you have to allow camera under your settings.", comment: "")
     }
 
     func configFloatyAddButton() {
-        floatyButtonView.addItem("Via código de barras", icon: UIImage(named: "Barcode-29")) { _ in
-            self.present(self.barCodeScannerController, animated: true, completion: nil)
+        floatyButtonView.addItem("Via código de barras",
+                                 icon: UIImage(named: "Barcode-29")) { [weak self] _ in
+            guard let strongSelf = self else { return }
+            //strongSelf.navigationController?.pushViewController(strongSelf.barCodeScannerController, animated: true)
+            //strongSelf.present(strongSelf.barCodeScannerController, animated: true, completion: nil)
+            strongSelf.present(strongSelf.barCodeScannerController, animated: true, completion: nil)
         }
         floatyButtonView.addItem("Via QR Code", icon: UIImage(named: "QR Code-29")) { _ in
             self.present(self.readerVC, animated: true, completion: nil )

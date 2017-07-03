@@ -8,8 +8,7 @@
 
 import UIKit
 
-
-class AddListItemTableViewCell : UITableViewCell {
+class AddListItemTableViewCell: UITableViewCell {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var unLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!

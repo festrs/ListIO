@@ -2,6 +2,8 @@
 platform :ios, '9.0'
 # Uncomment this line if you're using Swift
 use_frameworks!
+# ignore all warnings from all pods
+inhibit_all_warnings!
 
 target 'Listio' do
     
@@ -24,6 +26,7 @@ target 'Listio' do
     pod 'Floaty', '~> 3.0.0'
     pod 'BarcodeScanner', :git => "https://github.com/festrs/BarcodeScanner.git"
     pod 'Kingfisher', '~> 3.0'
+    pod 'ALCameraViewController'
 end
 
 target 'ListioTests' do

@@ -8,9 +8,13 @@
 
 import UIKit
 
-class NewItemViewController: UIViewController {
+class NewItemViewController: UITableViewController {
 
+    @IBOutlet weak var productName: UILabel!
+    @IBOutlet weak var productImageView: UIImageView!
     var new: Bool = true
+    var product: Item!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if new {
@@ -20,7 +24,30 @@ class NewItemViewController: UIViewController {
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if !new {
+            navigationItem.rightBarButtonItem = nil
+            productName.text = product.descricao
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+
+    @IBAction func choosePhoto(_ sender: Any) {
+
+
+    }
+
+    @IBAction func doneAction(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+extension NewItemViewController {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
     }
 }

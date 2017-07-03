@@ -10,7 +10,7 @@ import UIKit
 
 public protocol APICommunicatorProtocol {
     func getReceipt(linkUrl: String,
-                    _ completion:@escaping (_ error: Error?,
+        _ completion: @escaping (_ error: Error?,
         _ responseJSON: [String: AnyObject]? ) -> Void)
     func getProduct(code: String, _ completion: @escaping (Error?, [String : AnyObject]?) -> Void)
 }
