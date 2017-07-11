@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zor-gc-Iqu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zor-gc-Iqu">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -140,7 +140,7 @@
                                     <outlet property="productImageView" destination="ljT-ei-lhe" id="sax-05-Dst"/>
                                     <outlet property="unLabel" destination="Lsu-HG-WHF" id="AW3-AQ-mDg"/>
                                     <outlet property="valueLabel" destination="yrW-bg-i56" id="83R-kg-w3j"/>
-                                    <segue destination="Mm5-nr-uIT" kind="show" id="7kG-PP-zvp"/>
+                                    <segue destination="Mm5-nr-uIT" kind="show" identifier="toNewItem" id="7kG-PP-zvp"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -154,41 +154,42 @@
             </objects>
             <point key="canvasLocation" x="1862" y="-1090"/>
         </scene>
-        <!--Table View Controller-->
+        <!--New Item View Controller-->
         <scene sceneID="38b-Aq-lDF">
             <objects>
-                <tableViewController id="Mm5-nr-uIT" sceneMemberID="viewController">
+                <tableViewController id="Mm5-nr-uIT" customClass="NewItemViewController" customModule="Listio" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="86" sectionHeaderHeight="28" sectionFooterHeight="28" id="ePF-ax-PaH">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
-                            <tableViewSection id="97T-Kl-8WH">
+                            <tableViewSection headerTitle="Section-1" id="97T-Kl-8WH">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="productInfo" rowHeight="86" id="qgO-Mw-MWx" customClass="ProductInfoTableViewCell" customModule="Listio" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="86"/>
+                                        <rect key="frame" x="0.0" y="28" width="320" height="86"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qgO-Mw-MWx" id="QVz-Cu-AO5">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="86"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jbz-L0-NUk">
-                                                    <rect key="frame" x="20" y="-14" width="80" height="73"/>
+                                                    <rect key="frame" x="8" y="6" width="80" height="73"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5uP-Jv-iiT">
-                                                    <rect key="frame" x="124" y="-6" width="42" height="21"/>
+                                                    <rect key="frame" x="96" y="6" width="216" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aVO-9n-BgT">
-                                                    <rect key="frame" x="124" y="29" width="41" height="30"/>
+                                                    <rect key="frame" x="97" y="47" width="41" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Photo"/>
                                                     <connections>
                                                         <action selector="choosePhoto:" destination="qgO-Mw-MWx" eventType="touchUpInside" id="2OI-B1-R2g"/>
+                                                        <action selector="choosePhoto:" destination="Mm5-nr-uIT" eventType="touchUpInside" id="3lA-UB-Sid"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -200,17 +201,39 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Section-2" id="yHb-R0-KfN">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="44" id="CI2-N3-Svk" customClass="DatePickerCell">
+                                        <rect key="frame" x="0.0" y="142" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CI2-N3-Svk" id="D0i-4s-NYv">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="Mm5-nr-uIT" id="XE0-xY-ulW"/>
                             <outlet property="delegate" destination="Mm5-nr-uIT" id="0hp-Xm-6Jo"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="V0z-q4-Sha"/>
+                    <navigationItem key="navigationItem" id="V0z-q4-Sha">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="lra-id-p8f">
+                            <connections>
+                                <action selector="doneAction:" destination="Mm5-nr-uIT" id="BdS-6g-rd0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="productImageView" destination="jbz-L0-NUk" id="NVg-I0-ILK"/>
+                        <outlet property="productName" destination="5uP-Jv-iiT" id="ok1-1W-hGQ"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W6U-ns-tvg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2685" y="-428"/>
+            <point key="canvasLocation" x="2542.5" y="-394.01408450704224"/>
         </scene>
         <!--Add List Item View Controller-->
         <scene sceneID="FTR-wQ-sdt">
@@ -428,6 +451,6 @@
         <image name="noimage" width="225" height="225"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="7kG-PP-zvp"/>
+        <segue reference="Sth-CP-RtS"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ALCameraViewController
 
 class NewItemViewController: UITableViewController {
 
@@ -37,17 +38,27 @@ class NewItemViewController: UITableViewController {
     }
 
     @IBAction func choosePhoto(_ sender: Any) {
+        let croppingEnabled = true
+        let cameraViewController = CameraViewController(croppingEnabled: croppingEnabled) { [weak self] image, asset in
+            // Do something with your image here.
 
+            // If cropping is enabled this image will be the cropped version
+            
+            self?.productImageView.image = image
+            self?.dismiss(animated: true, completion: nil)
+        }
+        navigationController?.present(cameraViewController, animated: true, completion: nil)
+        /// Provides an image picker wrapped inside a UINavigationController instance
+//        let imagePickerViewController = CameraViewController.imagePickerViewController(croppingEnabled: croppingEnabled) { [weak self] image, asset in
+//
+//            self?.productImageView.image = image
+//            self?.dismiss(animated: true, completion: nil)
+//        }
 
+        //present(imagePickerViewController, animated: true, completion: nil)
     }
 
     @IBAction func doneAction(_ sender: Any) {
         dismiss(animated: true, completion: nil)
-    }
-}
-
-extension NewItemViewController {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
     }
 }

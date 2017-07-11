@@ -13,6 +13,7 @@ class ProductInfoTableViewCell: UITableViewCell {
 
     @IBOutlet weak var productImageView: UIImageView!
     @IBOutlet weak var productNameLabel: UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -25,19 +26,6 @@ class ProductInfoTableViewCell: UITableViewCell {
     }
 
     @IBAction func choosePhoto(_ sender: Any) {
-        let croppingEnabled = true
-        let cameraViewController = CameraViewController(croppingEnabled: croppingEnabled)
-        { [weak self] image, asset in
-            // Do something with your image here.
-            guard let _ = asset else {
-                return
-            }
-            // If cropping is enabled this image will be the cropped version
-            self?.productImageView.image = image
-            
-            self?.dismiss(animated: true, completion: nil)
-        }
-        
-        present(cameraViewController, animated: true, completion: nil)
+
     }
 }

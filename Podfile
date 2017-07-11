@@ -27,6 +27,7 @@ target 'Listio' do
     pod 'BarcodeScanner', :git => "https://github.com/festrs/BarcodeScanner.git"
     pod 'Kingfisher', '~> 3.0'
     pod 'ALCameraViewController'
+    pod 'DatePickerCell'
 end
 
 target 'ListioTests' do
