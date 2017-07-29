@@ -72,15 +72,20 @@ extension MainDataProvider {
         cell.nameLabel.text = item?.descricao
         cell.unLabel.text = "UN \(item?.qtde?.intValue ?? 0)"
         cell.valueLabel.text = item?.vlUnit?.toMaskReais()
-        let url = URL(string: (item?.imgUrl)!)
-        cell.productImageView.kf.setImage(with: url)
+        let url = URL(string: item?.imgUrl ?? "")
+        let placeHolder = UIImage(named: "noimage")
+        cell.productImageView.kf.setImage(with: url,
+                                          placeholder: placeHolder,
+                                          options: nil,
+                                          progressBlock: nil,
+                                          completionHandler: nil)
 
         return cell
     }
 
     public func tableView(_ tableView: UITableView,
-                  commit editingStyle: UITableViewCellEditingStyle,
-                   forRowAt indexPath: IndexPath) {
+                          commit editingStyle: UITableViewCellEditingStyle,
+                          forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
 
             let obj = items.remove(at: indexPath.row)

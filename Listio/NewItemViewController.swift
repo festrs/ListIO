@@ -8,10 +8,12 @@
 
 import UIKit
 import ALCameraViewController
+import DatePickerCell
 
 class NewItemViewController: UITableViewController {
 
-    @IBOutlet weak var productName: UILabel!
+    @IBOutlet weak var datePickerCellRef: DatePickerCell!
+    @IBOutlet weak var txfItemName: UITextField!
     @IBOutlet weak var productImageView: UIImageView!
     var new: Bool = true
     var product: Item!
@@ -23,13 +25,14 @@ class NewItemViewController: UITableViewController {
         } else {
             title = "Item"
         }
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if !new {
             navigationItem.rightBarButtonItem = nil
-            productName.text = product.descricao
+            txfItemName.text = product.descricao
         }
     }
 
@@ -40,25 +43,29 @@ class NewItemViewController: UITableViewController {
     @IBAction func choosePhoto(_ sender: Any) {
         let croppingEnabled = true
         let cameraViewController = CameraViewController(croppingEnabled: croppingEnabled) { [weak self] image, asset in
-            // Do something with your image here.
 
-            // If cropping is enabled this image will be the cropped version
-            
             self?.productImageView.image = image
             self?.dismiss(animated: true, completion: nil)
         }
         navigationController?.present(cameraViewController, animated: true, completion: nil)
-        /// Provides an image picker wrapped inside a UINavigationController instance
-//        let imagePickerViewController = CameraViewController.imagePickerViewController(croppingEnabled: croppingEnabled) { [weak self] image, asset in
-//
-//            self?.productImageView.image = image
-//            self?.dismiss(animated: true, completion: nil)
-//        }
-
-        //present(imagePickerViewController, animated: true, completion: nil)
     }
 
     @IBAction func doneAction(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("You selected cell #\(indexPath.section)!")
+        if let cell = tableView.cellForRow(at: indexPath) as? DatePickerCell {
+            cell.selectedInTableView(tableView)
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath.section == 1) {
+            return datePickerCellRef.datePickerHeight()
+        }
+        return super.tableView(tableView, heightForRowAt: indexPath)
     }
 }

@@ -15,11 +15,11 @@ extension Item {
         static let ItemsArrayName = "items"
         static let sortKey = "descricao"
     }
-    
+
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Item> {
         return NSFetchRequest<Item>(entityName: Keys.ItemEntityName);
     }
-    
+
     @nonobjc public class func getAllItems(_ mainContext: NSManagedObjectContext) throws -> [Item]? {
         let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
         do{
@@ -28,7 +28,7 @@ extension Item {
             throw Errors.CoreDataError("Could not fetch \(error), \(error.userInfo)")
         }
     }
-    
+
     @nonobjc public class func getUniqueItems(_ mainContext: NSManagedObjectContext, withPresent: Bool = false) throws -> [Item]? {
         let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Keys.sortKey, ascending: true)]
@@ -49,7 +49,7 @@ extension Item {
             throw Errors.CoreDataError("Could not fetch \(error), \(error.userInfo)")
         }
     }
-    
+
     convenience init(withName name: String, withImageUrl url:String, intoMainContext context: NSManagedObjectContext) {
         let entity = NSEntityDescription.entity(forEntityName: Keys.ItemEntityName, in: context)!
         if #available(iOS 10.0, *) {

@@ -34,10 +34,10 @@ extension UIColor {
         assert(red >= 0 && red <= 255, "Invalid red component")
         assert(green >= 0 && green <= 255, "Invalid green component")
         assert(blue >= 0 && blue <= 255, "Invalid blue component")
-        
+
         self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
     }
-    
+
     convenience init(rgb: Int) {
         self.init(
             red: (rgb >> 16) & 0xFF,
@@ -76,17 +76,14 @@ extension Sequence where Self.Iterator.Element: Equatable {
 
         return reduce(empty) { (accu: [(Element, Int)], element) in
             var accu = accu
-            for (index, value) in accu.enumerated() {
-                if value.0 == element {
+            for (index, value) in accu.enumerated() where value.0 == element {
                     accu[index].1 += 1
                     return accu
-                }
             }
             return accu + [(element, 1)]
         }
     }
 }
-
 
 extension UIApplication {
     class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {

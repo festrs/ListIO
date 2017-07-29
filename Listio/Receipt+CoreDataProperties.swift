@@ -19,9 +19,9 @@ extension Receipt {
     }
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Receipt> {
-        return NSFetchRequest<Receipt>(entityName: Keys.ReceiptEntityName);
+        return NSFetchRequest<Receipt>(entityName: Keys.ReceiptEntityName)
     }
-    
+
     @nonobjc public class func getAllReceipt(_ mainContext: NSManagedObjectContext) throws -> [Receipt]? {
         let fetchRequest: NSFetchRequest<Receipt> = Receipt.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Keys.ReceiptSortDescriptor, ascending: false)]
@@ -31,8 +31,8 @@ extension Receipt {
             throw Errors.CoreDataError("Could not fetch \(error), \(error.userInfo)")
         }
     }
-    
-    @nonobjc public class func createReceipt(_ mainContext: NSManagedObjectContext, json:[String: AnyObject]) throws {
+
+    @nonobjc public class func createReceipt(_ mainContext: NSManagedObjectContext, json: [String: AnyObject]) throws {
         // swiftlint:disable force_cast
         guard try verifyNewReceipt(mainContext, key: json["id"] as! String) == false else {
             throw Errors.DoubleReceiptWithSameID
@@ -43,14 +43,14 @@ extension Receipt {
         
         for item in (json[Keys.ReceiptItemsArrayName] as? [AnyObject])! {
             // swiftlint:disable force_cast
-            let itemObj:Item = NSEntityDescription.insertNewObject(forEntityName: Keys.ItemEntityName, into: mainContext) as! Item
+            let itemObj: Item = NSEntityDescription.insertNewObject(forEntityName: Keys.ItemEntityName, into: mainContext) as! Item
             itemObj.hyp_fill(with: item as! [String : Any])
             docObj.addToItems(itemObj)
         }
-        
+
         try setCountReceipt(mainContext)
     }
-    
+
     @nonobjc public class func setCountReceipt(_ mainContext: NSManagedObjectContext) throws {
         guard let allItems = try Item.getAllItems(mainContext) else {
             throw Errors.CoreDataError("")
@@ -65,12 +65,12 @@ extension Receipt {
             item.countReceipt = NSNumber(value: count)
         }
     }
-    
+
     @nonobjc public class func verifyNewReceipt(_ mainContext: NSManagedObjectContext, key: String) throws -> Bool {
         let fetchRequest: NSFetchRequest<Receipt> = Receipt.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "remoteID = %@",key)
         do {
-            
+
             let result = try mainContext.fetch(fetchRequest)
             if result.count > 0 {
                 return true
@@ -80,8 +80,7 @@ extension Receipt {
         }
         return false
     }
-    
-    
+
     @NSManaged public var createdAt: NSDate?
     @NSManaged public var link: String?
     @NSManaged public var mes: String?

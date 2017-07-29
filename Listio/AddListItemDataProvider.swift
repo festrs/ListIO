@@ -23,7 +23,7 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
         items = try getUniqueItems()!
         tableView.reloadData()
     }
-    
+
     func getUniqueItems() throws -> [Item]? {
         return try Item.getUniqueItems(dataStack.mainContext)
     }
@@ -31,16 +31,16 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
     func countItems() -> Int {
         return items.count
     }
-    
+
     func unselectAll() {
-        for (_, value) in items.enumerated() {
+        for value in items {
             value.present = NSNumber(booleanLiteral: false)
         }
         tableView.reloadData()
     }
-    
+
     func selectAll() {
-        for (_, value) in items.enumerated() {
+        for value in items {
             value.present = NSNumber(booleanLiteral: true)
         }
         tableView.reloadData()
@@ -51,11 +51,10 @@ extension AddListItemDataProvider {
     //MARk - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let itemObj = items[indexPath.row]
-        
+
         guard let cell = tableView.cellForRow(at: indexPath) as? AddListItemTableViewCell else {
             fatalError("Unexpected Index Path")
         }
-        
         if let present = itemObj.present?.boolValue, present {
             cell.accessoryType = .none
             itemObj.present = NSNumber(booleanLiteral: false)
@@ -75,37 +74,38 @@ extension AddListItemDataProvider {
         }
         return items.count
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if items.isEmpty {
             return 120
         }
         return 58
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if items.count == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.InfoCellIdentifer, for: indexPath) as? AddListItemTableViewCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.InfoCellIdentifer,
+                                                           for: indexPath) as? AddListItemTableViewCell else {
                 fatalError("Unexpected Index Path")
             }
             cell.frame.size.height = 92
             return cell
         }
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.CellIdentifier, for: indexPath) as? AddListItemTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.CellIdentifier,
+                                                       for: indexPath) as? AddListItemTableViewCell else {
             fatalError("Unexpected Index Path")
         }
         let itemObj = items[indexPath.row]
-        
+
         cell.nameLabel.text = itemObj.descricao
         cell.priceLabel.text = itemObj.vlUnit?.toMaskReais()
         cell.unLabel.text = "UN \(itemObj.qtde?.intValue ?? 0)"
-        
+
         if let present = itemObj.present?.boolValue, present {
             cell.accessoryType = .checkmark
         } else {
             cell.accessoryType = .none
         }
-        
         return cell
     }
 }
