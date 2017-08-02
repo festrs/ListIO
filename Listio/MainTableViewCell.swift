@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AIFlatSwitch
 
 class MainTableViewCell: UITableViewCell {
 
@@ -15,5 +14,9 @@ class MainTableViewCell: UITableViewCell {
     @IBOutlet weak var unLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var productImageView: UIImageView!
+
+    override func awakeFromNib() {
+        productImageView.layer.cornerRadius = productImageView.frame.size.height/2.0
+    }
 
 }

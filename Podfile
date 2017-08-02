@@ -20,7 +20,6 @@ target 'Listio' do
     pod 'Bugsnag', :git => "https://github.com/bugsnag/bugsnag-cocoa.git"
     pod 'StringScore_Swift', :git => "https://github.com/yichizhang/StringScore_Swift.git"
     pod 'Sync', '~> 2'
-    pod 'AIFlatSwitch', '~> 1.0.1'
     pod 'SVProgressHUD', '~> 2.1.2'
     pod 'SwiftLint'
     pod 'Floaty', '~> 3.0.0'
@@ -28,6 +27,7 @@ target 'Listio' do
     pod 'Kingfisher', '~> 3.0'
     pod 'ALCameraViewController'
     pod 'DatePickerCell'
+    pod 'AKMaskField'
 end
 
 target 'ListioTests' do

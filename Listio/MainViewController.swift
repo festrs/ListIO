@@ -21,7 +21,6 @@ class MainViewController: UIViewController, FPHandlesMOC {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var floatyButtonView: Floaty!
     fileprivate var dataStack: DATAStack!
-    public var dataProvider: MainDataProviderProtocol = MainDataProvider()
     public var communicator: APICommunicatorProtocol = APICommunicator()
     public let barCodeScannerController = BarcodeScannerController()
     var presentedAlert: Bool = false
@@ -61,13 +60,8 @@ class MainViewController: UIViewController, FPHandlesMOC {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        do {
-            //try loadTotal()
-        } catch Errors.CoreDataError(let msg) {
-            showAlert(Alerts.ErroTitle, message: msg)
-        } catch let error as NSError {
-            showAlert(Alerts.ErroTitle, message: error.localizedDescription)
-        }
+        floatyButtonView.open()
+        floatyButtonView.close()
     }
 
     func configBarcodeScanner() {
@@ -79,7 +73,6 @@ class MainViewController: UIViewController, FPHandlesMOC {
         BarcodeScanner.Title.backgroundColor = UIColor(rgb: 0x005A8A)
         BarcodeScanner.Title.color = UIColor.white
         BarcodeScanner.CloseButton.color = UIColor.white
-        
         BarcodeScanner.Title.text = NSLocalizedString("Scan barcode", comment: "")
         BarcodeScanner.CloseButton.text = NSLocalizedString("Close", comment: "")
         BarcodeScanner.SettingsButton.text = NSLocalizedString("Settings", comment: "")

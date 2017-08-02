@@ -41,6 +41,7 @@
 		3AE9D4021EB0D6EF005A4665 /* AddListItemControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE9D4011EB0D6EF005A4665 /* AddListItemControllerTest.swift */; };
 		3AE9D4061EB16AE1005A4665 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AE9D4051EB16AE1005A4665 /* Assets.xcassets */; };
 		3AE9D4081EB21170005A4665 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE9D4071EB21170005A4665 /* TabBarViewController.swift */; };
+		3AEABFF61F2E942D006FFAFB /* CurrencyField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEABFF51F2E942D006FFAFB /* CurrencyField.swift */; };
 		3AFA078F1EEC5EF700E4DC38 /* ItemsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFA078E1EEC5EF700E4DC38 /* ItemsTableViewController.swift */; };
 		3AFA07951EEC9EF000E4DC38 /* NewItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFA07941EEC9EF000E4DC38 /* NewItemViewController.swift */; };
 		860D43D8DD321DE626F6DA25 /* Pods_Listio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08240201388815E9C27643BF /* Pods_Listio.framework */; };
@@ -99,6 +100,7 @@
 		3AE9D4011EB0D6EF005A4665 /* AddListItemControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListItemControllerTest.swift; sourceTree = "<group>"; };
 		3AE9D4051EB16AE1005A4665 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3AE9D4071EB21170005A4665 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		3AEABFF51F2E942D006FFAFB /* CurrencyField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyField.swift; sourceTree = "<group>"; };
 		3AFA078E1EEC5EF700E4DC38 /* ItemsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemsTableViewController.swift; sourceTree = "<group>"; };
 		3AFA07941EEC9EF000E4DC38 /* NewItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewItemViewController.swift; sourceTree = "<group>"; };
 		44A4E7DAA2D34A3042A68024 /* Pods-ListioTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ListioTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ListioTests/Pods-ListioTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		16B2F86A1F0A8E8B00885796 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				3AEABFF51F2E942D006FFAFB /* CurrencyField.swift */,
 				16B2F86B1F0A8EB900885796 /* ProductInfoTableViewCell.swift */,
 			);
 			name = Cells;
@@ -596,6 +599,7 @@
 				3ABA102D1EAE43D70002CECE /* AddListItemViewController.swift in Sources */,
 				3AFA078F1EEC5EF700E4DC38 /* ItemsTableViewController.swift in Sources */,
 				3AE233341CFE11B000656969 /* MainViewController.swift in Sources */,
+				3AEABFF61F2E942D006FFAFB /* CurrencyField.swift in Sources */,
 				3A975D571CFCC42200E400B3 /* Listio.xcdatamodeld in Sources */,
 				3AE1FB2A1D07B71E001A6914 /* MainTableViewCell.swift in Sources */,
 			);

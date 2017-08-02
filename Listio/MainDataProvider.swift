@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import DATAStack
 import Kingfisher
+import Photos
 
 enum Errors: Error {
     // swiftlint:disable identifier_name
@@ -72,15 +73,39 @@ extension MainDataProvider {
         cell.nameLabel.text = item?.descricao
         cell.unLabel.text = "UN \(item?.qtde?.intValue ?? 0)"
         cell.valueLabel.text = item?.vlUnit?.toMaskReais()
-        let url = URL(string: item?.imgUrl ?? "")
         let placeHolder = UIImage(named: "noimage")
-        cell.productImageView.kf.setImage(with: url,
-                                          placeholder: placeHolder,
-                                          options: nil,
-                                          progressBlock: nil,
-                                          completionHandler: nil)
+        let image = getImage(localUrl: item?.imgUrl ?? "")
+
+        if image == nil {
+            let url = URL(string: item?.imgUrl ?? "")
+            cell.productImageView.kf.setImage(with: url,
+                                              placeholder: placeHolder,
+                                              options: nil,
+                                              progressBlock: nil,
+                                              completionHandler: nil)
+        } else {
+            cell.productImageView.image = image
+        }
 
         return cell
+    }
+
+    func getImage(localUrl: String) -> UIImage? {
+
+        let assetUrl = URL(string: "assets-library://asset/asset.JPG?id=\(localUrl)")
+        let asset = PHAsset.fetchAssets(withALAssetURLs: [assetUrl!], options: nil)
+
+        guard let result = asset.firstObject else {
+            return nil
+        }
+        var assetImage: UIImage?
+        let options = PHImageRequestOptions()
+        options.isSynchronous = true
+        PHImageManager.default().requestImage(for: result, targetSize: UIScreen.main.bounds.size, contentMode: PHImageContentMode.aspectFill, options: options) { image, _ in
+            assetImage = image
+        }
+
+        return assetImage
     }
 
     public func tableView(_ tableView: UITableView,

@@ -48,6 +48,18 @@ extension UIColor {
 }
 
 extension String {
+    func maskToReais() -> String? {
+        if let parseFloat = Float(self) {
+            let number = NSNumber(value:parseFloat)
+            let formatter = NumberFormatter()
+            formatter.numberStyle = NumberFormatter.Style.currency
+            formatter.locale = Locale(identifier: "pt_BR")
+
+            return formatter.string(from: number)
+        }
+        return ""
+    }
+
     func trim() -> String {
         return self.trimmingCharacters(in: CharacterSet.whitespaces)
     }
@@ -65,6 +77,17 @@ extension String {
         return JWT.encode(claims: claims, algorithm: .hs256(self.data(using: .utf8)!))
     }
 
+//    var digits: String {
+//        return components(separatedBy: CharacterSet.decimalDigits.inverted)
+//            .joined()
+//    }
+
+    var digits: [UInt8] { return characters.flatMap { UInt8(String($0)) } }
+    
+    var decimal: Decimal {
+        return self.digits.decimal /
+            Decimal(pow(10, Double(Formatter.currency.maximumFractionDigits)))
+    }
 }
 
 extension Sequence where Self.Iterator.Element: Equatable {
@@ -85,19 +108,32 @@ extension Sequence where Self.Iterator.Element: Equatable {
     }
 }
 
-extension UIApplication {
-    class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
-        if let nav = base as? UINavigationController {
-            return topViewController(base: nav.visibleViewController)
-        }
-        if let tab = base as? UITabBarController {
-            if let selected = tab.selectedViewController {
-                return topViewController(base: selected)
-            }
-        }
-        if let presented = base?.presentedViewController {
-            return topViewController(base: presented)
-        }
-        return base
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
+
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
+extension NumberFormatter {
+    convenience init(numberStyle: Style) {
+        self.init()
+        self.numberStyle = numberStyle
+    }
+}
+extension Formatter {
+    static let currency = NumberFormatter(numberStyle: .currency)
+}
+
+extension Collection where Iterator.Element == UInt8 {
+    var string: String { return map(String.init).joined() }
+    var decimal: Decimal { return Decimal(string: string) ?? 0 }
+}
+extension Decimal {
+    var number: NSDecimalNumber { return NSDecimalNumber(decimal: self) }
 }

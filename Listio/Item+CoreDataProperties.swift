@@ -17,12 +17,12 @@ extension Item {
     }
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Item> {
-        return NSFetchRequest<Item>(entityName: Keys.ItemEntityName);
+        return NSFetchRequest<Item>(entityName: Keys.ItemEntityName)
     }
 
     @nonobjc public class func getAllItems(_ mainContext: NSManagedObjectContext) throws -> [Item]? {
         let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
-        do{
+        do {
             return try mainContext.fetch(fetchRequest)
         } catch let error as NSError {
             throw Errors.CoreDataError("Could not fetch \(error), \(error.userInfo)")
@@ -35,7 +35,7 @@ extension Item {
         if withPresent {
             fetchRequest.predicate = NSPredicate(format: "present == %@", NSNumber(booleanLiteral: true))
         }
-        do{
+        do {
             var items = try mainContext.fetch(fetchRequest)
             items = items.reduce([Item](), { uniqueElements, element in
                 if uniqueElements.index(where: {$0 == element}) != nil {
@@ -50,7 +50,7 @@ extension Item {
         }
     }
 
-    convenience init(withName name: String, withImageUrl url:String, intoMainContext context: NSManagedObjectContext) {
+    convenience init(withName name: String, withImageUrl url: String, intoMainContext context: NSManagedObjectContext) {
         let entity = NSEntityDescription.entity(forEntityName: Keys.ItemEntityName, in: context)!
         if #available(iOS 10.0, *) {
             self.init(context: context)
@@ -60,7 +60,7 @@ extension Item {
         self.descricao = name
         self.imgUrl = url
     }
-    
+
     @NSManaged public var descricao: String?
     @NSManaged public var imgUrl: String?
     @NSManaged public var qtde: NSDecimalNumber?
@@ -71,5 +71,4 @@ extension Item {
     @NSManaged public var present: NSNumber?
     @NSManaged public var countReceipt: NSNumber?
     @NSManaged public var document: Receipt?
-    
 }

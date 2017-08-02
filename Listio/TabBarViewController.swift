@@ -17,12 +17,7 @@ class TabBarViewController: UITabBarController, FPHandlesMOC {
             if let child = value as? FPHandlesMOC {
                 child.receiveDataStack(incomingDataStack)
             }
-            
-            if let child = value as? MainViewController {
-                let dataProvider = MainDataProvider()
-                child.dataProvider = dataProvider
-            }
-            
+
             if let child = value as? AddListItemViewController {
                 let dataProvider = AddListItemDataProvider()
                 child.dataProvider = dataProvider
