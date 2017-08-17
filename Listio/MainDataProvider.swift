@@ -86,7 +86,8 @@ extension MainDataProvider {
         } else {
             cell.productImageView.image = image
         }
-
+        cell.productImageView.layer.cornerRadius = cell.productImageView.frame.size.height/2.0
+        cell.productImageView.layer.masksToBounds = true
         return cell
     }
 
@@ -101,7 +102,10 @@ extension MainDataProvider {
         var assetImage: UIImage?
         let options = PHImageRequestOptions()
         options.isSynchronous = true
-        PHImageManager.default().requestImage(for: result, targetSize: UIScreen.main.bounds.size, contentMode: PHImageContentMode.aspectFill, options: options) { image, _ in
+        PHImageManager.default().requestImage(for: result,
+                                              targetSize: UIScreen.main.bounds.size,
+                                              contentMode: PHImageContentMode.aspectFill,
+                                              options: options) { image, _ in
             assetImage = image
         }
 
@@ -114,7 +118,7 @@ extension MainDataProvider {
         if editingStyle == .delete {
 
             let obj = items.remove(at: indexPath.row)
-            obj.present = NSNumber(booleanLiteral: false)
+            obj.present = 0
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.reloadData()
         }

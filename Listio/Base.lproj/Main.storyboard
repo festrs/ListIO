@@ -57,6 +57,7 @@
                     <navigationItem key="navigationItem" title="Lista" id="nfb-qS-Ch3"/>
                     <connections>
                         <outlet property="floatyButtonView" destination="bA7-Gv-9K7" id="eye-K4-Zwf"/>
+                        <outlet property="tableViewContainer" destination="uhK-fp-prW" id="Wmt-9E-2JD"/>
                         <segue destination="aaZ-Qm-MuQ" kind="presentation" identifier="toNewList" id="fa1-JO-ZQm"/>
                         <segue destination="ZYv-Th-bEm" kind="presentation" identifier="toNewItem" id="fiU-Ky-txa"/>
                     </connections>
@@ -153,9 +154,9 @@
         <!--New Item View Controller-->
         <scene sceneID="38b-Aq-lDF">
             <objects>
-                <tableViewController id="Mm5-nr-uIT" customClass="NewItemViewController" customModule="Listio" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="86" sectionHeaderHeight="28" sectionFooterHeight="28" id="ePF-ax-PaH">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                <tableViewController autoresizesArchivedViewToFullSize="NO" id="Mm5-nr-uIT" customClass="NewItemViewController" customModule="Listio" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="86" sectionHeaderHeight="28" sectionFooterHeight="28" id="ePF-ax-PaH">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -168,10 +169,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="166.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jbz-L0-NUk">
-                                                    <rect key="frame" x="8" y="29" width="60" height="54"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="jbz-L0-NUk">
+                                                    <rect key="frame" x="8" y="29" width="60" height="60"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="54" id="PRS-wk-GS7"/>
+                                                        <constraint firstAttribute="height" constant="60" id="PRS-wk-GS7" userLabel="height = 60"/>
                                                         <constraint firstAttribute="width" constant="60" id="WIE-3a-lp5"/>
                                                     </constraints>
                                                 </imageView>
@@ -184,7 +185,7 @@
                                                                 <constraint firstAttribute="height" constant="44" id="Glv-Gu-xqq"/>
                                                             </constraints>
                                                             <nil key="textColor"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                         </textField>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JaU-1G-4o2">
@@ -200,7 +201,7 @@
                                                                 <constraint firstAttribute="height" constant="44" id="XfW-hM-owl"/>
                                                             </constraints>
                                                             <nil key="textColor"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                                         </textField>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cnX-V9-8Qf">
@@ -216,7 +217,7 @@
                                                                 <constraint firstAttribute="height" constant="44" id="9bS-CQ-ZL4"/>
                                                             </constraints>
                                                             <nil key="textColor"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                                         </textField>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cys-mE-Fvk">
@@ -229,11 +230,10 @@
                                                     </subviews>
                                                 </stackView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aVO-9n-BgT">
-                                                    <rect key="frame" x="18" y="91" width="41" height="30"/>
-                                                    <state key="normal" title="Photo"/>
+                                                    <rect key="frame" x="23" y="97" width="31" height="30"/>
+                                                    <state key="normal" title="Foto"/>
                                                     <connections>
-                                                        <action selector="choosePhoto:" destination="qgO-Mw-MWx" eventType="touchUpInside" id="2OI-B1-R2g"/>
-                                                        <action selector="choosePhoto:" destination="Mm5-nr-uIT" eventType="touchUpInside" id="3lA-UB-Sid"/>
+                                                        <action selector="choosePhoto:" destination="Mm5-nr-uIT" eventType="touchUpInside" id="Th1-3d-NfL"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -254,13 +254,13 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Alert" id="yHb-R0-KfN">
+                            <tableViewSection headerTitle="Alertas" id="yHb-R0-KfN">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="addAlarmCell" rowHeight="44" id="CI2-N3-Svk" userLabel="AddAlarmCell">
                                         <rect key="frame" x="0.0" y="195" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CI2-N3-Svk" id="D0i-4s-NYv">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="RkJ-2b-767">
@@ -269,7 +269,7 @@
                                                         <action selector="addDatePickerCell:" destination="Mm5-nr-uIT" eventType="valueChanged" id="t6F-Ea-bsT"/>
                                                     </connections>
                                                 </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Alarm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CvB-ql-x9i">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adicionar alarme" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CvB-ql-x9i">
                                                     <rect key="frame" x="15" y="11" width="240" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -285,8 +285,32 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="sliderCell" rowHeight="72" id="q6M-lK-EXf" userLabel="AddAlarmCell">
+                                        <rect key="frame" x="0.0" y="239" width="320" height="72"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q6M-lK-EXf" id="LFn-Z5-8Ee">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="71.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="1" maxValue="20" translatesAutoresizingMaskIntoConstraints="NO" id="L5v-BL-tAB">
+                                                    <rect key="frame" x="15" y="33" width="299" height="31"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="alertDaysChanged:" destination="Mm5-nr-uIT" eventType="valueChanged" id="AYS-wj-ruw"/>
+                                                    </connections>
+                                                </slider>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Alert 4 dyas before expiration" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wUX-QX-BTO">
+                                                    <rect key="frame" x="15" y="8" width="297" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                     <tableViewCell hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="datePickerCell" rowHeight="44" id="xZY-JN-pGM" customClass="DatePickerCell" customModule="DatePickerCell">
-                                        <rect key="frame" x="0.0" y="239" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="311" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xZY-JN-pGM" id="Cby-OC-Rqq">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -302,7 +326,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="V0z-q4-Sha">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="lra-id-p8f">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="lra-id-p8f">
                             <connections>
                                 <action selector="doneAction:" destination="Mm5-nr-uIT" id="BdS-6g-rd0"/>
                             </connections>
@@ -310,8 +334,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addDateCellSwitch" destination="RkJ-2b-767" id="hqG-l5-a9L"/>
+                        <outlet property="alertDaysLabel" destination="wUX-QX-BTO" id="5iB-DK-eBe"/>
                         <outlet property="datePickerCellRef" destination="xZY-JN-pGM" id="Oev-wv-jFA"/>
+                        <outlet property="daySlider" destination="L5v-BL-tAB" id="UEZ-3x-pCh"/>
+                        <outlet property="doneButton" destination="lra-id-p8f" id="Smu-74-d6U"/>
                         <outlet property="productImageView" destination="jbz-L0-NUk" id="NVg-I0-ILK"/>
+                        <outlet property="sliderCell" destination="q6M-lK-EXf" id="V0t-bm-gkf"/>
                         <outlet property="txfItemName" destination="gys-0R-Gsc" id="oUL-c9-66h"/>
                         <outlet property="txfItemPrice" destination="Q5x-be-7KD" id="Jsb-mT-oPe"/>
                         <outlet property="txfItemUn" destination="REK-ES-Taq" id="Vmg-Vo-SSR"/>
@@ -541,8 +569,9 @@
     <resources>
         <image name="To Do-29" width="29" height="29"/>
         <image name="noimage" width="225" height="225"/>
+        <image name="placeholder" width="104" height="104"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Sth-CP-RtS"/>
+        <segue reference="7kG-PP-zvp"/>
     </inferredMetricsTieBreakers>
 </document>

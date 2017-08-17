@@ -16,7 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     lazy var dataStack = DATAStack(modelName:"Listio")
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         if let rootViewController = self.window?.rootViewController as? FPHandlesMOC {
             rootViewController.receiveDataStack(self.dataStack)
         }
@@ -40,5 +41,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-}
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        let userInfo = notification.userInfo
+        let msg = "O produto \(userInfo![Constants.notificationProductNameKey]!) ira vencer em \(userInfo![Constants.notificationProductDateKey]!)"
+        let alert = UIAlertController(title: "Atenção!", message: msg, preferredStyle: UIAlertControllerStyle.alert)
+        let topWindow = UIWindow(frame: UIScreen.main.bounds)
+        topWindow.rootViewController = UIViewController()
+        topWindow.windowLevel = UIWindowLevelAlert + 1
 
+        alert.addAction(UIAlertAction(title: "Ok",
+                                      style: UIAlertActionStyle.default,
+                                      handler: { (_ action: UIAlertAction) -> Void in
+            topWindow.isHidden = true
+        }))
+        topWindow.makeKeyAndVisible()
+        topWindow.rootViewController?.present(alert, animated: true, completion: { _ in })
+    }
+
+}

@@ -12,22 +12,22 @@ import AVFoundation
 import DATAStack
 import Floaty
 import SVProgressHUD
-import BarcodeScanner
 
 class MainViewController: UIViewController, FPHandlesMOC {
 
+    @IBOutlet weak var tableViewContainer: UIView!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var qteItemsLabel: UILabel!
-    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var floatyButtonView: Floaty!
     fileprivate var dataStack: DATAStack!
     public var communicator: APICommunicatorProtocol = APICommunicator()
-    public let barCodeScannerController = BarcodeScannerController()
     var presentedAlert: Bool = false
 
     lazy var readerVC: QRCodeReaderViewController = {
         let builder = QRCodeReaderViewControllerBuilder {
-            $0.reader = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode], captureDevicePosition: .back)
+            $0.reader = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode,
+                                                           AVMetadataObjectTypeEAN13Code,
+                                                           AVMetadataObjectTypeEAN8Code], captureDevicePosition: .back)
         }
         builder.cancelButtonTitle = Keys.CancelButtonTittle
         return QRCodeReaderViewController(builder: builder)
@@ -54,7 +54,6 @@ class MainViewController: UIViewController, FPHandlesMOC {
         super.viewDidLoad()
         readerVC.delegate = self
         readerVC.modalPresentationStyle = .formSheet
-        configBarcodeScanner()
         configFloatyAddButton()
     }
 
@@ -64,33 +63,15 @@ class MainViewController: UIViewController, FPHandlesMOC {
         floatyButtonView.close()
     }
 
-    func configBarcodeScanner() {
-        barCodeScannerController.isOneTimeSearch = true
-        barCodeScannerController.codeDelegate = self
-        barCodeScannerController.errorDelegate = self
-        barCodeScannerController.dismissalDelegate = self
-        barCodeScannerController.hidesBottomBarWhenPushed = true
-        BarcodeScanner.Title.backgroundColor = UIColor(rgb: 0x005A8A)
-        BarcodeScanner.Title.color = UIColor.white
-        BarcodeScanner.CloseButton.color = UIColor.white
-        BarcodeScanner.Title.text = NSLocalizedString("Scan barcode", comment: "")
-        BarcodeScanner.CloseButton.text = NSLocalizedString("Close", comment: "")
-        BarcodeScanner.SettingsButton.text = NSLocalizedString("Settings", comment: "")
-        BarcodeScanner.Info.text = NSLocalizedString(
-            "Place the barcode within the window to scan. The search will start automatically.", comment: "")
-        BarcodeScanner.Info.loadingText = NSLocalizedString("Looking for your product...", comment: "")
-        BarcodeScanner.Info.notFoundText = NSLocalizedString("No product found.", comment: "")
-        BarcodeScanner.Info.settingsText = NSLocalizedString(
-            "In order to scan barcodes you have to allow camera under your settings.", comment: "")
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
     }
 
     func configFloatyAddButton() {
         floatyButtonView.addItem("Via código de barras",
                                  icon: UIImage(named: "Barcode-29")) { [weak self] _ in
             guard let strongSelf = self else { return }
-            //strongSelf.navigationController?.pushViewController(strongSelf.barCodeScannerController, animated: true)
-            //strongSelf.present(strongSelf.barCodeScannerController, animated: true, completion: nil)
-            strongSelf.present(strongSelf.barCodeScannerController, animated: true, completion: nil)
+            strongSelf.present(strongSelf.readerVC, animated: true, completion: nil )
         }
         floatyButtonView.addItem("Via QR Code", icon: UIImage(named: "QR Code-29")) { _ in
             self.present(self.readerVC, animated: true, completion: nil )
@@ -161,8 +142,21 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
         SVProgressHUD.show()
         reader.stopScanning()
 
-        guard result.metadataType == AVMetadataObjectTypeQRCode else { return }
-        communicator.getReceipt(linkUrl: result.value) { [weak self] (error, responseJSON) in
+        if result.metadataType == AVMetadataObjectTypeEAN13Code {
+            createNewItemFromBarCode(code: result.value)
+        } else if result.metadataType == AVMetadataObjectTypeQRCode {
+            createNewListFromQRCode(code: result.value)
+        }
+        dismiss(animated: true, completion: nil )
+    }
+
+    func readerDidCancel(_ reader: QRCodeReaderViewController) {
+        reader.stopScanning()
+        reader.dismiss(animated: true, completion: nil)
+    }
+
+    func createNewListFromQRCode(code: String) {
+        communicator.getReceipt(linkUrl: code) { [weak self] (error, responseJSON) in
             SVProgressHUD.dismiss()
             guard let strongSelf = self else {
                 return
@@ -180,25 +174,16 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
                 strongSelf.showAlert(Alerts.ErroTitle, message: error.localizedDescription)
             }
         }
-        dismiss(animated: true, completion: nil )
     }
-    func readerDidCancel(_ reader: QRCodeReaderViewController) {
-        reader.stopScanning()
-        reader.dismiss(animated: true, completion: nil)
-    }
-}
 
-extension MainViewController: BarcodeScannerCodeDelegate, BarcodeScannerErrorDelegate, BarcodeScannerDismissalDelegate {
-
-    func barcodeScanner(_ controller: BarcodeScannerController, didCaptureCode code: String, type: String) {
-
+    func createNewItemFromBarCode(code: String) {
         communicator.getProduct(code: code) { [weak self] (error, responseJSON) in
+            SVProgressHUD.dismiss()
             guard let strongSelf = self else {
-                controller.resetWithError(message: "Ocorreu um erro, tente novamente mais tarde.")
                 return
             }
             guard error == nil else {
-                controller.resetWithError(message: "Ocorreu um erro, tente novamente mais tarde.")
+                strongSelf.showAlert(Alerts.ErroTitle, message: "Ocorreu um erro, tente novamente mais tarde.")
                 return
             }
 
@@ -207,31 +192,21 @@ extension MainViewController: BarcodeScannerCodeDelegate, BarcodeScannerErrorDel
                 let fields = firstRecord["fields"] as? [String: AnyObject],
                 let itemName = fields["gtin_nm"] as? String,
                 let itemUrl = fields["gtin_img"] as? String,
-                let un = fields["pkg_unit"] as? Int,
                 let cod = fields["gtin_cd"] as? String else {
-                controller.resetWithError(message: "Ocorreu um erro, tente novamente mais tarde.")
-                return
+                    strongSelf.showAlert(Alerts.ErroTitle, message: "Produto não encontrado.")
+                    strongSelf.performSegue(withIdentifier: Keys.SegueToNewItemIdentifier, sender: nil)
+                    return
             }
-
-            let item = Item(withName: itemName,
+            _ = Item(withName: itemName,
                             withImageUrl: itemUrl,
+                            withVlUnit: 0,
+                            withQTDE: 0,
+                            withRemoteID: cod,
+                            withDate: Date(),
+                            withAlertPresent: false,
                             intoMainContext: strongSelf.dataStack.mainContext)
-
-            item.un = "\(un)"
-            item.remoteID = cod
-
-            controller.reset(animated: true)
-            controller.dismiss(animated: true, completion: {
-                strongSelf.createNewList()
-            })
+            // TODO: Tableview.reload()
+            strongSelf.showAlert(Alerts.DismissAlert, message: "Produto adicionado com sucesso.")
         }
-    }
-
-    func barcodeScanner(_ controller: BarcodeScannerController, didReceiveError error: Error) {
-        print(error)
-    }
-
-    func barcodeScannerDidDismiss(_ controller: BarcodeScannerController) {
-        controller.dismiss(animated: true, completion: nil)
     }
 }

@@ -15,8 +15,6 @@ class MainTableViewCell: UITableViewCell {
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var productImageView: UIImageView!
 
-    override func awakeFromNib() {
-        productImageView.layer.cornerRadius = productImageView.frame.size.height/2.0
-    }
+    override func awakeFromNib() { }
 
 }

@@ -13,7 +13,7 @@ extension Item {
     struct Keys {
         static let ItemEntityName = "Item"
         static let ItemsArrayName = "items"
-        static let sortKey = "descricao"
+        static let sortKey = "alertDate"
     }
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Item> {
@@ -29,7 +29,8 @@ extension Item {
         }
     }
 
-    @nonobjc public class func getUniqueItems(_ mainContext: NSManagedObjectContext, withPresent: Bool = false) throws -> [Item]? {
+    @nonobjc public class func getUniqueItems(_ mainContext: NSManagedObjectContext,
+                                              withPresent: Bool = false) throws -> [Item]? {
         let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Keys.sortKey, ascending: true)]
         if withPresent {
@@ -50,7 +51,14 @@ extension Item {
         }
     }
 
-    convenience init(withName name: String, withImageUrl url: String, intoMainContext context: NSManagedObjectContext) {
+    convenience init(withName name: String,
+                     withImageUrl url: String,
+                     withVlUnit vlUnit: NSNumber,
+                     withQTDE qtde: NSDecimalNumber,
+                     withRemoteID: String,
+                     withDate date: Date,
+                     withAlertPresent present: Bool,
+                     intoMainContext context: NSManagedObjectContext) {
         let entity = NSEntityDescription.entity(forEntityName: Keys.ItemEntityName, in: context)!
         if #available(iOS 10.0, *) {
             self.init(context: context)
@@ -59,6 +67,12 @@ extension Item {
         }
         self.descricao = name
         self.imgUrl = url
+        self.vlUnit = vlUnit
+        self.qtde = qtde
+        self.remoteID = withRemoteID
+        self.present = 1
+        self.alert = present ? 1 : 0
+        self.alertDate = date
     }
 
     @NSManaged public var descricao: String?
@@ -71,4 +85,6 @@ extension Item {
     @NSManaged public var present: NSNumber?
     @NSManaged public var countReceipt: NSNumber?
     @NSManaged public var document: Receipt?
+    @NSManaged public var alert: NSNumber?
+    @NSManaged public var alertDate: Date?
 }

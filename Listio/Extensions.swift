@@ -83,7 +83,7 @@ extension String {
 //    }
 
     var digits: [UInt8] { return characters.flatMap { UInt8(String($0)) } }
-    
+
     var decimal: Decimal {
         return self.digits.decimal /
             Decimal(pow(10, Double(Formatter.currency.maximumFractionDigits)))
@@ -136,4 +136,11 @@ extension Collection where Iterator.Element == UInt8 {
 }
 extension Decimal {
     var number: NSDecimalNumber { return NSDecimalNumber(decimal: self) }
+}
+extension Date {
+    func getDateStringShort() -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter.string(from:self)
+    }
 }

@@ -11,11 +11,13 @@
 		3A17B70A1E9D58B90026756E /* MainDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A17B7091E9D58B90026756E /* MainDataProviderTests.swift */; };
 		3A4CC4DB1EBA1EB300E230D1 /* ItemTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4CC4DA1EBA1EB300E230D1 /* ItemTest.swift */; };
 		3A4CC4DD1EBA5D3300E230D1 /* ReceiptTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4CC4DC1EBA5D3300E230D1 /* ReceiptTest.swift */; };
+		3A8E3E741F3F820200434A37 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8E3E731F3F820200434A37 /* Constants.swift */; };
 		3A975D4F1CFCC42200E400B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */; };
 		3A975D541CFCC42200E400B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D521CFCC42200E400B3 /* Main.storyboard */; };
 		3A975D571CFCC42200E400B3 /* Listio.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D551CFCC42200E400B3 /* Listio.xcdatamodeld */; };
 		3A975D5C1CFCC42200E400B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D5A1CFCC42200E400B3 /* LaunchScreen.storyboard */; };
 		3A9D64711D027082002369A4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9D64701D027082002369A4 /* Extensions.swift */; };
+		3AB121EB1F3744A10042C2A9 /* AlertProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB121EA1F3744A10042C2A9 /* AlertProvider.swift */; };
 		3ABA10261EAD62D20002CECE /* AddListItemDataProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA10251EAD62D20002CECE /* AddListItemDataProviderProtocol.swift */; };
 		3ABA10281EAD66860002CECE /* AddListItemDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA10271EAD66860002CECE /* AddListItemDataProvider.swift */; };
 		3ABA102B1EAD6F860002CECE /* AddListItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA102A1EAD6F860002CECE /* AddListItemTableViewCell.swift */; };
@@ -65,6 +67,7 @@
 		3A17B7091E9D58B90026756E /* MainDataProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainDataProviderTests.swift; sourceTree = "<group>"; };
 		3A4CC4DA1EBA1EB300E230D1 /* ItemTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemTest.swift; sourceTree = "<group>"; };
 		3A4CC4DC1EBA5D3300E230D1 /* ReceiptTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceiptTest.swift; sourceTree = "<group>"; };
+		3A8E3E731F3F820200434A37 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3A975D4B1CFCC42200E400B3 /* Listio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Listio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A975D531CFCC42200E400B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -74,6 +77,7 @@
 		3A975D621CFCC42200E400B3 /* ListioTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ListioTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A975D681CFCC42200E400B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A9D64701D027082002369A4 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		3AB121EA1F3744A10042C2A9 /* AlertProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertProvider.swift; sourceTree = "<group>"; };
 		3ABA10251EAD62D20002CECE /* AddListItemDataProviderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListItemDataProviderProtocol.swift; sourceTree = "<group>"; };
 		3ABA10271EAD66860002CECE /* AddListItemDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListItemDataProvider.swift; sourceTree = "<group>"; };
 		3ABA102A1EAD6F860002CECE /* AddListItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListItemTableViewCell.swift; sourceTree = "<group>"; };
@@ -250,6 +254,7 @@
 				3A9D64701D027082002369A4 /* Extensions.swift */,
 				3AD02D0F1E88056D00B4CAD5 /* APICommunicator.swift */,
 				3ACD3B421E9D121000713A04 /* APICommunicatorProtocol.swift */,
+				3A8E3E731F3F820200434A37 /* Constants.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -344,6 +349,7 @@
 			children = (
 				16B2F86A1F0A8E8B00885796 /* Cells */,
 				3AFA07941EEC9EF000E4DC38 /* NewItemViewController.swift */,
+				3AB121EA1F3744A10042C2A9 /* AlertProvider.swift */,
 			);
 			name = "New Item";
 			sourceTree = "<group>";
@@ -585,8 +591,10 @@
 				3AE8D2F61E8B0B30006CA297 /* Receipt+CoreDataProperties.swift in Sources */,
 				3ABA102B1EAD6F860002CECE /* AddListItemTableViewCell.swift in Sources */,
 				3AE233361CFE179300656969 /* FPHandlesMOC.swift in Sources */,
+				3A8E3E741F3F820200434A37 /* Constants.swift in Sources */,
 				3ABA10281EAD66860002CECE /* AddListItemDataProvider.swift in Sources */,
 				3AE2333D1CFE1A5C00656969 /* Item+CoreDataProperties.swift in Sources */,
+				3AB121EB1F3744A10042C2A9 /* AlertProvider.swift in Sources */,
 				3AE9D4081EB21170005A4665 /* TabBarViewController.swift in Sources */,
 				3AE2333E1CFE1A5C00656969 /* Item.swift in Sources */,
 				3AFA07951EEC9EF000E4DC38 /* NewItemViewController.swift in Sources */,
