@@ -28,7 +28,7 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
     var new: Bool = true
     var product: Item!
     var assetLocalIdentifier: String? = ""
-    var alertProvider: AlertProvider?
+    var alertProvider: AlertProvider? = AlertProvider()
     var currentValueOfDays: Int?
     var remoteID: String?
 
@@ -37,8 +37,10 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
         if new {
             title = "Novo Item"
             remoteID = UUID().uuidString
+            productImageView.image = UIImage(named: "noimage")
         } else {
             title = "Item"
+            remoteID = product.remoteID
             loadProductData()
         }
         datePickerCellRef.delegate = self
@@ -62,15 +64,21 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
         }
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        if addDateCellSwitch.isOn {
+            addLocalNotification()
+        }
+    }
+
     func loadProductData() {
         let alert = product.alert?.boolValue ?? false
         datePickerCellRef.isHidden = !alert
         sliderCell.isHidden = !alert
-        datePickerCellRef.date = product.alertDate ?? Date()
+        datePickerCellRef.date = product.alertDate! as Date ?? Date()
         addDateCellSwitch.setOn(alert, animated: true)
         let placeHolder = UIImage(named: "noimage")
         let image = getImage(localUrl: product?.imgUrl ?? "")
-
+        daySlider.setValue(Float(product.alertDays!), animated: true)
         if image == nil {
             let url = URL(string: product?.imgUrl ?? "")
             productImageView.kf.setImage(with: url,
@@ -102,7 +110,7 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
         }
         return assetImage
     }
-    
+
     func receiveDataStack(_ incomingDataStack: DATAStack) {
         dataStack = incomingDataStack
     }
@@ -110,12 +118,12 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
     @IBAction func alertDaysChanged(_ sender: UISlider) {
         currentValueOfDays = Int(sender.value)
         alertDaysLabel.text = "Aviso \(currentValueOfDays!) dias antes do vencimento."
+        let alertDays = NSDecimalNumber(value: currentValueOfDays!)
+        guard product != nil else { return }
+        product.alertDays = alertDays
     }
 
     @IBAction func addDatePickerCell(_ sender: Any) {
-        if alertProvider == nil {
-            alertProvider = AlertProvider()
-        }
         guard (alertProvider?.registerForLocalNotification(on: UIApplication.shared))! else {
             return
         }
@@ -124,9 +132,6 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
         let presentAlert = NSNumber(booleanLiteral: addDateCellSwitch.isOn)
         guard product != nil else { return }
         product.alert = presentAlert
-        if addDateCellSwitch.isOn {
-            addLocalNotification()
-        }
     }
 
     func addLocalNotification() {
@@ -139,14 +144,16 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
             Constants.notificationProductDateKey: datePickerCellRef.date.getDateStringShort()
         ]
 
-        let minusDaysAgo = Calendar.current.date(byAdding: .day,
-                                                 value: -(currentValueOfDays!),
+        let subtractDays = -(currentValueOfDays!)
+
+        let fireDate = Calendar.current.date(byAdding: .day,
+                                                 value: subtractDays,
                                                  to: datePickerCellRef.date)
 
         alertProvider?.dispatchlocalNotification(with: "Lista Rápida",
                                                  body: "O produto \(txfItemName.text!) ira vencer em \(datePickerCellRef.date.getDateStringShort())!",
             userInfo: dictionary,
-            at: minusDaysAgo!)
+            at: fireDate!)
     }
 
     @IBAction func choosePhoto(_ sender: Any) {
@@ -179,6 +186,7 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
                          withRemoteID: remoteID!,
                          withDate: datePickerCellRef.date,
                          withAlertPresent: addDateCellSwitch.isOn,
+                         withAlertDays: NSDecimalNumber(value:currentValueOfDays!),
                          intoMainContext: dataStack.mainContext)
                 dismiss(animated: true, completion: nil)
             } else if (txfItemName.text?.isEmpty)! {
@@ -207,7 +215,7 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }
-    
+
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 1 && indexPath.row == 2 && addDateCellSwitch.isOn {
             return datePickerCellRef.datePickerHeight()
@@ -218,8 +226,7 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
 
 extension NewItemViewController: DatePickerCellDelegate {
     func datePickerCell(_ cell: DatePickerCell, didPickDate date: Date?) {
-        addLocalNotification()
         guard product != nil else { return }
-        product.alertDate = date
+        product.alertDate = date! as NSDate
     }
 }

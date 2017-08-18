@@ -22,6 +22,7 @@ class MainViewController: UIViewController, FPHandlesMOC {
     fileprivate var dataStack: DATAStack!
     public var communicator: APICommunicatorProtocol = APICommunicator()
     var presentedAlert: Bool = false
+    let notificationName = NSNotification.Name(rawValue: Constants.newProductAddedNotificationKey)
 
     lazy var readerVC: QRCodeReaderViewController = {
         let builder = QRCodeReaderViewControllerBuilder {
@@ -48,6 +49,7 @@ class MainViewController: UIViewController, FPHandlesMOC {
         static let ProgressHUDStatus = "Adicionando ..."
         static let CancelButtonTittle = "Cancelar"
         static let SegueToNewItemIdentifier = "toNewItem"
+        static let AlertDaysDefault = NSDecimalNumber(value: 5)
     }
 
     override func viewDidLoad() {
@@ -204,8 +206,10 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
                             withRemoteID: cod,
                             withDate: Date(),
                             withAlertPresent: false,
+                            withAlertDays: Keys.AlertDaysDefault,
                             intoMainContext: strongSelf.dataStack.mainContext)
-            // TODO: Tableview.reload()
+
+            NotificationCenter.default.post(name: strongSelf.notificationName, object: nil)
             strongSelf.showAlert(Alerts.DismissAlert, message: "Produto adicionado com sucesso.")
         }
     }

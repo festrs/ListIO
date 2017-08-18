@@ -1,9 +1,9 @@
 //
-//  Item.swift
+//  Item+CoreDataClass.swift
 //  Listio
 //
-//  Created by Felipe Dias Pereira on 2016-05-31.
-//  Copyright © 2016 Felipe Dias Pereira. All rights reserved.
+//  Created by Felipe Dias Pereira on 2017-08-17.
+//  Copyright © 2017 Felipe Dias Pereira. All rights reserved.
 //
 
 import Foundation

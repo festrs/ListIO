@@ -177,10 +177,10 @@
                                                     </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="x7z-IM-Awc">
-                                                    <rect key="frame" x="76" y="16" width="235" height="135"/>
+                                                    <rect key="frame" x="83" y="16" width="228" height="135"/>
                                                     <subviews>
                                                         <textField opaque="NO" clipsSubviews="YES" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nome do produto" textAlignment="natural" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gys-0R-Gsc">
-                                                            <rect key="frame" x="0.0" y="0.0" width="235" height="44"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="228" height="44"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="44" id="Glv-Gu-xqq"/>
                                                             </constraints>
@@ -189,30 +189,30 @@
                                                             <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                         </textField>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JaU-1G-4o2">
-                                                            <rect key="frame" x="0.0" y="44" width="235" height="1"/>
+                                                            <rect key="frame" x="0.0" y="44" width="228" height="1"/>
                                                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="1" id="6Ed-UA-aYU"/>
                                                             </constraints>
                                                         </view>
                                                         <textField opaque="NO" clipsSubviews="YES" tag="20" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Preço" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Q5x-be-7KD" customClass="CurrencyField" customModule="Listio" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="45" width="235" height="44"/>
+                                                            <rect key="frame" x="0.0" y="45" width="228" height="44"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="44" id="XfW-hM-owl"/>
                                                             </constraints>
                                                             <nil key="textColor"/>
                                                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
-                                                            <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
+                                                            <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="next"/>
                                                         </textField>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cnX-V9-8Qf">
-                                                            <rect key="frame" x="0.0" y="89" width="235" height="1"/>
+                                                            <rect key="frame" x="0.0" y="89" width="228" height="1"/>
                                                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="1" id="Cb6-EO-mTe"/>
                                                             </constraints>
                                                         </view>
                                                         <textField opaque="NO" clipsSubviews="YES" tag="30" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Unidade" textAlignment="natural" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="REK-ES-Taq">
-                                                            <rect key="frame" x="0.0" y="90" width="235" height="44"/>
+                                                            <rect key="frame" x="0.0" y="90" width="228" height="44"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="44" id="9bS-CQ-ZL4"/>
                                                             </constraints>
@@ -221,7 +221,7 @@
                                                             <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                                         </textField>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cys-mE-Fvk">
-                                                            <rect key="frame" x="0.0" y="134" width="235" height="1"/>
+                                                            <rect key="frame" x="0.0" y="134" width="228" height="1"/>
                                                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="1" id="gSf-hW-gI8"/>
@@ -240,7 +240,7 @@
                                             <constraints>
                                                 <constraint firstItem="x7z-IM-Awc" firstAttribute="top" secondItem="QVz-Cu-AO5" secondAttribute="topMargin" constant="8" id="6ht-qC-KSc"/>
                                                 <constraint firstItem="jbz-L0-NUk" firstAttribute="top" secondItem="QVz-Cu-AO5" secondAttribute="topMargin" constant="21" id="Ebv-1P-Z4S"/>
-                                                <constraint firstItem="x7z-IM-Awc" firstAttribute="leading" secondItem="jbz-L0-NUk" secondAttribute="trailing" constant="8" id="JhZ-UA-eDi"/>
+                                                <constraint firstItem="x7z-IM-Awc" firstAttribute="leading" secondItem="jbz-L0-NUk" secondAttribute="trailing" constant="15" id="JhZ-UA-eDi"/>
                                                 <constraint firstItem="jbz-L0-NUk" firstAttribute="centerX" secondItem="aVO-9n-BgT" secondAttribute="centerX" id="PA1-kx-ewb"/>
                                                 <constraint firstItem="aVO-9n-BgT" firstAttribute="top" secondItem="jbz-L0-NUk" secondAttribute="bottom" constant="8" id="QjC-yC-S60"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="x7z-IM-Awc" secondAttribute="trailing" constant="1" id="S2D-gf-YP0"/>

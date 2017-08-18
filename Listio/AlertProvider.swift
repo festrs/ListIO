@@ -32,14 +32,13 @@ class AlertProvider: NSObject, UNUserNotificationCenterDelegate {
             content.title = title
             content.body = body
             content.categoryIdentifier = "Fechou"
-
             if let info = userInfo {
                 content.userInfo = info
                 if let uid = info[Constants.notificationIdentifierKey] as? String {
                     content.sound = UNNotificationSound.default()
-                    var comp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date)
-                    comp.timeZone = TimeZone.current
-                    let trigger = UNCalendarNotificationTrigger(dateMatching: comp, repeats: true)
+                    content.setValue("YES", forKeyPath: "shouldAlwaysAlertWhileAppIsForeground")
+                    let comp = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: comp, repeats: false)
                     let request = UNNotificationRequest(identifier: uid, content: content, trigger: trigger)
                     removeLocalNotificationByIdentifier(withID: uid)
                     UNUserNotificationCenter.current().add(request) { (error) in
@@ -53,10 +52,12 @@ class AlertProvider: NSObject, UNUserNotificationCenterDelegate {
             }
         } else {
             let notification = UILocalNotification()
-            notification.fireDate = date
+            var datecomponent = DateComponents()
+            datecomponent = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+            notification.fireDate = Calendar.current.date(from: datecomponent)
             notification.alertTitle = title
             notification.alertBody = body
-
+            notification.timeZone = NSTimeZone.system
             if let info = userInfo {
                 notification.userInfo = info
                 if let uid = info[Constants.notificationIdentifierKey] as? String {

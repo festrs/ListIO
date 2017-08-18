@@ -14,6 +14,7 @@ class ItemsTableViewController: UITableViewController {
     public var dataProvider: MainDataProviderProtocol?
     public var dataStack: DATAStack?
     var presentedAlert: Bool = false
+    let notificationName = NSNotification.Name(rawValue: Constants.newProductAddedNotificationKey)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,10 +35,19 @@ class ItemsTableViewController: UITableViewController {
         } catch let error as NSError {
             showAlert(Alerts.ErroTitle, message: error.localizedDescription)
         }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableViewData),
+                                               name: notificationName,
+                                               object: nil)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: notificationName, object: nil)
+    }
+
+    func reloadTableViewData() {
+        tableView.reloadData()
     }
 
     func showAlert(_ title: String, message: String) {

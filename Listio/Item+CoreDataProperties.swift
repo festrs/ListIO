@@ -2,14 +2,16 @@
 //  Item+CoreDataProperties.swift
 //  Listio
 //
-//  Created by Felipe Dias Pereira on 2017-03-28.
+//  Created by Felipe Dias Pereira on 2017-08-17.
 //  Copyright © 2017 Felipe Dias Pereira. All rights reserved.
 //
 
 import Foundation
 import CoreData
 
+
 extension Item {
+
     struct Keys {
         static let ItemEntityName = "Item"
         static let ItemsArrayName = "items"
@@ -58,6 +60,7 @@ extension Item {
                      withRemoteID: String,
                      withDate date: Date,
                      withAlertPresent present: Bool,
+                     withAlertDays alertDays: NSDecimalNumber,
                      intoMainContext context: NSManagedObjectContext) {
         let entity = NSEntityDescription.entity(forEntityName: Keys.ItemEntityName, in: context)!
         if #available(iOS 10.0, *) {
@@ -72,19 +75,22 @@ extension Item {
         self.remoteID = withRemoteID
         self.present = 1
         self.alert = present ? 1 : 0
-        self.alertDate = date
+        self.alertDays = alertDays
+        self.alertDate = date as NSDate
     }
 
+    @NSManaged public var alert: NSNumber?
+    @NSManaged public var alertDate: NSDate?
+    @NSManaged public var countReceipt: NSNumber?
     @NSManaged public var descricao: String?
     @NSManaged public var imgUrl: String?
+    @NSManaged public var present: NSNumber?
     @NSManaged public var qtde: NSDecimalNumber?
     @NSManaged public var remoteID: String?
     @NSManaged public var un: String?
     @NSManaged public var vlTotal: NSNumber?
     @NSManaged public var vlUnit: NSNumber?
-    @NSManaged public var present: NSNumber?
-    @NSManaged public var countReceipt: NSNumber?
+    @NSManaged public var alertDays: NSDecimalNumber?
     @NSManaged public var document: Receipt?
-    @NSManaged public var alert: NSNumber?
-    @NSManaged public var alertDate: Date?
+
 }

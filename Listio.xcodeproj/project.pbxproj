@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		16B2F86C1F0A8EB900885796 /* ProductInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B2F86B1F0A8EB900885796 /* ProductInfoTableViewCell.swift */; };
+		3A09FD2C1F4682B8006E78DB /* Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A09FD2B1F4682B8006E78DB /* Item+CoreDataClass.swift */; };
 		3A17B70A1E9D58B90026756E /* MainDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A17B7091E9D58B90026756E /* MainDataProviderTests.swift */; };
 		3A4CC4DB1EBA1EB300E230D1 /* ItemTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4CC4DA1EBA1EB300E230D1 /* ItemTest.swift */; };
 		3A4CC4DD1EBA5D3300E230D1 /* ReceiptTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4CC4DC1EBA5D3300E230D1 /* ReceiptTest.swift */; };
@@ -36,7 +37,6 @@
 		3AE233341CFE11B000656969 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233331CFE11B000656969 /* MainViewController.swift */; };
 		3AE233361CFE179300656969 /* FPHandlesMOC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233351CFE179300656969 /* FPHandlesMOC.swift */; };
 		3AE2333D1CFE1A5C00656969 /* Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233391CFE1A5C00656969 /* Item+CoreDataProperties.swift */; };
-		3AE2333E1CFE1A5C00656969 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE2333A1CFE1A5C00656969 /* Item.swift */; };
 		3AE233401CFE21D400656969 /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE2333F1CFE21D400656969 /* NavigationViewController.swift */; };
 		3AE8D2F51E8B0B30006CA297 /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE8D2F31E8B0B30006CA297 /* Receipt.swift */; };
 		3AE8D2F61E8B0B30006CA297 /* Receipt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE8D2F41E8B0B30006CA297 /* Receipt+CoreDataProperties.swift */; };
@@ -64,6 +64,7 @@
 		08240201388815E9C27643BF /* Pods_Listio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Listio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16B2F86B1F0A8EB900885796 /* ProductInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductInfoTableViewCell.swift; sourceTree = "<group>"; };
 		23F40384B0CF39E67EC77B56 /* Pods-ListioTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ListioTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ListioTests/Pods-ListioTests.release.xcconfig"; sourceTree = "<group>"; };
+		3A09FD2B1F4682B8006E78DB /* Item+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3A17B7091E9D58B90026756E /* MainDataProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainDataProviderTests.swift; sourceTree = "<group>"; };
 		3A4CC4DA1EBA1EB300E230D1 /* ItemTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemTest.swift; sourceTree = "<group>"; };
 		3A4CC4DC1EBA5D3300E230D1 /* ReceiptTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceiptTest.swift; sourceTree = "<group>"; };
@@ -97,7 +98,6 @@
 		3AE233331CFE11B000656969 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		3AE233351CFE179300656969 /* FPHandlesMOC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPHandlesMOC.swift; sourceTree = "<group>"; };
 		3AE233391CFE1A5C00656969 /* Item+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		3AE2333A1CFE1A5C00656969 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		3AE2333F1CFE21D400656969 /* NavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		3AE8D2F31E8B0B30006CA297 /* Receipt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
 		3AE8D2F41E8B0B30006CA297 /* Receipt+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Receipt+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -272,10 +272,10 @@
 		3AE1FB251D0770D3001A6914 /* Core Data Objects */ = {
 			isa = PBXGroup;
 			children = (
+				3A09FD2B1F4682B8006E78DB /* Item+CoreDataClass.swift */,
 				3AE8D2F31E8B0B30006CA297 /* Receipt.swift */,
 				3AE8D2F41E8B0B30006CA297 /* Receipt+CoreDataProperties.swift */,
 				3AE233391CFE1A5C00656969 /* Item+CoreDataProperties.swift */,
-				3AE2333A1CFE1A5C00656969 /* Item.swift */,
 			);
 			name = "Core Data Objects";
 			sourceTree = "<group>";
@@ -420,9 +420,8 @@
 				TargetAttributes = {
 					3A975D4A1CFCC42200E400B3 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 439F5NHE7E;
 						LastSwiftMigration = 0820;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					3A975D611CFCC42200E400B3 = {
 						CreatedOnToolsVersion = 7.3;
@@ -514,7 +513,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		A826BDEFB3A9204EC8219FF7 /* [CP] Copy Pods Resources */ = {
@@ -559,7 +558,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		E290515FE88F0C4D7C7C17BA /* [CP] Embed Pods Frameworks */ = {
@@ -587,6 +586,7 @@
 				3AE8D2F51E8B0B30006CA297 /* Receipt.swift in Sources */,
 				16B2F86C1F0A8EB900885796 /* ProductInfoTableViewCell.swift in Sources */,
 				3AE233401CFE21D400656969 /* NavigationViewController.swift in Sources */,
+				3A09FD2C1F4682B8006E78DB /* Item+CoreDataClass.swift in Sources */,
 				3A975D4F1CFCC42200E400B3 /* AppDelegate.swift in Sources */,
 				3AE8D2F61E8B0B30006CA297 /* Receipt+CoreDataProperties.swift in Sources */,
 				3ABA102B1EAD6F860002CECE /* AddListItemTableViewCell.swift in Sources */,
@@ -596,7 +596,6 @@
 				3AE2333D1CFE1A5C00656969 /* Item+CoreDataProperties.swift in Sources */,
 				3AB121EB1F3744A10042C2A9 /* AlertProvider.swift in Sources */,
 				3AE9D4081EB21170005A4665 /* TabBarViewController.swift in Sources */,
-				3AE2333E1CFE1A5C00656969 /* Item.swift in Sources */,
 				3AFA07951EEC9EF000E4DC38 /* NewItemViewController.swift in Sources */,
 				3ACD3B431E9D121000713A04 /* APICommunicatorProtocol.swift in Sources */,
 				3AD02D101E88056D00B4CAD5 /* APICommunicator.swift in Sources */,
@@ -753,7 +752,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Felipe Dias Pereira (4ESLPZ55NB)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Felipe Dias Pereira (4ESLPZ55NB)";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 439F5NHE7E;
 				INFOPLIST_FILE = Listio/Info.plist;
@@ -761,8 +760,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.felipep.Listio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "ce1d12a3-f17f-4bf6-83db-406b9e728268";
+				PROVISIONING_PROFILE_SPECIFIER = "com.felipep.Listio Development";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -775,16 +774,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Felipe Pereira (439F5NHE7E)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Felipe Pereira (439F5NHE7E)";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 439F5NHE7E;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Listio/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.felipep.Listio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "com.felipep.Listio AppStore";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

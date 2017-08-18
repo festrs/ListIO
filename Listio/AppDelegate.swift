@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import DATAStack
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let rootViewController = self.window?.rootViewController as? FPHandlesMOC {
             rootViewController.receiveDataStack(self.dataStack)
         }
+
         return true
     }
 
@@ -41,9 +43,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler(UNNotificationPresentationOptions.alert)
+    }
+
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         let userInfo = notification.userInfo
-        let msg = "O produto \(userInfo![Constants.notificationProductNameKey]!) ira vencer em \(userInfo![Constants.notificationProductDateKey]!)"
+        let productName = userInfo![Constants.notificationProductNameKey]!
+        let productDate = userInfo![Constants.notificationProductDateKey]!
+        let msg = "O produto \(productName) ira vencer em \(productDate)"
         let alert = UIAlertController(title: "Atenção!", message: msg, preferredStyle: UIAlertControllerStyle.alert)
         let topWindow = UIWindow(frame: UIScreen.main.bounds)
         topWindow.rootViewController = UIViewController()

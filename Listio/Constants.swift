@@ -12,4 +12,5 @@ struct Constants {
     static let notificationIdentifierKey = "uuid"
     static let notificationProductNameKey = "productNameKey"
     static let notificationProductDateKey = "productDateKey"
+    static let newProductAddedNotificationKey = "newProductAdded"
 }
