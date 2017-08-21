@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		16B2F86C1F0A8EB900885796 /* ProductInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B2F86B1F0A8EB900885796 /* ProductInfoTableViewCell.swift */; };
 		3A09FD2C1F4682B8006E78DB /* Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A09FD2B1F4682B8006E78DB /* Item+CoreDataClass.swift */; };
-		3A17B70A1E9D58B90026756E /* MainDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A17B7091E9D58B90026756E /* MainDataProviderTests.swift */; };
 		3A4CC4DB1EBA1EB300E230D1 /* ItemTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4CC4DA1EBA1EB300E230D1 /* ItemTest.swift */; };
 		3A4CC4DD1EBA5D3300E230D1 /* ReceiptTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4CC4DC1EBA5D3300E230D1 /* ReceiptTest.swift */; };
 		3A8E3E741F3F820200434A37 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8E3E731F3F820200434A37 /* Constants.swift */; };
@@ -65,7 +64,6 @@
 		16B2F86B1F0A8EB900885796 /* ProductInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductInfoTableViewCell.swift; sourceTree = "<group>"; };
 		23F40384B0CF39E67EC77B56 /* Pods-ListioTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ListioTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ListioTests/Pods-ListioTests.release.xcconfig"; sourceTree = "<group>"; };
 		3A09FD2B1F4682B8006E78DB /* Item+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataClass.swift"; sourceTree = "<group>"; };
-		3A17B7091E9D58B90026756E /* MainDataProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainDataProviderTests.swift; sourceTree = "<group>"; };
 		3A4CC4DA1EBA1EB300E230D1 /* ItemTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemTest.swift; sourceTree = "<group>"; };
 		3A4CC4DC1EBA5D3300E230D1 /* ReceiptTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceiptTest.swift; sourceTree = "<group>"; };
 		3A8E3E731F3F820200434A37 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -156,7 +154,6 @@
 			isa = PBXGroup;
 			children = (
 				3AD5027D1EA569340071B975 /* MainViewControllerTest.swift */,
-				3A17B7091E9D58B90026756E /* MainDataProviderTests.swift */,
 			);
 			name = MainView;
 			sourceTree = "<group>";
@@ -420,11 +417,13 @@
 				TargetAttributes = {
 					3A975D4A1CFCC42200E400B3 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 439F5NHE7E;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Manual;
 					};
 					3A975D611CFCC42200E400B3 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 439F5NHE7E;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 3A975D4A1CFCC42200E400B3;
@@ -620,7 +619,6 @@
 				3A4CC4DD1EBA5D3300E230D1 /* ReceiptTest.swift in Sources */,
 				3ACD3B411E9D08C400713A04 /* CoreDataHelper.swift in Sources */,
 				3ACD3B3E1E9BF5BB00713A04 /* ExtensionsTest.swift in Sources */,
-				3A17B70A1E9D58B90026756E /* MainDataProviderTests.swift in Sources */,
 				3AD5027E1EA569340071B975 /* MainViewControllerTest.swift in Sources */,
 				3AE9D4021EB0D6EF005A4665 /* AddListItemControllerTest.swift in Sources */,
 				3AD5027A1EA4F9A10071B975 /* APICommunicatorTest.swift in Sources */,
@@ -794,7 +792,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 439F5NHE7E;
 				INFOPLIST_FILE = ListioTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = felipep.com.ListioTests;
@@ -811,7 +809,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 439F5NHE7E;
 				INFOPLIST_FILE = ListioTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = felipep.com.ListioTests;

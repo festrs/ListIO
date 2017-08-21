@@ -27,11 +27,14 @@ struct APICommunicator: APICommunicatorProtocol {
         let parameters = [
             "linkurl": linkUrl
             ] as [String : AnyObject]
-        
-        Alamofire.request(Keys.BaseURL + Keys.EndPointAllProducts, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+
+        Alamofire.request(Keys.BaseURL + Keys.EndPointAllProducts,
+                          method: .post,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers)
             .validate(statusCode: 200..<300)
-            .responseJSON(completionHandler: {
-            response in
+            .responseJSON(completionHandler: { response in
             guard response.result.isSuccess else {
                 print("Error while fetching tags: \(String(describing: response.result.error))")
                 completion(response.error, nil)

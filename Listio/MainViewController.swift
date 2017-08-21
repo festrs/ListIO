@@ -209,8 +209,7 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
                             withAlertDays: Keys.AlertDaysDefault,
                             intoMainContext: strongSelf.dataStack.mainContext)
 
-            NotificationCenter.default.post(name: strongSelf.notificationName, object: nil)
-            strongSelf.showAlert(Alerts.DismissAlert, message: "Produto adicionado com sucesso.")
+            strongSelf.createNewList()
         }
     }
 }

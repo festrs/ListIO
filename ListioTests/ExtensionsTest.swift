@@ -43,18 +43,11 @@ class ExtensionsTest: XCTestCase {
         }
     }
     
-    func testMaskToReais() {
-        let number:NSNumber = NSNumber(value: 14.0)
-        let stringMask = number.toMaskReais()
-        XCTAssertNotNil(number.toMaskReais())
-        XCTAssertEqual(stringMask, "R$14,00")
-    }
-    
-    func testMaskToCurrency() {
+    func testMaskCurrentCurrency() {
         let number:NSNumber = NSNumber(value: 14.0)
         let stringMask = number.maskToCurrency()
         XCTAssertNotNil(number.maskToCurrency())
-        XCTAssertEqual(stringMask, "$14.00")
+        XCTAssertEqual(stringMask, "R$14,00")
     }
     
     func testTrim() {

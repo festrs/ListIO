@@ -17,7 +17,7 @@ extension Receipt {
         static let ReceiptItemsArrayName = "items"
         static let ItemEntityName = "Item"
     }
-    
+
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Receipt> {
         return NSFetchRequest<Receipt>(entityName: Keys.ReceiptEntityName)
     }
@@ -25,7 +25,7 @@ extension Receipt {
     @nonobjc public class func getAllReceipt(_ mainContext: NSManagedObjectContext) throws -> [Receipt]? {
         let fetchRequest: NSFetchRequest<Receipt> = Receipt.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Keys.ReceiptSortDescriptor, ascending: false)]
-        do{
+        do {
             return try mainContext.fetch(fetchRequest)
         } catch let error as NSError {
             throw Errors.CoreDataError("Could not fetch \(error), \(error.userInfo)")
@@ -38,12 +38,14 @@ extension Receipt {
             throw Errors.DoubleReceiptWithSameID
         }
         // swiftlint:disable force_cast
-        let docObj = NSEntityDescription.insertNewObject(forEntityName: Keys.ReceiptEntityName, into: mainContext) as! Receipt
+        let docObj = NSEntityDescription.insertNewObject(forEntityName: Keys.ReceiptEntityName,
+                                                         into: mainContext) as! Receipt
         docObj.hyp_fill(with: json)
-        
+
         for item in (json[Keys.ReceiptItemsArrayName] as? [AnyObject])! {
             // swiftlint:disable force_cast
-            let itemObj: Item = NSEntityDescription.insertNewObject(forEntityName: Keys.ItemEntityName, into: mainContext) as! Item
+            let itemObj: Item = NSEntityDescription.insertNewObject(forEntityName: Keys.ItemEntityName,
+                                                                    into: mainContext) as! Item
             itemObj.hyp_fill(with: item as! [String : Any])
             docObj.addToItems(itemObj)
         }
