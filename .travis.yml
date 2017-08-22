@@ -9,8 +9,6 @@ cache:
 before_install:
 - bundle install
 - bundle exec pod keys set ListioAPISecret $ListioAPISecret 
-- rvm use system
-- sudo gem install cocoapods
 - pod repo update
 
 script:
