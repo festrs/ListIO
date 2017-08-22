@@ -74,7 +74,13 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
         let alert = product.alert?.boolValue ?? false
         datePickerCellRef.isHidden = !alert
         sliderCell.isHidden = !alert
-        datePickerCellRef.date = product.alertDate! as Date ?? Date()
+
+        if let date = product.alertDate {
+            datePickerCellRef.date = date as Date
+        } else {
+            datePickerCellRef.date = Date()
+        }
+
         addDateCellSwitch.setOn(alert, animated: true)
         let placeHolder = UIImage(named: "noimage")
         let image = getImage(localUrl: product?.imgUrl ?? "")

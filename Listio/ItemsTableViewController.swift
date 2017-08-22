@@ -28,13 +28,7 @@ class ItemsTableViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        do {
-            try dataProvider?.performFetch()
-        } catch Errors.CoreDataError(let msg) {
-            showAlert(Alerts.ErroTitle, message: msg)
-        } catch let error as NSError {
-            showAlert(Alerts.ErroTitle, message: error.localizedDescription)
-        }
+        reloadData()
 
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTableViewData),
                                                name: notificationName,
@@ -47,7 +41,17 @@ class ItemsTableViewController: UITableViewController {
     }
 
     func reloadTableViewData() {
-        tableView.reloadData()
+        reloadData()
+    }
+
+    func reloadData() {
+        do {
+            try dataProvider?.performFetch()
+        } catch Errors.CoreDataError(let msg) {
+            showAlert(Alerts.ErroTitle, message: msg)
+        } catch let error as NSError {
+            showAlert(Alerts.ErroTitle, message: error.localizedDescription)
+        }
     }
 
     func showAlert(_ title: String, message: String) {

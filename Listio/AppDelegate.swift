@@ -10,6 +10,8 @@ import UIKit
 import CoreData
 import DATAStack
 import UserNotifications
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let rootViewController = self.window?.rootViewController as? FPHandlesMOC {
             rootViewController.receiveDataStack(self.dataStack)
         }
+        Fabric.with([Crashlytics.self])
 
         return true
     }

@@ -15,7 +15,7 @@ target 'Listio' do
     
     pod 'JSONWebToken', :git => "https://github.com/kylef/JSONWebToken.swift.git", :branch => 'master'
 	pod 'Alamofire', '~> 4.4'
-	pod 'QRCodeReader.swift', '~> 7.3.0'
+	pod 'QRCodeReader.swift', :git=> "https://github.com/festrs/QRCodeReader.swift"
     pod 'DATAStack', '~> 6'
     pod 'Bugsnag', :git => "https://github.com/bugsnag/bugsnag-cocoa.git"
     pod 'StringScore_Swift', :git => "https://github.com/yichizhang/StringScore_Swift.git"
@@ -28,12 +28,13 @@ target 'Listio' do
     pod 'ALCameraViewController'
     pod 'DatePickerCell'
     pod 'AKMaskField'
+    pod 'Fabric'
+    pod 'Crashlytics'
 end
 
 target 'ListioTests' do
     pod 'JSONWebToken', :git => "https://github.com/kylef/JSONWebToken.swift.git", :branch => 'master'
     pod 'Alamofire', '~> 4.4'
-    pod 'QRCodeReader.swift', '~> 7.3.0'
     pod 'DATAStack', '~> 6'
     pod 'Bugsnag', :git => "https://github.com/bugsnag/bugsnag-cocoa.git"
     pod 'StringScore_Swift', :git => "https://github.com/yichizhang/StringScore_Swift.git"

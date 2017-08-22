@@ -6,8 +6,11 @@ PODS:
   - BarcodeScanner (2.0.0)
   - Bugsnag (5.10.1):
     - KSCrash/RecordingAdvanced (= 1.8.13)
+  - Crashlytics (3.8.5):
+    - Fabric (~> 1.6.3)
   - DATAStack (6.1.2)
   - DatePickerCell (1.0.5)
+  - Fabric (1.6.12)
   - Floaty (3.0.1)
   - JSONWebToken (2.1.1)
   - Keys (1.0.0)
@@ -16,7 +19,7 @@ PODS:
   - KSCrash/RecordingAdvanced (1.8.13):
     - KSCrash/Recording
   - MockUIAlertController (2.0.1)
-  - QRCodeReader.swift (7.3.0)
+  - QRCodeReader.swift (7.5.1)
   - StringScore_Swift (0.1.1)
   - SVProgressHUD (2.1.2)
   - SwiftLint (0.21.0)
@@ -32,14 +35,16 @@ DEPENDENCIES:
   - ALCameraViewController
   - BarcodeScanner (from `https://github.com/festrs/BarcodeScanner.git`)
   - Bugsnag (from `https://github.com/bugsnag/bugsnag-cocoa.git`)
+  - Crashlytics
   - DATAStack (~> 6)
   - DatePickerCell
+  - Fabric
   - Floaty (~> 3.0.0)
   - JSONWebToken (from `https://github.com/kylef/JSONWebToken.swift.git`, branch `master`)
   - Keys (from `Pods/CocoaPodsKeys`)
   - Kingfisher (~> 3.0)
   - MockUIAlertController (~> 2.0)
-  - QRCodeReader.swift (~> 7.3.0)
+  - QRCodeReader.swift (from `https://github.com/festrs/QRCodeReader.swift`)
   - StringScore_Swift (from `https://github.com/yichizhang/StringScore_Swift.git`)
   - SVProgressHUD (~> 2.1.2)
   - SwiftLint
@@ -55,6 +60,8 @@ EXTERNAL SOURCES:
     :git: https://github.com/kylef/JSONWebToken.swift.git
   Keys:
     :path: Pods/CocoaPodsKeys
+  QRCodeReader.swift:
+    :git: https://github.com/festrs/QRCodeReader.swift
   StringScore_Swift:
     :git: https://github.com/yichizhang/StringScore_Swift.git
 
@@ -68,6 +75,9 @@ CHECKOUT OPTIONS:
   JSONWebToken:
     :commit: c5e4b5de78c1553324a65109015568249c407819
     :git: https://github.com/kylef/JSONWebToken.swift.git
+  QRCodeReader.swift:
+    :commit: e0aaa610a19f3513e2d18ee5f3a6d543cba06d7c
+    :git: https://github.com/festrs/QRCodeReader.swift
   StringScore_Swift:
     :commit: c41254c59c8fc4254905b666d90b3485aea12267
     :git: https://github.com/yichizhang/StringScore_Swift.git
@@ -79,21 +89,23 @@ SPEC CHECKSUMS:
   ALCameraViewController: 8311f17d3dc2c24ab7d81a3a3b288dcdf210c5cf
   BarcodeScanner: 225e96dfa2cee966771b345e4bf72b1babfa0c40
   Bugsnag: 9c2d242eac7f215c40ff0f5813d378e9fcccf6e4
+  Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
   DATAStack: a45fc144e15193f1b22c26b507cc46655ce96a71
   DatePickerCell: 8cd5d7fc93d195b85a7b2389b0ea4a9017c51f9b
+  Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
   Floaty: bb7a353deee9ddcc14c584ca9c538efdc19669f2
   JSONWebToken: 9aa2f75993533487d485a959dcfb852ab1215c8b
   Keys: 9c35bf00f612ee1d48556f4a4b9b4551e224e90f
   Kingfisher: c8911a7672c6217dec8c0520fb6e76ec4b7e0780
   KSCrash: 4c3a83f133b60f4bd57e05235ebf8d46e36d378d
   MockUIAlertController: 0221fb64142c95be6e2f485d0e220d226b99433c
-  QRCodeReader.swift: d7e190d49818948aa030704cfb26283f1f32fb0a
+  QRCodeReader.swift: 3b746bb94a7dbf609c67102e0b45138086022805
   StringScore_Swift: 821102bf4b5253725ee1b418b4fe5d21547a2a0f
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
   SwiftLint: 6de8b2d15f43c482bdec2953b8cfd696faa876e8
   Sync: a41b41cf61625676d3fe66efc09daf25b1548d9d
   SYNCPropertyMapper: b3157f5183285c8a25ba23877b95a06ec2547e73
 
-PODFILE CHECKSUM: 5b5421db0b99c3fd1dd593aa3630b965e3475ce5
+PODFILE CHECKSUM: 84c545c740c53d8147da8122ddea6da5591c1655
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.1
