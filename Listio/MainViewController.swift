@@ -12,12 +12,11 @@ import AVFoundation
 import DATAStack
 import Floaty
 import SVProgressHUD
+import Alamofire
 
 class MainViewController: UIViewController, FPHandlesMOC {
 
     @IBOutlet weak var tableViewContainer: UIView!
-    @IBOutlet weak var totalLabel: UILabel!
-    @IBOutlet weak var qteItemsLabel: UILabel!
     @IBOutlet weak var floatyButtonView: Floaty!
     fileprivate var dataStack: DATAStack!
     public var communicator: APICommunicatorProtocol = APICommunicator()
@@ -30,32 +29,13 @@ class MainViewController: UIViewController, FPHandlesMOC {
                                                            AVMetadataObjectTypeEAN13Code,
                                                            AVMetadataObjectTypeEAN8Code], captureDevicePosition: .back)
         }
-        builder.cancelButtonTitle = Keys.CancelButtonTittle
+        builder.cancelButtonTitle = Constants.MainVC.CancelButtonTittle
+
         return QRCodeReaderViewController(builder: builder)
     }()
 
-    struct Keys {
-        static let EntityName = "ItemList"
-        static let SortDescriptorField = "countDocument"
-        static let IdentifierCell = "documentCell"
-        static let HeaderSection1Identifier = "headerSection1"
-        static let HeightForFooterView = 61.0
-        static let SegueAddListItem = "toNewList"
-        static let itemsIdentifier = "showItemsIdentifier"
-        static let SegueIdentifierQRCode = "toQrCodeReader"
-        static let ToCreateListIdentifier = "toCreateList"
-        static let SucessAlertTitle = "Adicionado com sucesso"
-        static let SucessAlertMSG = "Você deseja criar uma nova lista?"
-        static let ProgressHUDStatus = "Adicionando ..."
-        static let CancelButtonTittle = "Cancelar"
-        static let SegueToNewItemIdentifier = "toNewItem"
-        static let AlertDaysDefault = NSDecimalNumber(value: 5)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        readerVC.delegate = self
-        readerVC.modalPresentationStyle = .formSheet
         configFloatyAddButton()
     }
 
@@ -72,26 +52,40 @@ class MainViewController: UIViewController, FPHandlesMOC {
     func configFloatyAddButton() {
         floatyButtonView.addItem("Via código de barras",
                                  icon: UIImage(named: "Barcode-29")) { [weak self] _ in
+                                    guard let strongSelf = self else { return }
+                                    strongSelf.showReader()
+        }
+        floatyButtonView.addItem("Via QR Code", icon: UIImage(named: "QR Code-29")) { [weak self] _ in
             guard let strongSelf = self else { return }
-            strongSelf.present(strongSelf.readerVC, animated: true, completion: nil )
+            strongSelf.showReader()
         }
-        floatyButtonView.addItem("Via QR Code", icon: UIImage(named: "QR Code-29")) { _ in
-            self.present(self.readerVC, animated: true, completion: nil )
-        }
-        floatyButtonView.addItem("Novo item", icon: UIImage(named: "Add-29")) { (item) in
-            self.performSegue(withIdentifier: Keys.SegueToNewItemIdentifier, sender: item)
-        }
-        floatyButtonView.addItem("Nova lista", icon: UIImage(named: "To Do-29")) { (item) in
-            self.performSegue(withIdentifier: Keys.SegueAddListItem, sender: item)
+        floatyButtonView.addItem("Novo item", icon: UIImage(named: "Add-29")) { [weak self] (item) in
+            guard let strongSelf = self else { return }
+            strongSelf.performSegue(withIdentifier: Constants.MainVC.SegueToNewItemIdentifier, sender: item)
         }
     }
 
-//    func loadTotal() throws {
-//        let qtdeItems = dataProvider?.getCountItems()
-//        qteItemsLabel.text = "Qtde Produtos: \(qtdeItems!)"
-//        let total = NSNumber(value: (dataProvider?.calcMediumCost())!)
-//        totalLabel.text = total.toMaskReais()!
-//    }
+    func showReader() {
+        readerVC.modalPresentationStyle = .formSheet
+        readerVC.delegate = self
+        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo) { [weak self] response in
+            guard let strongSelf = self else { return }
+            if response {
+                strongSelf.present(strongSelf.readerVC, animated: true, completion: nil )
+            } else {
+                let alert = UIAlertController(title: "Atenção!",
+                                              message: "Habilite o acesso da câmera nos ajustes de privacidade.",
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: Alerts.DismissAlert, style: .cancel, handler: nil ))
+                alert.addAction(UIAlertAction(title: "Ajustes", style: .default, handler: { (_: UIAlertAction!) in
+                    if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                        UIApplication.shared.openURL(url)
+                    }
+                }))
+                strongSelf.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
 
     func showAlert(_ title: String, message: String) {
         guard !presentedAlert else {
@@ -107,16 +101,16 @@ class MainViewController: UIViewController, FPHandlesMOC {
     }
 
     func createNewList() {
-        let refreshAlert = UIAlertController(title: Keys.SucessAlertTitle,
-                                           message: Keys.SucessAlertMSG,
-                                    preferredStyle: UIAlertControllerStyle.alert)
-        refreshAlert.addAction(UIAlertAction(title: "Sim", style: .default, handler: { (action: UIAlertAction!) in
-            self.performSegue(withIdentifier: Keys.SegueAddListItem, sender: nil)
+        let refreshAlert = UIAlertController(title: Constants.MainVC.SucessAlertTitle,
+                                             message: Constants.MainVC.SucessAlertMSG,
+                                             preferredStyle: UIAlertControllerStyle.alert)
+        refreshAlert.addAction(UIAlertAction(title: "Sim", style: .default,
+                                             handler: { [weak self] (_: UIAlertAction!) in
+            guard let strongSelf = self else { return }
+            strongSelf.performSegue(withIdentifier: Constants.MainVC.SegueAddListItem, sender: nil)
         }))
 
-        refreshAlert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: { (action: UIAlertAction!) in
-            
-        }))
+        refreshAlert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil ))
         present(refreshAlert, animated: true, completion: nil)
     }
 
@@ -140,7 +134,7 @@ class MainViewController: UIViewController, FPHandlesMOC {
 extension MainViewController : QRCodeReaderViewControllerDelegate {
     // MARK: - QRCodeReaderViewController Delegate Methods
     func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
-        SVProgressHUD.setStatus(Keys.ProgressHUDStatus)
+        SVProgressHUD.setStatus(Constants.MainVC.ProgressHUDStatus)
         SVProgressHUD.show()
         reader.stopScanning()
 
@@ -163,10 +157,33 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
             guard let strongSelf = self else {
                 return
             }
-            guard error == nil else {
-                strongSelf.showAlert(Alerts.ErroTitle, message: "O serviço ainda não chegou ao seu estado.")
-                return
+
+            if let errorCode = error as? AFError {
+                switch errorCode {
+                case .responseValidationFailed(let reason):
+                    switch reason {
+                    case .unacceptableStatusCode(let code):
+                        if code == 501 {
+                            strongSelf.showAlert(Alerts.ErroTitle,
+                                                 message: "Opss!! parece que o serviço ainda não chegou ao seu estado.")
+                        } else if code == 404 {
+                            strongSelf.showAlert(Alerts.ErroTitle,
+                                                 message: "Opss!! Nota emitida em contingência. Aguarde 24 horas!")
+                        } else {
+                            strongSelf.showAlert(Alerts.ErroTitle,
+                                                 message: "Opss!! Ocorreu um erro, tente novamente.")
+                        }
+                        return
+                    default:
+                        strongSelf.showAlert(Alerts.ErroTitle, message: "Opss!! Ocorreu um erro, tente novamente.")
+                        return
+                    }
+                default:
+                    strongSelf.showAlert(Alerts.ErroTitle, message: "Opss!! Ocorreu um erro, tente novamente.")
+                    return
+                }
             }
+
             do {
                 try Receipt.createReceipt(strongSelf.dataStack.mainContext, json: responseJSON!)
                 strongSelf.createNewList()
@@ -195,19 +212,19 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
                 let itemName = fields["gtin_nm"] as? String,
                 let itemUrl = fields["gtin_img"] as? String,
                 let cod = fields["gtin_cd"] as? String else {
-                    strongSelf.showAlert(Alerts.ErroTitle, message: "Produto não encontrado.")
-                    strongSelf.performSegue(withIdentifier: Keys.SegueToNewItemIdentifier, sender: nil)
+                    //strongSelf.showAlert(Alerts.ErroTitle, message: "Produto não encontrado.")
+                    strongSelf.performSegue(withIdentifier: Constants.MainVC.SegueToNewItemIdentifier, sender: nil)
                     return
             }
             _ = Item(withName: itemName,
-                            withImageUrl: itemUrl,
-                            withVlUnit: 0,
-                            withQTDE: 0,
-                            withRemoteID: cod,
-                            withDate: Date(),
-                            withAlertPresent: false,
-                            withAlertDays: Keys.AlertDaysDefault,
-                            intoMainContext: strongSelf.dataStack.mainContext)
+                     withImageUrl: itemUrl,
+                     withVlUnit: 0,
+                     withQTDE: 0,
+                     withRemoteID: cod,
+                     withDate: Date(),
+                     withAlertPresent: false,
+                     withAlertDays: Constants.MainVC.AlertDaysDefault,
+                     intoMainContext: strongSelf.dataStack.mainContext)
             NotificationCenter.default.post(name:
                 NSNotification.Name(rawValue: Constants.newProductAddedNotificationKey),
                                             object: nil)

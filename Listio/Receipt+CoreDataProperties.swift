@@ -11,20 +11,14 @@ import CoreData
 import Sync
 
 extension Receipt {
-    struct Keys {
-        static let ReceiptEntityName = "Receipt"
-        static let ReceiptSortDescriptor = "createdAt"
-        static let ReceiptItemsArrayName = "items"
-        static let ItemEntityName = "Item"
-    }
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Receipt> {
-        return NSFetchRequest<Receipt>(entityName: Keys.ReceiptEntityName)
+        return NSFetchRequest<Receipt>(entityName: Constants.Receipt.ReceiptEntityName)
     }
 
     @nonobjc public class func getAllReceipt(_ mainContext: NSManagedObjectContext) throws -> [Receipt]? {
         let fetchRequest: NSFetchRequest<Receipt> = Receipt.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Keys.ReceiptSortDescriptor, ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Constants.Receipt.ReceiptSortDescriptor, ascending: false)]
         do {
             return try mainContext.fetch(fetchRequest)
         } catch let error as NSError {
@@ -38,13 +32,13 @@ extension Receipt {
             throw Errors.DoubleReceiptWithSameID
         }
         // swiftlint:disable force_cast
-        let docObj = NSEntityDescription.insertNewObject(forEntityName: Keys.ReceiptEntityName,
+        let docObj = NSEntityDescription.insertNewObject(forEntityName: Constants.Receipt.ReceiptEntityName,
                                                          into: mainContext) as! Receipt
         docObj.hyp_fill(with: json)
 
-        for item in (json[Keys.ReceiptItemsArrayName] as? [AnyObject])! {
+        for item in (json[Constants.Receipt.ReceiptItemsArrayName] as? [AnyObject])! {
             // swiftlint:disable force_cast
-            let itemObj: Item = NSEntityDescription.insertNewObject(forEntityName: Keys.ItemEntityName,
+            let itemObj: Item = NSEntityDescription.insertNewObject(forEntityName: Constants.Receipt.ItemEntityName,
                                                                     into: mainContext) as! Item
             itemObj.hyp_fill(with: item as! [String : Any])
             docObj.addToItems(itemObj)
@@ -70,7 +64,7 @@ extension Receipt {
 
     @nonobjc public class func verifyNewReceipt(_ mainContext: NSManagedObjectContext, key: String) throws -> Bool {
         let fetchRequest: NSFetchRequest<Receipt> = Receipt.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "remoteID = %@",key)
+        fetchRequest.predicate = NSPredicate(format: "remoteID = %@", key)
         do {
 
             let result = try mainContext.fetch(fetchRequest)
@@ -90,22 +84,22 @@ extension Receipt {
     @NSManaged public var remoteID: String?
     @NSManaged public var value: String?
     @NSManaged public var items: NSSet?
-    
+
 }
 
 // MARK: Generated accessors for items
 extension Receipt {
-    
+
     @objc(addItemsObject:)
     @NSManaged func addToItems(_ value: Item)
-    
+
     @objc(removeItemsObject:)
     @NSManaged func removeFromItems(_ value: Item)
-    
+
     @objc(addItems:)
     @NSManaged public func addToItems(_ values: NSSet)
-    
+
     @objc(removeItems:)
     @NSManaged public func removeFromItems(_ values: NSSet)
-    
+
 }

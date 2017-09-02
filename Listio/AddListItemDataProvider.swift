@@ -27,28 +27,28 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
     func getUniqueItems() throws -> [Item]? {
         return try Item.getUniqueItems(dataStack.mainContext)
     }
-    
+
     func countItems() -> Int {
         return items.count
     }
 
     func unselectAll() {
         for value in items {
-            value.present = NSNumber(booleanLiteral: false)
+            value.present = 0
         }
         tableView.reloadData()
     }
 
     func selectAll() {
         for value in items {
-            value.present = NSNumber(booleanLiteral: true)
+            value.present = 1
         }
         tableView.reloadData()
     }
 }
 
 extension AddListItemDataProvider {
-    //MARk - UITableViewDelegate
+    // MARk: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let itemObj = items[indexPath.row]
 
@@ -57,17 +57,17 @@ extension AddListItemDataProvider {
         }
         if let present = itemObj.present?.boolValue, present {
             cell.accessoryType = .none
-            itemObj.present = NSNumber(booleanLiteral: false)
+            itemObj.present = 0
         } else {
             cell.accessoryType = .checkmark
-            itemObj.present = NSNumber(booleanLiteral: true)
+            itemObj.present = 1
         }
         tableView.reloadData()
     }
 }
 
 extension AddListItemDataProvider {
-    //MARK - UITableViewDataSource
+    // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if items.count == 0 {
             return 1

@@ -52,8 +52,10 @@ class AddListItemViewController: UIViewController, FPHandlesMOC {
             return
         }
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Alerts.DismissAlert, style: .default, handler: { (_: UIAlertAction!) in
-            self.presentedAlert = false
+        alert.addAction(UIAlertAction(title: Alerts.DismissAlert, style: .default,
+                                      handler: { [weak self] (_: UIAlertAction!) in
+            guard let strongSelf = self else { return }
+            strongSelf.presentedAlert = false
         }))
         self.present(alert, animated: true, completion: {
             self.presentedAlert = true

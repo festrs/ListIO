@@ -11,6 +11,36 @@
 		3A09FD2C1F4682B8006E78DB /* Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A09FD2B1F4682B8006E78DB /* Item+CoreDataClass.swift */; };
 		3A4CC4DB1EBA1EB300E230D1 /* ItemTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4CC4DA1EBA1EB300E230D1 /* ItemTest.swift */; };
 		3A4CC4DD1EBA5D3300E230D1 /* ReceiptTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4CC4DC1EBA5D3300E230D1 /* ReceiptTest.swift */; };
+		3A572EC81F589EC100D9544B /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE8D2F31E8B0B30006CA297 /* Receipt.swift */; };
+		3A572EC91F589EC100D9544B /* ProductInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B2F86B1F0A8EB900885796 /* ProductInfoTableViewCell.swift */; };
+		3A572ECA1F589EC100D9544B /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE2333F1CFE21D400656969 /* NavigationViewController.swift */; };
+		3A572ECB1F589EC100D9544B /* Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A09FD2B1F4682B8006E78DB /* Item+CoreDataClass.swift */; };
+		3A572ECC1F589EC100D9544B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */; };
+		3A572ECD1F589EC100D9544B /* Receipt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE8D2F41E8B0B30006CA297 /* Receipt+CoreDataProperties.swift */; };
+		3A572ECE1F589EC100D9544B /* AddListItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA102A1EAD6F860002CECE /* AddListItemTableViewCell.swift */; };
+		3A572ECF1F589EC100D9544B /* FPHandlesMOC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233351CFE179300656969 /* FPHandlesMOC.swift */; };
+		3A572ED01F589EC100D9544B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8E3E731F3F820200434A37 /* Constants.swift */; };
+		3A572ED11F589EC100D9544B /* AddListItemDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA10271EAD66860002CECE /* AddListItemDataProvider.swift */; };
+		3A572ED21F589EC100D9544B /* Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233391CFE1A5C00656969 /* Item+CoreDataProperties.swift */; };
+		3A572ED31F589EC100D9544B /* AlertProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB121EA1F3744A10042C2A9 /* AlertProvider.swift */; };
+		3A572ED41F589EC100D9544B /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE9D4071EB21170005A4665 /* TabBarViewController.swift */; };
+		3A572ED51F589EC100D9544B /* NewItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFA07941EEC9EF000E4DC38 /* NewItemViewController.swift */; };
+		3A572ED61F589EC100D9544B /* APICommunicatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B421E9D121000713A04 /* APICommunicatorProtocol.swift */; };
+		3A572ED71F589EC100D9544B /* APICommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD02D0F1E88056D00B4CAD5 /* APICommunicator.swift */; };
+		3A572ED81F589EC100D9544B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9D64701D027082002369A4 /* Extensions.swift */; };
+		3A572ED91F589EC100D9544B /* MainDataProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B391E9BC81300713A04 /* MainDataProviderProtocol.swift */; };
+		3A572EDA1F589EC100D9544B /* AddListItemDataProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA10251EAD62D20002CECE /* AddListItemDataProviderProtocol.swift */; };
+		3A572EDB1F589EC100D9544B /* MainDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B3B1E9BF16C00713A04 /* MainDataProvider.swift */; };
+		3A572EDC1F589EC100D9544B /* AddListItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA102C1EAE43D70002CECE /* AddListItemViewController.swift */; };
+		3A572EDD1F589EC100D9544B /* ItemsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFA078E1EEC5EF700E4DC38 /* ItemsTableViewController.swift */; };
+		3A572EDE1F589EC100D9544B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE233331CFE11B000656969 /* MainViewController.swift */; };
+		3A572EDF1F589EC100D9544B /* CurrencyField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEABFF51F2E942D006FFAFB /* CurrencyField.swift */; };
+		3A572EE01F589EC100D9544B /* Listio.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D551CFCC42200E400B3 /* Listio.xcdatamodeld */; };
+		3A572EE11F589EC100D9544B /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE1FB291D07B71E001A6914 /* MainTableViewCell.swift */; };
+		3A572EE31F589EC100D9544B /* Pods_Listio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08240201388815E9C27643BF /* Pods_Listio.framework */; };
+		3A572EE51F589EC100D9544B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D5A1CFCC42200E400B3 /* LaunchScreen.storyboard */; };
+		3A572EE61F589EC100D9544B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AE9D4051EB16AE1005A4665 /* Assets.xcassets */; };
+		3A572EE71F589EC100D9544B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D521CFCC42200E400B3 /* Main.storyboard */; };
 		3A8E3E741F3F820200434A37 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8E3E731F3F820200434A37 /* Constants.swift */; };
 		3A975D4F1CFCC42200E400B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */; };
 		3A975D541CFCC42200E400B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D521CFCC42200E400B3 /* Main.storyboard */; };
@@ -65,8 +95,10 @@
 		3A09FD2B1F4682B8006E78DB /* Item+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3A4CC4DA1EBA1EB300E230D1 /* ItemTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemTest.swift; sourceTree = "<group>"; };
 		3A4CC4DC1EBA5D3300E230D1 /* ReceiptTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceiptTest.swift; sourceTree = "<group>"; };
+		3A572EEF1F589EC100D9544B /* Hml.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hml.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A572EF01F589EC200D9544B /* Listio-hml.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Listio-hml.plist"; path = "/Users/felipediaspereira/Documents/Code/Listio/Listio-hml.plist"; sourceTree = "<absolute>"; };
 		3A8E3E731F3F820200434A37 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		3A975D4B1CFCC42200E400B3 /* Listio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Listio.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A975D4B1CFCC42200E400B3 /* Lista Rápida.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lista Rápida.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A975D531CFCC42200E400B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3A975D561CFCC42200E400B3 /* Listio.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Listio.xcdatamodel; sourceTree = "<group>"; };
@@ -109,6 +141,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3A572EE21F589EC100D9544B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A572EE31F589EC100D9544B /* Pods_Listio.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3A975D481CFCC42200E400B3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -196,8 +236,9 @@
 		3A975D4C1CFCC42200E400B3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3A975D4B1CFCC42200E400B3 /* Listio.app */,
+				3A975D4B1CFCC42200E400B3 /* Lista Rápida.app */,
 				3A975D621CFCC42200E400B3 /* ListioTests.xctest */,
+				3A572EEF1F589EC100D9544B /* Hml.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -216,6 +257,7 @@
 				3AE9D4051EB16AE1005A4665 /* Assets.xcassets */,
 				3A975D5A1CFCC42200E400B3 /* LaunchScreen.storyboard */,
 				3A975D5D1CFCC42200E400B3 /* Info.plist */,
+				3A572EF01F589EC200D9544B /* Listio-hml.plist */,
 			);
 			path = Listio;
 			sourceTree = "<group>";
@@ -360,9 +402,31 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3A975D4A1CFCC42200E400B3 /* Listio */ = {
+		3A572EC51F589EC100D9544B /* Hml */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3A975D6B1CFCC42200E400B3 /* Build configuration list for PBXNativeTarget "Listio" */;
+			buildConfigurationList = 3A572EEC1F589EC100D9544B /* Build configuration list for PBXNativeTarget "Hml" */;
+			buildPhases = (
+				3A572EC61F589EC100D9544B /* [CP] Check Pods Manifest.lock */,
+				3A572EC71F589EC100D9544B /* Sources */,
+				3A572EE21F589EC100D9544B /* Frameworks */,
+				3A572EE41F589EC100D9544B /* Resources */,
+				3A572EE81F589EC100D9544B /* [CP] Embed Pods Frameworks */,
+				3A572EE91F589EC100D9544B /* [CP] Copy Pods Resources */,
+				3A572EEA1F589EC100D9544B /* ShellScript */,
+				3A572EEB1F589EC100D9544B /* Fabric Crashlytics */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Hml;
+			productName = Listio;
+			productReference = 3A572EEF1F589EC100D9544B /* Hml.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3A975D4A1CFCC42200E400B3 /* Lista Rápida */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A975D6B1CFCC42200E400B3 /* Build configuration list for PBXNativeTarget "Lista Rápida" */;
 			buildPhases = (
 				48EC995B1454881E1E160AAD /* [CP] Check Pods Manifest.lock */,
 				3A975D471CFCC42200E400B3 /* Sources */,
@@ -377,9 +441,9 @@
 			);
 			dependencies = (
 			);
-			name = Listio;
+			name = "Lista Rápida";
 			productName = Listio;
-			productReference = 3A975D4B1CFCC42200E400B3 /* Listio.app */;
+			productReference = 3A975D4B1CFCC42200E400B3 /* Lista Rápida.app */;
 			productType = "com.apple.product-type.application";
 		};
 		3A975D611CFCC42200E400B3 /* ListioTests */ = {
@@ -413,6 +477,10 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Felipe Dias Pereira";
 				TargetAttributes = {
+					3A572EC51F589EC100D9544B = {
+						DevelopmentTeam = 439F5NHE7E;
+						ProvisioningStyle = Automatic;
+					};
 					3A975D4A1CFCC42200E400B3 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 439F5NHE7E;
@@ -441,13 +509,24 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3A975D4A1CFCC42200E400B3 /* Listio */,
+				3A975D4A1CFCC42200E400B3 /* Lista Rápida */,
 				3A975D611CFCC42200E400B3 /* ListioTests */,
+				3A572EC51F589EC100D9544B /* Hml */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3A572EE41F589EC100D9544B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A572EE51F589EC100D9544B /* LaunchScreen.storyboard in Resources */,
+				3A572EE61F589EC100D9544B /* Assets.xcassets in Resources */,
+				3A572EE71F589EC100D9544B /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3A975D491CFCC42200E400B3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -511,6 +590,78 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"";
+		};
+		3A572EC61F589EC100D9544B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		3A572EE81F589EC100D9544B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Listio/Pods-Listio-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3A572EE91F589EC100D9544B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Listio/Pods-Listio-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3A572EEA1F589EC100D9544B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"";
+		};
+		3A572EEB1F589EC100D9544B /* Fabric Crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Fabric Crashlytics";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 95a8a58b8f3071e2ea0de5c73d68bed05e4d993e ac7ead19c8a563dd60236d59c00302d0a1663e2bc6c9312494ac6c51b0019a9a";
 		};
 		48EC995B1454881E1E160AAD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -590,6 +741,39 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3A572EC71F589EC100D9544B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A572EC81F589EC100D9544B /* Receipt.swift in Sources */,
+				3A572EC91F589EC100D9544B /* ProductInfoTableViewCell.swift in Sources */,
+				3A572ECA1F589EC100D9544B /* NavigationViewController.swift in Sources */,
+				3A572ECB1F589EC100D9544B /* Item+CoreDataClass.swift in Sources */,
+				3A572ECC1F589EC100D9544B /* AppDelegate.swift in Sources */,
+				3A572ECD1F589EC100D9544B /* Receipt+CoreDataProperties.swift in Sources */,
+				3A572ECE1F589EC100D9544B /* AddListItemTableViewCell.swift in Sources */,
+				3A572ECF1F589EC100D9544B /* FPHandlesMOC.swift in Sources */,
+				3A572ED01F589EC100D9544B /* Constants.swift in Sources */,
+				3A572ED11F589EC100D9544B /* AddListItemDataProvider.swift in Sources */,
+				3A572ED21F589EC100D9544B /* Item+CoreDataProperties.swift in Sources */,
+				3A572ED31F589EC100D9544B /* AlertProvider.swift in Sources */,
+				3A572ED41F589EC100D9544B /* TabBarViewController.swift in Sources */,
+				3A572ED51F589EC100D9544B /* NewItemViewController.swift in Sources */,
+				3A572ED61F589EC100D9544B /* APICommunicatorProtocol.swift in Sources */,
+				3A572ED71F589EC100D9544B /* APICommunicator.swift in Sources */,
+				3A572ED81F589EC100D9544B /* Extensions.swift in Sources */,
+				3A572ED91F589EC100D9544B /* MainDataProviderProtocol.swift in Sources */,
+				3A572EDA1F589EC100D9544B /* AddListItemDataProviderProtocol.swift in Sources */,
+				3A572EDB1F589EC100D9544B /* MainDataProvider.swift in Sources */,
+				3A572EDC1F589EC100D9544B /* AddListItemViewController.swift in Sources */,
+				3A572EDD1F589EC100D9544B /* ItemsTableViewController.swift in Sources */,
+				3A572EDE1F589EC100D9544B /* MainViewController.swift in Sources */,
+				3A572EDF1F589EC100D9544B /* CurrencyField.swift in Sources */,
+				3A572EE01F589EC100D9544B /* Listio.xcdatamodeld in Sources */,
+				3A572EE11F589EC100D9544B /* MainTableViewCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3A975D471CFCC42200E400B3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -641,7 +825,7 @@
 /* Begin PBXTargetDependency section */
 		3A975D641CFCC42200E400B3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3A975D4A1CFCC42200E400B3 /* Listio */;
+			target = 3A975D4A1CFCC42200E400B3 /* Lista Rápida */;
 			targetProxy = 3A975D631CFCC42200E400B3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -666,6 +850,56 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3A572EED1F589EC100D9544B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3AC8A6894ED59EF4CF72ECFA /* Pods-Listio.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Felipe Dias Pereira (4ESLPZ55NB)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 439F5NHE7E;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"HML=1",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Listio-hml.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
+				PRODUCT_BUNDLE_IDENTIFIER = com.felipep.Listio.hml;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		3A572EEE1F589EC100D9544B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EB53FA159F032F61916CDD4D /* Pods-Listio.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Felipe Pereira (439F5NHE7E)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 439F5NHE7E;
+				INFOPLIST_FILE = "$(SRCROOT)/Listio-hml.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
+				PRODUCT_BUNDLE_IDENTIFIER = com.felipep.Listio.hml;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		3A975D691CFCC42200E400B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -764,9 +998,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Felipe Dias Pereira (4ESLPZ55NB)";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 439F5NHE7E;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"HML=0",
+				);
 				INFOPLIST_FILE = Listio/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.felipep.Listio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "ce1d12a3-f17f-4bf6-83db-406b9e728268";
@@ -789,6 +1029,7 @@
 				INFOPLIST_FILE = Listio/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.felipep.Listio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -834,6 +1075,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3A572EEC1F589EC100D9544B /* Build configuration list for PBXNativeTarget "Hml" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A572EED1F589EC100D9544B /* Debug */,
+				3A572EEE1F589EC100D9544B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3A975D461CFCC42200E400B3 /* Build configuration list for PBXProject "Listio" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -843,7 +1093,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3A975D6B1CFCC42200E400B3 /* Build configuration list for PBXNativeTarget "Listio" */ = {
+		3A975D6B1CFCC42200E400B3 /* Build configuration list for PBXNativeTarget "Lista Rápida" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3A975D6C1CFCC42200E400B3 /* Debug */,

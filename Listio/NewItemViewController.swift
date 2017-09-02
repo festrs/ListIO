@@ -12,7 +12,7 @@ import DatePickerCell
 import DATAStack
 import Photos
 
-class NewItemViewController: UITableViewController, FPHandlesMOC {
+class NewItemViewController: UITableViewController {
 
     @IBOutlet weak var alertDaysLabel: UILabel!
     @IBOutlet weak var sliderCell: UITableViewCell!
@@ -35,6 +35,11 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
     override func viewDidLoad() {
         super.viewDidLoad()
         if new {
+            let closeButton = UIBarButtonItem(image: UIImage(named: "close"),
+                                          style: .plain,
+                                          target: self,
+                                          action: #selector(closeAction(_:)))
+            navigationItem.leftBarButtonItem  = closeButton
             title = "Novo Item"
             remoteID = UUID().uuidString
             productImageView.image = UIImage(named: "noimage")
@@ -117,10 +122,6 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
         return assetImage
     }
 
-    func receiveDataStack(_ incomingDataStack: DATAStack) {
-        dataStack = incomingDataStack
-    }
-
     @IBAction func alertDaysChanged(_ sender: UISlider) {
         currentValueOfDays = Int(sender.value)
         alertDaysLabel.text = "Aviso \(currentValueOfDays!) dias antes do vencimento."
@@ -160,6 +161,10 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
                                                  body: "O produto \(txfItemName.text!) ira vencer em \(datePickerCellRef.date.getDateStringShort())!",
             userInfo: dictionary,
             at: fireDate!)
+    }
+
+    @IBAction func closeAction(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
 
     @IBAction func choosePhoto(_ sender: Any) {
@@ -205,11 +210,6 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
                 alert.addAction(UIAlertAction(title: "Ok",
                                               style: UIAlertActionStyle.default,
                                               handler: nil ))
-                alert.addAction(UIAlertAction(title: "Cancelar",
-                                              style: UIAlertActionStyle.default,
-                                              handler: { [unowned self] (_: UIAlertAction!) in
-                                                self.dismiss(animated: true, completion: nil)
-                }))
                 present(alert, animated: true, completion: nil)
             }
         }
@@ -227,6 +227,12 @@ class NewItemViewController: UITableViewController, FPHandlesMOC {
             return datePickerCellRef.datePickerHeight()
         }
         return super.tableView(tableView, heightForRowAt: indexPath)
+    }
+}
+
+extension NewItemViewController: FPHandlesMOC {
+    func receiveDataStack(_ incomingDataStack: DATAStack) {
+        dataStack = incomingDataStack
     }
 }
 

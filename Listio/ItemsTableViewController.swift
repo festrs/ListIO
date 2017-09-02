@@ -30,7 +30,7 @@ class ItemsTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         reloadData()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableViewData),
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadData),
                                                name: notificationName,
                                                object: nil)
     }
@@ -38,10 +38,6 @@ class ItemsTableViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: notificationName, object: nil)
-    }
-
-    func reloadTableViewData() {
-        reloadData()
     }
 
     func reloadData() {
@@ -59,8 +55,10 @@ class ItemsTableViewController: UITableViewController {
             return
         }
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Alerts.DismissAlert, style: .default, handler: { (_: UIAlertAction!) in
-            self.presentedAlert = false
+        alert.addAction(UIAlertAction(title: Alerts.DismissAlert, style: .default,
+                                      handler: { [weak self] (_: UIAlertAction!) in
+            guard let strongSelf = self else { return }
+            strongSelf.presentedAlert = false
         }))
         self.present(alert, animated: true, completion: {
             self.presentedAlert = true

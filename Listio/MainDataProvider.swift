@@ -19,14 +19,6 @@ enum Errors: Error {
 }
 
 public class MainDataProvider: NSObject, MainDataProviderProtocol {
-    struct Keys {
-        static let CellIdentifier = "mainCell"
-        static let ReceiptEntityName = "Receipt"
-        static let ReceiptItemsArrayName = "items"
-        static let ReceiptItemEntityName = "Item"
-        static let ReceiptSortDescriptor = "createdAt"
-        static let ItemDescriptionKey = "descricao"
-    }
 
     public var dataStack: DATAStack!
     weak public var tableView: UITableView!
@@ -63,7 +55,8 @@ extension MainDataProvider {
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.CellIdentifier, for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.MainDataProvider.CellIdentifier,
+                                                       for: indexPath)
             as? MainTableViewCell else {
             fatalError("Unexpected Index Path")
         }
@@ -74,8 +67,13 @@ extension MainDataProvider {
         cell.unLabel.text = "UN \(item?.qtde?.intValue ?? 0)"
         cell.valueLabel.text = item?.vlUnit?.toMaskReais()
         let placeHolder = UIImage(named: "noimage")
-        let image = getImage(localUrl: item?.imgUrl ?? "")
 
+        // Get the current authorization state.
+        let status = PHPhotoLibrary.authorizationStatus()
+        var image: UIImage? = nil
+        if status == PHAuthorizationStatus.authorized {
+            image = getImage(localUrl: item?.imgUrl ?? "")!
+        }
         if image == nil {
             let url = URL(string: item?.imgUrl ?? "")
             cell.productImageView.kf.setImage(with: url,
