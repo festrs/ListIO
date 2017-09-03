@@ -72,7 +72,7 @@ extension MainDataProvider {
         let status = PHPhotoLibrary.authorizationStatus()
         var image: UIImage? = nil
         if status == PHAuthorizationStatus.authorized {
-            image = getImage(localUrl: item?.imgUrl ?? "")!
+            image = getImage(localUrl: item?.imgUrl ?? "")
         }
         if image == nil {
             let url = URL(string: item?.imgUrl ?? "")
