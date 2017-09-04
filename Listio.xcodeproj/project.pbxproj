@@ -79,6 +79,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3A572EF51F5CD23C00D9544B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3A975D431CFCC42200E400B3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3A572EC51F589EC100D9544B;
+			remoteInfo = Hml;
+		};
 		3A975D631CFCC42200E400B3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3A975D431CFCC42200E400B3 /* Project object */;
@@ -461,6 +468,7 @@
 			);
 			dependencies = (
 				3A975D641CFCC42200E400B3 /* PBXTargetDependency */,
+				3A572EF61F5CD23C00D9544B /* PBXTargetDependency */,
 			);
 			name = ListioTests;
 			productName = ListioTests;
@@ -492,7 +500,7 @@
 						DevelopmentTeam = 439F5NHE7E;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
-						TestTargetID = 3A975D4A1CFCC42200E400B3;
+						TestTargetID = 3A572EC51F589EC100D9544B;
 					};
 				};
 			};
@@ -823,6 +831,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3A572EF61F5CD23C00D9544B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3A572EC51F589EC100D9544B /* Hml */;
+			targetProxy = 3A572EF51F5CD23C00D9544B /* PBXContainerItemProxy */;
+		};
 		3A975D641CFCC42200E400B3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3A975D4A1CFCC42200E400B3 /* Lista Rápida */;
@@ -1051,7 +1064,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Listio.app/Listio";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hml.app/Hml";
 			};
 			name = Debug;
 		};
@@ -1068,7 +1081,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Listio.app/Listio";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hml.app/Hml";
 			};
 			name = Release;
 		};
