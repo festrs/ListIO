@@ -7,15 +7,16 @@
 //
 
 import UIKit
-import CoreData
-import DATAStack
+import RealmSwift
 
 class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
     struct Keys {
         static let CellIdentifier = "ItemListCell"
         static let InfoCellIdentifer = "infoCell"
     }
-    public var dataStack: DATAStack!
+
+    // swiftlint:disable force_try
+    let realm = try! Realm()
     weak public var tableView: UITableView!
     var items: [Item] = [Item]()
 
@@ -25,7 +26,7 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
     }
 
     func getUniqueItems() throws -> [Item]? {
-        return try Item.getUniqueItems(dataStack.mainContext)
+        return []
     }
 
     func countItems() -> Int {
@@ -34,14 +35,14 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
 
     func unselectAll() {
         for value in items {
-            value.present = 0
+
         }
         tableView.reloadData()
     }
 
     func selectAll() {
         for value in items {
-            value.present = 1
+
         }
         tableView.reloadData()
     }
@@ -55,13 +56,13 @@ extension AddListItemDataProvider {
         guard let cell = tableView.cellForRow(at: indexPath) as? AddListItemTableViewCell else {
             fatalError("Unexpected Index Path")
         }
-        if let present = itemObj.present?.boolValue, present {
-            cell.accessoryType = .none
-            itemObj.present = 0
-        } else {
-            cell.accessoryType = .checkmark
-            itemObj.present = 1
-        }
+//        if let present = itemObj.present?.boolValue, present {
+//            cell.accessoryType = .none
+//            itemObj.present = 0
+//        } else {
+//            cell.accessoryType = .checkmark
+//            itemObj.present = 1
+//        }
         tableView.reloadData()
     }
 }
@@ -97,15 +98,15 @@ extension AddListItemDataProvider {
         }
         let itemObj = items[indexPath.row]
 
-        cell.nameLabel.text = itemObj.descricao
-        cell.priceLabel.text = itemObj.vlUnit?.toMaskReais()
-        cell.unLabel.text = "UN \(itemObj.qtde?.intValue ?? 0)"
-
-        if let present = itemObj.present?.boolValue, present {
-            cell.accessoryType = .checkmark
-        } else {
-            cell.accessoryType = .none
-        }
+//        cell.nameLabel.text = itemObj.descricao
+//        cell.priceLabel.text = itemObj.vlUnit?.toMaskReais()
+//        cell.unLabel.text = "UN \(itemObj.qtde?.intValue ?? 0)"
+//
+//        if let present = itemObj.present?.boolValue, present {
+//            cell.accessoryType = .checkmark
+//        } else {
+//            cell.accessoryType = .none
+//        }
         return cell
     }
 }

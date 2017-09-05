@@ -9,8 +9,8 @@
 import UIKit
 import ALCameraViewController
 import DatePickerCell
-import DATAStack
 import Photos
+import RealmSwift
 
 class NewItemViewController: UITableViewController {
 
@@ -24,13 +24,14 @@ class NewItemViewController: UITableViewController {
     @IBOutlet weak var productImageView: UIImageView!
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var daySlider: UISlider!
-    fileprivate var dataStack: DATAStack!
     var new: Bool = true
     var product: Item!
     var assetLocalIdentifier: String? = ""
     var alertProvider: AlertProvider? = AlertProvider()
     var currentValueOfDays: Int?
     var remoteID: String?
+    // swiftlint:disable force_try
+    let realm = try! Realm()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,8 +64,8 @@ class NewItemViewController: UITableViewController {
         super.viewWillAppear(animated)
         if !new {
             txfItemName.text = product.descricao
-            txfItemPrice.text = product.vlUnit?.toMaskReais()
-            txfItemUn.text = product.qtde?.description
+//            txfItemPrice.text = product.vlUnit?.toMaskReais()
+//            txfItemUn.text = product.qtde?.description
             navigationItem.rightBarButtonItem?.customView?.isHidden = true
         }
     }
@@ -76,30 +77,30 @@ class NewItemViewController: UITableViewController {
     }
 
     func loadProductData() {
-        let alert = product.alert?.boolValue ?? false
-        datePickerCellRef.isHidden = !alert
-        sliderCell.isHidden = !alert
-
-        if let date = product.alertDate {
-            datePickerCellRef.date = date as Date
-        } else {
-            datePickerCellRef.date = Date()
-        }
-
-        addDateCellSwitch.setOn(alert, animated: true)
-        let placeHolder = UIImage(named: "noimage")
-        let image = getImage(localUrl: product?.imgUrl ?? "")
-        daySlider.setValue(Float(product.alertDays!), animated: true)
-        if image == nil {
-            let url = URL(string: product?.imgUrl ?? "")
-            productImageView.kf.setImage(with: url,
-                                         placeholder: placeHolder,
-                                         options: nil,
-                                         progressBlock: nil,
-                                         completionHandler: nil)
-        } else {
-            productImageView.image = image
-        }
+//        let alert = product.alert?.boolValue ?? false
+//        datePickerCellRef.isHidden = !alert
+//        sliderCell.isHidden = !alert
+//
+//        if let date = product.alertDate {
+//            datePickerCellRef.date = date as Date
+//        } else {
+//            datePickerCellRef.date = Date()
+//        }
+//
+//        addDateCellSwitch.setOn(alert, animated: true)
+//        let placeHolder = UIImage(named: "noimage")
+//        let image = getImage(localUrl: product?.imgUrl ?? "")
+//        daySlider.setValue(Float(product.alertDays!), animated: true)
+//        if image == nil {
+//            let url = URL(string: product?.imgUrl ?? "")
+//            productImageView.kf.setImage(with: url,
+//                                         placeholder: placeHolder,
+//                                         options: nil,
+//                                         progressBlock: nil,
+//                                         completionHandler: nil)
+//        } else {
+//            productImageView.image = image
+//        }
     }
 
     func getImage(localUrl: String) -> UIImage? {
@@ -127,7 +128,7 @@ class NewItemViewController: UITableViewController {
         alertDaysLabel.text = "Aviso \(currentValueOfDays!) dias antes do vencimento."
         let alertDays = NSDecimalNumber(value: currentValueOfDays!)
         guard product != nil else { return }
-        product.alertDays = alertDays
+        //product.alertDays = alertDays
     }
 
     @IBAction func addDatePickerCell(_ sender: Any) {
@@ -138,7 +139,7 @@ class NewItemViewController: UITableViewController {
         sliderCell.isHidden = !addDateCellSwitch.isOn
         let presentAlert = NSNumber(booleanLiteral: addDateCellSwitch.isOn)
         guard product != nil else { return }
-        product.alert = presentAlert
+        //product.alert = presentAlert
     }
 
     func addLocalNotification() {
@@ -184,21 +185,24 @@ class NewItemViewController: UITableViewController {
     @IBAction func doneAction(_ sender: Any) {
         if !new {
             product.descricao = txfItemName.text
-            product.vlUnit = txfItemPrice.decimalNumber
-            product.qtde = txfItemUn.text?.decimal.number
+//            product.vlUnit = txfItemPrice.decimalNumber
+//            product.qtde = txfItemUn.text?.decimal.number
             navigationController?.popViewController(animated: true)
         } else {
             var alertMsg: String? = nil
             if !(txfItemName.text?.isEmpty)! {
-                _ = Item(withName: txfItemName.text!,
-                         withImageUrl: assetLocalIdentifier!,
-                         withVlUnit: txfItemPrice.decimalNumber,
-                         withQTDE: (txfItemUn.text?.decimal.number)!,
-                         withRemoteID: remoteID!,
-                         withDate: datePickerCellRef.date,
-                         withAlertPresent: addDateCellSwitch.isOn,
-                         withAlertDays: NSDecimalNumber(value:currentValueOfDays!),
-                         intoMainContext: dataStack.mainContext)
+                let item = Item()
+                item.alertDate = datePickerCellRef.date
+                item.descricao = txfItemName.text
+                //item.vlTotal = Double(txfItemPrice.text!)!
+                do {
+                    try realm.write {
+                        realm.add(item)
+                    }
+                } catch {
+
+                }
+
                 dismiss(animated: true, completion: nil)
             } else if (txfItemName.text?.isEmpty)! {
                 alertMsg = "Para criar um produto o campo Nome deve ser preenchido."
@@ -230,15 +234,9 @@ class NewItemViewController: UITableViewController {
     }
 }
 
-extension NewItemViewController: FPHandlesMOC {
-    func receiveDataStack(_ incomingDataStack: DATAStack) {
-        dataStack = incomingDataStack
-    }
-}
-
 extension NewItemViewController: DatePickerCellDelegate {
     func datePickerCell(_ cell: DatePickerCell, didPickDate date: Date?) {
         guard product != nil else { return }
-        product.alertDate = date! as NSDate
+
     }
 }

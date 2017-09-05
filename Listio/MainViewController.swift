@@ -9,16 +9,15 @@
 import UIKit
 import QRCodeReader
 import AVFoundation
-import DATAStack
 import Floaty
 import SVProgressHUD
 import Alamofire
+import ObjectMapper
 
-class MainViewController: UIViewController, FPHandlesMOC {
+class MainViewController: UIViewController {
 
     @IBOutlet weak var tableViewContainer: UIView!
     @IBOutlet weak var floatyButtonView: Floaty!
-    fileprivate var dataStack: DATAStack!
     public var communicator: APICommunicatorProtocol = APICommunicator()
     var presentedAlert: Bool = false
     let notificationName = NSNotification.Name(rawValue: Constants.newProductAddedNotificationKey)
@@ -114,16 +113,8 @@ class MainViewController: UIViewController, FPHandlesMOC {
         present(refreshAlert, animated: true, completion: nil)
     }
 
-    // MARK: - FPHandlesMOC Delegate
-    func receiveDataStack(_ incomingDataStack: DATAStack) {
-        self.dataStack = incomingDataStack
-    }
-
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? FPHandlesMOC {
-            vc.receiveDataStack(self.dataStack)
-        }
         if let vc = segue.destination as? AddListItemViewController {
             vc.dataProvider = AddListItemDataProvider()
             vc.new = false
@@ -185,7 +176,9 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
             }
 
             do {
-                try Receipt.createReceipt(strongSelf.dataStack.mainContext, json: responseJSON!)
+
+                let receipt = Receipt(JSON: responseJSON!)
+
                 strongSelf.createNewList()
             } catch Errors.DoubleReceiptWithSameID() {
                 strongSelf.showAlert(Alerts.ErroTitle, message: Alerts.ErrorDoubleReceiptWithSameID)
@@ -216,15 +209,7 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
                     strongSelf.performSegue(withIdentifier: Constants.MainVC.SegueToNewItemIdentifier, sender: nil)
                     return
             }
-            _ = Item(withName: itemName,
-                     withImageUrl: itemUrl,
-                     withVlUnit: 0,
-                     withQTDE: 0,
-                     withRemoteID: cod,
-                     withDate: Date(),
-                     withAlertPresent: false,
-                     withAlertDays: Constants.MainVC.AlertDaysDefault,
-                     intoMainContext: strongSelf.dataStack.mainContext)
+
             NotificationCenter.default.post(name:
                 NSNotification.Name(rawValue: Constants.newProductAddedNotificationKey),
                                             object: nil)

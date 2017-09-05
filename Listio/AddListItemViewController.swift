@@ -7,12 +7,10 @@
 //
 
 import UIKit
-import DATAStack
 
-class AddListItemViewController: UIViewController, FPHandlesMOC {
+class AddListItemViewController: UIViewController {
 
     var dataProvider: AddListItemDataProviderProtocol?
-    fileprivate var dataStack: DATAStack!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var doneButtonItem: UIBarButtonItem!
     var new: Bool = false
@@ -27,7 +25,6 @@ class AddListItemViewController: UIViewController, FPHandlesMOC {
         dataProvider?.tableView = tableView
         tableView.dataSource = dataProvider
         tableView.delegate = dataProvider
-        dataProvider?.dataStack = dataStack
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -60,10 +57,6 @@ class AddListItemViewController: UIViewController, FPHandlesMOC {
         self.present(alert, animated: true, completion: {
             self.presentedAlert = true
         })
-    }
-
-    func receiveDataStack(_ incomingDataStack: DATAStack) {
-        dataStack = incomingDataStack
     }
 
     @IBAction func unselectAllItems(_ sender: Any) {

@@ -19,7 +19,16 @@ PODS:
   - KSCrash/RecordingAdvanced (1.8.13):
     - KSCrash/Recording
   - MockUIAlertController (2.0.1)
+  - ObjectMapper (2.2.8)
+  - ObjectMapper+Realm (0.3):
+    - ObjectMapper
+    - RealmSwift
   - QRCodeReader.swift (7.5.1)
+  - Realm (2.9.1):
+    - Realm/Headers (= 2.9.1)
+  - Realm/Headers (2.9.1)
+  - RealmSwift (2.9.1):
+    - Realm (= 2.9.1)
   - StringScore_Swift (0.1.1)
   - SVProgressHUD (2.1.2)
   - SwiftLint (0.21.0)
@@ -44,7 +53,10 @@ DEPENDENCIES:
   - Keys (from `Pods/CocoaPodsKeys`)
   - Kingfisher (~> 3.0)
   - MockUIAlertController (~> 2.0)
+  - ObjectMapper
+  - ObjectMapper+Realm
   - QRCodeReader.swift (from `https://github.com/festrs/QRCodeReader.swift`)
+  - RealmSwift
   - StringScore_Swift (from `https://github.com/yichizhang/StringScore_Swift.git`)
   - SVProgressHUD (~> 2.1.2)
   - SwiftLint
@@ -99,13 +111,17 @@ SPEC CHECKSUMS:
   Kingfisher: c8911a7672c6217dec8c0520fb6e76ec4b7e0780
   KSCrash: 4c3a83f133b60f4bd57e05235ebf8d46e36d378d
   MockUIAlertController: 0221fb64142c95be6e2f485d0e220d226b99433c
+  ObjectMapper: 3d571bb5af471c779e1160828cd9ad5c4ef90958
+  ObjectMapper+Realm: 98992926f775a4fdf1c025541b97c78119f15b8a
   QRCodeReader.swift: 3b746bb94a7dbf609c67102e0b45138086022805
+  Realm: f91fb43bd474c4f731a116ebf7392c75dd015920
+  RealmSwift: 207f12a4a36b696c5183c60a1c06d70234a23e56
   StringScore_Swift: 821102bf4b5253725ee1b418b4fe5d21547a2a0f
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
   SwiftLint: 6de8b2d15f43c482bdec2953b8cfd696faa876e8
   Sync: a41b41cf61625676d3fe66efc09daf25b1548d9d
   SYNCPropertyMapper: b3157f5183285c8a25ba23877b95a06ec2547e73
 
-PODFILE CHECKSUM: 84c545c740c53d8147da8122ddea6da5591c1655
+PODFILE CHECKSUM: 8ffb1e54c492165d837e0a93c0502f591ca3a867
 
 COCOAPODS: 1.2.1

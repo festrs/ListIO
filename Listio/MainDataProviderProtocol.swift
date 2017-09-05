@@ -8,10 +8,8 @@
 
 import UIKit
 import CoreData
-import DATAStack
 
-public protocol MainDataProviderProtocol: UITableViewDataSource, UITableViewDelegate {
-    var dataStack: DATAStack! { get set }
+protocol MainDataProviderProtocol: UITableViewDataSource, UITableViewDelegate {
     weak var tableView: UITableView! { get set }
     var items: [Item] { get }
 

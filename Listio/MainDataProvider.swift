@@ -7,10 +7,9 @@
 //
 
 import UIKit
-import CoreData
-import DATAStack
 import Kingfisher
 import Photos
+import RealmSwift
 
 enum Errors: Error {
     // swiftlint:disable identifier_name
@@ -20,9 +19,10 @@ enum Errors: Error {
 
 public class MainDataProvider: NSObject, MainDataProviderProtocol {
 
-    public var dataStack: DATAStack!
     weak public var tableView: UITableView!
-    public var items: [Item] = []
+    var items: [Item] = []
+    // swiftlint:disable force_try
+    let realm = try! Realm()
 
     public func performFetch() throws {
         items = try getUniqueItems()!
@@ -30,17 +30,18 @@ public class MainDataProvider: NSObject, MainDataProviderProtocol {
     }
 
     public func calcMediumCost() -> Double {
-        return items.reduce(0.0) { (result, item) -> Double in
-            return (item.vlTotal?.doubleValue)! + result
-        }
+//        return items.reduce(0.0) { (result, item) -> Double in
+//            return (item.vlTotal?.doubleValue)! + result
+//        }
+        return 0.0
     }
 
     public func getCountItems() -> Int {
-        return items.count
+        return 0
     }
 
     func getUniqueItems() throws -> [Item]? {
-        return try Item.getUniqueItems(dataStack.mainContext, withPresent: true)
+        return realm.objects(Item.self).toArray(ofType: Item.self) as [Item]
     }
 }
 
@@ -64,8 +65,8 @@ extension MainDataProvider {
         let item: Item? = items[indexPath.row]
 
         cell.nameLabel.text = item?.descricao
-        cell.unLabel.text = "UN \(item?.qtde?.intValue ?? 0)"
-        cell.valueLabel.text = item?.vlUnit?.toMaskReais()
+//        cell.unLabel.text = "UN \(item?.qtde?.intValue ?? 0)"
+//        cell.valueLabel.text = item?.vlUnit?.toMaskReais()
         let placeHolder = UIImage(named: "noimage")
 
         // Get the current authorization state.
@@ -116,7 +117,7 @@ extension MainDataProvider {
         if editingStyle == .delete {
 
             let obj = items.remove(at: indexPath.row)
-            obj.present = 0
+//            obj.present = 0
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.reloadData()
         }

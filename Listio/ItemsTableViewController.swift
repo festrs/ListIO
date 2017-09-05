@@ -7,19 +7,16 @@
 //
 
 import UIKit
-import DATAStack
 
 class ItemsTableViewController: UITableViewController {
 
     public var dataProvider: MainDataProviderProtocol?
-    public var dataStack: DATAStack?
     var presentedAlert: Bool = false
     let notificationName = NSNotification.Name(rawValue: Constants.newProductAddedNotificationKey)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         dataProvider = MainDataProvider()
-        dataProvider?.dataStack = dataStack
         dataProvider?.tableView = tableView
         tableView.dataSource = dataProvider
         tableView.delegate = dataProvider
@@ -73,11 +70,5 @@ class ItemsTableViewController: UITableViewController {
             vc.new = false
             vc.product = item
         }
-    }
-}
-
-extension ItemsTableViewController: FPHandlesMOC {
-    func receiveDataStack(_ incomingDataStack: DATAStack) {
-        dataStack = incomingDataStack
     }
 }

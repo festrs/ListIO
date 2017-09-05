@@ -7,16 +7,6 @@
 //
 
 import UIKit
-import DATAStack
 
-class NavigationViewController: UINavigationController, FPHandlesMOC {
 
-    var dataStack: DATAStack!
-
-    func receiveDataStack(_ incomingDataStack: DATAStack) {
-        if let child = self.viewControllers.first as? FPHandlesMOC {
-            child.receiveDataStack(incomingDataStack)
-        }
-    }
-
-}
+class NavigationViewController: UINavigationController { }

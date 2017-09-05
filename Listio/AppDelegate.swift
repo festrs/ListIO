@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import CoreData
-import DATAStack
 import UserNotifications
 import Fabric
 import Crashlytics
@@ -17,33 +15,13 @@ import Crashlytics
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    lazy var dataStack = DATAStack(modelName:"Listio")
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        if let rootViewController = self.window?.rootViewController as? FPHandlesMOC {
-            rootViewController.receiveDataStack(self.dataStack)
-        }
+
         Fabric.with([Crashlytics.self])
 
         return true
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        self.saveContext()
-    }
-
-    // MARK: - Core Data Saving support
-    func saveContext () {
-        if self.dataStack.mainContext.hasChanges {
-            do {
-                try self.dataStack.mainContext.save()
-            } catch {
-                let nserror = error as NSError
-                NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
-                abort()
-            }
-        }
     }
 
     @available(iOS 10.0, *)
