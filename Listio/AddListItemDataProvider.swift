@@ -108,7 +108,7 @@ extension AddListItemDataProvider {
         let itemObj = items[indexPath.row]
 
         cell.nameLabel.text = itemObj.descricao
-        cell.priceLabel.text = NSNumber(value: itemObj.vlTotal).maskToCurrency()
+        cell.priceLabel.text = NSNumber(value: itemObj.vlUnit).maskToCurrency()
         cell.unLabel.text = "UN \(itemObj.qtde)"
 
         if itemObj.present {

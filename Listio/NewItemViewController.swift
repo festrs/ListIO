@@ -158,7 +158,7 @@ class NewItemViewController: UITableViewController {
                                              to: datePickerCellRef.date)
 
         alertProvider?.dispatchlocalNotification(with: "Lista Rápida",
-                        body: "O produto \(txfItemName.text!) ira vencer em \(datePickerCellRef.date.getDateStringShort())!",
+        body: "O produto \(txfItemName.text!) ira vencer em \(datePickerCellRef.date.getDateStringShort())!",
             userInfo: dictionary,
             at: fireDate!)
     }
@@ -171,10 +171,8 @@ class NewItemViewController: UITableViewController {
         let croppingEnabled = true
         let cameraViewController = CameraViewController(croppingEnabled: croppingEnabled) { [weak self] image, asset in
             guard let stronSelf = self, image != nil else { return }
-
             try! stronSelf.realm.write {
                 stronSelf.productImageView.image = image
-                stronSelf.product.imgUrl = asset?.localIdentifier
                 stronSelf.assetLocalIdentifier = asset?.localIdentifier
             }
 
@@ -192,6 +190,7 @@ class NewItemViewController: UITableViewController {
                 product.alert = addDateCellSwitch.isOn
                 product.alertDate = datePickerCellRef.date
                 product.alertDays = currentValueOfDays!
+                product.imgUrl = assetLocalIdentifier
             }
             navigationController?.popViewController(animated: true)
         } else {
@@ -206,6 +205,7 @@ class NewItemViewController: UITableViewController {
                 item.alertDays = currentValueOfDays!
                 item.alertDate = datePickerCellRef.date
                 item.alert = addDateCellSwitch.isOn
+                item.imgUrl = assetLocalIdentifier
                 try! realm.write {
                     realm.add(item)
                 }
