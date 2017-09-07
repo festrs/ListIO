@@ -21,12 +21,13 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
     var items: [Item] = [Item]()
 
     func performFetch() throws {
-        items = try getUniqueItems()!
+        items = try getUniqueItems()
         tableView.reloadData()
     }
 
-    func getUniqueItems() throws -> [Item]? {
-        return []
+    func getUniqueItems() throws -> [Item] {
+        guard let items = Receipt.getUniqueItems() else { return [] }
+        return items
     }
 
     func countItems() -> Int {
@@ -35,14 +36,18 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
 
     func unselectAll() {
         for value in items {
-
+            try! realm.write {
+                value.present = false
+            }
         }
         tableView.reloadData()
     }
 
     func selectAll() {
         for value in items {
-
+            try! realm.write {
+                value.present = true
+            }
         }
         tableView.reloadData()
     }
@@ -56,13 +61,17 @@ extension AddListItemDataProvider {
         guard let cell = tableView.cellForRow(at: indexPath) as? AddListItemTableViewCell else {
             fatalError("Unexpected Index Path")
         }
-//        if let present = itemObj.present?.boolValue, present {
-//            cell.accessoryType = .none
-//            itemObj.present = 0
-//        } else {
-//            cell.accessoryType = .checkmark
-//            itemObj.present = 1
-//        }
+        if itemObj.present {
+            cell.accessoryType = .none
+            try! realm.write {
+                itemObj.present = false
+            }
+        } else {
+            cell.accessoryType = .checkmark
+            try! realm.write {
+                itemObj.present = true
+            }
+        }
         tableView.reloadData()
     }
 }
@@ -98,15 +107,15 @@ extension AddListItemDataProvider {
         }
         let itemObj = items[indexPath.row]
 
-//        cell.nameLabel.text = itemObj.descricao
-//        cell.priceLabel.text = itemObj.vlUnit?.toMaskReais()
-//        cell.unLabel.text = "UN \(itemObj.qtde?.intValue ?? 0)"
-//
-//        if let present = itemObj.present?.boolValue, present {
-//            cell.accessoryType = .checkmark
-//        } else {
-//            cell.accessoryType = .none
-//        }
+        cell.nameLabel.text = itemObj.descricao
+        cell.priceLabel.text = NSNumber(value: itemObj.vlTotal).maskToCurrency()
+        cell.unLabel.text = "UN \(itemObj.qtde)"
+
+        if itemObj.present {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
         return cell
     }
 }

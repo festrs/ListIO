@@ -30,18 +30,18 @@ public class MainDataProvider: NSObject, MainDataProviderProtocol {
     }
 
     public func calcMediumCost() -> Double {
-//        return items.reduce(0.0) { (result, item) -> Double in
-//            return (item.vlTotal?.doubleValue)! + result
-//        }
-        return 0.0
+        return items.reduce(0.0) { (result, item) -> Double in
+            return item.vlTotal + result
+        }
     }
 
     public func getCountItems() -> Int {
-        return 0
+        return items.count
     }
 
     func getUniqueItems() throws -> [Item]? {
-        return realm.objects(Item.self).toArray(ofType: Item.self) as [Item]
+        guard let result = Receipt.getUniqueItems() else { return [] }
+        return result.filter { $0.present == true }
     }
 }
 
@@ -62,21 +62,21 @@ extension MainDataProvider {
             fatalError("Unexpected Index Path")
         }
 
-        let item: Item? = items[indexPath.row]
+        let item = items[indexPath.row]
 
-        cell.nameLabel.text = item?.descricao
-//        cell.unLabel.text = "UN \(item?.qtde?.intValue ?? 0)"
-//        cell.valueLabel.text = item?.vlUnit?.toMaskReais()
+        cell.nameLabel.text = item.descricao
+        cell.unLabel.text = "UN \(item.qtde)"
+        cell.valueLabel.text = NSNumber(value: item.vlUnit).maskToCurrency()
         let placeHolder = UIImage(named: "noimage")
 
         // Get the current authorization state.
         let status = PHPhotoLibrary.authorizationStatus()
         var image: UIImage? = nil
         if status == PHAuthorizationStatus.authorized {
-            image = getImage(localUrl: item?.imgUrl ?? "")
+            image = getImage(localUrl: item.imgUrl ?? "")
         }
         if image == nil {
-            let url = URL(string: item?.imgUrl ?? "")
+            let url = URL(string: item.imgUrl ?? "")
             cell.productImageView.kf.setImage(with: url,
                                               placeholder: placeHolder,
                                               options: nil,
@@ -117,7 +117,9 @@ extension MainDataProvider {
         if editingStyle == .delete {
 
             let obj = items.remove(at: indexPath.row)
-//            obj.present = 0
+            try! realm.write {
+                obj.present = false
+            }
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.reloadData()
         }

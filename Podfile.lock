@@ -6,7 +6,7 @@ PODS:
   - BarcodeScanner (2.0.0)
   - Bugsnag (5.10.1):
     - KSCrash/RecordingAdvanced (= 1.8.13)
-  - Crashlytics (3.8.5):
+  - Crashlytics (3.8.6):
     - Fabric (~> 1.6.3)
   - DATAStack (6.1.2)
   - DatePickerCell (1.0.5)
@@ -101,7 +101,7 @@ SPEC CHECKSUMS:
   ALCameraViewController: 8311f17d3dc2c24ab7d81a3a3b288dcdf210c5cf
   BarcodeScanner: 225e96dfa2cee966771b345e4bf72b1babfa0c40
   Bugsnag: 9c2d242eac7f215c40ff0f5813d378e9fcccf6e4
-  Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
+  Crashlytics: 95d05f4e4c19a771250c4bd9ce344d996de32bbf
   DATAStack: a45fc144e15193f1b22c26b507cc46655ce96a71
   DatePickerCell: 8cd5d7fc93d195b85a7b2389b0ea4a9017c51f9b
   Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28

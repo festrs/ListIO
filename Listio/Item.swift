@@ -13,7 +13,7 @@ import StringScore_Swift
 
 class Item: Object, Mappable {
     //optional
-    dynamic var alert = 0
+    dynamic var alert = false
     dynamic var countReceipt = 0
     dynamic var qtde = 0
     dynamic var alertDays = 0
@@ -39,6 +39,10 @@ class Item: Object, Mappable {
         unidade     <- map["un"]
         vlTotal     <- map["vl_total"]
         vlUnit      <- map["vl_unit"]
+    }
+
+    override static func primaryKey() -> String? {
+        return "remoteID"
     }
 }
 

@@ -37,9 +37,9 @@ class NewItemViewController: UITableViewController {
         super.viewDidLoad()
         if new {
             let closeButton = UIBarButtonItem(image: UIImage(named: "close"),
-                                          style: .plain,
-                                          target: self,
-                                          action: #selector(closeAction(_:)))
+                                              style: .plain,
+                                              target: self,
+                                              action: #selector(closeAction(_:)))
             navigationItem.leftBarButtonItem  = closeButton
             title = "Novo Item"
             remoteID = UUID().uuidString
@@ -63,9 +63,6 @@ class NewItemViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if !new {
-            txfItemName.text = product.descricao
-//            txfItemPrice.text = product.vlUnit?.toMaskReais()
-//            txfItemUn.text = product.qtde?.description
             navigationItem.rightBarButtonItem?.customView?.isHidden = true
         }
     }
@@ -77,30 +74,38 @@ class NewItemViewController: UITableViewController {
     }
 
     func loadProductData() {
-//        let alert = product.alert?.boolValue ?? false
-//        datePickerCellRef.isHidden = !alert
-//        sliderCell.isHidden = !alert
-//
-//        if let date = product.alertDate {
-//            datePickerCellRef.date = date as Date
-//        } else {
-//            datePickerCellRef.date = Date()
-//        }
-//
-//        addDateCellSwitch.setOn(alert, animated: true)
-//        let placeHolder = UIImage(named: "noimage")
-//        let image = getImage(localUrl: product?.imgUrl ?? "")
-//        daySlider.setValue(Float(product.alertDays!), animated: true)
-//        if image == nil {
-//            let url = URL(string: product?.imgUrl ?? "")
-//            productImageView.kf.setImage(with: url,
-//                                         placeholder: placeHolder,
-//                                         options: nil,
-//                                         progressBlock: nil,
-//                                         completionHandler: nil)
-//        } else {
-//            productImageView.image = image
-//        }
+        let alert = product.alert
+        datePickerCellRef.isHidden = !alert
+        sliderCell.isHidden = !alert
+
+        if let date = product.alertDate {
+            datePickerCellRef.date = date
+        } else {
+            datePickerCellRef.date = Date()
+        }
+        txfItemName.text = product.descricao
+        txfItemPrice.text = NSNumber(value: product.vlUnit).maskToCurrency()
+        txfItemUn.text = product.qtde.description
+        addDateCellSwitch.setOn(alert, animated: true)
+        daySlider.setValue(Float(product.alertDays), animated: true)
+
+        let placeHolder = UIImage(named: "noimage")
+        let status = PHPhotoLibrary.authorizationStatus()
+        var image: UIImage? = nil
+        if status == PHAuthorizationStatus.authorized {
+            image = getImage(localUrl: product.imgUrl ?? "")
+        }
+
+        if image == nil {
+            let url = URL(string: product.imgUrl ?? "")
+            productImageView.kf.setImage(with: url,
+                                         placeholder: placeHolder,
+                                         options: nil,
+                                         progressBlock: nil,
+                                         completionHandler: nil)
+        } else {
+            productImageView.image = image
+        }
     }
 
     func getImage(localUrl: String) -> UIImage? {
@@ -126,9 +131,6 @@ class NewItemViewController: UITableViewController {
     @IBAction func alertDaysChanged(_ sender: UISlider) {
         currentValueOfDays = Int(sender.value)
         alertDaysLabel.text = "Aviso \(currentValueOfDays!) dias antes do vencimento."
-        let alertDays = NSDecimalNumber(value: currentValueOfDays!)
-        guard product != nil else { return }
-        //product.alertDays = alertDays
     }
 
     @IBAction func addDatePickerCell(_ sender: Any) {
@@ -137,9 +139,6 @@ class NewItemViewController: UITableViewController {
         }
         datePickerCellRef.isHidden = !addDateCellSwitch.isOn
         sliderCell.isHidden = !addDateCellSwitch.isOn
-        let presentAlert = NSNumber(booleanLiteral: addDateCellSwitch.isOn)
-        guard product != nil else { return }
-        //product.alert = presentAlert
     }
 
     func addLocalNotification() {
@@ -155,11 +154,11 @@ class NewItemViewController: UITableViewController {
         let subtractDays = -(currentValueOfDays!)
 
         let fireDate = Calendar.current.date(byAdding: .day,
-                                                 value: subtractDays,
-                                                 to: datePickerCellRef.date)
+                                             value: subtractDays,
+                                             to: datePickerCellRef.date)
 
         alertProvider?.dispatchlocalNotification(with: "Lista Rápida",
-                                                 body: "O produto \(txfItemName.text!) ira vencer em \(datePickerCellRef.date.getDateStringShort())!",
+                        body: "O produto \(txfItemName.text!) ira vencer em \(datePickerCellRef.date.getDateStringShort())!",
             userInfo: dictionary,
             at: fireDate!)
     }
@@ -171,12 +170,14 @@ class NewItemViewController: UITableViewController {
     @IBAction func choosePhoto(_ sender: Any) {
         let croppingEnabled = true
         let cameraViewController = CameraViewController(croppingEnabled: croppingEnabled) { [weak self] image, asset in
-            guard let stronSelf = self else { return }
-            if image != nil {
+            guard let stronSelf = self, image != nil else { return }
+
+            try! stronSelf.realm.write {
                 stronSelf.productImageView.image = image
                 stronSelf.product.imgUrl = asset?.localIdentifier
                 stronSelf.assetLocalIdentifier = asset?.localIdentifier
             }
+
             stronSelf.dismiss(animated: true, completion: nil)
         }
         navigationController?.present(cameraViewController, animated: true, completion: nil)
@@ -184,23 +185,29 @@ class NewItemViewController: UITableViewController {
 
     @IBAction func doneAction(_ sender: Any) {
         if !new {
-            product.descricao = txfItemName.text
-//            product.vlUnit = txfItemPrice.decimalNumber
-//            product.qtde = txfItemUn.text?.decimal.number
+            try! realm.write {
+                product.descricao = txfItemName.text
+                product.vlUnit = Double(txfItemPrice.decimalNumber)
+                product.qtde = Int(txfItemUn.text!)!
+                product.alert = addDateCellSwitch.isOn
+                product.alertDate = datePickerCellRef.date
+                product.alertDays = currentValueOfDays!
+            }
             navigationController?.popViewController(animated: true)
         } else {
             var alertMsg: String? = nil
-            if !(txfItemName.text?.isEmpty)! {
+            if txfItemName.text?.isEmpty != nil {
                 let item = Item()
-                item.alertDate = datePickerCellRef.date
+                item.remoteID = remoteID
                 item.descricao = txfItemName.text
-                //item.vlTotal = Double(txfItemPrice.text!)!
-                do {
-                    try realm.write {
-                        realm.add(item)
-                    }
-                } catch {
-
+                item.vlUnit = txfItemPrice.decimalNumber.doubleValue
+                item.qtde = Int(txfItemUn.text!)!
+                item.present = true
+                item.alertDays = currentValueOfDays!
+                item.alertDate = datePickerCellRef.date
+                item.alert = addDateCellSwitch.isOn
+                try! realm.write {
+                    realm.add(item)
                 }
 
                 dismiss(animated: true, completion: nil)
@@ -235,8 +242,5 @@ class NewItemViewController: UITableViewController {
 }
 
 extension NewItemViewController: DatePickerCellDelegate {
-    func datePickerCell(_ cell: DatePickerCell, didPickDate date: Date?) {
-        guard product != nil else { return }
-
-    }
+    func datePickerCell(_ cell: DatePickerCell, didPickDate date: Date?) { }
 }

@@ -161,7 +161,7 @@
             <objects>
                 <tableViewController autoresizesArchivedViewToFullSize="NO" id="Mm5-nr-uIT" customClass="NewItemViewController" customModule="Hml" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="86" sectionHeaderHeight="28" sectionFooterHeight="28" id="ePF-ax-PaH">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -216,14 +216,14 @@
                                                                 <constraint firstAttribute="height" constant="1" id="Cb6-EO-mTe"/>
                                                             </constraints>
                                                         </view>
-                                                        <textField opaque="NO" clipsSubviews="YES" tag="30" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Unidade" textAlignment="natural" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="REK-ES-Taq">
+                                                        <textField opaque="NO" clipsSubviews="YES" tag="30" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Quantidade" textAlignment="natural" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="REK-ES-Taq">
                                                             <rect key="frame" x="0.0" y="90" width="228" height="44"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="44" id="9bS-CQ-ZL4"/>
                                                             </constraints>
                                                             <nil key="textColor"/>
                                                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
-                                                            <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                                            <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                                                         </textField>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cys-mE-Fvk">
                                                             <rect key="frame" x="0.0" y="134" width="228" height="1"/>
@@ -577,6 +577,6 @@
         <image name="placeholder" width="104" height="104"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Sth-CP-RtS"/>
+        <segue reference="7kG-PP-zvp"/>
     </inferredMetricsTieBreakers>
 </document>

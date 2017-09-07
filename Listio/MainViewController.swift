@@ -12,7 +12,7 @@ import AVFoundation
 import Floaty
 import SVProgressHUD
 import Alamofire
-import ObjectMapper
+import RealmSwift
 
 class MainViewController: UIViewController {
 
@@ -21,7 +21,8 @@ class MainViewController: UIViewController {
     public var communicator: APICommunicatorProtocol = APICommunicator()
     var presentedAlert: Bool = false
     let notificationName = NSNotification.Name(rawValue: Constants.newProductAddedNotificationKey)
-
+    // swiftlint:disable force_try
+    let realm = try! Realm()
     lazy var readerVC: QRCodeReaderViewController = {
         let builder = QRCodeReaderViewControllerBuilder {
             $0.reader = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode,
@@ -105,8 +106,8 @@ class MainViewController: UIViewController {
                                              preferredStyle: UIAlertControllerStyle.alert)
         refreshAlert.addAction(UIAlertAction(title: "Sim", style: .default,
                                              handler: { [weak self] (_: UIAlertAction!) in
-            guard let strongSelf = self else { return }
-            strongSelf.performSegue(withIdentifier: Constants.MainVC.SegueAddListItem, sender: nil)
+                                                guard let strongSelf = self else { return }
+                                                strongSelf.performSegue(withIdentifier: Constants.MainVC.SegueAddListItem, sender: nil)
         }))
 
         refreshAlert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil ))
@@ -175,16 +176,13 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
                 }
             }
 
-            do {
-
-                let receipt = Receipt(JSON: responseJSON!)
-
-                strongSelf.createNewList()
-            } catch Errors.DoubleReceiptWithSameID() {
-                strongSelf.showAlert(Alerts.ErroTitle, message: Alerts.ErrorDoubleReceiptWithSameID)
-            } catch let error as NSError {
-                strongSelf.showAlert(Alerts.ErroTitle, message: error.localizedDescription)
+            if let unwrapedJson = responseJSON {
+                let receipt = Receipt(JSON: unwrapedJson)
+                try! strongSelf.realm.write {
+                    strongSelf.realm.add(receipt!)
+                }
             }
+            strongSelf.createNewList()
         }
     }
 
@@ -204,10 +202,19 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
                 let fields = firstRecord["fields"] as? [String: AnyObject],
                 let itemName = fields["gtin_nm"] as? String,
                 let itemUrl = fields["gtin_img"] as? String,
-                let cod = fields["gtin_cd"] as? String else {
+                let _ = fields["gtin_cd"] as? String else {
                     //strongSelf.showAlert(Alerts.ErroTitle, message: "Produto não encontrado.")
                     strongSelf.performSegue(withIdentifier: Constants.MainVC.SegueToNewItemIdentifier, sender: nil)
                     return
+            }
+            
+            let item = Item()
+            item.remoteID = UUID().uuidString
+            item.descricao = itemName
+            item.present = true
+            item.imgUrl = itemUrl
+            try! strongSelf.realm.write {
+                strongSelf.realm.add(item)
             }
 
             NotificationCenter.default.post(name:
