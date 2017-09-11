@@ -34,11 +34,11 @@ class Item: Object, Mappable {
     }
 
     func mapping(map: Map) {
-        remoteID    <- map["id"]
-        descricao   <- map["descricao"]
-        unidade     <- map["un"]
-        vlTotal     <- map["vl_total"]
-        vlUnit      <- map["vl_unit"]
+        remoteID            <- map["id"]
+        descricao           <- map["descricao"]
+        qtde                <- map["qtde"]
+        vlTotal             <- map["vl_total"]
+        vlUnit              <- map["vl_unit"]
     }
 
     override static func primaryKey() -> String? {
@@ -48,5 +48,5 @@ class Item: Object, Mappable {
 
 func == (lhs: Item, rhs: Item) -> Bool {
     let fuzzy1 = lhs.descricao!.trim().score(word: rhs.descricao!.trim(), fuzziness:1.0)
-    return fuzzy1 > 0.45
+    return fuzzy1 > 0.55
 }

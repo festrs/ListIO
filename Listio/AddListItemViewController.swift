@@ -11,6 +11,7 @@ import UIKit
 class AddListItemViewController: UIViewController {
 
     var dataProvider: AddListItemDataProviderProtocol?
+    @IBOutlet weak var editTableView: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var doneButtonItem: UIBarButtonItem!
     var new: Bool = false
@@ -36,8 +37,10 @@ class AddListItemViewController: UIViewController {
         }
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    @IBAction func editTableViewAction(_ sender: Any) {
+        if (dataProvider?.countItems())! > 0 {
+            tableView.setEditing(!tableView.isEditing, animated: true)
+        }
     }
 
     @IBAction func backAction(_ sender: Any) {

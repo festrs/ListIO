@@ -170,10 +170,13 @@ class NewItemViewController: UITableViewController {
     @IBAction func choosePhoto(_ sender: Any) {
         let croppingEnabled = true
         let cameraViewController = CameraViewController(croppingEnabled: croppingEnabled) { [weak self] image, asset in
-            guard let stronSelf = self, image != nil else { return }
-            try! stronSelf.realm.write {
-                stronSelf.productImageView.image = image
-                stronSelf.assetLocalIdentifier = asset?.localIdentifier
+            guard let stronSelf = self else { return }
+
+            if image != nil {
+                try! stronSelf.realm.write {
+                    stronSelf.productImageView.image = image
+                    stronSelf.assetLocalIdentifier = asset?.localIdentifier
+                }
             }
 
             stronSelf.dismiss(animated: true, completion: nil)
@@ -186,7 +189,9 @@ class NewItemViewController: UITableViewController {
             try! realm.write {
                 product.descricao = txfItemName.text
                 product.vlUnit = Double(txfItemPrice.decimalNumber)
-                product.qtde = Int(txfItemUn.text!)!
+                if let qtde = Int(txfItemUn.text!) {
+                    product.qtde = qtde
+                }
                 product.alert = addDateCellSwitch.isOn
                 product.alertDate = datePickerCellRef.date
                 product.alertDays = currentValueOfDays!
@@ -194,13 +199,14 @@ class NewItemViewController: UITableViewController {
             }
             navigationController?.popViewController(animated: true)
         } else {
-            var alertMsg: String? = nil
-            if txfItemName.text?.isEmpty != nil {
+            if txfItemName.text != nil && txfItemName.text != "" {
                 let item = Item()
                 item.remoteID = remoteID
                 item.descricao = txfItemName.text
                 item.vlUnit = txfItemPrice.decimalNumber.doubleValue
-                item.qtde = Int(txfItemUn.text!)!
+                if let qtde = Int(txfItemUn.text!) {
+                    item.qtde = qtde
+                }
                 item.present = true
                 item.alertDays = currentValueOfDays!
                 item.alertDate = datePickerCellRef.date
@@ -211,12 +217,9 @@ class NewItemViewController: UITableViewController {
                 }
 
                 dismiss(animated: true, completion: nil)
-            } else if (txfItemName.text?.isEmpty)! {
-                alertMsg = "Para criar um produto o campo Nome deve ser preenchido."
-            }
-            if let msg = alertMsg {
+            } else {
                 let alert = UIAlertController(title: "Atenção!",
-                                              message: msg,
+                                              message: "Para criar um produto o campo Nome deve ser preenchido.",
                                               preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "Ok",
                                               style: UIAlertActionStyle.default,

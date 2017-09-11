@@ -107,7 +107,7 @@ class MainViewController: UIViewController {
         refreshAlert.addAction(UIAlertAction(title: "Sim", style: .default,
                                              handler: { [weak self] (_: UIAlertAction!) in
                                                 guard let strongSelf = self else { return }
-                                                strongSelf.performSegue(withIdentifier: Constants.MainVC.SegueAddListItem, sender: nil)
+                                strongSelf.performSegue(withIdentifier: Constants.MainVC.SegueAddListItem, sender: nil)
         }))
 
         refreshAlert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil ))
@@ -176,10 +176,10 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
                 }
             }
 
-            if let unwrapedJson = responseJSON {
-                let receipt = Receipt(JSON: unwrapedJson)
+            if let unwrapedJson = responseJSON,
+                let receipt = Receipt(JSON: unwrapedJson) {
                 try! strongSelf.realm.write {
-                    strongSelf.realm.add(receipt!)
+                    strongSelf.realm.add(receipt, update: true)
                 }
             }
             strongSelf.createNewList()
@@ -201,13 +201,12 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
                 let firstRecord = records.first,
                 let fields = firstRecord["fields"] as? [String: AnyObject],
                 let itemName = fields["gtin_nm"] as? String,
-                let itemUrl = fields["gtin_img"] as? String,
-                let _ = fields["gtin_cd"] as? String else {
+                let itemUrl = fields["gtin_img"] as? String else {
                     //strongSelf.showAlert(Alerts.ErroTitle, message: "Produto não encontrado.")
                     strongSelf.performSegue(withIdentifier: Constants.MainVC.SegueToNewItemIdentifier, sender: nil)
                     return
             }
-            
+
             let item = Item()
             item.remoteID = UUID().uuidString
             item.descricao = itemName

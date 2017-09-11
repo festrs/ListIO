@@ -74,6 +74,32 @@ extension AddListItemDataProvider {
         }
         tableView.reloadData()
     }
+
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCellEditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            guard items.count != 0 else { return }
+
+            let obj = items.remove(at: indexPath.row)
+            try! realm.write {
+                realm.delete(obj)
+            }
+
+            if items.count == 0 {
+                tableView.setEditing(false, animated: true)
+            } else {
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+
+            tableView.reloadData()
+        }
+    }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
+        return true
+    }
 }
 
 extension AddListItemDataProvider {
@@ -87,7 +113,7 @@ extension AddListItemDataProvider {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if items.isEmpty {
-            return 120
+            return 150
         }
         return 58
     }
@@ -96,14 +122,14 @@ extension AddListItemDataProvider {
         if items.count == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.InfoCellIdentifer,
                                                            for: indexPath) as? AddListItemTableViewCell else {
-                fatalError("Unexpected Index Path")
+                                                            fatalError("Unexpected Index Path")
             }
-            cell.frame.size.height = 92
+
             return cell
         }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.CellIdentifier,
                                                        for: indexPath) as? AddListItemTableViewCell else {
-            fatalError("Unexpected Index Path")
+                                                        fatalError("Unexpected Index Path")
         }
         let itemObj = items[indexPath.row]
 
