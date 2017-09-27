@@ -7,40 +7,47 @@
 //
 
 import UIKit
-import CoreData
-import DATAStack
+import UserNotifications
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    lazy var dataStack = DATAStack(modelName:"Listio")
-    
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        if let rootViewController = self.window?.rootViewController as? FPHandlesMOC {
-            rootViewController.receiveDataStack(self.dataStack)
-        }
+
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
+        Fabric.with([Crashlytics.self])
+
         return true
     }
 
-    func applicationWillTerminate(_ application: UIApplication) {
-        self.saveContext()
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler(UNNotificationPresentationOptions.alert)
     }
 
-    // MARK: - Core Data Saving support
-    func saveContext () {
-        if self.dataStack.mainContext.hasChanges {
-            do {
-                try self.dataStack.mainContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
-                abort()
-            }
-        }
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        let userInfo = notification.userInfo
+        let productName = userInfo![Constants.notificationProductNameKey]!
+        let productDate = userInfo![Constants.notificationProductDateKey]!
+        let msg = "O produto \(productName) ira vencer em \(productDate)"
+        let alert = UIAlertController(title: "Atenção!", message: msg, preferredStyle: UIAlertControllerStyle.alert)
+        let topWindow = UIWindow(frame: UIScreen.main.bounds)
+        topWindow.rootViewController = UIViewController()
+        topWindow.windowLevel = UIWindowLevelAlert + 1
+
+        alert.addAction(UIAlertAction(title: "Ok",
+                                      style: UIAlertActionStyle.default,
+                                      handler: { (_ action: UIAlertAction) -> Void in
+            topWindow.isHidden = true
+        }))
+        topWindow.makeKeyAndVisible()
+        topWindow.rootViewController?.present(alert, animated: true, completion: { _ in })
     }
 
 }
-

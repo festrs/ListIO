@@ -19,6 +19,9 @@ class ReceiptTest: XCTestCase {
     var receipt2:[String: AnyObject]? = nil
     
     class MockAPICommunicator : APICommunicatorProtocol {
+        func getProduct(code: String, _ completion: @escaping (Error?, [String : AnyObject]?) -> Void) {
+
+        }
         
         func getReceipt(linkUrl: String, _ completion: @escaping (Error?, [String : AnyObject]?) -> Void) {
             completion(nil,readJson(name: linkUrl))
