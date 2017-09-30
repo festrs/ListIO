@@ -4,13 +4,15 @@ osx_image: xcode8.3
 
 cache:
 - bundler
-- cocoapods
+  directories:
+    - $HOME/.cocoapods/
 
 before_install:
 - bundle install
+- pod update
 - bundle exec pod keys set ListioAPISecret $ListioAPISecret 
 
 script:
 - xcodebuild -version
-- xcodebuild -workspace Listio.xcworkspace -scheme 'Hml' -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 7" -enableCodeCoverage YES test
+- xcodebuild -workspace Listio.xcworkspace -scheme 'Hml' -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 7"
 - bash <(curl -s https://codecov.io/bash) -t 07101cd7-6101-475c-9b27-5426e067ac0c
