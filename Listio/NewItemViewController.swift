@@ -49,15 +49,20 @@ class NewItemViewController: UITableViewController {
             remoteID = product.remoteID
             loadProductData()
         }
-        datePickerCellRef.delegate = self
+
         currentValueOfDays = Int(daySlider.value)
         alertDaysLabel.text = "Aviso \(currentValueOfDays!) dias antes do vencimento."
-        // extension
-        hideKeyboardWhenTappedAround()
-        tableView.tableFooterView = UIView(frame: CGRect.zero)
+
         productImageView.layer.cornerRadius = productImageView.frame.size.height/2.0
         productImageView.layer.masksToBounds = true
+
+        datePickerCellRef.delegate = self
         datePickerCellRef.leftLabel.text = "Data de validade"
+        datePickerCellRef.dateStyle = .short
+
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        // extension
+        hideKeyboardWhenTappedAround()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -197,7 +202,7 @@ class NewItemViewController: UITableViewController {
                 product.alertDays = currentValueOfDays!
                 product.imgUrl = assetLocalIdentifier
             }
-            navigationController?.popViewController(animated: true)
+            dismiss(animated: true, completion: nil)
         } else {
             if txfItemName.text != nil && txfItemName.text != "" {
                 let item = Item()

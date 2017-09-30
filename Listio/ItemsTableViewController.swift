@@ -26,7 +26,6 @@ class ItemsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         reloadData()
-
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData),
                                                name: notificationName,
                                                object: nil)
@@ -64,10 +63,9 @@ class ItemsTableViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let cell = sender as? UITableViewCell,
-            let vc = segue.destination as? NewItemViewController,
+            let vc = segue.destination as? ItemViewController,
             let index = tableView.indexPath(for: cell),
             let item = dataProvider?.items[index.row] {
-            vc.new = false
             vc.product = item
         }
     }
