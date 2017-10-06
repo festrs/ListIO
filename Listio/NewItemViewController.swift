@@ -30,6 +30,7 @@ class NewItemViewController: UITableViewController {
     var alertProvider: AlertProvider? = AlertProvider()
     var currentValueOfDays: Int?
     var remoteID: String?
+    var isCreated: Bool = false
     // swiftlint:disable force_try
     let realm = try! Realm()
 
@@ -73,8 +74,11 @@ class NewItemViewController: UITableViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        guard isCreated == true else { return }
         if addDateCellSwitch.isOn {
             addLocalNotification()
+        } else {
+            alertProvider?.removeLocalNotificationByIdentifier(withID: remoteID)
         }
     }
 
@@ -169,6 +173,7 @@ class NewItemViewController: UITableViewController {
     }
 
     @IBAction func closeAction(_ sender: Any) {
+        isCreated = false
         dismiss(animated: true, completion: nil)
     }
 
@@ -202,6 +207,7 @@ class NewItemViewController: UITableViewController {
                 product.alertDays = currentValueOfDays!
                 product.imgUrl = assetLocalIdentifier
             }
+            isCreated = true
             dismiss(animated: true, completion: nil)
         } else {
             if txfItemName.text != nil && txfItemName.text != "" {
@@ -214,13 +220,16 @@ class NewItemViewController: UITableViewController {
                 }
                 item.present = true
                 item.alertDays = currentValueOfDays!
-                item.alertDate = datePickerCellRef.date
+                let alertDate = Calendar.current.date(byAdding: .day,
+                                                     value: 5,
+                                                     to: datePickerCellRef.date)
+                item.alertDate = alertDate
                 item.alert = addDateCellSwitch.isOn
                 item.imgUrl = assetLocalIdentifier
                 try! realm.write {
                     realm.add(item)
                 }
-
+                isCreated = true
                 dismiss(animated: true, completion: nil)
             } else {
                 let alert = UIAlertController(title: "Atenção!",

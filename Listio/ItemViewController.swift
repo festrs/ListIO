@@ -20,6 +20,7 @@ class ItemViewController: UIViewController {
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var lblItemName: UILabel!
     var product: Item!
+    var alertProvider: AlertProvider? = AlertProvider()
     // swiftlint:disable force_try
     let realm = try! Realm()
 
@@ -91,6 +92,33 @@ class ItemViewController: UIViewController {
                                                 assetImage = image
         }
         return assetImage
+    }
+
+    @IBAction func changeActiveStateAlert(_ sender: Any) {
+        if dateSwitch.isOn {
+            let dictionary = [
+                Constants.notificationIdentifierKey: product.remoteID ?? "" ,
+                Constants.notificationProductNameKey: product.descricao ?? "",
+                Constants.notificationProductDateKey: product.alertDate!.getDateStringShort()
+            ]
+
+            let subtractDays = -(product.alertDays)
+
+            let fireDate = Calendar.current.date(byAdding: .day,
+                                                 value: subtractDays,
+                                                 to: product.alertDate!)
+
+            alertProvider?.dispatchlocalNotification(with: "Lista Rápida",
+                                                     body: "O produto \(product.descricao!) ira vencer em \(product.alertDate!.getDateStringShort())!",
+                userInfo: dictionary,
+                at: fireDate!)
+        } else {
+            alertProvider?.removeLocalNotificationByIdentifier(withID: product.remoteID )
+        }
+        
+        try! realm.write {
+            product.alert = dateSwitch.isOn
+        }
     }
 
     // MARK: - Navigation

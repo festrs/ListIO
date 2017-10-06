@@ -997,6 +997,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Felipe Dias Pereira (4ESLPZ55NB)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Felipe Dias Pereira (4ESLPZ55NB)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 439F5NHE7E;
 				GCC_PREPROCESSOR_DEFINITIONS = (
