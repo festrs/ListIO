@@ -108,6 +108,10 @@ class ItemViewController: UIViewController {
                                                  value: subtractDays,
                                                  to: product.alertDate!)
 
+            guard (alertProvider?.registerForLocalNotification(on: UIApplication.shared))! else {
+                return
+            }
+
             alertProvider?.dispatchlocalNotification(with: "Lista Rápida",
                                                      body: "O produto \(product.descricao!) ira vencer em \(product.alertDate!.getDateStringShort())!",
                 userInfo: dictionary,

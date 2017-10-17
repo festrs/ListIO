@@ -11,6 +11,8 @@ import ALCameraViewController
 import DatePickerCell
 import Photos
 import RealmSwift
+import Fabric
+import Crashlytics
 
 class NewItemViewController: UITableViewController {
 
@@ -148,6 +150,11 @@ class NewItemViewController: UITableViewController {
         }
         datePickerCellRef.isHidden = !addDateCellSwitch.isOn
         sliderCell.isHidden = !addDateCellSwitch.isOn
+
+        Answers.logContentView(withName: "Edit Item",
+                               contentType: "Add Alarm",
+                               contentId: "switch-0",
+                               customAttributes: [:])
     }
 
     func addLocalNotification() {

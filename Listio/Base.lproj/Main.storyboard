@@ -66,6 +66,7 @@
                     <navigationItem key="navigationItem" title="Lista" id="nfb-qS-Ch3">
                         <barButtonItem key="leftBarButtonItem" image="list-Filled-25" style="plain" id="xjP-gX-YWL">
                             <connections>
+                                <action selector="createNewlist:" destination="BYZ-38-t0r" id="TRx-ne-2j9"/>
                                 <segue destination="aaZ-Qm-MuQ" kind="presentation" identifier="toNewList" id="Vmg-Fp-Z7y"/>
                             </connections>
                         </barButtonItem>
@@ -290,7 +291,7 @@
             <objects>
                 <tableViewController autoresizesArchivedViewToFullSize="NO" id="Mm5-nr-uIT" customClass="NewItemViewController" customModule="Hml" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="86" sectionHeaderHeight="28" sectionFooterHeight="28" id="ePF-ax-PaH">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="440"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -719,6 +720,6 @@
         <image name="placeholder" width="104" height="104"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="LFo-Fx-Uzp"/>
+        <segue reference="fiU-Ky-txa"/>
     </inferredMetricsTieBreakers>
 </document>
