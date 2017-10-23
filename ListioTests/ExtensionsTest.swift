@@ -9,7 +9,7 @@
 import XCTest
 import JWT
 
-@testable import Listio
+@testable import Prod
 
 class ExtensionsTest: XCTestCase {
     

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Listio
+@testable import Prod
 
 class APICommunicatorTest: XCTestCase {
     

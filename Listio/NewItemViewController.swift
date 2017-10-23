@@ -11,6 +11,8 @@ import ALCameraViewController
 import DatePickerCell
 import Photos
 import RealmSwift
+import Fabric
+import Crashlytics
 
 class NewItemViewController: UITableViewController {
 
@@ -30,6 +32,7 @@ class NewItemViewController: UITableViewController {
     var alertProvider: AlertProvider? = AlertProvider()
     var currentValueOfDays: Int?
     var remoteID: String?
+    var isCreated: Bool = false
     // swiftlint:disable force_try
     let realm = try! Realm()
 
@@ -49,15 +52,20 @@ class NewItemViewController: UITableViewController {
             remoteID = product.remoteID
             loadProductData()
         }
-        datePickerCellRef.delegate = self
+
         currentValueOfDays = Int(daySlider.value)
         alertDaysLabel.text = "Aviso \(currentValueOfDays!) dias antes do vencimento."
-        // extension
-        hideKeyboardWhenTappedAround()
-        tableView.tableFooterView = UIView(frame: CGRect.zero)
+
         productImageView.layer.cornerRadius = productImageView.frame.size.height/2.0
         productImageView.layer.masksToBounds = true
+
+        datePickerCellRef.delegate = self
         datePickerCellRef.leftLabel.text = "Data de validade"
+        datePickerCellRef.dateStyle = .short
+
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        // extension
+        hideKeyboardWhenTappedAround()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -68,8 +76,11 @@ class NewItemViewController: UITableViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        guard isCreated == true else { return }
         if addDateCellSwitch.isOn {
             addLocalNotification()
+        } else {
+            alertProvider?.removeLocalNotificationByIdentifier(withID: remoteID)
         }
     }
 
@@ -139,6 +150,11 @@ class NewItemViewController: UITableViewController {
         }
         datePickerCellRef.isHidden = !addDateCellSwitch.isOn
         sliderCell.isHidden = !addDateCellSwitch.isOn
+
+        Answers.logContentView(withName: "Edit Item",
+                               contentType: "Add Alarm",
+                               contentId: "switch-0",
+                               customAttributes: [:])
     }
 
     func addLocalNotification() {
@@ -164,6 +180,7 @@ class NewItemViewController: UITableViewController {
     }
 
     @IBAction func closeAction(_ sender: Any) {
+        isCreated = false
         dismiss(animated: true, completion: nil)
     }
 
@@ -197,7 +214,8 @@ class NewItemViewController: UITableViewController {
                 product.alertDays = currentValueOfDays!
                 product.imgUrl = assetLocalIdentifier
             }
-            navigationController?.popViewController(animated: true)
+            isCreated = true
+            dismiss(animated: true, completion: nil)
         } else {
             if txfItemName.text != nil && txfItemName.text != "" {
                 let item = Item()
@@ -209,13 +227,16 @@ class NewItemViewController: UITableViewController {
                 }
                 item.present = true
                 item.alertDays = currentValueOfDays!
-                item.alertDate = datePickerCellRef.date
+                let alertDate = Calendar.current.date(byAdding: .day,
+                                                     value: 5,
+                                                     to: datePickerCellRef.date)
+                item.alertDate = alertDate
                 item.alert = addDateCellSwitch.isOn
                 item.imgUrl = assetLocalIdentifier
                 try! realm.write {
                     realm.add(item)
                 }
-
+                isCreated = true
                 dismiss(animated: true, completion: nil)
             } else {
                 let alert = UIAlertController(title: "Atenção!",

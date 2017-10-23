@@ -13,6 +13,8 @@ import Floaty
 import SVProgressHUD
 import Alamofire
 import RealmSwift
+import Fabric
+import Crashlytics
 
 class MainViewController: UIViewController {
 
@@ -54,14 +56,28 @@ class MainViewController: UIViewController {
                                  icon: UIImage(named: "Barcode-29")) { [weak self] _ in
                                     guard let strongSelf = self else { return }
                                     strongSelf.showReader()
+
+                                    Answers.logContentView(withName: "Main View",
+                                                                   contentType: "Add Buttons",
+                                                                   contentId: "button-0",
+                                                                   customAttributes: [:])
         }
         floatyButtonView.addItem("Via QR Code", icon: UIImage(named: "QR Code-29")) { [weak self] _ in
             guard let strongSelf = self else { return }
             strongSelf.showReader()
+            Answers.logContentView(withName: "Main View",
+                                           contentType: "Add Buttons",
+                                           contentId: "button-1",
+                                           customAttributes: [:])
         }
         floatyButtonView.addItem("Novo item", icon: UIImage(named: "Add-29")) { [weak self] (item) in
             guard let strongSelf = self else { return }
             strongSelf.performSegue(withIdentifier: Constants.MainVC.SegueToNewItemIdentifier, sender: item)
+
+            Answers.logContentView(withName: "Main View",
+                                           contentType: "Add Buttons",
+                                           contentId: "button-2",
+                                           customAttributes: [:])
         }
     }
 
@@ -114,6 +130,12 @@ class MainViewController: UIViewController {
         present(refreshAlert, animated: true, completion: nil)
     }
 
+    @IBAction func createNewlist(_ sender: Any) {
+        Answers.logContentView(withName: "Main View",
+                               contentType: "New List",
+                               contentId: "button-0",
+                               customAttributes: [:])
+    }
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? AddListItemViewController {

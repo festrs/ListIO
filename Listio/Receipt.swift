@@ -40,14 +40,13 @@ class Receipt: Object, Mappable {
         if withPresent {
             items = items.filter {$0.present == true}
         }
-
-        items = items.reduce([Item](), { uniqueElements, element in
-            if uniqueElements.index(where: {$0 == element}) != nil {
-                return uniqueElements
-            } else {
-                return uniqueElements + [element]
-            }
-        })
+//        items = items.reduce([Item](), { uniqueElements, element in
+//            if uniqueElements.index(where: {$0 == element}) != nil {
+//                return uniqueElements
+//            } else {
+//                return uniqueElements + [element]
+//            }
+//        })
         return items
 
     }

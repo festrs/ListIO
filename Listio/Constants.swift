@@ -52,4 +52,8 @@ struct Constants {
         static let ReceiptItemsArrayName = "items"
         static let ItemEntityName = "Item"
     }
+
+    struct ItemVC {
+        static let ToEditSegue = "toEditItem"
+    }
 }
