@@ -72,7 +72,6 @@ extension AddListItemDataProvider {
                 itemObj.present = true
             }
         }
-        //tableView.reloadData()
     }
 
     func tableView(_ tableView: UITableView,

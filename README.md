@@ -6,10 +6,12 @@ To-Do
 
 # Install
 
-```- bundle install
+```
+- bundle install
 - bundle exec pod keys set ListioAPISecret 3ca52c073f3954035160da58ef336f9903f394486d364b1eda915391bdfd44ac
 - pod update
-- pod install```
+- pod install
+```
 
 # Autor
 
