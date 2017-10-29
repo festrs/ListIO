@@ -188,8 +188,9 @@ class NewItemViewController: UITableViewController {
     }
 
     @IBAction func choosePhoto(_ sender: Any) {
-        let croppingEnabled = true
-        let cameraViewController = CameraViewController(croppingEnabled: croppingEnabled) { [weak self] image, asset in
+        let croppingParameters = CroppingParameters(isEnabled: true, allowResizing: true, allowMoving: true)
+
+        let cameraViewController = CameraViewController.imagePickerViewController(croppingParameters: croppingParameters) { [weak self] image, asset in
             guard let stronSelf = self else { return }
 
             if image != nil {

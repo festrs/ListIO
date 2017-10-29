@@ -23,7 +23,7 @@ def prod_pods
     pod 'SwiftLint'
     pod 'Floaty', '~> 3.0.0'
     pod 'Kingfisher', '~> 3.0'
-    pod 'ALCameraViewController'
+    pod 'ALCameraViewController', '~> 2.0.3'
     pod 'DatePickerCell'
     pod 'Fabric'
     pod 'Crashlytics'
