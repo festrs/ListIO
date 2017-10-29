@@ -23,6 +23,7 @@ class ItemViewController: UIViewController {
     var alertProvider: AlertProvider? = AlertProvider()
     // swiftlint:disable force_try
     let realm = try! Realm()
+    lazy var defaultDate = Calendar.current.date(byAdding: .day, value: 10, to: Date()) ?? Date()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +47,11 @@ class ItemViewController: UIViewController {
         dateFormatter.timeStyle = .short
         dateFormatter.dateStyle = .short
 
-        lblDate.text = dateFormatter.string(from: product.alertDate!)
+        if let alertDate = product.alertDate {
+            lblDate.text = dateFormatter.string(from: alertDate)
+        } else {
+            lblDate.text = dateFormatter.string(from: defaultDate)
+        }
     }
 
     func configImageView() {
@@ -96,24 +101,25 @@ class ItemViewController: UIViewController {
 
     @IBAction func changeActiveStateAlert(_ sender: Any) {
         if dateSwitch.isOn {
+            let alertDate = product.alertDate ?? defaultDate
             let dictionary = [
                 Constants.notificationIdentifierKey: product.remoteID ?? "" ,
                 Constants.notificationProductNameKey: product.descricao ?? "",
-                Constants.notificationProductDateKey: product.alertDate!.getDateStringShort()
+                Constants.notificationProductDateKey: alertDate.getDateStringShort()
             ]
 
             let subtractDays = -(product.alertDays)
 
             let fireDate = Calendar.current.date(byAdding: .day,
                                                  value: subtractDays,
-                                                 to: product.alertDate!)
+                                                 to: alertDate)
 
             guard (alertProvider?.registerForLocalNotification(on: UIApplication.shared))! else {
                 return
             }
 
             alertProvider?.dispatchlocalNotification(with: "Lista Rápida",
-                                                     body: "O produto \(product.descricao!) ira vencer em \(product.alertDate!.getDateStringShort())!",
+                                                     body: "O produto \(product.descricao!) ira vencer em \(alertDate.getDateStringShort())!",
                 userInfo: dictionary,
                 at: fireDate!)
         } else {
@@ -121,6 +127,9 @@ class ItemViewController: UIViewController {
         }
         
         try! realm.write {
+            if product.alertDate == nil {
+                product.alertDate = defaultDate
+            }
             product.alert = dateSwitch.isOn
         }
     }

@@ -4,6 +4,21 @@
 
 To-Do
 
+# Install
+
+```
+$ bundle install
+$ bundle exec pod keys set ListioAPISecret 3ca52c073f3954035160da58ef336f9903f394486d364b1eda915391bdfd44ac
+$ pod install --repo-update
+```
+
+
+If you face problems run
+
+```
+$ rm -rf ~/Library/Developer/Xcode/DerivedData
+```
+
 # Autor
 
 Felipe Pereira, [@festrs](https://github.com/festrs)

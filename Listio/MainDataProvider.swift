@@ -111,17 +111,21 @@ extension MainDataProvider {
         return assetImage
     }
 
+    public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
     public func tableView(_ tableView: UITableView,
                           commit editingStyle: UITableViewCellEditingStyle,
                           forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-
+            tableView.beginUpdates()
             let obj = items.remove(at: indexPath.row)
             try! realm.write {
                 obj.present = false
             }
             tableView.deleteRows(at: [indexPath], with: .fade)
-            tableView.reloadData()
+            tableView.endUpdates()
         }
     }
 }

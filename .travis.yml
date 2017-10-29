@@ -1,17 +1,20 @@
 language: objective-c
 
-osx_image: xcode8.3
+osx_image: xcode9.1
 
 cache:
 - bundler
 - cocoapods
 
 before_install:
+- rm -rf ~/Library/Developer/Xcode/DerivedData
+
+install:
 - bundle install
-- pod update
-- bundle exec pod keys set ListioAPISecret $ListioAPISecret 
+- bundle exec pod keys set ListioAPISecret $ListioAPISecret
+- pod install --repo-update
 
 script:
 - xcodebuild -version
-- xcodebuild -workspace Listio.xcworkspace -scheme 'Hml' -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 7"
+- xcodebuild -workspace Listio.xcworkspace -scheme 'Hml' -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 6s" clean build
 - bash <(curl -s https://codecov.io/bash) -t 07101cd7-6101-475c-9b27-5426e067ac0c

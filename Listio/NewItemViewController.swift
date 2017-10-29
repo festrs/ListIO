@@ -56,12 +56,15 @@ class NewItemViewController: UITableViewController {
         currentValueOfDays = Int(daySlider.value)
         alertDaysLabel.text = "Aviso \(currentValueOfDays!) dias antes do vencimento."
 
+        productImageView.layer.borderColor = UIColor.white.cgColor
+        productImageView.layer.borderWidth = 2.0
         productImageView.layer.cornerRadius = productImageView.frame.size.height/2.0
         productImageView.layer.masksToBounds = true
 
         datePickerCellRef.delegate = self
         datePickerCellRef.leftLabel.text = "Data de validade"
         datePickerCellRef.dateStyle = .short
+        datePickerCellRef.date = Calendar.current.date(byAdding: .day, value: 10, to: Date()) ?? Date()
 
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         // extension
@@ -185,8 +188,9 @@ class NewItemViewController: UITableViewController {
     }
 
     @IBAction func choosePhoto(_ sender: Any) {
-        let croppingEnabled = true
-        let cameraViewController = CameraViewController(croppingEnabled: croppingEnabled) { [weak self] image, asset in
+        let croppingParameters = CroppingParameters(isEnabled: true, allowResizing: true, allowMoving: true)
+
+        let cameraViewController = CameraViewController.imagePickerViewController(croppingParameters: croppingParameters) { [weak self] image, asset in
             guard let stronSelf = self else { return }
 
             if image != nil {
@@ -226,9 +230,9 @@ class NewItemViewController: UITableViewController {
                     item.qtde = qtde
                 }
                 item.present = true
-                item.alertDays = currentValueOfDays!
+                item.alertDays = currentValueOfDays ?? 0
                 let alertDate = Calendar.current.date(byAdding: .day,
-                                                     value: 5,
+                                                     value: -(item.alertDays),
                                                      to: datePickerCellRef.date)
                 item.alertDate = alertDate
                 item.alert = addDateCellSwitch.isOn
