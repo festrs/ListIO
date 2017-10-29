@@ -9,7 +9,8 @@ cache:
 before_install:
 - bundle install
 - pod update
-- bundle exec pod keys set ListioAPISecret $ListioAPISecret 
+- bundle exec pod keys set ListioAPISecret $ListioAPISecret
+- pod install 
 
 script:
 - xcodebuild -version

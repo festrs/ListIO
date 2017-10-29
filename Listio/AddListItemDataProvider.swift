@@ -57,7 +57,7 @@ extension AddListItemDataProvider {
     // MARk: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let itemObj = items[indexPath.row]
-
+        tableView.deselectRow(at: indexPath, animated: true)
         guard let cell = tableView.cellForRow(at: indexPath) as? AddListItemTableViewCell else {
             fatalError("Unexpected Index Path")
         }
@@ -72,13 +72,14 @@ extension AddListItemDataProvider {
                 itemObj.present = true
             }
         }
-        tableView.reloadData()
+        //tableView.reloadData()
     }
 
     func tableView(_ tableView: UITableView,
                    commit editingStyle: UITableViewCellEditingStyle,
                    forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            tableView.beginUpdates()
             guard items.count != 0 else { return }
 
             let obj = items.remove(at: indexPath.row)
@@ -91,15 +92,14 @@ extension AddListItemDataProvider {
             } else {
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
-
-            tableView.reloadData()
+            tableView.endUpdates()
         }
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
         return true
     }
+
 }
 
 extension AddListItemDataProvider {
