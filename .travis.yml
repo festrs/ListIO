@@ -1,6 +1,6 @@
 language: objective-c
 
-osx_image: xcode8.3
+osx_image: xcode9.0
 
 cache:
 - bundler
@@ -8,8 +8,8 @@ cache:
 
 before_install:
 - bundle install
-- pod update
 - bundle exec pod keys set ListioAPISecret $ListioAPISecret
+- pod update
 - pod install 
 
 script:
