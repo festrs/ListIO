@@ -22,11 +22,9 @@ def prod_pods
     pod 'SVProgressHUD', '~> 2.1.2'
     pod 'SwiftLint'
     pod 'Floaty', '~> 3.0.0'
-    pod 'BarcodeScanner', :git => "https://github.com/festrs/BarcodeScanner.git"
     pod 'Kingfisher', '~> 3.0'
     pod 'ALCameraViewController'
     pod 'DatePickerCell'
-    pod 'AKMaskField'
     pod 'Fabric'
     pod 'Crashlytics'
 end
