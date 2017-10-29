@@ -13,7 +13,7 @@ install:
 - bundle install
 - bundle exec pod keys set ListioAPISecret $ListioAPISecret
 - pod update
-- pod install 
+- pod install
 
 script:
 - xcodebuild -version
