@@ -7,6 +7,9 @@ cache:
 - cocoapods
 
 before_install:
+- rm -rf ~/Library/Developer/Xcode/DerivedData
+
+install:
 - bundle install
 - bundle exec pod keys set ListioAPISecret $ListioAPISecret
 - pod update
