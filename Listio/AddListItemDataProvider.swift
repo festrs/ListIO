@@ -17,7 +17,7 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
 
     // swiftlint:disable force_try
     let realm = try! Realm()
-    weak public var tableView: UITableView!
+    public var tableView: UITableView!
     var items: [Item] = [Item]()
 
     func performFetch() throws {

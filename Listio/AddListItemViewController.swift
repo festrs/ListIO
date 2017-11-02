@@ -12,7 +12,7 @@ class AddListItemViewController: UIViewController {
 
     var dataProvider: AddListItemDataProviderProtocol?
     @IBOutlet weak var editTableView: UIBarButtonItem!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var tableView: UITableView!
     @IBOutlet weak var doneButtonItem: UIBarButtonItem!
     var new: Bool = false
     var presentedAlert: Bool = false

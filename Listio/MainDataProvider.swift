@@ -19,7 +19,7 @@ enum Errors: Error {
 
 public class MainDataProvider: NSObject, MainDataProviderProtocol {
 
-    weak public var tableView: UITableView!
+    public var tableView: UITableView!
     var items: [Item] = []
     // swiftlint:disable force_try
     let realm = try! Realm()

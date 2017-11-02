@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol MainDataProviderProtocol: UITableViewDataSource, UITableViewDelegate {
-    weak var tableView: UITableView! { get set }
+    var tableView: UITableView! { get set }
     var items: [Item] { get }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int

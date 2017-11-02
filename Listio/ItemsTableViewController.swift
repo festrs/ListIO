@@ -10,13 +10,12 @@ import UIKit
 
 class ItemsTableViewController: UITableViewController {
 
-    public var dataProvider: MainDataProviderProtocol?
+    public let dataProvider: MainDataProviderProtocol? = MainDataProvider()
     var presentedAlert: Bool = false
     let notificationName = NSNotification.Name(rawValue: Constants.newProductAddedNotificationKey)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataProvider = MainDataProvider()
         dataProvider?.tableView = tableView
         tableView.dataSource = dataProvider
         tableView.delegate = dataProvider
