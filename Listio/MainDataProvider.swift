@@ -9,7 +9,6 @@
 import UIKit
 import Kingfisher
 import Photos
-import RealmSwift
 
 enum Errors: Error {
     // swiftlint:disable identifier_name
@@ -21,8 +20,6 @@ public class MainDataProvider: NSObject, MainDataProviderProtocol {
 
     public var tableView: UITableView!
     var items: [Item] = []
-    // swiftlint:disable force_try
-    let realm = try! Realm()
 
     public func performFetch() throws {
         items = try getUniqueItems()!
@@ -121,9 +118,9 @@ extension MainDataProvider {
         if editingStyle == .delete {
             tableView.beginUpdates()
             let obj = items.remove(at: indexPath.row)
-            try! realm.write {
+            DatabaseManager.write(DatabaseManager.realm, writeClosure: {
                 obj.present = false
-            }
+            })
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()
         }

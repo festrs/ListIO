@@ -8,7 +8,6 @@
 
 import UIKit
 import Photos
-import RealmSwift
 
 class ItemViewController: UIViewController {
 
@@ -21,8 +20,6 @@ class ItemViewController: UIViewController {
     @IBOutlet weak var lblItemName: UILabel!
     var product: Item!
     var alertProvider: AlertProvider? = AlertProvider()
-    // swiftlint:disable force_try
-    let realm = try! Realm()
     lazy var defaultDate = Calendar.current.date(byAdding: .day, value: 10, to: Date()) ?? Date()
 
     override func viewDidLoad() {
@@ -125,13 +122,12 @@ class ItemViewController: UIViewController {
         } else {
             alertProvider?.removeLocalNotificationByIdentifier(withID: product.remoteID )
         }
-        
-        try! realm.write {
+        DatabaseManager.write(DatabaseManager.realm, writeClosure: {
             if product.alertDate == nil {
                 product.alertDate = defaultDate
             }
             product.alert = dateSwitch.isOn
-        }
+        })
     }
 
     // MARK: - Navigation

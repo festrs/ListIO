@@ -49,6 +49,8 @@
 		3ACD3B3E1E9BF5BB00713A04 /* ExtensionsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B3D1E9BF5BB00713A04 /* ExtensionsTest.swift */; };
 		3ACD3B431E9D121000713A04 /* APICommunicatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3B421E9D121000713A04 /* APICommunicatorProtocol.swift */; };
 		3ACD3B4F1E9D251800713A04 /* receipt1.json in Resources */ = {isa = PBXBuildFile; fileRef = 3ACD3B4E1E9D251800713A04 /* receipt1.json */; };
+		3ACD9C7A1FADD1FB004FB6BF /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD9C791FADD1FB004FB6BF /* DatabaseManager.swift */; };
+		3ACD9C7B1FADD1FB004FB6BF /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD9C791FADD1FB004FB6BF /* DatabaseManager.swift */; };
 		3AD02D101E88056D00B4CAD5 /* APICommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD02D0F1E88056D00B4CAD5 /* APICommunicator.swift */; };
 		3AD5027A1EA4F9A10071B975 /* APICommunicatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD502791EA4F9A10071B975 /* APICommunicatorTest.swift */; };
 		3AD5027C1EA526C90071B975 /* receipt2.json in Resources */ = {isa = PBXBuildFile; fileRef = 3AD5027B1EA526C90071B975 /* receipt2.json */; };
@@ -112,6 +114,7 @@
 		3ACD3B3D1E9BF5BB00713A04 /* ExtensionsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionsTest.swift; sourceTree = "<group>"; };
 		3ACD3B421E9D121000713A04 /* APICommunicatorProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICommunicatorProtocol.swift; sourceTree = "<group>"; };
 		3ACD3B4E1E9D251800713A04 /* receipt1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = receipt1.json; sourceTree = "<group>"; };
+		3ACD9C791FADD1FB004FB6BF /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		3AD02D0F1E88056D00B4CAD5 /* APICommunicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICommunicator.swift; sourceTree = "<group>"; };
 		3AD502791EA4F9A10071B975 /* APICommunicatorTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICommunicatorTest.swift; sourceTree = "<group>"; };
 		3AD5027B1EA526C90071B975 /* receipt2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = receipt2.json; sourceTree = "<group>"; };
@@ -321,6 +324,7 @@
 		3AE233451CFE9EBA00656969 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				3ACD9C791FADD1FB004FB6BF /* DatabaseManager.swift */,
 				3AE1FB251D0770D3001A6914 /* Core Data Objects */,
 			);
 			name = "Core Data";
@@ -858,6 +862,7 @@
 				3A572ED51F589EC100D9544B /* NewItemViewController.swift in Sources */,
 				3A572ED61F589EC100D9544B /* APICommunicatorProtocol.swift in Sources */,
 				3A572ED71F589EC100D9544B /* APICommunicator.swift in Sources */,
+				3ACD9C7B1FADD1FB004FB6BF /* DatabaseManager.swift in Sources */,
 				3A572ED81F589EC100D9544B /* Extensions.swift in Sources */,
 				3A572ED91F589EC100D9544B /* MainDataProviderProtocol.swift in Sources */,
 				3A572EDA1F589EC100D9544B /* AddListItemDataProviderProtocol.swift in Sources */,
@@ -886,6 +891,7 @@
 				3AFA07951EEC9EF000E4DC38 /* NewItemViewController.swift in Sources */,
 				3ACD3B431E9D121000713A04 /* APICommunicatorProtocol.swift in Sources */,
 				3AD02D101E88056D00B4CAD5 /* APICommunicator.swift in Sources */,
+				3ACD9C7A1FADD1FB004FB6BF /* DatabaseManager.swift in Sources */,
 				3A9D64711D027082002369A4 /* Extensions.swift in Sources */,
 				3ACD3B3A1E9BC81300713A04 /* MainDataProviderProtocol.swift in Sources */,
 				3ABA10261EAD62D20002CECE /* AddListItemDataProviderProtocol.swift in Sources */,

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreData
 
 protocol MainDataProviderProtocol: UITableViewDataSource, UITableViewDelegate {
     var tableView: UITableView! { get set }

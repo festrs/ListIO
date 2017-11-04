@@ -10,7 +10,6 @@ import UIKit
 import ALCameraViewController
 import DatePickerCell
 import Photos
-import RealmSwift
 import Fabric
 import Crashlytics
 
@@ -33,8 +32,6 @@ class NewItemViewController: UITableViewController {
     var currentValueOfDays: Int?
     var remoteID: String?
     var isCreated: Bool = false
-    // swiftlint:disable force_try
-    let realm = try! Realm()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -194,10 +191,10 @@ class NewItemViewController: UITableViewController {
             guard let stronSelf = self else { return }
 
             if image != nil {
-                try! stronSelf.realm.write {
+                DatabaseManager.write(DatabaseManager.realm, writeClosure: {
                     stronSelf.productImageView.image = image
                     stronSelf.assetLocalIdentifier = asset?.localIdentifier
-                }
+                })
             }
 
             stronSelf.dismiss(animated: true, completion: nil)
@@ -207,7 +204,7 @@ class NewItemViewController: UITableViewController {
 
     @IBAction func doneAction(_ sender: Any) {
         if !new {
-            try! realm.write {
+            DatabaseManager.write(DatabaseManager.realm, writeClosure: {
                 product.descricao = txfItemName.text
                 product.vlUnit = Double(txfItemPrice.decimalNumber)
                 if let qtde = Int(txfItemUn.text!) {
@@ -217,7 +214,7 @@ class NewItemViewController: UITableViewController {
                 product.alertDate = datePickerCellRef.date
                 product.alertDays = currentValueOfDays!
                 product.imgUrl = assetLocalIdentifier
-            }
+            })
             isCreated = true
             dismiss(animated: true, completion: nil)
         } else {
@@ -237,9 +234,9 @@ class NewItemViewController: UITableViewController {
                 item.alertDate = alertDate
                 item.alert = addDateCellSwitch.isOn
                 item.imgUrl = assetLocalIdentifier
-                try! realm.write {
-                    realm.add(item)
-                }
+                DatabaseManager.write(DatabaseManager.realm, writeClosure: {
+                    DatabaseManager.realm.add(item)
+                })
                 isCreated = true
                 dismiss(animated: true, completion: nil)
             } else {

@@ -15,8 +15,6 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
         static let InfoCellIdentifer = "infoCell"
     }
 
-    // swiftlint:disable force_try
-    let realm = try! Realm()
     public var tableView: UITableView!
     var items: [Item] = [Item]()
 
@@ -36,18 +34,18 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
 
     func unselectAll() {
         for value in items {
-            try! realm.write {
+            DatabaseManager.write(DatabaseManager.realm, writeClosure: {
                 value.present = false
-            }
+            })
         }
         tableView.reloadData()
     }
 
     func selectAll() {
         for value in items {
-            try! realm.write {
+            DatabaseManager.write(DatabaseManager.realm, writeClosure: {
                 value.present = true
-            }
+            })
         }
         tableView.reloadData()
     }
@@ -63,14 +61,14 @@ extension AddListItemDataProvider {
         }
         if itemObj.present {
             cell.accessoryType = .none
-            try! realm.write {
+            DatabaseManager.write(DatabaseManager.realm, writeClosure: {
                 itemObj.present = false
-            }
+            })
         } else {
             cell.accessoryType = .checkmark
-            try! realm.write {
+            DatabaseManager.write(DatabaseManager.realm, writeClosure: {
                 itemObj.present = true
-            }
+            })
         }
     }
 
@@ -82,9 +80,9 @@ extension AddListItemDataProvider {
             guard items.count != 0 else { return }
 
             let obj = items.remove(at: indexPath.row)
-            try! realm.write {
-                realm.delete(obj)
-            }
+            DatabaseManager.write(DatabaseManager.realm, writeClosure: {
+                DatabaseManager.realm.delete(obj)
+            })
 
             if items.count == 0 {
                 tableView.setEditing(false, animated: true)

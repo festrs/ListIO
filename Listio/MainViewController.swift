@@ -12,7 +12,6 @@ import AVFoundation
 import Floaty
 import SVProgressHUD
 import Alamofire
-import RealmSwift
 import Fabric
 import Crashlytics
 
@@ -23,8 +22,7 @@ class MainViewController: UIViewController {
     public var communicator: APICommunicatorProtocol = APICommunicator()
     var presentedAlert: Bool = false
     let notificationName = NSNotification.Name(rawValue: Constants.newProductAddedNotificationKey)
-    // swiftlint:disable force_try
-    let realm = try! Realm()
+
     lazy var readerVC: QRCodeReaderViewController = {
         let builder = QRCodeReaderViewControllerBuilder {
             $0.reader = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode,
@@ -200,9 +198,9 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
 
             if let unwrapedJson = responseJSON,
                 let receipt = Receipt(JSON: unwrapedJson) {
-                try! strongSelf.realm.write {
-                    strongSelf.realm.add(receipt, update: true)
-                }
+                DatabaseManager.write(DatabaseManager.realm, writeClosure: {
+                    DatabaseManager.realm.add(receipt, update: true)
+                })
             }
             strongSelf.createNewList()
         }
@@ -234,9 +232,9 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
             item.descricao = itemName
             item.present = true
             item.imgUrl = itemUrl
-            try! strongSelf.realm.write {
-                strongSelf.realm.add(item)
-            }
+            DatabaseManager.write(DatabaseManager.realm, writeClosure: {
+                DatabaseManager.realm.add(item)
+            })
 
             NotificationCenter.default.post(name:
                 NSNotification.Name(rawValue: Constants.newProductAddedNotificationKey),
