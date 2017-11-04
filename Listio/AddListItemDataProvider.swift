@@ -33,20 +33,20 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
     }
 
     func unselectAll() {
-        for value in items {
-            DatabaseManager.write(DatabaseManager.realm, writeClosure: {
+        DatabaseManager.write(DatabaseManager.realm, writeClosure: {
+            for value in items {
                 value.present = false
-            })
-        }
+            }
+        })
         tableView.reloadData()
     }
 
     func selectAll() {
-        for value in items {
-            DatabaseManager.write(DatabaseManager.realm, writeClosure: {
+        DatabaseManager.write(DatabaseManager.realm, writeClosure: {
+            for value in items {
                 value.present = true
-            })
-        }
+            }
+        })
         tableView.reloadData()
     }
 }
@@ -54,11 +54,11 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
 extension AddListItemDataProvider {
     // MARk: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let itemObj = items[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
         guard let cell = tableView.cellForRow(at: indexPath) as? AddListItemTableViewCell else {
             fatalError("Unexpected Index Path")
         }
+        let itemObj = items[indexPath.row]
         if itemObj.present {
             cell.accessoryType = .none
             DatabaseManager.write(DatabaseManager.realm, writeClosure: {
