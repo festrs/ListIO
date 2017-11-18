@@ -65,7 +65,7 @@ class ItemsTableViewController: UITableViewController {
             let vc = segue.destination as? ItemViewController,
             let index = tableView.indexPath(for: cell),
             let item = dataProvider?.items[index.row] {
-            vc.product = item
+            vc.item = item
         }
     }
 }
