@@ -18,36 +18,39 @@ class ItemViewController: UIViewController {
     @IBOutlet weak var lblItemPrice: UILabel!
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var lblItemName: UILabel!
-    var product: Item!
-    var alertProvider: AlertProvider? = AlertProvider()
-    lazy var defaultDate = Calendar.current.date(byAdding: .day, value: 10, to: Date()) ?? Date()
+    var item: Item! {
+        didSet {
+            viewModel = ItemViewModel(item: item)
+        }
+    }
+    var viewModel: ItemViewModelProtocol!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         configImageView()
+
+        assert(viewModel != nil, "viewModel is not allowed to be nil at this point")
+        bindingViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadLabels()
         loadItemImage()
+        viewModel.reloadItem()
     }
 
-    func loadLabels() {
-        lblItemName.text = product.descricao
-        lblItemUnit.text = "Quantidade (\(product.qtde.description))"
-        lblItemPrice.text = NSNumber(value: product.vlUnit).maskToCurrency()
-        lblDateDays.text = "Aviso \(product.alertDays) dias antes do vencimento."
-        dateSwitch.setOn(product.alert, animated: true)
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeStyle = .short
-        dateFormatter.dateStyle = .short
-
-        if let alertDate = product.alertDate {
-            lblDate.text = dateFormatter.string(from: alertDate)
-        } else {
-            lblDate.text = dateFormatter.string(from: defaultDate)
+    func bindingViewModel() {
+        viewModel.itemDidChange = { [weak self] viewModel in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.lblItemName.text = viewModel.itemName
+            strongSelf.lblItemUnit.text = viewModel.itemUnit
+            strongSelf.lblItemPrice.text = viewModel.itemPrice
+            strongSelf.lblDateDays.text = viewModel.itemDaysToExpire
+            strongSelf.dateSwitch.setOn(viewModel.hasExpireAlert, animated: true)
+            strongSelf.lblDate.text = viewModel.dateDescr
         }
     }
 
@@ -57,15 +60,19 @@ class ItemViewController: UIViewController {
     }
 
     func loadItemImage() {
+        guard let imageUrl = viewModel.itemImageUrl else {
+            return
+        }
+
         var image: UIImage? = nil
         let placeHolder = UIImage(named: "noimage")
         let status = PHPhotoLibrary.authorizationStatus()
         if status == PHAuthorizationStatus.authorized {
-            image = getImage(localUrl: product.imgUrl ?? "")
+            image = getImage(localUrl: imageUrl)
         }
 
         if image == nil {
-            let url = URL(string: product.imgUrl ?? "")
+            let url = URL(string: imageUrl)
             itemImageView.kf.setImage(with: url,
                                          placeholder: placeHolder,
                                          options: nil,
@@ -97,37 +104,7 @@ class ItemViewController: UIViewController {
     }
 
     @IBAction func changeActiveStateAlert(_ sender: Any) {
-        if dateSwitch.isOn {
-            let alertDate = product.alertDate ?? defaultDate
-            let dictionary = [
-                Constants.notificationIdentifierKey: product.remoteID ?? "" ,
-                Constants.notificationProductNameKey: product.descricao ?? "",
-                Constants.notificationProductDateKey: alertDate.getDateStringShort()
-            ]
-
-            let subtractDays = -(product.alertDays)
-
-            let fireDate = Calendar.current.date(byAdding: .day,
-                                                 value: subtractDays,
-                                                 to: alertDate)
-
-            guard (alertProvider?.registerForLocalNotification(on: UIApplication.shared))! else {
-                return
-            }
-
-            alertProvider?.dispatchlocalNotification(with: "Lista Rápida",
-                                                     body: "O produto \(product.descricao!) ira vencer em \(alertDate.getDateStringShort())!",
-                userInfo: dictionary,
-                at: fireDate!)
-        } else {
-            alertProvider?.removeLocalNotificationByIdentifier(withID: product.remoteID )
-        }
-        DatabaseManager.write(DatabaseManager.realm, writeClosure: {
-            if product.alertDate == nil {
-                product.alertDate = defaultDate
-            }
-            product.alert = dateSwitch.isOn
-        })
+        viewModel.changeActiveStateOfAlert(dateSwitch.isOn)
     }
 
     // MARK: - Navigation
@@ -135,7 +112,7 @@ class ItemViewController: UIViewController {
         if segue.identifier == Constants.ItemVC.ToEditSegue,
             let nav = segue.destination as? UINavigationController,
             let vc = nav.viewControllers.first as? NewItemViewController {
-            vc.product = product
+            vc.product = item
             vc.new = false
         }
     }

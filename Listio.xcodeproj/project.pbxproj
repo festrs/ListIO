@@ -39,6 +39,8 @@
 		3A975D541CFCC42200E400B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D521CFCC42200E400B3 /* Main.storyboard */; };
 		3A975D5C1CFCC42200E400B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D5A1CFCC42200E400B3 /* LaunchScreen.storyboard */; };
 		3A9D64711D027082002369A4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9D64701D027082002369A4 /* Extensions.swift */; };
+		3AB069741FC04D8A000D7BD0 /* ItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB069731FC04D8A000D7BD0 /* ItemViewModel.swift */; };
+		3AB069751FC04D8A000D7BD0 /* ItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB069731FC04D8A000D7BD0 /* ItemViewModel.swift */; };
 		3AB121EB1F3744A10042C2A9 /* AlertProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB121EA1F3744A10042C2A9 /* AlertProvider.swift */; };
 		3ABA10261EAD62D20002CECE /* AddListItemDataProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA10251EAD62D20002CECE /* AddListItemDataProviderProtocol.swift */; };
 		3ABA10281EAD66860002CECE /* AddListItemDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA10271EAD66860002CECE /* AddListItemDataProvider.swift */; };
@@ -104,6 +106,7 @@
 		3A975D621CFCC42200E400B3 /* ListioTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ListioTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A975D681CFCC42200E400B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A9D64701D027082002369A4 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		3AB069731FC04D8A000D7BD0 /* ItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewModel.swift; sourceTree = "<group>"; };
 		3AB121EA1F3744A10042C2A9 /* AlertProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertProvider.swift; sourceTree = "<group>"; };
 		3ABA10251EAD62D20002CECE /* AddListItemDataProviderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListItemDataProviderProtocol.swift; sourceTree = "<group>"; };
 		3ABA10271EAD66860002CECE /* AddListItemDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListItemDataProvider.swift; sourceTree = "<group>"; };
@@ -291,6 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				3AE647AD1F6D6568007E321B /* ItemViewController.swift */,
+				3AB069731FC04D8A000D7BD0 /* ItemViewModel.swift */,
 			);
 			name = List;
 			sourceTree = "<group>";
@@ -857,6 +861,7 @@
 				3A572ECC1F589EC100D9544B /* AppDelegate.swift in Sources */,
 				3A572ECE1F589EC100D9544B /* AddListItemTableViewCell.swift in Sources */,
 				3A572ED01F589EC100D9544B /* Constants.swift in Sources */,
+				3AB069751FC04D8A000D7BD0 /* ItemViewModel.swift in Sources */,
 				3A572ED11F589EC100D9544B /* AddListItemDataProvider.swift in Sources */,
 				3A572ED31F589EC100D9544B /* AlertProvider.swift in Sources */,
 				3A572ED51F589EC100D9544B /* NewItemViewController.swift in Sources */,
@@ -886,6 +891,7 @@
 				3A975D4F1CFCC42200E400B3 /* AppDelegate.swift in Sources */,
 				3ABA102B1EAD6F860002CECE /* AddListItemTableViewCell.swift in Sources */,
 				3A8E3E741F3F820200434A37 /* Constants.swift in Sources */,
+				3AB069741FC04D8A000D7BD0 /* ItemViewModel.swift in Sources */,
 				3ABA10281EAD66860002CECE /* AddListItemDataProvider.swift in Sources */,
 				3AB121EB1F3744A10042C2A9 /* AlertProvider.swift in Sources */,
 				3AFA07951EEC9EF000E4DC38 /* NewItemViewController.swift in Sources */,
