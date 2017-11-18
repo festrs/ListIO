@@ -13,6 +13,10 @@ import Photos
 import Fabric
 import Crashlytics
 
+protocol NewItemDelegate {
+    func didFinishUpdating(item: Item)
+}
+
 class NewItemViewController: UITableViewController {
 
     @IBOutlet weak var alertDaysLabel: UILabel!
@@ -32,6 +36,7 @@ class NewItemViewController: UITableViewController {
     var currentValueOfDays: Int?
     var remoteID: String?
     var isCreated: Bool = false
+    var newItemDelegate: NewItemDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -216,6 +221,9 @@ class NewItemViewController: UITableViewController {
                 product.imgUrl = assetLocalIdentifier
             })
             isCreated = true
+            if let delegate = newItemDelegate {
+                delegate.didFinishUpdating(item: product)
+            }
             dismiss(animated: true, completion: nil)
         } else {
             if txfItemName.text != nil && txfItemName.text != "" {

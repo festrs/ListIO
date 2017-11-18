@@ -36,7 +36,6 @@ class ItemViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadItemImage()
         viewModel.reloadItem()
     }
 
@@ -51,6 +50,7 @@ class ItemViewController: UIViewController {
             strongSelf.lblDateDays.text = viewModel.itemDaysToExpire
             strongSelf.dateSwitch.setOn(viewModel.hasExpireAlert, animated: true)
             strongSelf.lblDate.text = viewModel.dateDescr
+            strongSelf.loadItemImage(viewModel.itemImageUrl)
         }
     }
 
@@ -59,13 +59,13 @@ class ItemViewController: UIViewController {
         itemImageView.layer.masksToBounds = true
     }
 
-    func loadItemImage() {
-        guard let imageUrl = viewModel.itemImageUrl else {
+    func loadItemImage(_ url: String?) {
+        guard let imageUrl = url else {
             return
         }
 
         var image: UIImage? = nil
-        let placeHolder = UIImage(named: "noimage")
+        let placeHolder = #imageLiteral(resourceName: "noimage")
         let status = PHPhotoLibrary.authorizationStatus()
         if status == PHAuthorizationStatus.authorized {
             image = getImage(localUrl: imageUrl)
@@ -114,7 +114,7 @@ class ItemViewController: UIViewController {
             let vc = nav.viewControllers.first as? NewItemViewController {
             vc.product = item
             vc.new = false
+            vc.newItemDelegate = viewModel
         }
     }
-
 }

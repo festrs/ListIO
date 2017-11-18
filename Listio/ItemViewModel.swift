@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ItemViewModelProtocol: class {
+protocol ItemViewModelProtocol: class, NewItemDelegate {
 
     var dateDescr: String? { get }
     var itemDaysToExpire: String? { get }
@@ -21,13 +21,18 @@ protocol ItemViewModelProtocol: class {
 
     func reloadItem()
     func changeActiveStateOfAlert(_ state: Bool)
+    func didFinishUpdating(item: Item)
 
     init(item: Item)
 }
 
-class ItemViewModel: ItemViewModelProtocol {
+final class ItemViewModel: ItemViewModelProtocol {
 
-    let item: Item
+    var item: Item {
+        didSet {
+            loadFields()
+        }
+    }
     var alertProvider: AlertProvider? = AlertProvider()
 
     var itemDidChange: ((ItemViewModelProtocol) -> Void)?
@@ -105,5 +110,11 @@ class ItemViewModel: ItemViewModelProtocol {
         } else {
             dateDescr = dateFormatter.string(from: defaultDate)
         }
+    }
+}
+
+extension ItemViewModel: NewItemDelegate {
+    func didFinishUpdating(item: Item) {
+        self.item = item
     }
 }
