@@ -33,7 +33,7 @@ final class ItemViewModel: ItemViewModelProtocol {
             loadFields()
         }
     }
-    var alertProvider: AlertProvider? = AlertProvider()
+    var alertProvider: AlertProvider = AlertProvider()
 
     var itemDidChange: ((ItemViewModelProtocol) -> Void)?
     var dateDescr: String?
@@ -54,30 +54,11 @@ final class ItemViewModel: ItemViewModelProtocol {
     }
 
     func changeActiveStateOfAlert(_ state: Bool) {
+        hasExpireAlert = state
         if state {
-            let alertDate = item.alertDate ?? defaultDate
-            let dictionary = [
-                Constants.notificationIdentifierKey: item.remoteID ?? "" ,
-                Constants.notificationProductNameKey: item.descricao ?? "",
-                Constants.notificationProductDateKey: alertDate.getDateStringShort()
-            ]
-
-            let subtractDays = -(item.alertDays)
-
-            let fireDate = Calendar.current.date(byAdding: .day,
-                                                 value: subtractDays,
-                                                 to: alertDate)
-
-            guard (alertProvider?.registerForLocalNotification(on: UIApplication.shared))! else {
-                return
-            }
-
-            alertProvider?.dispatchlocalNotification(with: "Lista Rápida",
-                body: "O produto \(item.descricao!) ira vencer em \(alertDate.getDateStringShort())!",
-                userInfo: dictionary,
-                at: fireDate!)
+            alertProvider.addLocalNotification(with: item)
         } else {
-            alertProvider?.removeLocalNotificationByIdentifier(withID: item.remoteID )
+            alertProvider.removeLocalNotificationByIdentifier(withID: item.remoteID )
         }
 
         DatabaseManager.write(DatabaseManager.realm, writeClosure: {

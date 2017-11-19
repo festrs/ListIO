@@ -8,10 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0F3F7A0D7DB053514024B3FC /* Pods_Prod.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AD9BD1E3546DB57958CDE7A /* Pods_Prod.framework */; };
-		16B2F86C1F0A8EB900885796 /* ProductInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B2F86B1F0A8EB900885796 /* ProductInfoTableViewCell.swift */; };
 		3A09FD2C1F4682B8006E78DB /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A09FD2B1F4682B8006E78DB /* Item.swift */; };
 		3A572EC81F589EC100D9544B /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE8D2F31E8B0B30006CA297 /* Receipt.swift */; };
-		3A572EC91F589EC100D9544B /* ProductInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B2F86B1F0A8EB900885796 /* ProductInfoTableViewCell.swift */; };
 		3A572ECB1F589EC100D9544B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A09FD2B1F4682B8006E78DB /* Item.swift */; };
 		3A572ECC1F589EC100D9544B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */; };
 		3A572ECE1F589EC100D9544B /* AddListItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA102A1EAD6F860002CECE /* AddListItemTableViewCell.swift */; };
@@ -35,6 +33,8 @@
 		3A572EE71F589EC100D9544B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D521CFCC42200E400B3 /* Main.storyboard */; };
 		3A65EE581F5E2F7A0014A27C /* Pods_Prod.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A65EE571F5E2F7A0014A27C /* Pods_Prod.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		3A8E3E741F3F820200434A37 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8E3E731F3F820200434A37 /* Constants.swift */; };
+		3A8EAE991FC06F1F0093764B /* NewItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8EAE981FC06F1F0093764B /* NewItemViewModel.swift */; };
+		3A8EAE9A1FC06F210093764B /* NewItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8EAE981FC06F1F0093764B /* NewItemViewModel.swift */; };
 		3A975D4F1CFCC42200E400B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */; };
 		3A975D541CFCC42200E400B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D521CFCC42200E400B3 /* Main.storyboard */; };
 		3A975D5C1CFCC42200E400B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A975D5A1CFCC42200E400B3 /* LaunchScreen.storyboard */; };
@@ -90,7 +90,6 @@
 /* Begin PBXFileReference section */
 		03770CD6B10D48E6640580D3 /* Pods-ListioTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ListioTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ListioTests/Pods-ListioTests.release.xcconfig"; sourceTree = "<group>"; };
 		12CBF5EFFAEE9DD8E1AFB3EF /* Pods-Prod.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prod.release.xcconfig"; path = "Pods/Target Support Files/Pods-Prod/Pods-Prod.release.xcconfig"; sourceTree = "<group>"; };
-		16B2F86B1F0A8EB900885796 /* ProductInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductInfoTableViewCell.swift; sourceTree = "<group>"; };
 		1DD135315DBDB9FFB9405FB0 /* Pods-Hml.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hml.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hml/Pods-Hml.release.xcconfig"; sourceTree = "<group>"; };
 		2D2A38B11D1DAB4501A53C81 /* Pods-ListioTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ListioTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ListioTests/Pods-ListioTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3A09FD2B1F4682B8006E78DB /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -98,6 +97,7 @@
 		3A572EF01F589EC200D9544B /* Listio-hml.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Listio-hml.plist"; path = "/Users/felipediaspereira/Documents/Code/Listio/Listio-hml.plist"; sourceTree = "<absolute>"; };
 		3A65EE571F5E2F7A0014A27C /* Pods_Prod.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_Prod.framework; path = "../../../Library/Developer/Xcode/DerivedData/Listio-dwzmplrpsxzhntcpalnwdkiucvon/Build/Products/Debug-iphonesimulator/Pods_Prod.framework"; sourceTree = "<group>"; };
 		3A8E3E731F3F820200434A37 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		3A8EAE981FC06F1F0093764B /* NewItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemViewModel.swift; sourceTree = "<group>"; };
 		3A975D4B1CFCC42200E400B3 /* Prod.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Prod.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A975D4E1CFCC42200E400B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A975D531CFCC42200E400B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -170,7 +170,6 @@
 			isa = PBXGroup;
 			children = (
 				3AEABFF51F2E942D006FFAFB /* CurrencyField.swift */,
-				16B2F86B1F0A8EB900885796 /* ProductInfoTableViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -282,6 +281,7 @@
 		3AD02D111E88058B00B4CAD5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				3AB121EA1F3744A10042C2A9 /* AlertProvider.swift */,
 				3A9D64701D027082002369A4 /* Extensions.swift */,
 				3AD02D0F1E88056D00B4CAD5 /* APICommunicator.swift */,
 				3ACD3B421E9D121000713A04 /* APICommunicatorProtocol.swift */,
@@ -395,7 +395,7 @@
 			children = (
 				16B2F86A1F0A8E8B00885796 /* Cells */,
 				3AFA07941EEC9EF000E4DC38 /* NewItemViewController.swift */,
-				3AB121EA1F3744A10042C2A9 /* AlertProvider.swift */,
+				3A8EAE981FC06F1F0093764B /* NewItemViewModel.swift */,
 			);
 			name = "New ";
 			sourceTree = "<group>";
@@ -855,7 +855,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A572EC81F589EC100D9544B /* Receipt.swift in Sources */,
-				3A572EC91F589EC100D9544B /* ProductInfoTableViewCell.swift in Sources */,
 				3AE647AF1F6D6568007E321B /* ItemViewController.swift in Sources */,
 				3A572ECB1F589EC100D9544B /* Item.swift in Sources */,
 				3A572ECC1F589EC100D9544B /* AppDelegate.swift in Sources */,
@@ -868,6 +867,7 @@
 				3A572ED61F589EC100D9544B /* APICommunicatorProtocol.swift in Sources */,
 				3A572ED71F589EC100D9544B /* APICommunicator.swift in Sources */,
 				3ACD9C7B1FADD1FB004FB6BF /* DatabaseManager.swift in Sources */,
+				3A8EAE9A1FC06F210093764B /* NewItemViewModel.swift in Sources */,
 				3A572ED81F589EC100D9544B /* Extensions.swift in Sources */,
 				3A572ED91F589EC100D9544B /* MainDataProviderProtocol.swift in Sources */,
 				3A572EDA1F589EC100D9544B /* AddListItemDataProviderProtocol.swift in Sources */,
@@ -885,7 +885,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AE8D2F51E8B0B30006CA297 /* Receipt.swift in Sources */,
-				16B2F86C1F0A8EB900885796 /* ProductInfoTableViewCell.swift in Sources */,
 				3AE647AE1F6D6568007E321B /* ItemViewController.swift in Sources */,
 				3A09FD2C1F4682B8006E78DB /* Item.swift in Sources */,
 				3A975D4F1CFCC42200E400B3 /* AppDelegate.swift in Sources */,
@@ -898,6 +897,7 @@
 				3ACD3B431E9D121000713A04 /* APICommunicatorProtocol.swift in Sources */,
 				3AD02D101E88056D00B4CAD5 /* APICommunicator.swift in Sources */,
 				3ACD9C7A1FADD1FB004FB6BF /* DatabaseManager.swift in Sources */,
+				3A8EAE991FC06F1F0093764B /* NewItemViewModel.swift in Sources */,
 				3A9D64711D027082002369A4 /* Extensions.swift in Sources */,
 				3ACD3B3A1E9BC81300713A04 /* MainDataProviderProtocol.swift in Sources */,
 				3ABA10261EAD62D20002CECE /* AddListItemDataProviderProtocol.swift in Sources */,

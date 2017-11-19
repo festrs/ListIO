@@ -38,9 +38,5 @@ class CurrencyField: UITextField {
         }
         lastValue = Formatter.currency.string(for: decimal) ?? ""
         text = lastValue
-//        print("integer:", integerValue)
-//        print("double:", doubleValue)
-//        print("decimal:", decimal)
-//        print("currency:", lastValue)
     }
 }

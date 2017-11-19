@@ -13,7 +13,7 @@ import Photos
 import Fabric
 import Crashlytics
 
-protocol NewItemDelegate {
+protocol NewItemDelegate: class {
     func didFinishUpdating(item: Item)
 }
 
@@ -29,34 +29,56 @@ class NewItemViewController: UITableViewController {
     @IBOutlet weak var productImageView: UIImageView!
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var daySlider: UISlider!
-    var new: Bool = true
-    var product: Item!
-    var assetLocalIdentifier: String? = ""
-    var alertProvider: AlertProvider? = AlertProvider()
-    var currentValueOfDays: Int?
-    var remoteID: String?
-    var isCreated: Bool = false
-    var newItemDelegate: NewItemDelegate?
 
+    var item: Item?
+    var alertProvider: AlertProvider? = AlertProvider()
+    weak var newItemDelegate: NewItemDelegate?
+
+    var viewModel: NewItemViewModelProtocol! {
+        didSet {
+            setBindings()
+            if item != nil {
+                loadFields()
+            }
+        }
+    }
+
+    enum TxfType: Int {
+        case name = 10, price = 20, unidade = 30
+    }
+
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        if new {
+        viewModel = NewItemViewModel(item: item)
+
+        //defaults
+        datePickerCellRef.date = viewModel.itemAlertDate!
+        alertDaysLabel.text = viewModel.itemDaysToExpire
+
+        configFields()
+        // extension
+        hideKeyboardWhenTappedAround()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if item != nil {
+            navigationItem.rightBarButtonItem?.customView?.isHidden = true
+        }
+    }
+
+    func configFields() {
+        if item == nil {
             let closeButton = UIBarButtonItem(image: UIImage(named: "close"),
                                               style: .plain,
                                               target: self,
                                               action: #selector(closeAction(_:)))
             navigationItem.leftBarButtonItem  = closeButton
             title = "Novo Item"
-            remoteID = UUID().uuidString
-            productImageView.image = UIImage(named: "noimage")
         } else {
             title = "Item"
-            remoteID = product.remoteID
-            loadProductData()
         }
-
-        currentValueOfDays = Int(daySlider.value)
-        alertDaysLabel.text = "Aviso \(currentValueOfDays!) dias antes do vencimento."
 
         productImageView.layer.borderColor = UIColor.white.cgColor
         productImageView.layer.borderWidth = 2.0
@@ -66,54 +88,47 @@ class NewItemViewController: UITableViewController {
         datePickerCellRef.delegate = self
         datePickerCellRef.leftLabel.text = "Data de validade"
         datePickerCellRef.dateStyle = .short
-        datePickerCellRef.date = Calendar.current.date(byAdding: .day, value: 10, to: Date()) ?? Date()
 
         tableView.tableFooterView = UIView(frame: CGRect.zero)
-        // extension
-        hideKeyboardWhenTappedAround()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if !new {
-            navigationItem.rightBarButtonItem?.customView?.isHidden = true
-        }
-    }
+    func loadFields() {
+        daySlider.setValue(Float(viewModel.alertDays), animated: true)
+        alertDaysLabel.text = viewModel.itemDaysToExpire
 
-    override func viewWillDisappear(_ animated: Bool) {
-        guard isCreated == true else { return }
-        if addDateCellSwitch.isOn {
-            addLocalNotification()
-        } else {
-            alertProvider?.removeLocalNotificationByIdentifier(withID: remoteID)
-        }
-    }
+        let expireAlert = viewModel.hasExpireAlert
+        datePickerCellRef.isHidden = !expireAlert
+        sliderCell.isHidden = !expireAlert
+        addDateCellSwitch.setOn(expireAlert, animated: true)
+        datePickerCellRef.date = viewModel.itemAlertDate!
 
-    func loadProductData() {
-        let alert = product.alert
-        datePickerCellRef.isHidden = !alert
-        sliderCell.isHidden = !alert
+        txfItemName.text = viewModel.itemName
+        txfItemUn.text = viewModel.itemUnit.description
+        txfItemPrice.text = viewModel.itemPriceString
 
-        if let date = product.alertDate {
+        if let date = viewModel.itemAlertDate {
             datePickerCellRef.date = date
         } else {
             datePickerCellRef.date = Date()
         }
-        txfItemName.text = product.descricao
-        txfItemPrice.text = NSNumber(value: product.vlUnit).maskToCurrency()
-        txfItemUn.text = product.qtde.description
-        addDateCellSwitch.setOn(alert, animated: true)
-        daySlider.setValue(Float(product.alertDays), animated: true)
 
-        let placeHolder = UIImage(named: "noimage")
-        let status = PHPhotoLibrary.authorizationStatus()
+        loadItemImage(viewModel.itemImageUrl)
+    }
+
+    func loadItemImage(_ url: String?) {
+        guard let imageUrl = url else {
+            return
+        }
+
         var image: UIImage? = nil
+        let placeHolder = #imageLiteral(resourceName: "noimage")
+        let status = PHPhotoLibrary.authorizationStatus()
         if status == PHAuthorizationStatus.authorized {
-            image = getImage(localUrl: product.imgUrl ?? "")
+            image = Item.getImage(localUrl: imageUrl)
         }
 
         if image == nil {
-            let url = URL(string: product.imgUrl ?? "")
+            let url = URL(string: imageUrl)
             productImageView.kf.setImage(with: url,
                                          placeholder: placeHolder,
                                          options: nil,
@@ -124,35 +139,45 @@ class NewItemViewController: UITableViewController {
         }
     }
 
-    func getImage(localUrl: String) -> UIImage? {
-
-        let assetUrl = URL(string: "assets-library://asset/asset.JPG?id=\(localUrl)")
-        let asset = PHAsset.fetchAssets(withALAssetURLs: [assetUrl!], options: nil)
-
-        guard let result = asset.firstObject else {
-            return nil
+    // MARK: - Bidings
+    func setBindings() {
+        viewModel.alertDaysDidChange = { [weak self] viewModel in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.alertDaysLabel.text = viewModel.itemDaysToExpire
         }
-        var assetImage: UIImage?
-        let options = PHImageRequestOptions()
-        options.isSynchronous = true
-        PHImageManager.default().requestImage(for: result,
-                                              targetSize: UIScreen.main.bounds.size,
-                                              contentMode: PHImageContentMode.aspectFill,
-                                              options: options) { image, _ in
-                                                assetImage = image
+    }
+
+    // MARK: - Actions
+    @IBAction func txfHaveChanged(_ sender: UITextField) {
+        if let typeTxf = TxfType(rawValue: sender.tag) {
+            switch typeTxf {
+            case .name:
+                viewModel.changeItemName(sender.text)
+                break
+            case .price:
+                viewModel.changeItemPrice(to: txfItemPrice.doubleValue)
+                break
+            case .unidade:
+                if let value = Int(sender.text!) {
+                    viewModel.changeItemUnit(to: value)
+                }
+                break
+            }
         }
-        return assetImage
     }
 
     @IBAction func alertDaysChanged(_ sender: UISlider) {
-        currentValueOfDays = Int(sender.value)
-        alertDaysLabel.text = "Aviso \(currentValueOfDays!) dias antes do vencimento."
+        viewModel.changeAlertDays(to: Int(sender.value))
     }
 
     @IBAction func addDatePickerCell(_ sender: Any) {
         guard (alertProvider?.registerForLocalNotification(on: UIApplication.shared))! else {
             return
         }
+        viewModel.changeActiveStateOfAlert(addDateCellSwitch.isOn)
+
         datePickerCellRef.isHidden = !addDateCellSwitch.isOn
         sliderCell.isHidden = !addDateCellSwitch.isOn
 
@@ -162,103 +187,49 @@ class NewItemViewController: UITableViewController {
                                customAttributes: [:])
     }
 
-    func addLocalNotification() {
-        guard alertProvider != nil else {
-            return
-        }
-        let dictionary = [
-            Constants.notificationIdentifierKey: remoteID ?? "" ,
-            Constants.notificationProductNameKey: txfItemName.text!,
-            Constants.notificationProductDateKey: datePickerCellRef.date.getDateStringShort()
-        ]
-
-        let subtractDays = -(currentValueOfDays!)
-
-        let fireDate = Calendar.current.date(byAdding: .day,
-                                             value: subtractDays,
-                                             to: datePickerCellRef.date)
-
-        alertProvider?.dispatchlocalNotification(with: "Lista Rápida",
-        body: "O produto \(txfItemName.text!) ira vencer em \(datePickerCellRef.date.getDateStringShort())!",
-            userInfo: dictionary,
-            at: fireDate!)
-    }
-
     @IBAction func closeAction(_ sender: Any) {
-        isCreated = false
         dismiss(animated: true, completion: nil)
     }
 
     @IBAction func choosePhoto(_ sender: Any) {
-        let croppingParameters = CroppingParameters(isEnabled: true, allowResizing: true, allowMoving: true)
+        let croppingParameters = CroppingParameters(isEnabled: true,
+                                                    allowResizing: true,
+                                                    allowMoving: true)
 
         let cameraViewController = CameraViewController.imagePickerViewController(croppingParameters: croppingParameters) { [weak self] image, asset in
             guard let stronSelf = self else { return }
-
             if image != nil {
                 DatabaseManager.write(DatabaseManager.realm, writeClosure: {
                     stronSelf.productImageView.image = image
-                    stronSelf.assetLocalIdentifier = asset?.localIdentifier
+                    stronSelf.viewModel.changeItemImage(with: image!, and: asset?.localIdentifier)
                 })
             }
-
             stronSelf.dismiss(animated: true, completion: nil)
         }
         navigationController?.present(cameraViewController, animated: true, completion: nil)
     }
 
     @IBAction func doneAction(_ sender: Any) {
-        if !new {
-            DatabaseManager.write(DatabaseManager.realm, writeClosure: {
-                product.descricao = txfItemName.text
-                product.vlUnit = Double(txfItemPrice.decimalNumber)
-                if let qtde = Int(txfItemUn.text!) {
-                    product.qtde = qtde
-                }
-                product.alert = addDateCellSwitch.isOn
-                product.alertDate = datePickerCellRef.date
-                product.alertDays = currentValueOfDays!
-                product.imgUrl = assetLocalIdentifier
-            })
-            isCreated = true
+        do {
+            let newItem = try viewModel.saveItem()
             if let delegate = newItemDelegate {
-                delegate.didFinishUpdating(item: product)
+                delegate.didFinishUpdating(item: newItem)
             }
             dismiss(animated: true, completion: nil)
-        } else {
-            if txfItemName.text != nil && txfItemName.text != "" {
-                let item = Item()
-                item.remoteID = remoteID
-                item.descricao = txfItemName.text
-                item.vlUnit = txfItemPrice.decimalNumber.doubleValue
-                if let qtde = Int(txfItemUn.text!) {
-                    item.qtde = qtde
-                }
-                item.present = true
-                item.alertDays = currentValueOfDays ?? 0
-                let alertDate = Calendar.current.date(byAdding: .day,
-                                                     value: -(item.alertDays),
-                                                     to: datePickerCellRef.date)
-                item.alertDate = alertDate
-                item.alert = addDateCellSwitch.isOn
-                item.imgUrl = assetLocalIdentifier
-                DatabaseManager.write(DatabaseManager.realm, writeClosure: {
-                    DatabaseManager.realm.add(item)
-                })
-                isCreated = true
-                dismiss(animated: true, completion: nil)
-            } else {
-                let alert = UIAlertController(title: "Atenção!",
-                                              message: "Para criar um produto o campo Nome deve ser preenchido.",
-                                              preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Ok",
-                                              style: UIAlertActionStyle.default,
-                                              handler: nil ))
-                present(alert, animated: true, completion: nil)
-            }
+        } catch NewItemError.itemNameBlank {
+            let alert = UIAlertController(title: "Atenção!",
+                                          message: "Para criar um produto o campo Nome deve ser preenchido.",
+                                          preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok",
+                                          style: UIAlertActionStyle.default,
+                                          handler: nil ))
+            present(alert, animated: true, completion: nil)
+        } catch {
+
         }
     }
 
+    // MARK: - TableView Functions
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? DatePickerCell {
             cell.selectedInTableView(tableView)
@@ -275,5 +246,7 @@ class NewItemViewController: UITableViewController {
 }
 
 extension NewItemViewController: DatePickerCellDelegate {
-    func datePickerCell(_ cell: DatePickerCell, didPickDate date: Date?) { }
+    func datePickerCell(_ cell: DatePickerCell, didPickDate date: Date?) {
+        viewModel.changeAlertDate(date)
+    }
 }

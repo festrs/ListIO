@@ -10,6 +10,7 @@ import Foundation
 import RealmSwift
 import ObjectMapper
 import StringScore_Swift
+import Photos
 
 class Item: Object, Mappable {
     //optional
@@ -43,6 +44,26 @@ class Item: Object, Mappable {
 
     override static func primaryKey() -> String? {
         return "remoteID"
+    }
+
+    static func getImage(localUrl: String) -> UIImage? {
+
+        let assetUrl = URL(string: "assets-library://asset/asset.JPG?id=\(localUrl)")
+        let asset = PHAsset.fetchAssets(withALAssetURLs: [assetUrl!], options: nil)
+
+        guard let result = asset.firstObject else {
+            return nil
+        }
+        var assetImage: UIImage?
+        let options = PHImageRequestOptions()
+        options.isSynchronous = true
+        PHImageManager.default().requestImage(for: result,
+                                              targetSize: UIScreen.main.bounds.size,
+                                              contentMode: PHImageContentMode.aspectFill,
+                                              options: options) { image, _ in
+                                                assetImage = image
+        }
+        return assetImage
     }
 }
 

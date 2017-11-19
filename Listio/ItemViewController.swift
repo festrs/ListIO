@@ -68,7 +68,7 @@ class ItemViewController: UIViewController {
         let placeHolder = #imageLiteral(resourceName: "noimage")
         let status = PHPhotoLibrary.authorizationStatus()
         if status == PHAuthorizationStatus.authorized {
-            image = getImage(localUrl: imageUrl)
+            image = Item.getImage(localUrl: imageUrl)
         }
 
         if image == nil {
@@ -83,26 +83,6 @@ class ItemViewController: UIViewController {
         }
     }
 
-    func getImage(localUrl: String) -> UIImage? {
-
-        let assetUrl = URL(string: "assets-library://asset/asset.JPG?id=\(localUrl)")
-        let asset = PHAsset.fetchAssets(withALAssetURLs: [assetUrl!], options: nil)
-
-        guard let result = asset.firstObject else {
-            return nil
-        }
-        var assetImage: UIImage?
-        let options = PHImageRequestOptions()
-        options.isSynchronous = true
-        PHImageManager.default().requestImage(for: result,
-                                              targetSize: UIScreen.main.bounds.size,
-                                              contentMode: PHImageContentMode.aspectFill,
-                                              options: options) { image, _ in
-                                                assetImage = image
-        }
-        return assetImage
-    }
-
     @IBAction func changeActiveStateAlert(_ sender: Any) {
         viewModel.changeActiveStateOfAlert(dateSwitch.isOn)
     }
@@ -112,8 +92,7 @@ class ItemViewController: UIViewController {
         if segue.identifier == Constants.ItemVC.ToEditSegue,
             let nav = segue.destination as? UINavigationController,
             let vc = nav.viewControllers.first as? NewItemViewController {
-            vc.product = item
-            vc.new = false
+            vc.item = item
             vc.newItemDelegate = viewModel
         }
     }
