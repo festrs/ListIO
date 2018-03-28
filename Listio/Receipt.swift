@@ -12,10 +12,10 @@ import ObjectMapper
 import ObjectMapper_Realm
 
 class Receipt: Object, Mappable {
-    dynamic var identifier = 0
-    dynamic var createdAt: Date?
-    dynamic var mes: String?
-    dynamic var payments: Data?
+    @objc dynamic var identifier = 0
+    @objc dynamic var createdAt: Date?
+    @objc dynamic var mes: String?
+    @objc dynamic var payments: Data?
     var items: List<Item> = List<Item>()
 
     required convenience init?(map: Map) {
@@ -40,13 +40,6 @@ class Receipt: Object, Mappable {
         if withPresent {
             items = items.filter {$0.present == true}
         }
-//        items = items.reduce([Item](), { uniqueElements, element in
-//            if uniqueElements.index(where: {$0 == element}) != nil {
-//                return uniqueElements
-//            } else {
-//                return uniqueElements + [element]
-//            }
-//        })
         return items
 
     }

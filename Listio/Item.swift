@@ -14,21 +14,21 @@ import Photos
 
 class Item: Object, Mappable {
     //optional
-    dynamic var alert = false
-    dynamic var countReceipt = 0
-    dynamic var qtde = 0
-    dynamic var alertDays = 0
-    dynamic var vlTotal = 0.0
-    dynamic var vlUnit = 0.0
-    dynamic var present = false
-    dynamic var alertDate: Date?
-    dynamic var descricao: String?
-    dynamic var imgUrl: String?
-    dynamic var unidade: String?
+    @objc dynamic var alert = false
+    @objc dynamic var countReceipt = 0
+    @objc dynamic var qtde = 0
+    @objc dynamic var alertDays = 0
+    @objc dynamic var vlTotal = 0.0
+    @objc dynamic var vlUnit = 0.0
+    @objc dynamic var present = false
+    @objc dynamic var alertDate: Date?
+    @objc dynamic var descricao: String?
+    @objc dynamic var imgUrl: String?
+    @objc dynamic var unidade: String?
 
     //Non optional
-    dynamic var document: Receipt?
-    dynamic var remoteID: String?
+    @objc dynamic var document: Receipt?
+    @objc dynamic var remoteID: String?
 
     required convenience init?(map: Map) {
         self.init()

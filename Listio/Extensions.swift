@@ -64,7 +64,7 @@ extension UIColor {
 extension String {
     func maskToReais() -> String? {
         if let parseFloat = Float(self) {
-            let number = NSNumber(value:parseFloat)
+            let number = NSNumber(value: parseFloat)
             let formatter = NumberFormatter()
             formatter.numberStyle = NumberFormatter.Style.currency
             formatter.locale = Locale(identifier: "pt_BR")
@@ -90,11 +90,6 @@ extension String {
 
         return JWT.encode(claims: claims, algorithm: .hs256(self.data(using: .utf8)!))
     }
-
-//    var digits: String {
-//        return components(separatedBy: CharacterSet.decimalDigits.inverted)
-//            .joined()
-//    }
 
     var digits: [UInt8] { return characters.flatMap { UInt8(String($0)) } }
 
@@ -129,7 +124,7 @@ extension UIViewController {
         view.addGestureRecognizer(tap)
     }
 
-    func dismissKeyboard() {
+    @objc func dismissKeyboard() {
         view.endEditing(true)
     }
 }

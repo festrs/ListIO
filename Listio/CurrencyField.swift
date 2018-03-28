@@ -31,7 +31,7 @@ class CurrencyField: UITextField {
         text = string.digits.dropLast().string
         editingChanged()
     }
-    func editingChanged() {
+    @objc func editingChanged() {
         guard decimal <= maximum else {
             text = lastValue
             return
