@@ -31,16 +31,12 @@ class CurrencyField: UITextField {
         text = string.digits.dropLast().string
         editingChanged()
     }
-    func editingChanged() {
+    @objc func editingChanged() {
         guard decimal <= maximum else {
             text = lastValue
             return
         }
         lastValue = Formatter.currency.string(for: decimal) ?? ""
         text = lastValue
-//        print("integer:", integerValue)
-//        print("double:", doubleValue)
-//        print("decimal:", decimal)
-//        print("currency:", lastValue)
     }
 }

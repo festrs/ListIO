@@ -12,24 +12,25 @@ import AVFoundation
 import Floaty
 import SVProgressHUD
 import Alamofire
-import RealmSwift
 import Fabric
 import Crashlytics
 
 class MainViewController: UIViewController {
 
-    @IBOutlet weak var tableViewContainer: UIView!
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var floatyButtonView: Floaty!
     public var communicator: APICommunicatorProtocol = APICommunicator()
     var presentedAlert: Bool = false
     let notificationName = NSNotification.Name(rawValue: Constants.newProductAddedNotificationKey)
-    // swiftlint:disable force_try
-    let realm = try! Realm()
+    public let dataProvider: MainDataProviderProtocol? = MainDataProvider()
+    let searchController = UISearchController(searchResultsController:  nil)
+
     lazy var readerVC: QRCodeReaderViewController = {
         let builder = QRCodeReaderViewControllerBuilder {
-            $0.reader = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode,
-                                                           AVMetadataObjectTypeEAN13Code,
-                                                           AVMetadataObjectTypeEAN8Code], captureDevicePosition: .back)
+            $0.reader = QRCodeReader(metadataObjectTypes: [AVMetadataObject.ObjectType.qr.rawValue,
+                                                           AVMetadataObject.ObjectType.ean13.rawValue,
+                                                           AVMetadataObject.ObjectType.ean8.rawValue],
+                                     captureDevicePosition: .back)
         }
         builder.cancelButtonTitle = Constants.MainVC.CancelButtonTittle
 
@@ -39,16 +40,59 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configFloatyAddButton()
+        configTableView()
+        configSearchController()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         floatyButtonView.open()
         floatyButtonView.close()
+        reloadData()
     }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
+    }
+
+    func configSearchController() {
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.tintColor = UIColor.white
+        searchController.searchBar.barStyle = .black
+
+        if let txfSearchField = searchController.searchBar.value(forKey: "searchField") as? UITextField {
+            txfSearchField.backgroundColor = .lightGray
+        }
+
+        definesPresentationContext = true
+
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+            navigationController?.navigationBar.prefersLargeTitles = true
+
+            let attributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+            navigationController?.navigationBar.largeTitleTextAttributes = attributes
+        } else {
+
+        }
+    }
+
+    func configTableView() {
+        dataProvider?.tableView = tableView
+        tableView.dataSource = dataProvider
+        tableView.delegate = dataProvider
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+    }
+
+    @objc func reloadData() {
+        do {
+            try dataProvider?.performFetch()
+        } catch Errors.CoreDataError(let msg) {
+            showAlert(Alerts.ErroTitle, message: msg)
+        } catch let error as NSError {
+            showAlert(Alerts.ErroTitle, message: error.localizedDescription)
+        }
     }
 
     func configFloatyAddButton() {
@@ -84,7 +128,7 @@ class MainViewController: UIViewController {
     func showReader() {
         readerVC.modalPresentationStyle = .formSheet
         readerVC.delegate = self
-        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo) { [weak self] response in
+        AVCaptureDevice.requestAccess(for: AVMediaType.video) { [weak self] response in
             guard let strongSelf = self else { return }
             if response {
                 strongSelf.present(strongSelf.readerVC, animated: true, completion: nil )
@@ -142,6 +186,13 @@ class MainViewController: UIViewController {
             vc.dataProvider = AddListItemDataProvider()
             vc.new = false
         }
+
+        if let cell = sender as? UITableViewCell,
+            let vc = segue.destination as? ItemViewController,
+            let index = tableView.indexPath(for: cell),
+            let item = dataProvider?.items[index.row] {
+            vc.item = item
+        }
     }
 }
 
@@ -152,9 +203,9 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
         SVProgressHUD.show()
         reader.stopScanning()
 
-        if result.metadataType == AVMetadataObjectTypeEAN13Code {
+        if result.metadataType == AVMetadataObject.ObjectType.ean13.rawValue {
             createNewItemFromBarCode(code: result.value)
-        } else if result.metadataType == AVMetadataObjectTypeQRCode {
+        } else if result.metadataType == AVMetadataObject.ObjectType.qr.rawValue {
             createNewListFromQRCode(code: result.value)
         }
         dismiss(animated: true, completion: nil )
@@ -200,9 +251,9 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
 
             if let unwrapedJson = responseJSON,
                 let receipt = Receipt(JSON: unwrapedJson) {
-                try! strongSelf.realm.write {
-                    strongSelf.realm.add(receipt, update: true)
-                }
+                DatabaseManager.write(DatabaseManager.realm, writeClosure: {
+                    DatabaseManager.realm.add(receipt, update: true)
+                })
             }
             strongSelf.createNewList()
         }
@@ -234,9 +285,9 @@ extension MainViewController : QRCodeReaderViewControllerDelegate {
             item.descricao = itemName
             item.present = true
             item.imgUrl = itemUrl
-            try! strongSelf.realm.write {
-                strongSelf.realm.add(item)
-            }
+            DatabaseManager.write(DatabaseManager.realm, writeClosure: {
+                DatabaseManager.realm.add(item)
+            })
 
             NotificationCenter.default.post(name:
                 NSNotification.Name(rawValue: Constants.newProductAddedNotificationKey),

@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             topWindow.isHidden = true
         }))
         topWindow.makeKeyAndVisible()
-        topWindow.rootViewController?.present(alert, animated: true, completion: { _ in })
+        topWindow.rootViewController?.present(alert, animated: true, completion: nil)
     }
 
 }

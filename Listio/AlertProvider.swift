@@ -9,7 +9,7 @@
 import UIKit
 import UserNotifications
 
-class AlertProvider: NSObject, UNUserNotificationCenterDelegate {
+final class AlertProvider: NSObject, UNUserNotificationCenterDelegate {
     var localTimeZoneAbbreviation: String { return TimeZone.current.abbreviation() ?? "" }
 
      func registerForLocalNotification(on application: UIApplication) -> Bool {
@@ -23,7 +23,26 @@ class AlertProvider: NSObject, UNUserNotificationCenterDelegate {
         return false
     }
 
-     func dispatchlocalNotification(with title: String,
+    func addLocalNotification(with item: Item) {
+            let dictionary = [
+                Constants.notificationIdentifierKey: item.remoteID ?? "" ,
+                Constants.notificationProductNameKey: item.descricao,
+                Constants.notificationProductDateKey: item.alertDate?.getDateStringShort()
+            ]
+
+            let subtractDays = -(item.alertDays)
+
+            let fireDate = Calendar.current.date(byAdding: .day,
+                                                 value: subtractDays,
+                                                 to: item.alertDate!)
+
+            dispatchlocalNotification(with: "Lista Rápida",
+                body: "O produto \(item.descricao!) ira vencer em \((item.alertDate?.getDateStringShort())!)!",
+                userInfo: dictionary,
+                at: fireDate!)
+        }
+
+     private func dispatchlocalNotification(with title: String,
                                     body: String,
                                     userInfo: [AnyHashable: Any]? = nil,
                                     at date: Date) {

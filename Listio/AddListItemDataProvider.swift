@@ -15,9 +15,7 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
         static let InfoCellIdentifer = "infoCell"
     }
 
-    // swiftlint:disable force_try
-    let realm = try! Realm()
-    weak public var tableView: UITableView!
+    public var tableView: UITableView!
     var items: [Item] = [Item]()
 
     func performFetch() throws {
@@ -35,20 +33,20 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
     }
 
     func unselectAll() {
-        for value in items {
-            try! realm.write {
+        DatabaseManager.write(DatabaseManager.realm, writeClosure: {
+            for value in items {
                 value.present = false
             }
-        }
+        })
         tableView.reloadData()
     }
 
     func selectAll() {
-        for value in items {
-            try! realm.write {
+        DatabaseManager.write(DatabaseManager.realm, writeClosure: {
+            for value in items {
                 value.present = true
             }
-        }
+        })
         tableView.reloadData()
     }
 }
@@ -56,21 +54,21 @@ class AddListItemDataProvider: NSObject, AddListItemDataProviderProtocol {
 extension AddListItemDataProvider {
     // MARk: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let itemObj = items[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
         guard let cell = tableView.cellForRow(at: indexPath) as? AddListItemTableViewCell else {
             fatalError("Unexpected Index Path")
         }
+        let itemObj = items[indexPath.row]
         if itemObj.present {
             cell.accessoryType = .none
-            try! realm.write {
+            DatabaseManager.write(DatabaseManager.realm, writeClosure: {
                 itemObj.present = false
-            }
+            })
         } else {
             cell.accessoryType = .checkmark
-            try! realm.write {
+            DatabaseManager.write(DatabaseManager.realm, writeClosure: {
                 itemObj.present = true
-            }
+            })
         }
     }
 
@@ -82,9 +80,9 @@ extension AddListItemDataProvider {
             guard items.count != 0 else { return }
 
             let obj = items.remove(at: indexPath.row)
-            try! realm.write {
-                realm.delete(obj)
-            }
+            DatabaseManager.write(DatabaseManager.realm, writeClosure: {
+                DatabaseManager.realm.delete(obj)
+            })
 
             if items.count == 0 {
                 tableView.setEditing(false, animated: true)

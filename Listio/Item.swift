@@ -10,24 +10,25 @@ import Foundation
 import RealmSwift
 import ObjectMapper
 import StringScore_Swift
+import Photos
 
 class Item: Object, Mappable {
     //optional
-    dynamic var alert = false
-    dynamic var countReceipt = 0
-    dynamic var qtde = 0
-    dynamic var alertDays = 0
-    dynamic var vlTotal = 0.0
-    dynamic var vlUnit = 0.0
-    dynamic var present = false
-    dynamic var alertDate: Date?
-    dynamic var descricao: String?
-    dynamic var imgUrl: String?
-    dynamic var unidade: String?
+    @objc dynamic var alert = false
+    @objc dynamic var countReceipt = 0
+    @objc dynamic var qtde = 0
+    @objc dynamic var alertDays = 0
+    @objc dynamic var vlTotal = 0.0
+    @objc dynamic var vlUnit = 0.0
+    @objc dynamic var present = false
+    @objc dynamic var alertDate: Date?
+    @objc dynamic var descricao: String?
+    @objc dynamic var imgUrl: String?
+    @objc dynamic var unidade: String?
 
     //Non optional
-    dynamic var document: Receipt?
-    dynamic var remoteID: String?
+    @objc dynamic var document: Receipt?
+    @objc dynamic var remoteID: String?
 
     required convenience init?(map: Map) {
         self.init()
@@ -43,6 +44,26 @@ class Item: Object, Mappable {
 
     override static func primaryKey() -> String? {
         return "remoteID"
+    }
+
+    static func getImage(localUrl: String) -> UIImage? {
+
+        let assetUrl = URL(string: "assets-library://asset/asset.JPG?id=\(localUrl)")
+        let asset = PHAsset.fetchAssets(withALAssetURLs: [assetUrl!], options: nil)
+
+        guard let result = asset.firstObject else {
+            return nil
+        }
+        var assetImage: UIImage?
+        let options = PHImageRequestOptions()
+        options.isSynchronous = true
+        PHImageManager.default().requestImage(for: result,
+                                              targetSize: UIScreen.main.bounds.size,
+                                              contentMode: PHImageContentMode.aspectFill,
+                                              options: options) { image, _ in
+                                                assetImage = image
+        }
+        return assetImage
     }
 }
 
